@@ -134,6 +134,8 @@ Destination        Target
 
 ## 7. 🛡️ Security Groups vs NACLs
 
+A **Security Group** is a **virtual, stateful firewall** attached to a resource's network interface (ENI) inside the VPC. It uses **allow rules** that match a **protocol + port + source/destination** (an IP/CIDR or another security group). Being **stateful**, allowed inbound traffic gets its return path opened automatically. By default it **denies all inbound** and **allows all outbound**; a resource can carry several groups whose rules combine. It's the instance-level control, while a **Network ACL** is the stateless, subnet-level layer around it.
+
 | | **Security Group** | **Network ACL** |
 |---|---|---|
 | Level | Instance / ENI | Subnet |

@@ -343,6 +343,7 @@
 </blockquote>
 <hr>
 <h2 id="8--security-groups--nacls">8. 🛡️ Security Groups &amp; NACLs</h2>
+<p>A <strong>Security Group</strong> is a <strong>virtual, stateful firewall</strong> attached to an instance&#39;s network interface (ENI). It controls traffic with <strong>allow rules</strong> that match a <strong>protocol + port + source/destination</strong> (an IP/CIDR or another security group). Because it&#39;s <strong>stateful</strong>, if you allow a request in, the response is automatically allowed back out — you don&#39;t write a return rule. By default a security group <strong>denies all inbound</strong> and <strong>allows all outbound</strong>, and an instance can have several attached at once (their rules are combined). It&#39;s your primary, instance-level control; the NACL below is the coarser subnet-level backstop.</p>
 <p>Two layers of network filtering — know the difference:</p>
 <table>
 <thead>
