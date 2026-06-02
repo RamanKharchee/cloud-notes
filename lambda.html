@@ -61,6 +61,7 @@
 <li><a href="#14--common-cli-commands">Common CLI Commands</a></li>
 <li><a href="#15--limits--best-practices">Limits &amp; Best Practices</a></li>
 <li><a href="#16--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#17--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-lambda">1. ⚡ What is Lambda</h2>
@@ -354,6 +355,19 @@ aws lambda get-function --function-name myfn
 <li><strong>Sync</strong> = caller waits, no retry; <strong>async</strong> = queued + retried + DLQ; <strong>streams</strong> = batched polling.</li>
 <li>Attach to a <strong>VPC</strong> for private resources (needs NAT/endpoints for outbound).</li>
 <li>Ship safely with <strong>versions + aliases</strong>; watch it with <strong>CloudWatch + X-Ray</strong>.</li>
+</ul>
+<hr>
+<h2 id="17--common-interview-questions">17. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Lambda:</p>
+<ul>
+<li><strong>Q: What is a cold start?</strong> — The latency to set up a new execution environment (download code, start runtime, run init) before the first invocation. Provisioned Concurrency eliminates it.</li>
+<li><strong>Q: Sync vs async vs stream invocation?</strong> — Sync = caller waits, no auto-retry (API GW). Async = queued, retried twice, DLQ on failure (S3/SNS). Stream/poll = batched records (Kinesis/DynamoDB/SQS).</li>
+<li><strong>Q: Execution role vs resource-based policy?</strong> — Execution role = what the function <strong>can call</strong>. Resource policy = <strong>who can invoke</strong> the function.</li>
+<li><strong>Q: How do you tune Lambda performance?</strong> — Increase <strong>memory</strong> (CPU scales with it), trim dependencies, reuse connections via the init phase, use arm64/Graviton.</li>
+<li><strong>Q: Max timeout and memory?</strong> — 15 minutes; 128 MB–10,240 MB.</li>
+<li><strong>Q: How to reach a private RDS from Lambda?</strong> — Attach the function to the VPC (subnets + SG); add NAT/endpoints if it also needs outbound internet.</li>
+<li><strong>Q: How do versions and aliases help?</strong> — Immutable versions + movable aliases enable canary/weighted deploys and clean rollbacks.</li>
+<li><strong>Q: When NOT to use Lambda?</strong> — Long-running (&gt;15 min) jobs, very high steady throughput where always-on compute is cheaper, or workloads needing heavy local state.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for AWS Lambda.</em></p>

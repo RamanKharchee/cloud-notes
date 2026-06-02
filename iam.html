@@ -59,6 +59,7 @@
 <li><a href="#12--common-cli-commands">Common CLI Commands</a></li>
 <li><a href="#13--best-practices">Best Practices</a></li>
 <li><a href="#14--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#15--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-iam">1. 🔐 What is IAM</h2>
@@ -345,6 +346,19 @@ aws sts assume-role --role-arn arn:... --role-session-name s1
 <li><strong>Roles + STS</strong> give short-lived creds — no secrets to leak.</li>
 <li><strong>Boundaries &amp; SCPs cap, never grant.</strong> <strong>MFA</strong> + key rotation + least privilege are the daily disciplines.</li>
 <li>Audit with <strong>Access Analyzer, credential report, CloudTrail</strong>.</li>
+</ul>
+<hr>
+<h2 id="15--common-interview-questions">15. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about IAM:</p>
+<ul>
+<li><strong>Q: How is an IAM request evaluated?</strong> — Default deny → an explicit <strong>Deny</strong> always wins → must be allowed by SCP ∩ permission boundary ∩ identity/resource policy.</li>
+<li><strong>Q: User vs Role?</strong> — User = long-lived identity (often with static keys). Role = assumed identity with <strong>temporary</strong> STS credentials — preferred for workloads and cross-account.</li>
+<li><strong>Q: Why prefer roles over access keys?</strong> — Temporary credentials auto-expire and auto-rotate; nothing to leak or rotate manually.</li>
+<li><strong>Q: Permission boundary vs SCP?</strong> — Both only <strong>cap</strong> permissions (never grant). Boundary limits one user/role; SCP limits every principal in an account/OU.</li>
+<li><strong>Q: Identity-based vs resource-based policy?</strong> — Identity-based attaches to a user/role; resource-based attaches to a resource and names a <strong>Principal</strong> (enables cross-account).</li>
+<li><strong>Q: How does an EC2 instance get AWS permissions?</strong> — Via an attached IAM role (instance profile) delivering temporary creds through the metadata service.</li>
+<li><strong>Q: Is IAM regional?</strong> — No — IAM is a <strong>global</strong> service.</li>
+<li><strong>Q: How do you enforce MFA for sensitive actions?</strong> — A policy condition on <code>aws:MultiFactorAuthPresent</code>.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for AWS IAM.</em></p>

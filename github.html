@@ -63,6 +63,7 @@
 <li><a href="#16--github-cli--useful-commands">GitHub CLI &amp; Useful Commands</a></li>
 <li><a href="#17--best-practices">Best Practices</a></li>
 <li><a href="#18--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#19--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-github">1. 🐙 What is GitHub</h2>
@@ -469,6 +470,19 @@ git cherry-pick &lt;sha&gt;                # apply one commit elsewhere
 <li>Automate everything with <strong>GitHub Actions</strong> (<code>.github/workflows/*.yml</code>).</li>
 <li>Ship with <strong>tags + Releases</strong>; distribute via <strong>Packages/GHCR</strong>.</li>
 <li>Secure it: <strong>protect <code>main</code>, 2FA, scoped tokens, no committed secrets, Dependabot + scanning.</strong></li>
+</ul>
+<hr>
+<h2 id="19--common-interview-questions">19. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Git/GitHub:</p>
+<ul>
+<li><strong>Q: Git vs GitHub?</strong> — Git = the local distributed version-control tool. GitHub = a cloud platform hosting Git repos + collaboration (PRs, issues, Actions).</li>
+<li><strong>Q: Merge vs Rebase?</strong> — Merge preserves history and adds a merge commit (safe on shared branches). Rebase rewrites commits into a linear history (only on local/unshared commits).</li>
+<li><strong>Q: <code>git fetch</code> vs <code>git pull</code>?</strong> — Fetch downloads remote changes without merging; pull = fetch + merge (or <code>--rebase</code>).</li>
+<li><strong>Q: What is a pull request?</strong> — A proposal to merge a branch, with review + CI checks before it&#39;s merged into the base branch.</li>
+<li><strong>Q: How do you undo a pushed commit safely?</strong> — <code>git revert &lt;sha&gt;</code> (creates a new inverse commit). <code>reset --hard</code> rewrites history and is unsafe on shared branches.</li>
+<li><strong>Q: Fork vs clone vs branch?</strong> — Fork = your server-side copy of someone&#39;s repo. Clone = a local copy. Branch = a line of work within a repo.</li>
+<li><strong>Q: What is the golden rule of rebasing?</strong> — Never rebase commits that have already been pushed/shared.</li>
+<li><strong>Q: How do you resolve a merge conflict?</strong> — Edit the marked sections (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>/<code>=======</code>/<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>), then <code>git add</code> + commit.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for GitHub.</em></p>

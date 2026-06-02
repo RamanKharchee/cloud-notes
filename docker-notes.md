@@ -44,6 +44,7 @@
 15. [Security Best Practices](#15--security-best-practices)
 16. [Beyond Docker (Orchestration)](#16--beyond-docker-orchestration)
 17. [Quick Mental Model](#17--quick-mental-model)
+18. [Common Interview Questions](#18--common-interview-questions)
 
 ---
 
@@ -391,6 +392,21 @@ Docker runs containers on **one host**. Production at scale needs orchestration 
 - Share via **registries** (`pull` / `tag` / `push`); pin versions, don't trust `latest` in prod.
 - Run multi-container stacks with **Compose**; run fleets in prod with **Kubernetes/ECS**.
 - Secure it: **non-root, pinned + scanned images, no baked-in secrets, least privilege.**
+
+---
+
+## 18. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about Docker:
+
+- **Q: Container vs VM?** — A container shares the host **kernel** (isolated process via namespaces + cgroups) → MBs, starts in ms. A VM runs a full guest OS on a hypervisor → GBs, slower, stronger isolation.
+- **Q: Image vs container?** — Image = immutable layered template. Container = a running instance of an image (image + a thin writable layer).
+- **Q: How do you make images small?** — Small base (alpine/slim/distroless), multi-stage builds, `.dockerignore`, few ordered layers, pin versions.
+- **Q: CMD vs ENTRYPOINT?** — ENTRYPOINT = the fixed executable; CMD = default args (overridable). Combine for a fixed binary with overridable arguments.
+- **Q: How do you persist data?** — Volumes (Docker-managed, preferred for state) or bind mounts (host path, good for dev). The writable layer is lost when the container is removed.
+- **Q: How do containers communicate?** — On a user-defined bridge network they resolve each other by **name** (built-in DNS); publish ports to the host with `-p`.
+- **Q: What provides isolation and limits?** — Linux **namespaces** (isolation) and **cgroups** (CPU/memory limits).
+- **Q: Docker vs Kubernetes?** — Docker builds/runs containers on one host; Kubernetes orchestrates many containers across many hosts (scheduling, scaling, self-healing).
 
 ---
 

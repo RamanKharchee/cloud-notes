@@ -41,6 +41,7 @@
 12. [Common CLI Commands](#12--common-cli-commands)
 13. [Best Practices](#13--best-practices)
 14. [Quick Mental Model](#14--quick-mental-model)
+15. [Common Interview Questions](#15--common-interview-questions)
 
 ---
 
@@ -239,6 +240,21 @@ aws sts assume-role --role-arn arn:... --role-session-name s1
 - **Roles + STS** give short-lived creds — no secrets to leak.
 - **Boundaries & SCPs cap, never grant.** **MFA** + key rotation + least privilege are the daily disciplines.
 - Audit with **Access Analyzer, credential report, CloudTrail**.
+
+---
+
+## 15. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about IAM:
+
+- **Q: How is an IAM request evaluated?** — Default deny → an explicit **Deny** always wins → must be allowed by SCP ∩ permission boundary ∩ identity/resource policy.
+- **Q: User vs Role?** — User = long-lived identity (often with static keys). Role = assumed identity with **temporary** STS credentials — preferred for workloads and cross-account.
+- **Q: Why prefer roles over access keys?** — Temporary credentials auto-expire and auto-rotate; nothing to leak or rotate manually.
+- **Q: Permission boundary vs SCP?** — Both only **cap** permissions (never grant). Boundary limits one user/role; SCP limits every principal in an account/OU.
+- **Q: Identity-based vs resource-based policy?** — Identity-based attaches to a user/role; resource-based attaches to a resource and names a **Principal** (enables cross-account).
+- **Q: How does an EC2 instance get AWS permissions?** — Via an attached IAM role (instance profile) delivering temporary creds through the metadata service.
+- **Q: Is IAM regional?** — No — IAM is a **global** service.
+- **Q: How do you enforce MFA for sensitive actions?** — A policy condition on `aws:MultiFactorAuthPresent`.
 
 ---
 

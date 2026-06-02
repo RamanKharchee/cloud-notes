@@ -42,6 +42,7 @@
 13. [Common CLI Commands](#13--common-cli-commands)
 14. [Best Practices](#14--best-practices)
 15. [Quick Mental Model](#15--quick-mental-model)
+16. [Common Interview Questions](#16--common-interview-questions)
 
 ---
 
@@ -283,6 +284,21 @@ aws route53domains list-domains
 - **Health checks** drop unhealthy endpoints; **failover** gives active-passive DR.
 - **Resolver endpoints** bridge DNS between on-prem and VPC (hybrid).
 - Lower **TTL** before changes; prefer **Alias** to cut cost; manage DNS **as code**.
+
+---
+
+## 16. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about Route 53:
+
+- **Q: Alias vs CNAME?** — Alias points to AWS resources, works at the **zone apex**, and queries to AWS targets are free. CNAME points to any name but **can't be used at the apex**.
+- **Q: What routing policies exist?** — Simple, Weighted, Latency-based, Failover, Geolocation, Geoproximity, Multivalue answer, IP-based.
+- **Q: How does Route 53 do failover?** — Health checks mark endpoints unhealthy; failover routing returns the primary while healthy, else the secondary (active-passive DR).
+- **Q: Public vs private hosted zone?** — Public resolves from the internet; private resolves only inside associated VPC(s). Same name in both = split-horizon DNS.
+- **Q: What does TTL control?** — How long resolvers cache an answer. Lower it before a migration for fast propagation, then raise it back.
+- **Q: How do you point a registered domain at Route 53?** — Set the domain's NS records (at the registrar) to the hosted zone's 4 name servers.
+- **Q: Latency vs Geolocation routing?** — Latency routes to the lowest-latency region; Geolocation routes by the user's physical location (compliance/localization).
+- **Q: Is Route 53 regional?** — No — it's a **global** service with a 100% availability SLA.
 
 ---
 

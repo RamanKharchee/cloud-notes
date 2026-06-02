@@ -62,6 +62,7 @@
 <li><a href="#15--security-best-practices">Security Best Practices</a></li>
 <li><a href="#16--beyond-docker-orchestration">Beyond Docker (Orchestration)</a></li>
 <li><a href="#17--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#18--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-docker">1. 🐳 What is Docker</h2>
@@ -561,6 +562,19 @@ docker volume prune                  # remove unused volumes
 <li>Share via <strong>registries</strong> (<code>pull</code> / <code>tag</code> / <code>push</code>); pin versions, don&#39;t trust <code>latest</code> in prod.</li>
 <li>Run multi-container stacks with <strong>Compose</strong>; run fleets in prod with <strong>Kubernetes/ECS</strong>.</li>
 <li>Secure it: <strong>non-root, pinned + scanned images, no baked-in secrets, least privilege.</strong></li>
+</ul>
+<hr>
+<h2 id="18--common-interview-questions">18. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Docker:</p>
+<ul>
+<li><strong>Q: Container vs VM?</strong> — A container shares the host <strong>kernel</strong> (isolated process via namespaces + cgroups) → MBs, starts in ms. A VM runs a full guest OS on a hypervisor → GBs, slower, stronger isolation.</li>
+<li><strong>Q: Image vs container?</strong> — Image = immutable layered template. Container = a running instance of an image (image + a thin writable layer).</li>
+<li><strong>Q: How do you make images small?</strong> — Small base (alpine/slim/distroless), multi-stage builds, <code>.dockerignore</code>, few ordered layers, pin versions.</li>
+<li><strong>Q: CMD vs ENTRYPOINT?</strong> — ENTRYPOINT = the fixed executable; CMD = default args (overridable). Combine for a fixed binary with overridable arguments.</li>
+<li><strong>Q: How do you persist data?</strong> — Volumes (Docker-managed, preferred for state) or bind mounts (host path, good for dev). The writable layer is lost when the container is removed.</li>
+<li><strong>Q: How do containers communicate?</strong> — On a user-defined bridge network they resolve each other by <strong>name</strong> (built-in DNS); publish ports to the host with <code>-p</code>.</li>
+<li><strong>Q: What provides isolation and limits?</strong> — Linux <strong>namespaces</strong> (isolation) and <strong>cgroups</strong> (CPU/memory limits).</li>
+<li><strong>Q: Docker vs Kubernetes?</strong> — Docker builds/runs containers on one host; Kubernetes orchestrates many containers across many hosts (scheduling, scaling, self-healing).</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Docker.</em></p>

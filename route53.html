@@ -60,6 +60,7 @@
 <li><a href="#13--common-cli-commands">Common CLI Commands</a></li>
 <li><a href="#14--best-practices">Best Practices</a></li>
 <li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#16--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-route-53">1. 🌐 What is Route 53</h2>
@@ -435,6 +436,19 @@ aws route53domains list-domains
 <li><strong>Health checks</strong> drop unhealthy endpoints; <strong>failover</strong> gives active-passive DR.</li>
 <li><strong>Resolver endpoints</strong> bridge DNS between on-prem and VPC (hybrid).</li>
 <li>Lower <strong>TTL</strong> before changes; prefer <strong>Alias</strong> to cut cost; manage DNS <strong>as code</strong>.</li>
+</ul>
+<hr>
+<h2 id="16--common-interview-questions">16. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Route 53:</p>
+<ul>
+<li><strong>Q: Alias vs CNAME?</strong> — Alias points to AWS resources, works at the <strong>zone apex</strong>, and queries to AWS targets are free. CNAME points to any name but <strong>can&#39;t be used at the apex</strong>.</li>
+<li><strong>Q: What routing policies exist?</strong> — Simple, Weighted, Latency-based, Failover, Geolocation, Geoproximity, Multivalue answer, IP-based.</li>
+<li><strong>Q: How does Route 53 do failover?</strong> — Health checks mark endpoints unhealthy; failover routing returns the primary while healthy, else the secondary (active-passive DR).</li>
+<li><strong>Q: Public vs private hosted zone?</strong> — Public resolves from the internet; private resolves only inside associated VPC(s). Same name in both = split-horizon DNS.</li>
+<li><strong>Q: What does TTL control?</strong> — How long resolvers cache an answer. Lower it before a migration for fast propagation, then raise it back.</li>
+<li><strong>Q: How do you point a registered domain at Route 53?</strong> — Set the domain&#39;s NS records (at the registrar) to the hosted zone&#39;s 4 name servers.</li>
+<li><strong>Q: Latency vs Geolocation routing?</strong> — Latency routes to the lowest-latency region; Geolocation routes by the user&#39;s physical location (compliance/localization).</li>
+<li><strong>Q: Is Route 53 regional?</strong> — No — it&#39;s a <strong>global</strong> service with a 100% availability SLA.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon Route 53.</em></p>

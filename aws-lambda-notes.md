@@ -43,6 +43,7 @@
 14. [Common CLI Commands](#14--common-cli-commands)
 15. [Limits & Best Practices](#15--limits--best-practices)
 16. [Quick Mental Model](#16--quick-mental-model)
+17. [Common Interview Questions](#17--common-interview-questions)
 
 ---
 
@@ -246,6 +247,21 @@ aws lambda get-function --function-name myfn
 - **Sync** = caller waits, no retry; **async** = queued + retried + DLQ; **streams** = batched polling.
 - Attach to a **VPC** for private resources (needs NAT/endpoints for outbound).
 - Ship safely with **versions + aliases**; watch it with **CloudWatch + X-Ray**.
+
+---
+
+## 17. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about Lambda:
+
+- **Q: What is a cold start?** — The latency to set up a new execution environment (download code, start runtime, run init) before the first invocation. Provisioned Concurrency eliminates it.
+- **Q: Sync vs async vs stream invocation?** — Sync = caller waits, no auto-retry (API GW). Async = queued, retried twice, DLQ on failure (S3/SNS). Stream/poll = batched records (Kinesis/DynamoDB/SQS).
+- **Q: Execution role vs resource-based policy?** — Execution role = what the function **can call**. Resource policy = **who can invoke** the function.
+- **Q: How do you tune Lambda performance?** — Increase **memory** (CPU scales with it), trim dependencies, reuse connections via the init phase, use arm64/Graviton.
+- **Q: Max timeout and memory?** — 15 minutes; 128 MB–10,240 MB.
+- **Q: How to reach a private RDS from Lambda?** — Attach the function to the VPC (subnets + SG); add NAT/endpoints if it also needs outbound internet.
+- **Q: How do versions and aliases help?** — Immutable versions + movable aliases enable canary/weighted deploys and clean rollbacks.
+- **Q: When NOT to use Lambda?** — Long-running (>15 min) jobs, very high steady throughput where always-on compute is cheaper, or workloads needing heavy local state.
 
 ---
 

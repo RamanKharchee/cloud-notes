@@ -64,6 +64,7 @@
 <li><a href="#17--key-limits--numbers">Key Limits &amp; Numbers</a></li>
 <li><a href="#18--ways-to-connect-to-s3">Ways to Connect to S3</a></li>
 <li><a href="#19--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#20--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-s3">1. 🪣 What is S3</h2>
@@ -567,6 +568,19 @@ https://s3.region.amazonaws.com/my-bucket/key      (path-style, legacy)
 <li>Use <strong>Events + Lambda</strong> to make storage reactive.</li>
 <li>Use <strong>Replication</strong> for DR/compliance, <strong>Object Lock</strong> for WORM compliance.</li>
 <li><strong>Monitor</strong> with CloudWatch, CloudTrail, Storage Lens; optimize cost relentlessly.</li>
+</ul>
+<hr>
+<h2 id="20--common-interview-questions">20. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about S3:</p>
+<ul>
+<li><strong>Q: What is S3&#39;s consistency model?</strong> — Strong read-after-write consistency for <strong>all</strong> operations (PUT, overwrite, DELETE) since Dec 2020. A read right after a write returns the latest data.</li>
+<li><strong>Q: S3 vs EBS vs EFS?</strong> — S3 = object storage over HTTP (no filesystem). EBS = block storage for a single EC2 (one AZ). EFS = shared NFS filesystem across many instances.</li>
+<li><strong>Q: How do you secure an S3 bucket?</strong> — Block Public Access ON, least-privilege IAM + bucket policy, default SSE encryption, enforce HTTPS (<code>aws:SecureTransport</code>), VPC endpoint for private access, enable versioning + logging.</li>
+<li><strong>Q: Why use versioning?</strong> — Protects against accidental delete/overwrite; a DELETE adds a <em>delete marker</em> (recoverable) rather than erasing data.</li>
+<li><strong>Q: Object size limits?</strong> — Up to 5 TB; single PUT max 5 GB → use <strong>multipart upload</strong> above that (recommended &gt; 100 MB).</li>
+<li><strong>Q: When Glacier vs Standard-IA?</strong> — IA for infrequent but instant access; Glacier (Instant/Flexible/Deep Archive) for archival where retrieval time/cost is acceptable.</li>
+<li><strong>Q: What is a pre-signed URL?</strong> — A time-limited signed URL granting temporary access to one object without making it public.</li>
+<li><strong>Q: How to reduce S3 cost?</strong> — Lifecycle rules to cheaper classes, Intelligent-Tiering for unknown patterns, delete old versions + incomplete multipart uploads, keep compute in-region.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon S3.</em></p>

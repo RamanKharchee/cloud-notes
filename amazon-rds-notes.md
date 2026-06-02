@@ -42,6 +42,7 @@
 13. [Common CLI Commands](#13--common-cli-commands)
 14. [RDS vs Other AWS Databases](#14--rds-vs-other-aws-databases)
 15. [Quick Mental Model](#15--quick-mental-model)
+16. [Common Interview Questions](#16--common-interview-questions)
 
 ---
 
@@ -235,6 +236,21 @@ aws rds delete-db-instance --db-instance-identifier mydb --final-db-snapshot-ide
 - **Backups** (automated + PITR) and **manual snapshots** (persist) protect data — snapshot before risky changes.
 - Keep it **private in a VPC**, encrypt with **KMS**, manage creds in **Secrets Manager**.
 - **Aurora** for cloud-native scale/perf; **Reserved Instances + right-sizing** for cost.
+
+---
+
+## 16. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about RDS:
+
+- **Q: Multi-AZ vs Read Replica?** — Multi-AZ = synchronous standby for **automatic failover** (HA), same endpoint, not readable. Read Replica = asynchronous, **readable** copy for scaling reads (own endpoint, possible lag).
+- **Q: Does Multi-AZ improve read performance?** — No. It's for availability/durability only; use read replicas to scale reads.
+- **Q: Automated backup vs snapshot?** — Automated = daily + transaction logs, enables PITR, deleted with the instance. Manual snapshot = user-triggered, **persists** until deleted.
+- **Q: What is Amazon Aurora?** — AWS cloud-native MySQL/Postgres-compatible engine; storage auto-grows, 6-way replicated across 3 AZs, fast failover, up to 15 replicas.
+- **Q: How do you secure RDS?** — Private subnets, security groups, KMS encryption at rest (set at creation), TLS in transit, Secrets Manager for credentials, IAM auth optional.
+- **Q: Can you SSH into an RDS instance?** — No — it's managed; you get a DB endpoint, not OS access.
+- **Q: How to scale an RDS database?** — Vertically (change instance class), storage autoscaling, read replicas for reads, or Aurora Serverless for variable load.
+- **Q: How to migrate with minimal downtime?** — Blue/Green Deployments or AWS DMS.
 
 ---
 

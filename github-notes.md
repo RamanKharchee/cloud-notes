@@ -45,6 +45,7 @@
 16. [GitHub CLI & Useful Commands](#16--github-cli--useful-commands)
 17. [Best Practices](#17--best-practices)
 18. [Quick Mental Model](#18--quick-mental-model)
+19. [Common Interview Questions](#19--common-interview-questions)
 
 ---
 
@@ -376,6 +377,21 @@ git cherry-pick <sha>                # apply one commit elsewhere
 - Automate everything with **GitHub Actions** (`.github/workflows/*.yml`).
 - Ship with **tags + Releases**; distribute via **Packages/GHCR**.
 - Secure it: **protect `main`, 2FA, scoped tokens, no committed secrets, Dependabot + scanning.**
+
+---
+
+## 19. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about Git/GitHub:
+
+- **Q: Git vs GitHub?** — Git = the local distributed version-control tool. GitHub = a cloud platform hosting Git repos + collaboration (PRs, issues, Actions).
+- **Q: Merge vs Rebase?** — Merge preserves history and adds a merge commit (safe on shared branches). Rebase rewrites commits into a linear history (only on local/unshared commits).
+- **Q: `git fetch` vs `git pull`?** — Fetch downloads remote changes without merging; pull = fetch + merge (or `--rebase`).
+- **Q: What is a pull request?** — A proposal to merge a branch, with review + CI checks before it's merged into the base branch.
+- **Q: How do you undo a pushed commit safely?** — `git revert <sha>` (creates a new inverse commit). `reset --hard` rewrites history and is unsafe on shared branches.
+- **Q: Fork vs clone vs branch?** — Fork = your server-side copy of someone's repo. Clone = a local copy. Branch = a line of work within a repo.
+- **Q: What is the golden rule of rebasing?** — Never rebase commits that have already been pushed/shared.
+- **Q: How do you resolve a merge conflict?** — Edit the marked sections (`<<<<<<<`/`=======`/`>>>>>>>`), then `git add` + commit.
 
 ---
 

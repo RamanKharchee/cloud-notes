@@ -60,6 +60,7 @@
 <li><a href="#13--common-cli-commands">Common CLI Commands</a></li>
 <li><a href="#14--rds-vs-other-aws-databases">RDS vs Other AWS Databases</a></li>
 <li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#16--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-rds">1. 🗃️ What is RDS</h2>
@@ -336,6 +337,19 @@ aws rds delete-db-instance --db-instance-identifier mydb --final-db-snapshot-ide
 <li><strong>Backups</strong> (automated + PITR) and <strong>manual snapshots</strong> (persist) protect data — snapshot before risky changes.</li>
 <li>Keep it <strong>private in a VPC</strong>, encrypt with <strong>KMS</strong>, manage creds in <strong>Secrets Manager</strong>.</li>
 <li><strong>Aurora</strong> for cloud-native scale/perf; <strong>Reserved Instances + right-sizing</strong> for cost.</li>
+</ul>
+<hr>
+<h2 id="16--common-interview-questions">16. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about RDS:</p>
+<ul>
+<li><strong>Q: Multi-AZ vs Read Replica?</strong> — Multi-AZ = synchronous standby for <strong>automatic failover</strong> (HA), same endpoint, not readable. Read Replica = asynchronous, <strong>readable</strong> copy for scaling reads (own endpoint, possible lag).</li>
+<li><strong>Q: Does Multi-AZ improve read performance?</strong> — No. It&#39;s for availability/durability only; use read replicas to scale reads.</li>
+<li><strong>Q: Automated backup vs snapshot?</strong> — Automated = daily + transaction logs, enables PITR, deleted with the instance. Manual snapshot = user-triggered, <strong>persists</strong> until deleted.</li>
+<li><strong>Q: What is Amazon Aurora?</strong> — AWS cloud-native MySQL/Postgres-compatible engine; storage auto-grows, 6-way replicated across 3 AZs, fast failover, up to 15 replicas.</li>
+<li><strong>Q: How do you secure RDS?</strong> — Private subnets, security groups, KMS encryption at rest (set at creation), TLS in transit, Secrets Manager for credentials, IAM auth optional.</li>
+<li><strong>Q: Can you SSH into an RDS instance?</strong> — No — it&#39;s managed; you get a DB endpoint, not OS access.</li>
+<li><strong>Q: How to scale an RDS database?</strong> — Vertically (change instance class), storage autoscaling, read replicas for reads, or Aurora Serverless for variable load.</li>
+<li><strong>Q: How to migrate with minimal downtime?</strong> — Blue/Green Deployments or AWS DMS.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon RDS.</em></p>

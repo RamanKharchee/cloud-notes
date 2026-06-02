@@ -65,6 +65,7 @@
 <li><a href="#18--key-limits--numbers">Key Limits &amp; Numbers</a></li>
 <li><a href="#19--ways-to-connect-to-ec2">Ways to Connect to EC2</a></li>
 <li><a href="#20--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#21--common-interview-questions">Common Interview Questions</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-ec2">1. 🖥️ What is EC2</h2>
@@ -715,6 +716,19 @@ aws ssm start-session --target i-123
 <li>Give instances an <strong>IAM role</strong>, never hard-coded keys; use <strong>IMDSv2</strong>.</li>
 <li>Prefer <strong>SSM Session Manager</strong> to connect — no open ports, no key sprawl.</li>
 <li><strong>Monitor</strong> with CloudWatch + status checks; <strong>right-size</strong> relentlessly to control cost.</li>
+</ul>
+<hr>
+<h2 id="21--common-interview-questions">21. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about EC2:</p>
+<ul>
+<li><strong>Q: On-Demand vs Reserved vs Spot?</strong> — On-Demand = pay-as-you-go, no commitment. Reserved/Savings Plans = 1–3 yr commitment, big discount, steady workloads. Spot = spare capacity up to ~90% off, can be reclaimed with a 2-minute notice → fault-tolerant work only.</li>
+<li><strong>Q: Stop vs Terminate vs Reboot?</strong> — Stop keeps the EBS root (new public IP on start); Terminate deletes the instance (root EBS deleted by default); Reboot restarts in place keeping everything.</li>
+<li><strong>Q: Security Group vs NACL?</strong> — SG = stateful, instance-level, allow-only. NACL = stateless, subnet-level, allow + deny in numbered order.</li>
+<li><strong>Q: How do apps on EC2 access AWS securely?</strong> — Attach an <strong>IAM role</strong> (instance profile) → temporary auto-rotated credentials. Never hard-code access keys.</li>
+<li><strong>Q: EBS vs Instance Store?</strong> — EBS = network block storage that persists independent of the instance. Instance store = ephemeral local disk, lost on stop/terminate.</li>
+<li><strong>Q: How do you make an app highly available?</strong> — Auto Scaling Group across multiple AZs behind an ELB, with health checks for self-healing.</li>
+<li><strong>Q: What&#39;s a burstable (T-family) instance?</strong> — Accrues CPU credits when idle and spends them to burst; good for spiky low-average workloads.</li>
+<li><strong>Q: IMDSv1 vs IMDSv2?</strong> — IMDSv2 is token/session-based, hardened against SSRF; enforce <code>HttpTokens=required</code>.</li>
 </ul>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon EC2.</em></p>

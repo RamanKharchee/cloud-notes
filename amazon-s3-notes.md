@@ -46,6 +46,7 @@
 17. [Key Limits & Numbers](#17--key-limits--numbers)
 18. [Ways to Connect to S3](#18--ways-to-connect-to-s3)
 19. [Quick Mental Model](#19--quick-mental-model)
+20. [Common Interview Questions](#20--common-interview-questions)
 
 ---
 
@@ -368,6 +369,21 @@ The S3 API is a de-facto standard — point the SDK/CLI at a custom **endpoint U
 - Use **Events + Lambda** to make storage reactive.
 - Use **Replication** for DR/compliance, **Object Lock** for WORM compliance.
 - **Monitor** with CloudWatch, CloudTrail, Storage Lens; optimize cost relentlessly.
+
+---
+
+## 20. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about S3:
+
+- **Q: What is S3's consistency model?** — Strong read-after-write consistency for **all** operations (PUT, overwrite, DELETE) since Dec 2020. A read right after a write returns the latest data.
+- **Q: S3 vs EBS vs EFS?** — S3 = object storage over HTTP (no filesystem). EBS = block storage for a single EC2 (one AZ). EFS = shared NFS filesystem across many instances.
+- **Q: How do you secure an S3 bucket?** — Block Public Access ON, least-privilege IAM + bucket policy, default SSE encryption, enforce HTTPS (`aws:SecureTransport`), VPC endpoint for private access, enable versioning + logging.
+- **Q: Why use versioning?** — Protects against accidental delete/overwrite; a DELETE adds a *delete marker* (recoverable) rather than erasing data.
+- **Q: Object size limits?** — Up to 5 TB; single PUT max 5 GB → use **multipart upload** above that (recommended > 100 MB).
+- **Q: When Glacier vs Standard-IA?** — IA for infrequent but instant access; Glacier (Instant/Flexible/Deep Archive) for archival where retrieval time/cost is acceptable.
+- **Q: What is a pre-signed URL?** — A time-limited signed URL granting temporary access to one object without making it public.
+- **Q: How to reduce S3 cost?** — Lifecycle rules to cheaper classes, Intelligent-Tiering for unknown patterns, delete old versions + incomplete multipart uploads, keep compute in-region.
 
 ---
 

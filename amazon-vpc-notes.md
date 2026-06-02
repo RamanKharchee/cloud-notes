@@ -42,6 +42,7 @@
 13. [Key Limits & Numbers](#13--key-limits--numbers)
 14. [Design Best Practices](#14--design-best-practices)
 15. [Quick Mental Model](#15--quick-mental-model)
+16. [Common Interview Questions](#16--common-interview-questions)
 
 ---
 
@@ -248,6 +249,21 @@ aws ec2 create-flow-logs --resource-type VPC --resource-ids vpc-123 \
 - Connect out: **IGW** (public), **NAT** (private outbound), **VPN/DX** (on-prem), **Peering/TGW** (VPC-to-VPC).
 - Reach AWS services privately with **Endpoints / PrivateLink**.
 - **Don't overlap CIDRs**, spread across AZs, keep data tiers private, and watch **NAT data costs**.
+
+---
+
+## 16. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about VPC:
+
+- **Q: Public vs private subnet?** — A subnet is *public* when its route table has `0.0.0.0/0 → Internet Gateway`. Private subnets reach the internet only outbound via a **NAT Gateway**.
+- **Q: Security Group vs NACL?** — SG = stateful, instance/ENI level, allow-only. NACL = stateless, subnet level, ordered allow + deny rules.
+- **Q: How many IPs are usable in a /24 subnet?** — 251. AWS reserves 5 per subnet (network, router, DNS, future, broadcast).
+- **Q: How do private instances get internet for updates?** — Through a NAT Gateway in a public subnet (outbound only); inbound from the internet stays blocked.
+- **Q: VPC Peering vs Transit Gateway?** — Peering is 1:1 and **non-transitive**. Transit Gateway is a hub connecting many VPCs + on-prem with transitive routing (use at scale).
+- **Q: Gateway vs Interface endpoint?** — Gateway endpoint = free, route-table target, **S3 & DynamoDB only**. Interface endpoint (PrivateLink) = ENI with a private IP, most services, hourly + per-GB cost.
+- **Q: Why avoid overlapping CIDRs?** — Overlapping ranges can't be routed between peered/connected networks.
+- **Q: How to reduce NAT cost?** — Use VPC Gateway Endpoints for S3/DynamoDB so that traffic skips the NAT (which charges per GB).
 
 ---
 

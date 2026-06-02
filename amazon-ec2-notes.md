@@ -47,6 +47,7 @@
 18. [Key Limits & Numbers](#18--key-limits--numbers)
 19. [Ways to Connect to EC2](#19--ways-to-connect-to-ec2)
 20. [Quick Mental Model](#20--quick-mental-model)
+21. [Common Interview Questions](#21--common-interview-questions)
 
 ---
 
@@ -380,6 +381,21 @@ aws ssm start-session --target i-123
 - Give instances an **IAM role**, never hard-coded keys; use **IMDSv2**.
 - Prefer **SSM Session Manager** to connect — no open ports, no key sprawl.
 - **Monitor** with CloudWatch + status checks; **right-size** relentlessly to control cost.
+
+---
+
+## 21. ❓ Common Interview Questions
+
+Rapid-fire questions interviewers ask about EC2:
+
+- **Q: On-Demand vs Reserved vs Spot?** — On-Demand = pay-as-you-go, no commitment. Reserved/Savings Plans = 1–3 yr commitment, big discount, steady workloads. Spot = spare capacity up to ~90% off, can be reclaimed with a 2-minute notice → fault-tolerant work only.
+- **Q: Stop vs Terminate vs Reboot?** — Stop keeps the EBS root (new public IP on start); Terminate deletes the instance (root EBS deleted by default); Reboot restarts in place keeping everything.
+- **Q: Security Group vs NACL?** — SG = stateful, instance-level, allow-only. NACL = stateless, subnet-level, allow + deny in numbered order.
+- **Q: How do apps on EC2 access AWS securely?** — Attach an **IAM role** (instance profile) → temporary auto-rotated credentials. Never hard-code access keys.
+- **Q: EBS vs Instance Store?** — EBS = network block storage that persists independent of the instance. Instance store = ephemeral local disk, lost on stop/terminate.
+- **Q: How do you make an app highly available?** — Auto Scaling Group across multiple AZs behind an ELB, with health checks for self-healing.
+- **Q: What's a burstable (T-family) instance?** — Accrues CPU credits when idle and spends them to burst; good for spiky low-average workloads.
+- **Q: IMDSv1 vs IMDSv2?** — IMDSv2 is token/session-based, hardened against SSRF; enforce `HttpTokens=required`.
 
 ---
 
