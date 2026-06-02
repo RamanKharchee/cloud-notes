@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon Route 53 — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNkU0MEM5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIFJvdXRlIDUzPC90aXRsZT48cGF0aCBkPSJNMjQgMTUuNzY2NGMwIDIuODcxNS0yLjM1NzEgNS4wMTQzLTYuMyA1LjctMi45NTcxLjU1NzItNS40IDIuNC01LjQ0MjkgMi40NDI5cS0uMTI4NS4wODU3LS4yNTcxLjA4NTd0LS4yNTcxLS4wODU3QzExLjcgMjMuODY2NCA5LjI1NyAyMi4wMjM2IDYuMyAyMS40NjY0Yy0zLjk0MjktLjY4NTctNi4zLTIuODI4NS02LjMtNS43IDAtMS43NTcxLjY4NTctMi45MTQzIDEuMjg1Ny0zLjk0MjguNTE0My0uOS45ODU3LTEuNjcxNS45ODU3LTIuNzQyOSAwLTIuMjcxNC0xLjc1NzEtMy43NzE0LTEuOC0zLjc3MTRRLjM0MyA1LjE4MDcuMyA1LjAwOTNxMC0uMTcxNC4xMjg2LS4zQy40Mjg2IDQuNjY2NCAzLjI1NyAxLjI4MDcgMy45LjM4MDdjLjA4NTctLjA4NTcuMTcxNC0uMTcxNC4zLS4xNzE0cy4yNTcxLjA0MjguMzQyOS4xMjg2YzEuMTE0MiAxLjE1NzEgMi4zNTcxIDEuOCAzLjYgMS44IDEuMzcxNCAwIDIuNDg1Ny0uNiAzLjUxNDItMS45NzE1LjE3MTUtLjIxNDMuNTE0My0uMjE0My42ODU4IDBDMTMuMzcxNCAxLjUzOCAxNC40ODU3IDIuMTM4IDE1Ljg1NyAyLjEzOGMxLjI0MjkgMCAyLjQ4NTgtLjY0MjkgMy42LTEuOC4wODU4LS4wODU4LjIxNDMtLjEyODYuMzQyOS0uMTI4NnMuMjE0My4wODU3LjMuMTcxNGMuNjQyOS45IDMuNDcxNCA0LjI4NTcgMy40NzE0IDQuMzI4NnEuMTI4Ni4xMjg2LjEyODYuMy0uMDQyOS4xNzE0LS4xNzE0LjNjLS4wNDI5IDAtMS44IDEuNS0xLjggMy43NzE0IDAgMS4wNzE0LjQ3MTQgMS44NDI5Ljk4NTcgMi43NDI5LjYgMS4wMjg1IDEuMjg1NyAyLjE4NTcgMS4yODU3IDMuOTQyOFptLS44NTcxIDBjMC0xLjUtLjYtMi41Mjg1LTEuMTU3Mi0zLjUxNDMtLjU1NzEtLjktMS4xMTQzLTEuODg1Ny0xLjExNDMtMy4xNzE0IDAtMi4xIDEuMi0zLjU1NzEgMS44LTQuMTU3MS0uNjQyOC0uNzI4Ni0yLjE4NTctMi42NTcyLTIuOTU3MS0zLjY0MjlDMTguNTU3IDIuMzk1IDE3LjE4NTcgMi45OTUgMTUuODU3IDIuOTk1Yy0xLjUgMC0yLjc0MjgtLjYtMy44NTcxLTEuODg1N0MxMC44ODU3IDIuMzk1IDkuNjQyOSAyLjk5NSA4LjE0MjkgMi45OTVjLTEuMzI4NiAwLTIuNy0uNi0zLjg1NzItMS43MTQzLS43NzE0Ljk4NTctMi4zMTQzIDIuOTE0My0yLjk1NzEgMy42NDI5LjYuNiAxLjggMi4wNTcxIDEuOCA0LjE1NzEgMCAxLjI4NTctLjU1NzIgMi4yNzE0LTEuMTE0MyAzLjE3MTRDMS40NTcgMTMuMjM4Ljg1NyAxNC4yNjY0Ljg1NyAxNS43NjY0YzAgLjkuMzg1OCAzLjk0MjkgNS41NzE1IDQuODg1NyAyLjYxNDMuNDcxNSA0Ljg0MjggMS44ODU4IDUuNTcxNCAyLjQuNzI4Ni0uNTE0MiAyLjk1NzEtMS45Mjg1IDUuNTcxNC0yLjQgNS4xODU3LS45NDI4IDUuNTcxNS0zLjk4NTcgNS41NzE1LTQuODg1N3ptLTIuNTcxNS0yLjY1NzFjLjU1NzIuOTg1Ny45IDEuNjI4Ni45IDIuNjU3MSAwIDIuMzE0My0zLjIxNDMgMy4wNDI5LTQuMiAzLjIxNDMtMi4wNTcxLjM4NTctMy45IDEuMjg1Ny01LjA1NzEgMS45NzE0cS0uMDg1Ny4wNDI5LS4yMTQzLjA0Mjl0LS4yMTQzLS4wNDI5Yy0xLjE1NzEtLjY4NTctMy0xLjU4NTctNS4wNTcxLTEuOTcxNC0uOTg1Ny0uMTcxNC00LjItLjktNC4yLTMuMjE0MyAwLTEuMDI4NS4zNDI4LTEuNjcxNC45LTIuNjU3MS42LTEuMDI4NiAxLjMyODUtMi4zMTQzIDEuMzI4NS00LjAyODYgMC0xLjM3MTQtLjM4NTctMi42NTcxLTEuMTE0Mi0zLjg1NzEtLjA4NTgtLjE3MTUtLjA4NTgtLjM4NTcuMDQyOC0uNTE0M3EuMy0uMzg1Ny42NDI5LS44MTQzYy4xMjg1LS4xNzE0LjM4NTctLjIxNDMuNTU3MS0uMTI4NiAxLjA3MTQuNiAyLjE0MjkuOSAzLjI1NzIuOSAxLjM3MTQgMCAyLjUyODUtLjM4NTcgMy42LTEuMTE0My4xNzE0LS4wODU3LjM0MjgtLjA4NTcuNTE0MiAwIDEuMDcxNS43Mjg2IDIuMjI4NiAxLjExNDMgMy42IDEuMTE0MyAxLjExNDMgMCAyLjE4NTgtLjMgMy4yNTcyLS45LjE3MTQtLjA4NTcuNDI4Ni0uMDQyOC41NTcxLjEyODZxLjM0MjkuNDI4Ni42NDI5LjgxNDNjLjEyODYuMTI4Ni4xMjg2LjM0MjguMDQyOC41MTQzLS43Mjg1IDEuMi0xLjExNDIgMi40ODU3LTEuMTE0MiAzLjg1NzEgMCAxLjcxNDMuNzI4NSAzIDEuMzI4NSA0LjAyODZ6bS4wNDI5IDIuNjU3MWMwLS43NzE0LS4yNTcyLTEuMzI4NS0uODE0My0yLjIyODUtLjY0MjktMS4xMTQzLTEuNDE0My0yLjQ4NTgtMS40MTQzLTQuNDU3MiAwLTEuNDU3MS4zNDI5LTIuNzg1NyAxLjA3MTQtNC4wNzE0cS0uMTI4NS0uMTcxNC0uMjU3MS0uM2MtMS4wNzE0LjUxNDMtMi4xODU3LjgxNDMtMy4zNDI5LjgxNDMtMS40MTQyIDAtMi43LS4zODU3LTMuODU3MS0xLjExNDMtMS4xNTcxLjcyODYtMi40NDI5IDEuMTE0My0zLjg1NzEgMS4xMTQzcS0xLjcxNDMgMC0zLjM0MjktLjgxNDMtLjEyODYuMTI4Ni0uMjU3MS4zYy43Mjg1IDEuMjg1NyAxLjA3MTQgMi42MTQzIDEuMDcxNCA0LjA3MTQgMCAxLjk3MTQtLjc3MTQgMy4zNDI5LTEuNDE0MyA0LjQ1NzItLjU1NzEuOS0uODE0MyAxLjQ1NzEtLjgxNDMgMi4yMjg1IDAgMS42NzE1IDIuOTE0MyAyLjI3MTUgMy40NzE0IDIuNCAyLjEuMzg1NyAzLjkgMS4yIDUuMTQyOSAxLjg4NTcgMS4yNDI5LS42ODU3IDMuMDQyOS0xLjUgNS4xNDI5LTEuODg1Ny41NTcxLS4xMjg1IDMuNDcxNC0uNzI4NSAzLjQ3MTQtMi40em0tNC44ODU3LTMuNDcxNHEuNDcxNC40Mjg2LjQ3MTQgMS4xNTcxIDAgLjgxNDMtLjU1NzEgMS4yODU4LS42LjQ3MTQtMS41ODU4LjQ3MTQtLjc3MTQgMC0xLjUtLjN2LS42ODU3cS45LjMgMS41LjMuNjQyOSAwIC45ODU4LS4yNTcyLjMtLjMuMy0uODE0MyAwLS45ODU3LTEuMjQyOS0uOTg1Ny0uMzg1NyAwLS43NzE0LjA0Mjl2LS41NTcybDEuNzE0My0xLjg0MjhoLTIuNHYtLjY4NTdoMy4zdi42NDI4bC0xLjY3MTUgMS44aC4xNzE0cS44MTQzIDAgMS4yODU4LjQyODZ6bS00Ljc1NzItLjE3MTRxLjQ3MTUuNDcxNC40NzE1IDEuMjg1N3QtLjU1NzIgMS4zMjg2cS0uNi40NzE0LTEuNTQyOC40NzE0LS44MTQzIDAtMS41ODU4LS4zdi0uNjg1N3EuOTQyOS4zIDEuNTg1OC4zLjYgMCAuOTQyOC0uMjU3Mi4zNDI5LS4zLjM0MjktLjgxNDMgMC0uNi0uMy0uODU3MS0uMzQyOS0uMjU3MS0xLjAyODYtLjI1NzEtLjUxNDMgMC0xLjI4NTcuMDg1N3YtLjU1NzJsLjE3MTQtMi40NDI4aDN2LjY4NTdIOC44NzE0bC0uMTI4NSAxLjYyODZxLjQ3MTQtLjA0My44MTQyLS4wNDMuOSAwIDEuNDE0My40Mjg3eiIvPjwvc3ZnPg==">
+<style>
+  :root{--ac:#6E40C9;--acd:#4a2a8a;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNkU0MEM5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIFJvdXRlIDUzPC90aXRsZT48cGF0aCBkPSJNMjQgMTUuNzY2NGMwIDIuODcxNS0yLjM1NzEgNS4wMTQzLTYuMyA1LjctMi45NTcxLjU1NzItNS40IDIuNC01LjQ0MjkgMi40NDI5cS0uMTI4NS4wODU3LS4yNTcxLjA4NTd0LS4yNTcxLS4wODU3QzExLjcgMjMuODY2NCA5LjI1NyAyMi4wMjM2IDYuMyAyMS40NjY0Yy0zLjk0MjktLjY4NTctNi4zLTIuODI4NS02LjMtNS43IDAtMS43NTcxLjY4NTctMi45MTQzIDEuMjg1Ny0zLjk0MjguNTE0My0uOS45ODU3LTEuNjcxNS45ODU3LTIuNzQyOSAwLTIuMjcxNC0xLjc1NzEtMy43NzE0LTEuOC0zLjc3MTRRLjM0MyA1LjE4MDcuMyA1LjAwOTNxMC0uMTcxNC4xMjg2LS4zQy40Mjg2IDQuNjY2NCAzLjI1NyAxLjI4MDcgMy45LjM4MDdjLjA4NTctLjA4NTcuMTcxNC0uMTcxNC4zLS4xNzE0cy4yNTcxLjA0MjguMzQyOS4xMjg2YzEuMTE0MiAxLjE1NzEgMi4zNTcxIDEuOCAzLjYgMS44IDEuMzcxNCAwIDIuNDg1Ny0uNiAzLjUxNDItMS45NzE1LjE3MTUtLjIxNDMuNTE0My0uMjE0My42ODU4IDBDMTMuMzcxNCAxLjUzOCAxNC40ODU3IDIuMTM4IDE1Ljg1NyAyLjEzOGMxLjI0MjkgMCAyLjQ4NTgtLjY0MjkgMy42LTEuOC4wODU4LS4wODU4LjIxNDMtLjEyODYuMzQyOS0uMTI4NnMuMjE0My4wODU3LjMuMTcxNGMuNjQyOS45IDMuNDcxNCA0LjI4NTcgMy40NzE0IDQuMzI4NnEuMTI4Ni4xMjg2LjEyODYuMy0uMDQyOS4xNzE0LS4xNzE0LjNjLS4wNDI5IDAtMS44IDEuNS0xLjggMy43NzE0IDAgMS4wNzE0LjQ3MTQgMS44NDI5Ljk4NTcgMi43NDI5LjYgMS4wMjg1IDEuMjg1NyAyLjE4NTcgMS4yODU3IDMuOTQyOFptLS44NTcxIDBjMC0xLjUtLjYtMi41Mjg1LTEuMTU3Mi0zLjUxNDMtLjU1NzEtLjktMS4xMTQzLTEuODg1Ny0xLjExNDMtMy4xNzE0IDAtMi4xIDEuMi0zLjU1NzEgMS44LTQuMTU3MS0uNjQyOC0uNzI4Ni0yLjE4NTctMi42NTcyLTIuOTU3MS0zLjY0MjlDMTguNTU3IDIuMzk1IDE3LjE4NTcgMi45OTUgMTUuODU3IDIuOTk1Yy0xLjUgMC0yLjc0MjgtLjYtMy44NTcxLTEuODg1N0MxMC44ODU3IDIuMzk1IDkuNjQyOSAyLjk5NSA4LjE0MjkgMi45OTVjLTEuMzI4NiAwLTIuNy0uNi0zLjg1NzItMS43MTQzLS43NzE0Ljk4NTctMi4zMTQzIDIuOTE0My0yLjk1NzEgMy42NDI5LjYuNiAxLjggMi4wNTcxIDEuOCA0LjE1NzEgMCAxLjI4NTctLjU1NzIgMi4yNzE0LTEuMTE0MyAzLjE3MTRDMS40NTcgMTMuMjM4Ljg1NyAxNC4yNjY0Ljg1NyAxNS43NjY0YzAgLjkuMzg1OCAzLjk0MjkgNS41NzE1IDQuODg1NyAyLjYxNDMuNDcxNSA0Ljg0MjggMS44ODU4IDUuNTcxNCAyLjQuNzI4Ni0uNTE0MiAyLjk1NzEtMS45Mjg1IDUuNTcxNC0yLjQgNS4xODU3LS45NDI4IDUuNTcxNS0zLjk4NTcgNS41NzE1LTQuODg1N3ptLTIuNTcxNS0yLjY1NzFjLjU1NzIuOTg1Ny45IDEuNjI4Ni45IDIuNjU3MSAwIDIuMzE0My0zLjIxNDMgMy4wNDI5LTQuMiAzLjIxNDMtMi4wNTcxLjM4NTctMy45IDEuMjg1Ny01LjA1NzEgMS45NzE0cS0uMDg1Ny4wNDI5LS4yMTQzLjA0Mjl0LS4yMTQzLS4wNDI5Yy0xLjE1NzEtLjY4NTctMy0xLjU4NTctNS4wNTcxLTEuOTcxNC0uOTg1Ny0uMTcxNC00LjItLjktNC4yLTMuMjE0MyAwLTEuMDI4NS4zNDI4LTEuNjcxNC45LTIuNjU3MS42LTEuMDI4NiAxLjMyODUtMi4zMTQzIDEuMzI4NS00LjAyODYgMC0xLjM3MTQtLjM4NTctMi42NTcxLTEuMTE0Mi0zLjg1NzEtLjA4NTgtLjE3MTUtLjA4NTgtLjM4NTcuMDQyOC0uNTE0M3EuMy0uMzg1Ny42NDI5LS44MTQzYy4xMjg1LS4xNzE0LjM4NTctLjIxNDMuNTU3MS0uMTI4NiAxLjA3MTQuNiAyLjE0MjkuOSAzLjI1NzIuOSAxLjM3MTQgMCAyLjUyODUtLjM4NTcgMy42LTEuMTE0My4xNzE0LS4wODU3LjM0MjgtLjA4NTcuNTE0MiAwIDEuMDcxNS43Mjg2IDIuMjI4NiAxLjExNDMgMy42IDEuMTE0MyAxLjExNDMgMCAyLjE4NTgtLjMgMy4yNTcyLS45LjE3MTQtLjA4NTcuNDI4Ni0uMDQyOC41NTcxLjEyODZxLjM0MjkuNDI4Ni42NDI5LjgxNDNjLjEyODYuMTI4Ni4xMjg2LjM0MjguMDQyOC41MTQzLS43Mjg1IDEuMi0xLjExNDIgMi40ODU3LTEuMTE0MiAzLjg1NzEgMCAxLjcxNDMuNzI4NSAzIDEuMzI4NSA0LjAyODZ6bS4wNDI5IDIuNjU3MWMwLS43NzE0LS4yNTcyLTEuMzI4NS0uODE0My0yLjIyODUtLjY0MjktMS4xMTQzLTEuNDE0My0yLjQ4NTgtMS40MTQzLTQuNDU3MiAwLTEuNDU3MS4zNDI5LTIuNzg1NyAxLjA3MTQtNC4wNzE0cS0uMTI4NS0uMTcxNC0uMjU3MS0uM2MtMS4wNzE0LjUxNDMtMi4xODU3LjgxNDMtMy4zNDI5LjgxNDMtMS40MTQyIDAtMi43LS4zODU3LTMuODU3MS0xLjExNDMtMS4xNTcxLjcyODYtMi40NDI5IDEuMTE0My0zLjg1NzEgMS4xMTQzcS0xLjcxNDMgMC0zLjM0MjktLjgxNDMtLjEyODYuMTI4Ni0uMjU3MS4zYy43Mjg1IDEuMjg1NyAxLjA3MTQgMi42MTQzIDEuMDcxNCA0LjA3MTQgMCAxLjk3MTQtLjc3MTQgMy4zNDI5LTEuNDE0MyA0LjQ1NzItLjU1NzEuOS0uODE0MyAxLjQ1NzEtLjgxNDMgMi4yMjg1IDAgMS42NzE1IDIuOTE0MyAyLjI3MTUgMy40NzE0IDIuNCAyLjEuMzg1NyAzLjkgMS4yIDUuMTQyOSAxLjg4NTcgMS4yNDI5LS42ODU3IDMuMDQyOS0xLjUgNS4xNDI5LTEuODg1Ny41NTcxLS4xMjg1IDMuNDcxNC0uNzI4NSAzLjQ3MTQtMi40em0tNC44ODU3LTMuNDcxNHEuNDcxNC40Mjg2LjQ3MTQgMS4xNTcxIDAgLjgxNDMtLjU1NzEgMS4yODU4LS42LjQ3MTQtMS41ODU4LjQ3MTQtLjc3MTQgMC0xLjUtLjN2LS42ODU3cS45LjMgMS41LjMuNjQyOSAwIC45ODU4LS4yNTcyLjMtLjMuMy0uODE0MyAwLS45ODU3LTEuMjQyOS0uOTg1Ny0uMzg1NyAwLS43NzE0LjA0Mjl2LS41NTcybDEuNzE0My0xLjg0MjhoLTIuNHYtLjY4NTdoMy4zdi42NDI4bC0xLjY3MTUgMS44aC4xNzE0cS44MTQzIDAgMS4yODU4LjQyODZ6bS00Ljc1NzItLjE3MTRxLjQ3MTUuNDcxNC40NzE1IDEuMjg1N3QtLjU1NzIgMS4zMjg2cS0uNi40NzE0LTEuNTQyOC40NzE0LS44MTQzIDAtMS41ODU4LS4zdi0uNjg1N3EuOTQyOS4zIDEuNTg1OC4zLjYgMCAuOTQyOC0uMjU3Mi4zNDI5LS4zLjM0MjktLjgxNDMgMC0uNi0uMy0uODU3MS0uMzQyOS0uMjU3MS0xLjAyODYtLjI1NzEtLjUxNDMgMC0xLjI4NTcuMDg1N3YtLjU1NzJsLjE3MTQtMi40NDI4aDN2LjY4NTdIOC44NzE0bC0uMTI4NSAxLjYyODZxLjQ3MTQtLjA0My44MTQyLS4wNDMuOSAwIDEuNDE0My40Mjg3eiIvPjwvc3ZnPg==" width="110" alt="Amazon Route 53 logo" /><h1 id="amazon-route-53--complete-notes">Amazon Route 53 — Complete Notes</h1>
+<p><strong>Scalable DNS &amp; domain registration</strong> · Connect names to resources</p>
+<p><img src="https://img.shields.io/badge/AWS-Route%2053-6E40C9?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Service-DNS-6E40C9?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Scope-Global-blue?style=flat-square" alt="Scope">
+<img src="https://img.shields.io/badge/SLA-100%25-lightgrey?style=flat-square" alt="SLA"></p>
+<p><em>A reader-friendly, all-in-one reference for Amazon Route 53.</em></p>
+<p><a class="dl-btn" href="amazon-route53-notes.pdf" download="amazon-route53-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-route-53">What is Route 53</a></li>
+<li><a href="#2--core-concepts">Core Concepts</a></li>
+<li><a href="#3--how-dns-resolution-works">How DNS Resolution Works</a></li>
+<li><a href="#4--hosted-zones-public-vs-private">Hosted Zones (Public vs Private)</a></li>
+<li><a href="#5--dns-record-types">DNS Record Types</a></li>
+<li><a href="#6--alias-vs-cname">Alias vs CNAME</a></li>
+<li><a href="#7--routing-policies">Routing Policies</a></li>
+<li><a href="#8--health-checks--failover">Health Checks &amp; Failover</a></li>
+<li><a href="#9--domain-registration">Domain Registration</a></li>
+<li><a href="#10--route-53-resolver-hybrid-dns">Route 53 Resolver (Hybrid DNS)</a></li>
+<li><a href="#11--ttl--records-behaviour">TTL &amp; Records Behaviour</a></li>
+<li><a href="#12--pricing">Pricing</a></li>
+<li><a href="#13--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#14--best-practices">Best Practices</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-route-53">1. 🌐 What is Route 53</h2>
+<p>Amazon Route 53 is a <strong>highly available, scalable DNS web service</strong>. It does three core jobs: <strong>register domain names</strong>, <strong>route internet traffic</strong> to your resources by translating names (like <code>example.com</code>) into IP addresses, and <strong>check the health</strong> of your resources so traffic only goes to healthy endpoints.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Route 53 is the <strong>phone book of the internet for your app</strong> — it answers &quot;what address does this name point to?&quot; and can answer <strong>differently</strong> based on geography, latency, weights, or health. The name &quot;53&quot; comes from <strong>DNS port 53</strong>.</p>
+</blockquote>
+<p><strong>Key facts:</strong> <strong>global</strong> service (not region-scoped), backed by a <strong>100% availability SLA</strong>, and deeply integrated with AWS (ALB, CloudFront, S3, etc.).</p>
+<hr>
+<h2 id="2--core-concepts">2. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Domain</strong></td>
+<td>A human-readable name you register (<code>example.com</code>).</td>
+</tr>
+<tr>
+<td><strong>Hosted Zone</strong></td>
+<td>A container for all DNS records of one domain.</td>
+</tr>
+<tr>
+<td><strong>Record (Record Set)</strong></td>
+<td>A single DNS entry (name → type → value), e.g. <code>www → A → 1.2.3.4</code>.</td>
+</tr>
+<tr>
+<td><strong>Name Server (NS)</strong></td>
+<td>The authoritative servers that answer for your zone.</td>
+</tr>
+<tr>
+<td><strong>TTL</strong></td>
+<td>Time-to-live — how long resolvers cache a record (seconds).</td>
+</tr>
+<tr>
+<td><strong>Routing Policy</strong></td>
+<td>The rule deciding <em>which</em> answer to return.</td>
+</tr>
+<tr>
+<td><strong>Health Check</strong></td>
+<td>A probe that tests whether an endpoint is healthy.</td>
+</tr>
+<tr>
+<td><strong>Resolver</strong></td>
+<td>The component that answers DNS queries (incl. hybrid on-prem).</td>
+</tr>
+<tr>
+<td><strong>Alias Record</strong></td>
+<td>A Route 53-specific record pointing to an AWS resource.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--how-dns-resolution-works">3. 🔎 How DNS Resolution Works</h2>
+<p>When a user visits <code>www.example.com</code>, this chain resolves the name to an IP:</p>
+<pre><code>   Browser
+      │  &quot;www.example.com?&quot;
+      ▼
+   Resolver (ISP / Route 53 Resolver)   ── caches answers (TTL)
+      │
+      ├─▶ Root servers      → &quot;ask the .com TLD servers&quot;
+      ├─▶ TLD (.com) servers→ &quot;ask example.com&#39;s name servers&quot;
+      └─▶ Authoritative NS  → Route 53 hosted zone returns the record
+      │
+      ▼
+   IP address (e.g. 1.2.3.4)  →  browser connects
+</code></pre>
+<ol>
+<li>The <strong>resolver</strong> checks its <strong>cache</strong>; if expired/missing it walks the hierarchy.</li>
+<li><strong>Root → TLD (<code>.com</code>) → authoritative name servers</strong> (Route 53 for your zone).</li>
+<li>Route 53 applies your <strong>routing policy</strong> (+ health checks) and returns the best answer.</li>
+<li>The resolver <strong>caches</strong> the answer for the record&#39;s <strong>TTL</strong> and hands the IP to the browser.</li>
+</ol>
+<hr>
+<h2 id="4--hosted-zones-public-vs-private">4. 🏷️ Hosted Zones (Public vs Private)</h2>
+<p>A <strong>hosted zone</strong> holds the records for a domain. When you create one, Route 53 assigns <strong>4 name servers (NS)</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Public Hosted Zone</strong></th>
+<th><strong>Private Hosted Zone</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Visible to</td>
+<td>The <strong>public internet</strong></td>
+<td>Only inside <strong>associated VPC(s)</strong></td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Public websites, APIs</td>
+<td>Internal service names, split-horizon DNS</td>
+</tr>
+<tr>
+<td>Resolves from</td>
+<td>Anywhere</td>
+<td>Resources within the VPC</td>
+</tr>
+</tbody></table>
+<ul>
+<li>For a <strong>registered domain</strong> to use Route 53, set the domain&#39;s NS records at the registrar to the <strong>4 NS values</strong> of its public hosted zone (automatic if you register the domain in Route 53).</li>
+<li><strong>Split-horizon DNS:</strong> same domain name resolves differently for internal (private zone) vs external (public zone) clients.</li>
+</ul>
+<hr>
+<h2 id="5--dns-record-types">5. 📇 DNS Record Types</h2>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Maps</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A</strong></td>
+<td>Name → <strong>IPv4</strong> address</td>
+<td><code>example.com → 1.2.3.4</code></td>
+</tr>
+<tr>
+<td><strong>AAAA</strong></td>
+<td>Name → <strong>IPv6</strong> address</td>
+<td><code>example.com → 2606:...</code></td>
+</tr>
+<tr>
+<td><strong>CNAME</strong></td>
+<td>Name → <strong>another name</strong> (alias)</td>
+<td><code>www → example.com</code></td>
+</tr>
+<tr>
+<td><strong>Alias</strong></td>
+<td>Name → an <strong>AWS resource</strong> (Route 53 extension)</td>
+<td><code>example.com → ALB/CloudFront/S3</code></td>
+</tr>
+<tr>
+<td><strong>MX</strong></td>
+<td>Mail servers (with priority)</td>
+<td><code>example.com → 10 mail.example.com</code></td>
+</tr>
+<tr>
+<td><strong>TXT</strong></td>
+<td>Arbitrary text (SPF, DKIM, domain verification)</td>
+<td><code>v=spf1 ...</code></td>
+</tr>
+<tr>
+<td><strong>NS</strong></td>
+<td>Name servers for the zone</td>
+<td>delegation</td>
+</tr>
+<tr>
+<td><strong>SOA</strong></td>
+<td>Start of Authority (zone metadata)</td>
+<td>one per zone</td>
+</tr>
+<tr>
+<td><strong>SRV</strong></td>
+<td>Service location (host + port)</td>
+<td>SIP, etc.</td>
+</tr>
+<tr>
+<td><strong>PTR</strong></td>
+<td>IP → name (reverse DNS)</td>
+<td><code>4.3.2.1.in-addr.arpa</code></td>
+</tr>
+<tr>
+<td><strong>CAA</strong></td>
+<td>Which CAs may issue certs</td>
+<td><code>0 issue &quot;amazon.com&quot;</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="6--alias-vs-cname">6. ⚖️ Alias vs CNAME</h2>
+<p>A frequent exam/real-world distinction:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Alias</strong> (Route 53)</th>
+<th><strong>CNAME</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Points to</td>
+<td><strong>AWS resources</strong> (ALB, CloudFront, S3, API GW, another Route 53 record)</td>
+<td>Any <strong>DNS name</strong></td>
+</tr>
+<tr>
+<td>At the <strong>zone apex</strong> (<code>example.com</code>)?</td>
+<td>✅ Yes</td>
+<td>❌ No (DNS forbids CNAME at apex)</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td><strong>Free</strong> queries to AWS targets</td>
+<td>Charged like a standard query</td>
+</tr>
+<tr>
+<td>TTL</td>
+<td>Managed by AWS (follows the target)</td>
+<td>You set it</td>
+</tr>
+<tr>
+<td>Resolves to</td>
+<td>The target&#39;s current IP(s) automatically</td>
+<td>Another name (extra lookup)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>✅ <strong>Rule of thumb:</strong> pointing at an <strong>AWS resource</strong>? Use an <strong>Alias</strong> — especially at the <strong>root/apex</strong> domain where CNAME isn&#39;t allowed. Pointing at an external hostname? Use a <strong>CNAME</strong> on a subdomain.</p>
+</blockquote>
+<hr>
+<h2 id="7--routing-policies">7. 🧭 Routing Policies</h2>
+<p>Route 53 decides <em>which</em> record value to return based on the policy:</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Returns the record based on…</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Simple</strong></td>
+<td>One record, no logic</td>
+<td>Single resource</td>
+</tr>
+<tr>
+<td><strong>Weighted</strong></td>
+<td>Split by assigned weights (e.g. 80/20)</td>
+<td>A/B tests, gradual rollouts</td>
+</tr>
+<tr>
+<td><strong>Latency-based</strong></td>
+<td>The region with <strong>lowest latency</strong> to the user</td>
+<td>Multi-region apps, fast UX</td>
+</tr>
+<tr>
+<td><strong>Failover</strong></td>
+<td>Primary if healthy, else secondary</td>
+<td>Active-passive DR</td>
+</tr>
+<tr>
+<td><strong>Geolocation</strong></td>
+<td>The user&#39;s <strong>location</strong> (continent/country/state)</td>
+<td>Localized content, compliance</td>
+</tr>
+<tr>
+<td><strong>Geoproximity</strong></td>
+<td>Distance to resources (with bias to expand/shrink)</td>
+<td>Traffic-shaping by geography</td>
+</tr>
+<tr>
+<td><strong>Multivalue answer</strong></td>
+<td>Up to 8 healthy records at random</td>
+<td>Simple client-side load spreading</td>
+</tr>
+<tr>
+<td><strong>IP-based</strong></td>
+<td>The client&#39;s IP/CIDR block</td>
+<td>Route by known networks/ISPs</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Most policies can be combined with <strong>health checks</strong> so unhealthy endpoints are dropped from answers.</p>
+</blockquote>
+<hr>
+<h2 id="8--health-checks--failover">8. 🩺 Health Checks &amp; Failover</h2>
+<ul>
+<li><strong>Health checks</strong> probe an endpoint (HTTP/HTTPS/TCP) on an interval; a target is <strong>unhealthy</strong> after N failed checks.</li>
+<li>Types: <strong>endpoint</strong> checks (hit a URL/IP), <strong>calculated</strong> checks (combine other checks), and <strong>CloudWatch alarm</strong> checks (healthy = alarm OK).</li>
+<li>Tie a health check to a record so Route 53 <strong>stops returning</strong> unhealthy endpoints.</li>
+<li><strong>Failover routing</strong> pairs a <strong>primary</strong> (returned while healthy) with a <strong>secondary</strong> (returned when primary fails) → active-passive disaster recovery.</li>
+</ul>
+<pre><code>Primary (health check OK)  ─┐
+                            ├─▶ Route 53 returns the healthy one
+Secondary (standby)        ─┘
+</code></pre>
+<hr>
+<h2 id="9--domain-registration">9. 🛒 Domain Registration</h2>
+<ul>
+<li>Route 53 can <strong>register and manage domains</strong> (acts as a registrar) for many TLDs — registration auto-creates a matching <strong>public hosted zone</strong>.</li>
+<li>Features: <strong>auto-renew</strong>, <strong>transfer lock</strong>, <strong>privacy protection</strong> (hides WHOIS contact info), and transfers in/out.</li>
+<li>You can also register elsewhere and just <strong>host DNS</strong> in Route 53 by pointing the registrar&#39;s NS records to Route 53&#39;s 4 name servers.</li>
+</ul>
+<hr>
+<h2 id="10--route-53-resolver-hybrid-dns">10. 🔗 Route 53 Resolver (Hybrid DNS)</h2>
+<ul>
+<li>Inside a VPC, the <strong>Route 53 Resolver</strong> (the <code>.2</code> address) answers DNS automatically.</li>
+<li>For <strong>hybrid</strong> setups (cloud ↔ on-prem):<ul>
+<li><strong>Inbound endpoint</strong> — lets on-prem servers resolve names in your private hosted zones.</li>
+<li><strong>Outbound endpoint</strong> + <strong>Resolver rules</strong> — forward queries for specific domains from the VPC to on-prem DNS.</li>
+</ul>
+</li>
+<li>Enables one consistent DNS namespace across on-prem and AWS.</li>
+</ul>
+<hr>
+<h2 id="11--ttl--records-behaviour">11. ⏱️ TTL &amp; Records Behaviour</h2>
+<ul>
+<li><strong>TTL</strong> controls how long resolvers cache an answer. <strong>High TTL</strong> = fewer queries (cheaper, but slow to change). <strong>Low TTL</strong> = fast propagation (good before a migration), more queries.</li>
+<li><strong>Lower the TTL ahead of a planned change</strong> (e.g. to 60s) so cutover propagates quickly, then raise it back.</li>
+<li><strong>Alias</strong> records to AWS targets don&#39;t take a manual TTL — they follow the target.</li>
+<li>DNS changes are <strong>eventually consistent</strong> across the internet&#39;s resolver caches (bounded by TTL).</li>
+</ul>
+<hr>
+<h2 id="12--pricing">12. 💰 Pricing</h2>
+<p>You pay for:</p>
+<ol>
+<li><strong>Hosted zones</strong> — per zone per month (first 25 cheaper; more is less each).</li>
+<li><strong>Queries</strong> — per million DNS queries (latency/geo/geoproximity cost a bit more than standard).</li>
+<li><strong>Health checks</strong> — per check per month (AWS-endpoint vs external, plus optional features like string matching/HTTPS).</li>
+<li><strong>Domain registration</strong> — annual fee per domain (varies by TLD).</li>
+</ol>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> <strong>Alias</strong> queries to AWS targets are <strong>free</strong> (prefer Alias over CNAME for AWS resources) · consolidate records into fewer hosted zones · don&#39;t leave health checks running for retired endpoints · use sensible TTLs to limit query volume.</p>
+</blockquote>
+<hr>
+<h2 id="13--common-cli-commands">13. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash">aws route53 list-hosted-zones
+aws route53 create-hosted-zone --name example.com --caller-reference $(date +%s)
+
+# Create/update a record via a change batch file
+aws route53 change-resource-record-sets --hosted-zone-id Z123 \
+  --change-batch file://change.json
+
+aws route53 list-resource-record-sets --hosted-zone-id Z123
+aws route53 get-change --id /change/C123            # track propagation status
+
+aws route53 create-health-check --caller-reference hc1 \
+  --health-check-config Type=HTTPS,FullyQualifiedDomainName=example.com,Port=443
+
+# Domains (registrar API)
+aws route53domains register-domain --domain-name example.com --duration-in-years 1
+aws route53domains list-domains
+</code></pre>
+<pre><code class="language-json">// change.json — upsert an A-alias to an ALB
+{
+  &quot;Changes&quot;: [{
+    &quot;Action&quot;: &quot;UPSERT&quot;,
+    &quot;ResourceRecordSet&quot;: {
+      &quot;Name&quot;: &quot;example.com&quot;,
+      &quot;Type&quot;: &quot;A&quot;,
+      &quot;AliasTarget&quot;: {
+        &quot;HostedZoneId&quot;: &quot;Z35SXDOTRQ7X7K&quot;,
+        &quot;DNSName&quot;: &quot;my-alb-123.us-east-1.elb.amazonaws.com&quot;,
+        &quot;EvaluateTargetHealth&quot;: true
+      }
+    }
+  }]
+}
+</code></pre>
+<hr>
+<h2 id="14--best-practices">14. ✅ Best Practices</h2>
+<ul>
+<li><strong>Use Alias records</strong> for AWS resources (free queries; works at the zone apex).</li>
+<li><strong>Lower TTLs before migrations</strong>, restore them after, to control propagation speed.</li>
+<li><strong>Attach health checks</strong> to routing records so traffic avoids unhealthy endpoints.</li>
+<li><strong>Latency or geolocation routing</strong> for global apps; <strong>failover</strong> for DR.</li>
+<li><strong>Private hosted zones</strong> for internal names; <strong>split-horizon</strong> when public + private differ.</li>
+<li>Enable <strong>domain auto-renew + transfer lock + privacy</strong> on registered domains.</li>
+<li>Keep DNS as <strong>code</strong> (Terraform/CloudFormation) and review changes — DNS mistakes are high-blast-radius.</li>
+<li>Add <strong>CAA</strong> records to restrict which CAs can issue certificates for your domain.</li>
+</ul>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Route 53 = AWS DNS + domain registrar + health checks.</strong> Global, 100% SLA, port 53.</li>
+<li>A <strong>hosted zone</strong> holds your domain&#39;s <strong>records</strong>; <strong>public</strong> = internet, <strong>private</strong> = inside a VPC.</li>
+<li>Resolution walks <strong>root → TLD → your Route 53 name servers</strong>, then caches by <strong>TTL</strong>.</li>
+<li><strong>Alias</strong> (AWS targets, free, works at apex) vs <strong>CNAME</strong> (any name, not at apex).</li>
+<li><strong>Routing policies</strong> pick the answer: simple, weighted, latency, failover, geolocation, geoproximity, multivalue, IP-based.</li>
+<li><strong>Health checks</strong> drop unhealthy endpoints; <strong>failover</strong> gives active-passive DR.</li>
+<li><strong>Resolver endpoints</strong> bridge DNS between on-prem and VPC (hybrid).</li>
+<li>Lower <strong>TTL</strong> before changes; prefer <strong>Alias</strong> to cut cost; manage DNS <strong>as code</strong>.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon Route 53.</em></p>
+</div>
+</main></body></html>
