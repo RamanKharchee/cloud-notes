@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon EC2 — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRUQ3MTAwIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIEVDMjwvdGl0bGU+PHBhdGggZD0iTTYuNDI5IDE3LjU3MWgxMC43MTRWNi44NTdINi40Mjl2MTAuNzE0Wk0xOCA2Ljg1N2gxLjcxNHYuODU3SDE4VjkuNDNoMS43MTR2Ljg1N0gxOHYxLjI4NWgxLjcxNHYuODU4SDE4djEuNzE0aDEuNzE0VjE1SDE4djEuNzE0aDEuNzE0di44NTdIMTh2LjA1OWEuOC44IDAgMCAxLS43OTkuNzk5aC0uMDU4djEuNzE0aC0uODU3di0xLjcxNEgxNC41N3YxLjcxNGgtLjg1N3YtMS43MTRIMTIuNDN2MS43MTRoLS44NTh2LTEuNzE0SDkuODU3djEuNzE0SDl2LTEuNzE0SDcuMjg2djEuNzE0aC0uODU3di0xLjcxNEg2LjM3YS44LjggMCAwIDEtLjc5OS0uOHYtLjA1OEg0LjI4NnYtLjg1N0g1LjU3VjE1SDQuMjg2di0uODU3SDUuNTd2LTEuNzE0SDQuMjg2di0uODU4SDUuNTd2LTEuMjg1SDQuMjg2di0uODU3SDUuNTdWNy43MTRINC4yODZ2LS44NTdINS41N1Y2LjhhLjguOCAwIDAgMSAuOC0uNzk5aC4wNThWNC4yODZoLjg1N1Y2SDlWNC4yODZoLjg1N1Y2aDEuNzE0VjQuMjg2aC44NThWNmgxLjI4NVY0LjI4NmguODU3VjZoMS43MTVWNC4yODZoLjg1N1Y2aC4wNThhLjguOCAwIDAgMSAuNzk5Ljc5OXYuMDU4Wk0xMi40MjkgMjMuMDlhLjA1NC4wNTQgMCAwIDEtLjA1NC4wNTNILjkxYS4wNTMuMDUzIDAgMCAxLS4wNTMtLjA1M1YxMS42MjVjMC0uMDMuMDI0LS4wNTQuMDUzLS4wNTRoMi41MnYtLjg1N0guOTFhLjkxMS45MTEgMCAwIDAtLjkxLjkxVjIzLjA5YzAgLjUwMi40MDguOTEuOTEuOTFoMTEuNDY1YS45MS45MSAwIDAgMCAuOTEtLjkxVjIxaC0uODU2Wk0yNCAuOTF2MTEuNDY1YS45MS45MSAwIDAgMS0uOTEuOTFoLTIuNTJ2LS44NTZoMi41MTlhLjA1NC4wNTQgMCAwIDAgLjA1My0uMDU0Vi45MWEuMDUzLjA1MyAwIDAgMC0uMDUzLS4wNTNIMTEuNjI1YS4wNTMuMDUzIDAgMCAwLS4wNTQuMDUzdjIuNTJoLS44NTdWLjkxYzAtLjUwMi40MDktLjkxLjkxLS45MUgyMy4wOWEuOTEuOTEgMCAwIDEgLjkxLjkxWiIvPjwvc3ZnPg==">
+<style>
+  :root{--ac:#ED7100;--acd:#9c4d00;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRUQ3MTAwIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIEVDMjwvdGl0bGU+PHBhdGggZD0iTTYuNDI5IDE3LjU3MWgxMC43MTRWNi44NTdINi40Mjl2MTAuNzE0Wk0xOCA2Ljg1N2gxLjcxNHYuODU3SDE4VjkuNDNoMS43MTR2Ljg1N0gxOHYxLjI4NWgxLjcxNHYuODU4SDE4djEuNzE0aDEuNzE0VjE1SDE4djEuNzE0aDEuNzE0di44NTdIMTh2LjA1OWEuOC44IDAgMCAxLS43OTkuNzk5aC0uMDU4djEuNzE0aC0uODU3di0xLjcxNEgxNC41N3YxLjcxNGgtLjg1N3YtMS43MTRIMTIuNDN2MS43MTRoLS44NTh2LTEuNzE0SDkuODU3djEuNzE0SDl2LTEuNzE0SDcuMjg2djEuNzE0aC0uODU3di0xLjcxNEg2LjM3YS44LjggMCAwIDEtLjc5OS0uOHYtLjA1OEg0LjI4NnYtLjg1N0g1LjU3VjE1SDQuMjg2di0uODU3SDUuNTd2LTEuNzE0SDQuMjg2di0uODU4SDUuNTd2LTEuMjg1SDQuMjg2di0uODU3SDUuNTdWNy43MTRINC4yODZ2LS44NTdINS41N1Y2LjhhLjguOCAwIDAgMSAuOC0uNzk5aC4wNThWNC4yODZoLjg1N1Y2SDlWNC4yODZoLjg1N1Y2aDEuNzE0VjQuMjg2aC44NThWNmgxLjI4NVY0LjI4NmguODU3VjZoMS43MTVWNC4yODZoLjg1N1Y2aC4wNThhLjguOCAwIDAgMSAuNzk5Ljc5OXYuMDU4Wk0xMi40MjkgMjMuMDlhLjA1NC4wNTQgMCAwIDEtLjA1NC4wNTNILjkxYS4wNTMuMDUzIDAgMCAxLS4wNTMtLjA1M1YxMS42MjVjMC0uMDMuMDI0LS4wNTQuMDUzLS4wNTRoMi41MnYtLjg1N0guOTFhLjkxMS45MTEgMCAwIDAtLjkxLjkxVjIzLjA5YzAgLjUwMi40MDguOTEuOTEuOTFoMTEuNDY1YS45MS45MSAwIDAgMCAuOTEtLjkxVjIxaC0uODU2Wk0yNCAuOTF2MTEuNDY1YS45MS45MSAwIDAgMS0uOTEuOTFoLTIuNTJ2LS44NTZoMi41MTlhLjA1NC4wNTQgMCAwIDAgLjA1My0uMDU0Vi45MWEuMDUzLjA1MyAwIDAgMC0uMDUzLS4wNTNIMTEuNjI1YS4wNTMuMDUzIDAgMCAwLS4wNTQuMDUzdjIuNTJoLS44NTdWLjkxYzAtLjUwMi40MDktLjkxLjkxLS45MUgyMy4wOWEuOTEuOTEgMCAwIDEgLjkxLjkxWiIvPjwvc3ZnPg==" width="110" alt="Amazon EC2 logo" /><h1 id="amazon-ec2--complete-notes">Amazon EC2 — Complete Notes</h1>
+<p><strong>Elastic Compute Cloud</strong> · Resizable virtual servers on AWS</p>
+<p><img src="https://img.shields.io/badge/AWS-EC2-ED7100?style=flat-square&logo=amazonec2&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Service-Compute-orange?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Pricing-Pay%20as%20you%20go-blue?style=flat-square" alt="Model">
+<img src="https://img.shields.io/badge/Scaling-Elastic-lightgrey?style=flat-square" alt="Scaling"></p>
+<p><em>A reader-friendly, all-in-one reference for Amazon EC2.</em></p>
+<p><a class="dl-btn" href="amazon-ec2-notes.pdf" download="amazon-ec2-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-ec2">What is EC2</a></li>
+<li><a href="#2--core-concepts">Core Concepts</a></li>
+<li><a href="#3--instance-types--families">Instance Types &amp; Families</a></li>
+<li><a href="#4--ami-amazon-machine-image">AMI (Amazon Machine Image)</a></li>
+<li><a href="#5--purchasing--pricing-options">Purchasing / Pricing Options</a></li>
+<li><a href="#6--storage-options">Storage Options</a></li>
+<li><a href="#7--networking">Networking</a></li>
+<li><a href="#8--security-groups--nacls">Security Groups &amp; NACLs</a></li>
+<li><a href="#9--key-pairs--iam-roles">Key Pairs &amp; IAM Roles</a></li>
+<li><a href="#10--user-data--instance-metadata">User Data &amp; Instance Metadata</a></li>
+<li><a href="#11--placement-groups">Placement Groups</a></li>
+<li><a href="#12--auto-scaling">Auto Scaling</a></li>
+<li><a href="#13--load-balancing">Load Balancing</a></li>
+<li><a href="#14--instance-lifecycle">Instance Lifecycle</a></li>
+<li><a href="#15--monitoring--status-checks">Monitoring &amp; Status Checks</a></li>
+<li><a href="#16--pricing">Pricing</a></li>
+<li><a href="#17--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#18--key-limits--numbers">Key Limits &amp; Numbers</a></li>
+<li><a href="#19--ways-to-connect-to-ec2">Ways to Connect to EC2</a></li>
+<li><a href="#20--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-ec2">1. 🖥️ What is EC2</h2>
+<p>Amazon EC2 (<strong>Elastic Compute Cloud</strong>) provides <strong>resizable virtual servers</strong> (&quot;instances&quot;) in the cloud. You launch a machine with a chosen OS, CPU, memory, storage, and network capacity in minutes, pay only while it runs, and scale up/down or in/out on demand.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> EC2 is <strong>Infrastructure as a Service (IaaS)</strong> — AWS manages the physical host, hypervisor, and data center; <strong>you</strong> manage the OS, patches, runtime, and your application.</p>
+</blockquote>
+<p><strong>Why use it:</strong> full control of the OS, any software stack, predictable VM model, lift-and-shift of existing apps, and a huge range of instance sizes (from tiny burstable to GPU/HPC monsters).</p>
+<p><strong>Common uses:</strong> web/app servers, batch processing, dev/test, databases, game servers, ML training/inference, HPC, hosting almost anything you&#39;d run on a physical server.</p>
+<hr>
+<h2 id="2--core-concepts">2. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Instance</strong></td>
+<td>A running virtual machine.</td>
+</tr>
+<tr>
+<td><strong>AMI</strong></td>
+<td>Amazon Machine Image — the template (OS + config + software) an instance boots from.</td>
+</tr>
+<tr>
+<td><strong>Instance Type</strong></td>
+<td>The hardware profile: vCPUs, memory, network, storage (e.g. <code>t3.micro</code>, <code>m6i.large</code>).</td>
+</tr>
+<tr>
+<td><strong>Region / AZ</strong></td>
+<td>Instances run in an Availability Zone within a Region.</td>
+</tr>
+<tr>
+<td><strong>Key Pair</strong></td>
+<td>Public/private SSH key for login (private key is yours; never re-downloadable).</td>
+</tr>
+<tr>
+<td><strong>Security Group</strong></td>
+<td>Stateful virtual firewall attached to the instance&#39;s network interface.</td>
+</tr>
+<tr>
+<td><strong>EBS Volume</strong></td>
+<td>Network-attached persistent block storage (virtual disk).</td>
+</tr>
+<tr>
+<td><strong>Elastic IP</strong></td>
+<td>A static public IPv4 you own and can remap between instances.</td>
+</tr>
+<tr>
+<td><strong>ENI</strong></td>
+<td>Elastic Network Interface — a virtual NIC (IP, MAC, security groups).</td>
+</tr>
+<tr>
+<td><strong>User Data</strong></td>
+<td>A script run at first boot to bootstrap the instance.</td>
+</tr>
+<tr>
+<td><strong>Tags</strong></td>
+<td>Key-value labels for organization, cost allocation, automation.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--instance-types--families">3. ⚙️ Instance Types &amp; Families</h2>
+<p>Instance types are grouped into <strong>families</strong> optimized for different workloads. Naming: <code>m6i.large</code> → <code>m</code> family, <code>6</code> generation, <code>i</code> Intel (<code>a</code>=AMD, <code>g</code>=Graviton/ARM), <code>large</code> size.</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Optimized for</th>
+<th>Examples</th>
+<th>Use cases</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>General Purpose</strong></td>
+<td>Balanced CPU/mem</td>
+<td><code>t3</code>, <code>t4g</code>, <code>m6i</code>, <code>m7g</code></td>
+<td>Web servers, small DBs, dev/test</td>
+</tr>
+<tr>
+<td><strong>Compute Optimized</strong></td>
+<td>High CPU</td>
+<td><code>c6i</code>, <code>c7g</code></td>
+<td>Batch, gaming, HPC, media encoding</td>
+</tr>
+<tr>
+<td><strong>Memory Optimized</strong></td>
+<td>High RAM</td>
+<td><code>r6i</code>, <code>x2idn</code>, <code>u-</code> (high mem)</td>
+<td>In-memory DBs, caches, big data, SAP HANA</td>
+</tr>
+<tr>
+<td><strong>Storage Optimized</strong></td>
+<td>High local disk IOPS/throughput</td>
+<td><code>i4i</code>, <code>d3</code>, <code>im4gn</code></td>
+<td>NoSQL, data warehouses, log processing</td>
+</tr>
+<tr>
+<td><strong>Accelerated Computing</strong></td>
+<td>GPUs / FPGAs / accelerators</td>
+<td><code>p5</code>, <code>g5</code>, <code>inf2</code>, <code>trn1</code></td>
+<td>ML training/inference, graphics, HPC</td>
+</tr>
+<tr>
+<td><strong>HPC Optimized</strong></td>
+<td>Tightly-coupled HPC</td>
+<td><code>hpc7g</code>, <code>hpc6id</code></td>
+<td>Simulations, weather, genomics</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>T-family (burstable):</strong> <code>t2</code>/<code>t3</code>/<code>t4g</code> accumulate <strong>CPU credits</strong> when idle and spend them to burst. Great for spiky low-average workloads; watch out for credit exhaustion (or use <em>unlimited</em> mode).
+<strong>Graviton (<code>g</code> suffix):</strong> AWS ARM CPUs — better price/performance for many workloads.</p>
+</blockquote>
+<hr>
+<h2 id="4--ami-amazon-machine-image">4. 💿 AMI (Amazon Machine Image)</h2>
+<p>An AMI is the <strong>template</strong> an instance boots from: the root volume image (OS + software), launch permissions, and a block-device mapping.</p>
+<ul>
+<li><strong>Sources:</strong> AWS-provided (Amazon Linux, Ubuntu, Windows…), AWS Marketplace, community AMIs, or <strong>your own custom AMI</strong>.</li>
+<li><strong>Custom AMIs</strong> bake in your software/config → faster, repeatable launches (golden image).</li>
+<li>AMIs are <strong>region-scoped</strong> — copy an AMI to another region to use it there.</li>
+<li>Can be <strong>private, shared with specific accounts, or public</strong>.</li>
+<li>Backed by <strong>EBS snapshots</strong> (most common) or instance store.</li>
+</ul>
+<blockquote>
+<p>🛠️ Typical flow: launch instance → configure it → <strong>Create Image</strong> → launch many identical instances from that AMI (often via a Launch Template + Auto Scaling).</p>
+</blockquote>
+<hr>
+<h2 id="5--purchasing--pricing-options">5. 💵 Purchasing / Pricing Options</h2>
+<p>Pick the model by commitment and tolerance for interruption.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>How it works</th>
+<th>Savings</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>On-Demand</strong></td>
+<td>Pay per second/hour, no commitment</td>
+<td>Baseline (most expensive)</td>
+<td>Spiky / short-term / unpredictable workloads</td>
+</tr>
+<tr>
+<td><strong>Savings Plans</strong></td>
+<td>Commit to $/hour for 1 or 3 yrs</td>
+<td>Up to ~72%</td>
+<td>Steady compute usage, flexible across types (Compute SP)</td>
+</tr>
+<tr>
+<td><strong>Reserved Instances (RI)</strong></td>
+<td>Commit to a specific type/region 1–3 yrs</td>
+<td>Up to ~72%</td>
+<td>Steady-state, known instance shape</td>
+</tr>
+<tr>
+<td><strong>Spot Instances</strong></td>
+<td>Bid on spare capacity, can be reclaimed with 2-min notice</td>
+<td>Up to ~90%</td>
+<td>Fault-tolerant, stateless, batch, CI, big data</td>
+</tr>
+<tr>
+<td><strong>Dedicated Hosts</strong></td>
+<td>A whole physical server for you</td>
+<td>—</td>
+<td>Licensing (BYOL), compliance, socket-based licenses</td>
+</tr>
+<tr>
+<td><strong>Dedicated Instances</strong></td>
+<td>Hardware isolated at the account level</td>
+<td>—</td>
+<td>Isolation without managing the host</td>
+</tr>
+<tr>
+<td><strong>Capacity Reservations</strong></td>
+<td>Reserve capacity in an AZ, no term commitment</td>
+<td>—</td>
+<td>Guaranteeing capacity (e.g. for failover/events)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>Spot tips:</strong> use Spot for interruptible work, handle the 2-minute interruption notice, and mix with On-Demand via <strong>Auto Scaling mixed instances policy</strong> or <strong>EC2 Fleet / Spot Fleet</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="6--storage-options">6. 💾 Storage Options</h2>
+<table>
+<thead>
+<tr>
+<th>Storage</th>
+<th>Type</th>
+<th>Persists?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EBS</strong> (Elastic Block Store)</td>
+<td>Network block volume</td>
+<td>✅ Yes (independent of instance)</td>
+<td>Most common root + data disk. Snapshot to S3. One AZ.</td>
+</tr>
+<tr>
+<td><strong>Instance Store</strong></td>
+<td>Local physical disk on host</td>
+<td>❌ No (lost on stop/terminate)</td>
+<td>Very fast/ephemeral; for caches, scratch, temp data.</td>
+</tr>
+<tr>
+<td><strong>EFS</strong> (Elastic File System)</td>
+<td>Managed NFS (multi-AZ)</td>
+<td>✅ Yes</td>
+<td>Shared POSIX file system across many instances (Linux).</td>
+</tr>
+<tr>
+<td><strong>FSx</strong></td>
+<td>Managed file systems</td>
+<td>✅ Yes</td>
+<td>Windows File Server, Lustre (HPC), NetApp ONTAP, OpenZFS.</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td>Object storage</td>
+<td>✅ Yes</td>
+<td>Not a disk; accessed via API for backups, data, artifacts.</td>
+</tr>
+</tbody></table>
+<p><strong>EBS volume types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Class</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>gp3 / gp2</strong></td>
+<td>General-purpose SSD</td>
+<td>Default; boot volumes, most workloads (gp3 = baseline 3,000 IOPS, independent throughput)</td>
+</tr>
+<tr>
+<td><strong>io2 Block Express / io1</strong></td>
+<td>Provisioned IOPS SSD</td>
+<td>High-performance DBs, low-latency, high IOPS</td>
+</tr>
+<tr>
+<td><strong>st1</strong></td>
+<td>Throughput-optimized HDD</td>
+<td>Big data, log processing, streaming (sequential)</td>
+</tr>
+<tr>
+<td><strong>sc1</strong></td>
+<td>Cold HDD</td>
+<td>Infrequent access, lowest cost</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>EBS volumes are <strong>AZ-scoped</strong>; <strong>snapshots</strong> (stored in S3, regional) let you back up, copy across AZs/regions, and create AMIs.</p>
+</blockquote>
+<hr>
+<h2 id="7--networking">7. 🌐 Networking</h2>
+<ul>
+<li><strong>VPC</strong> — your isolated virtual network. Instances launch into a <strong>subnet</strong> within an AZ.</li>
+<li><strong>Public subnet</strong> → has a route to an <strong>Internet Gateway (IGW)</strong>. <strong>Private subnet</strong> → reaches the internet only via a <strong>NAT Gateway</strong>.</li>
+<li><strong>Private IP</strong> — internal, stays with the instance for its life. <strong>Public IP</strong> — internet-facing, <strong>changes on stop/start</strong> (dynamic).</li>
+<li><strong>Elastic IP (EIP)</strong> — a <strong>static</strong> public IPv4 you own; remap it between instances. (Charged when allocated but not in use.)</li>
+<li><strong>ENI</strong> — virtual network card; an instance can have multiple ENIs / multiple IPs.</li>
+<li><strong>Enhanced Networking (ENA / SR-IOV)</strong> and <strong>placement groups</strong> boost throughput / lower latency.</li>
+<li><strong>IPv6</strong> supported; <strong>Bandwidth</strong> scales with instance size.</li>
+</ul>
+<blockquote>
+<p>Connectivity to other networks: <strong>VPC Peering</strong>, <strong>Transit Gateway</strong>, <strong>VPN</strong>, <strong>Direct Connect</strong>, <strong>PrivateLink / VPC endpoints</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="8--security-groups--nacls">8. 🛡️ Security Groups &amp; NACLs</h2>
+<p>Two layers of network filtering — know the difference:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Security Group</strong></th>
+<th><strong>Network ACL (NACL)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Scope</td>
+<td>Instance / ENI level</td>
+<td>Subnet level</td>
+</tr>
+<tr>
+<td>State</td>
+<td><strong>Stateful</strong> (return traffic auto-allowed)</td>
+<td><strong>Stateless</strong> (must allow both directions)</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td><strong>Allow only</strong></td>
+<td>Allow <strong>and</strong> Deny</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>All rules evaluated</td>
+<td>Rules in <strong>numbered order</strong>, first match wins</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Deny all inbound, allow all outbound</td>
+<td>Default NACL allows all; custom denies all</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>✅ <strong>Best practice:</strong> reference <strong>other security groups</strong> as sources (not raw IPs) for tier-to-tier rules; open only the ports you need (e.g. 22/SSH, 443/HTTPS) and restrict source CIDRs.</p>
+</blockquote>
+<hr>
+<h2 id="9--key-pairs--iam-roles">9. 🔑 Key Pairs &amp; IAM Roles</h2>
+<p><strong>Key Pairs (SSH/RDP login):</strong></p>
+<ul>
+<li>AWS stores the <strong>public</strong> key; you keep the <strong>private</strong> key (<code>.pem</code>). It is shown <strong>only once at creation</strong> — losing it means you can&#39;t SSH in (recover via other methods).</li>
+<li>Linux: SSH with the private key (<code>ssh -i key.pem ec2-user@ip</code>). Windows: decrypt the admin password with the private key for RDP.</li>
+</ul>
+<p><strong>IAM Roles / Instance Profiles:</strong></p>
+<ul>
+<li>Attach an <strong>IAM role</strong> to an instance so apps on it get <strong>temporary credentials</strong> automatically (via the metadata service) — <strong>never hard-code access keys</strong> on an instance.</li>
+<li>The role defines what AWS APIs the instance may call (e.g. read an S3 bucket, write CloudWatch logs).</li>
+</ul>
+<hr>
+<h2 id="10--user-data--instance-metadata">10. 📜 User Data &amp; Instance Metadata</h2>
+<p><strong>User Data</strong></p>
+<ul>
+<li>A script (bash / PowerShell / cloud-init) passed at launch and run <strong>once on first boot</strong> to bootstrap (install packages, configure, pull code).</li>
+<li>Can be set to run on every boot with extra config.</li>
+</ul>
+<p><strong>Instance Metadata Service (IMDS)</strong></p>
+<ul>
+<li>Reachable from inside the instance at <code>http://169.254.169.254/latest/meta-data/</code> — exposes instance id, AMI id, IP, IAM role credentials, user data, etc.</li>
+<li><strong>Use IMDSv2</strong> (session/token-based) — more secure against SSRF than the legacy IMDSv1. Enforce it (<code>HttpTokens=required</code>).</li>
+</ul>
+<pre><code class="language-bash"># Example: fetch metadata using IMDSv2
+TOKEN=$(curl -s -X PUT &quot;http://169.254.169.254/latest/api/token&quot; \
+  -H &quot;X-aws-ec2-metadata-token-ttl-seconds: 21600&quot;)
+curl -s -H &quot;X-aws-ec2-metadata-token: $TOKEN&quot; \
+  http://169.254.169.254/latest/meta-data/instance-id
+</code></pre>
+<hr>
+<h2 id="11--placement-groups">11. 📍 Placement Groups</h2>
+<p>Control how instances are physically placed to balance performance vs. resilience:</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Placement</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Cluster</strong></td>
+<td>Packed close in one AZ</td>
+<td>Low latency, high throughput (HPC, tight node-to-node)</td>
+</tr>
+<tr>
+<td><strong>Spread</strong></td>
+<td>Spread across distinct hardware/racks</td>
+<td>Critical instances that must not share failure domains</td>
+</tr>
+<tr>
+<td><strong>Partition</strong></td>
+<td>Grouped into isolated partitions</td>
+<td>Large distributed/replicated systems (HDFS, Kafka, Cassandra)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="12--auto-scaling">12. 📈 Auto Scaling</h2>
+<p><strong>EC2 Auto Scaling Group (ASG)</strong> automatically adjusts the number of instances to match demand.</p>
+<ul>
+<li><strong>Launch Template</strong> (preferred over launch config) defines <em>what</em> to launch (AMI, type, key, SGs, user data).</li>
+<li><strong>Min / Desired / Max</strong> capacity bounds the group.</li>
+<li><strong>Scaling policies:</strong> Target Tracking (e.g. keep CPU at 50%), Step scaling, Simple scaling, Scheduled scaling, Predictive scaling.</li>
+<li><strong>Health checks</strong> (EC2 or ELB) replace unhealthy instances automatically → <strong>self-healing</strong>.</li>
+<li>Spread instances across <strong>multiple AZs</strong> for high availability.</li>
+<li>Integrates with <strong>ELB</strong> to register/deregister instances automatically.</li>
+</ul>
+<blockquote>
+<p>💡 Auto Scaling = elasticity (right-size to load) <strong>and</strong> resilience (auto-replace failed nodes). It does <strong>not</strong> cost extra — you pay only for the instances.</p>
+</blockquote>
+<hr>
+<h2 id="13--load-balancing">13. ⚖️ Load Balancing</h2>
+<p><strong>Elastic Load Balancing (ELB)</strong> distributes traffic across instances/targets in multiple AZs.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Layer</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ALB</strong> (Application LB)</td>
+<td>L7 (HTTP/HTTPS)</td>
+<td>Web apps, path/host routing, microservices, containers</td>
+</tr>
+<tr>
+<td><strong>NLB</strong> (Network LB)</td>
+<td>L4 (TCP/UDP/TLS)</td>
+<td>Ultra-high performance, static IP, low latency</td>
+</tr>
+<tr>
+<td><strong>GWLB</strong> (Gateway LB)</td>
+<td>L3</td>
+<td>Deploying virtual appliances (firewalls, IDS/IPS)</td>
+</tr>
+<tr>
+<td><strong>CLB</strong> (Classic, legacy)</td>
+<td>L4/L7</td>
+<td>Older accounts only — avoid for new work</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Pair ELB + Auto Scaling across AZs for a highly available, self-healing tier. Use <strong>health checks</strong> so traffic only goes to healthy targets.</p>
+</blockquote>
+<hr>
+<h2 id="14--instance-lifecycle">14. 🔄 Instance Lifecycle</h2>
+<p><strong>States:</strong> <code>pending → running → stopping → stopped → shutting-down → terminated</code> (also <code>rebooting</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>What happens</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Stop</strong></td>
+<td>Shuts down; EBS root persists; public IP released</td>
+<td>EBS data kept; instance-store lost</td>
+</tr>
+<tr>
+<td><strong>Start</strong></td>
+<td>Boots again (maybe new host, new public IP)</td>
+<td>EBS data intact</td>
+</tr>
+<tr>
+<td><strong>Reboot</strong></td>
+<td>Restart in place; stays on same host</td>
+<td>Everything kept (incl. instance store)</td>
+</tr>
+<tr>
+<td><strong>Hibernate</strong></td>
+<td>RAM saved to EBS, resumes state on start</td>
+<td>Memory preserved (size/AMI limits apply)</td>
+</tr>
+<tr>
+<td><strong>Terminate</strong></td>
+<td>Instance deleted</td>
+<td>Root EBS deleted by default (unless &quot;delete on termination&quot; off); attached data volumes per setting</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ <strong>Stop ≠ Terminate.</strong> Terminate is permanent. Enable <strong>termination protection</strong> for important instances. Instance-store data is <strong>always lost</strong> on stop/terminate.</p>
+</blockquote>
+<hr>
+<h2 id="15--monitoring--status-checks">15. 📊 Monitoring &amp; Status Checks</h2>
+<ul>
+<li><strong>CloudWatch metrics</strong> (default, 5-min; <strong>detailed</strong> = 1-min, extra cost): CPU, network, disk I/O, status checks. <em>Note: memory &amp; disk usage need the <strong>CloudWatch agent</strong>.</em></li>
+<li><strong>Status checks:</strong><ul>
+<li><strong>System status check</strong> — AWS infrastructure (host, network, power). Fix = stop/start (moves to new host).</li>
+<li><strong>Instance status check</strong> — the instance/OS itself (bad config, exhausted memory, kernel). Fix = reboot / fix OS.</li>
+</ul>
+</li>
+<li><strong>CloudWatch Alarms</strong> → trigger actions (notify, auto-recover, scale, stop/terminate).</li>
+<li><strong>EC2 Auto Recovery</strong> for failed system checks; <strong>CloudWatch Logs</strong> + agent for app/OS logs.</li>
+<li><strong>CloudTrail</strong> logs EC2 API calls for audit.</li>
+</ul>
+<hr>
+<h2 id="16--pricing">16. 💰 Pricing</h2>
+<p>You pay for:</p>
+<ol>
+<li><strong>Instance compute</strong> — per second (min 60s) or hour, by type &amp; purchase option.</li>
+<li><strong>EBS storage</strong> — per GB-month provisioned, plus IOPS/throughput for io/gp3, plus snapshots.</li>
+<li><strong>Data transfer OUT</strong> — to internet <em>(IN is free; cross-AZ and inter-region transfer is charged)</em>.</li>
+<li><strong>Elastic IPs</strong> — free while attached to a running instance; charged when allocated and idle.</li>
+<li><strong>Extras</strong> — detailed monitoring, ELB hours + LCUs, NAT Gateway, etc.</li>
+</ol>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> right-size instances · use <strong>Graviton</strong> for price/performance · <strong>Spot</strong> for interruptible work · <strong>Savings Plans/RIs</strong> for steady usage · <strong>stop</strong> non-prod overnight · delete unused EBS volumes + old snapshots · release idle EIPs · use <strong>Compute Optimizer</strong> recommendations.</p>
+</blockquote>
+<hr>
+<h2 id="17--common-cli-commands">17. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash"># List instances (id, type, state)
+aws ec2 describe-instances \
+  --query &#39;Reservations[].Instances[].[InstanceId,InstanceType,State.Name]&#39; --output table
+
+aws ec2 run-instances --image-id ami-123 --instance-type t3.micro \
+  --key-name mykey --security-group-ids sg-123 --subnet-id subnet-123  # launch
+
+aws ec2 stop-instances      --instance-ids i-123     # stop
+aws ec2 start-instances     --instance-ids i-123     # start
+aws ec2 reboot-instances    --instance-ids i-123     # reboot
+aws ec2 terminate-instances --instance-ids i-123     # terminate
+
+aws ec2 describe-instance-status --instance-ids i-123   # status checks
+aws ec2 create-image --instance-id i-123 --name &quot;my-ami&quot;  # bake an AMI
+aws ec2 describe-security-groups                          # list SGs
+aws ec2 allocate-address                                  # get an Elastic IP
+
+# Connect without SSH keys (needs SSM agent + IAM role)
+aws ssm start-session --target i-123
+</code></pre>
+<hr>
+<h2 id="18--key-limits--numbers">18. 📌 Key Limits &amp; Numbers</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Billing granularity</td>
+<td>Per-second (60s minimum) for Linux; per-hour for some</td>
+</tr>
+<tr>
+<td>Spot interruption notice</td>
+<td><strong>2 minutes</strong></td>
+</tr>
+<tr>
+<td>Default running On-Demand limit</td>
+<td>vCPU-based quota per family (adjustable)</td>
+</tr>
+<tr>
+<td>Security groups per ENI</td>
+<td>5 (default, up to 16 on request)</td>
+</tr>
+<tr>
+<td>Rules per security group</td>
+<td>60 inbound + 60 outbound (default)</td>
+</tr>
+<tr>
+<td>EBS volume size</td>
+<td>1 GiB – 64 TiB (per volume)</td>
+</tr>
+<tr>
+<td>Max IOPS (io2 Block Express)</td>
+<td>up to 256,000</td>
+</tr>
+<tr>
+<td>Elastic IPs per region</td>
+<td>5 (default, adjustable)</td>
+</tr>
+<tr>
+<td>Metadata endpoint</td>
+<td><code>169.254.169.254</code> (link-local)</td>
+</tr>
+<tr>
+<td>EBS snapshots</td>
+<td>Stored in S3, incremental, regional</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="19--ways-to-connect-to-ec2">19. 🔌 Ways to Connect to EC2</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SSH</strong></td>
+<td><code>ssh -i key.pem ec2-user@&lt;public-ip&gt;</code> (Linux)</td>
+<td>Direct Linux access with a key pair + port 22 open</td>
+</tr>
+<tr>
+<td><strong>RDP</strong></td>
+<td>Decrypt admin password with private key, connect via RDP client (port 3389)</td>
+<td>Windows instances</td>
+</tr>
+<tr>
+<td><strong>EC2 Instance Connect</strong></td>
+<td>Browser/CLI push of a temporary SSH key (Amazon Linux/Ubuntu)</td>
+<td>Quick keyless-feeling SSH without managing keys</td>
+</tr>
+<tr>
+<td><strong>SSM Session Manager</strong></td>
+<td><code>aws ssm start-session --target i-123</code></td>
+<td><strong>No open inbound ports, no key pair</strong> — needs SSM agent + IAM role. Most secure; auditable.</td>
+</tr>
+<tr>
+<td><strong>Serial Console</strong></td>
+<td>Browser serial connection</td>
+<td>Troubleshooting boot/network issues</td>
+</tr>
+<tr>
+<td><strong>Bastion / Jump host</strong></td>
+<td>SSH through a public bastion to private instances</td>
+<td>Reaching instances in private subnets</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>🔐 <strong>Best practice:</strong> prefer <strong>SSM Session Manager</strong> — it removes the need for open SSH ports, bastions, and long-lived keys, and logs every session. Default OS users: Amazon Linux <code>ec2-user</code>, Ubuntu <code>ubuntu</code>, RHEL <code>ec2-user</code>/<code>root</code>, Debian <code>admin</code>.</p>
+</blockquote>
+<h3 id="-quick-pick-guide">🧭 Quick pick guide</h3>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Quick Linux shell, key in hand</td>
+<td>SSH</td>
+</tr>
+<tr>
+<td>Windows desktop</td>
+<td>RDP</td>
+</tr>
+<tr>
+<td>No keys / no open ports / audited</td>
+<td>SSM Session Manager</td>
+</tr>
+<tr>
+<td>One-off SSH without storing keys</td>
+<td>EC2 Instance Connect</td>
+</tr>
+<tr>
+<td>Instance won&#39;t boot / network broken</td>
+<td>Serial Console</td>
+</tr>
+<tr>
+<td>Private-subnet instance</td>
+<td>Bastion host or SSM</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="20--quick-mental-model">20. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>EC2 = rentable virtual servers.</strong> You manage the OS and up; AWS manages the hardware.</li>
+<li>Choose an <strong>AMI</strong> (the image) + an <strong>instance type</strong> (the hardware) + a <strong>subnet</strong> (the network).</li>
+<li><strong>Security Groups</strong> are your stateful firewall; open only what you need.</li>
+<li>Use <strong>EBS</strong> for persistent disks, <strong>snapshots</strong> for backups, <strong>instance store</strong> only for scratch.</li>
+<li>Pick a <strong>pricing model</strong>: On-Demand (flexible) · Spot (cheap + interruptible) · Savings Plans/RIs (steady).</li>
+<li><strong>Auto Scaling + ELB across AZs</strong> = elastic, self-healing, highly available.</li>
+<li>Give instances an <strong>IAM role</strong>, never hard-coded keys; use <strong>IMDSv2</strong>.</li>
+<li>Prefer <strong>SSM Session Manager</strong> to connect — no open ports, no key sprawl.</li>
+<li><strong>Monitor</strong> with CloudWatch + status checks; <strong>right-size</strong> relentlessly to control cost.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon EC2.</em></p>
+</div>
+</main></body></html>
