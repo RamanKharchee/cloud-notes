@@ -13,6 +13,14 @@
 
 *A reader-friendly, all-in-one reference for Amazon S3.*
 
+<!--PDF-BUTTON-START-->
+
+[<img src="https://img.shields.io/badge/⬇%20Download%20as%20PDF-569A31?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Download as PDF" height="40">](https://github.com/RamanKharchee/cloud-notes/raw/main/amazon-s3-notes.pdf)
+
+<sub>Opens the rendered PDF — use your browser's download button to save it.</sub>
+
+<!--PDF-BUTTON-END-->
+
 </div>
 
 ---
