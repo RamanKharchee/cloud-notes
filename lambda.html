@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS Lambda — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkY5OTAwIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QVdTIExhbWJkYTwvdGl0bGU+PHBhdGggZD0iTTQuOTg1NSAwYy0uMjk0MS4wMDMxLS41MzM1LjI0NjYtLjUzNC41NDgyTDQuNDQ2IDUuNDU2YzAgLjE0NTEuMDYuMjgzNS4xNTkuMzg5MWEuNTMyMi41MzIyIDAgMCAwIC4zODA2LjE1NjJoMy40MjgybDguMTk3IDE3LjY4MDVhLjUzNjUuNTM2NSAwIDAgMCAuNDg4NS4zMTgxaDUuODExYy4yOTY5IDAgLjU0MjYtLjI0NDguNTQyNi0uNTQ4MlYxOC41NDRjMC0uMzAzNS0uMjM5Mi0uNTQ4Mi0uNTQyNS0uNTQ4MmgtMi4wMTM4TDEyLjczOTQuMzE1M0MxMi42NDcuMTI0IDEyLjQ1NjQgMCAxMi4yNDUyIDBoLTcuMjU0Wm0uNTM5NyAxLjA5MDdoNi4zNjc4bDguMTYgMTcuNjgwNGEuNTM2NS41MzY1IDAgMCAwIC40ODg1LjMxODFoMS44MTc4djMuODE3M0gxNy40MzdMOS4yNDAyIDUuMjI2YS41MzYuNTM2IDAgMCAwLS40ODg1LS4zMThINS41MjIzWm0yLjAxMzcgOC4yMzY2Yy0uMjA5OC4wMDExLS4zOTM3LjExOTMtLjQ4NTcuMzA5NkwuNjAwMiAyMy4yMTMzYS41NTA2LjU1MDYgMCAwIDAgLjAzMTMuNTI4Mi41MzM0LjUzMzQgMCAwIDAgLjQ1NDQuMjVoNi4xNjlhLjU0NjguNTQ2OCAwIDAgMCAuNDk3LS4zMDk2bDMuMzgtNy4xNjZhLjU0MDUuNTQwNSAwIDAgMC0uMDAyOS0uNDY4Nkw4LjAzNiA5LjYzN2EuNTQ2OC41NDY4IDAgMCAwLS40OTQyLS4zMDk2Wm0uMDA1NyAxLjgwMzYgMi40ODggNS4xNTIyLTMuMTIxNCA2LjYyMDZIMS45NDY1WiIvPjwvc3ZnPg==">
+<style>
+  :root{--ac:#FF9900;--acd:#b36b00;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkY5OTAwIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QVdTIExhbWJkYTwvdGl0bGU+PHBhdGggZD0iTTQuOTg1NSAwYy0uMjk0MS4wMDMxLS41MzM1LjI0NjYtLjUzNC41NDgyTDQuNDQ2IDUuNDU2YzAgLjE0NTEuMDYuMjgzNS4xNTkuMzg5MWEuNTMyMi41MzIyIDAgMCAwIC4zODA2LjE1NjJoMy40MjgybDguMTk3IDE3LjY4MDVhLjUzNjUuNTM2NSAwIDAgMCAuNDg4NS4zMTgxaDUuODExYy4yOTY5IDAgLjU0MjYtLjI0NDguNTQyNi0uNTQ4MlYxOC41NDRjMC0uMzAzNS0uMjM5Mi0uNTQ4Mi0uNTQyNS0uNTQ4MmgtMi4wMTM4TDEyLjczOTQuMzE1M0MxMi42NDcuMTI0IDEyLjQ1NjQgMCAxMi4yNDUyIDBoLTcuMjU0Wm0uNTM5NyAxLjA5MDdoNi4zNjc4bDguMTYgMTcuNjgwNGEuNTM2NS41MzY1IDAgMCAwIC40ODg1LjMxODFoMS44MTc4djMuODE3M0gxNy40MzdMOS4yNDAyIDUuMjI2YS41MzYuNTM2IDAgMCAwLS40ODg1LS4zMThINS41MjIzWm0yLjAxMzcgOC4yMzY2Yy0uMjA5OC4wMDExLS4zOTM3LjExOTMtLjQ4NTcuMzA5NkwuNjAwMiAyMy4yMTMzYS41NTA2LjU1MDYgMCAwIDAgLjAzMTMuNTI4Mi41MzM0LjUzMzQgMCAwIDAgLjQ1NDQuMjVoNi4xNjlhLjU0NjguNTQ2OCAwIDAgMCAuNDk3LS4zMDk2bDMuMzgtNy4xNjZhLjU0MDUuNTQwNSAwIDAgMC0uMDAyOS0uNDY4Nkw4LjAzNiA5LjYzN2EuNTQ2OC41NDY4IDAgMCAwLS40OTQyLS4zMDk2Wm0uMDA1NyAxLjgwMzYgMi40ODggNS4xNTIyLTMuMTIxNCA2LjYyMDZIMS45NDY1WiIvPjwvc3ZnPg==" width="110" alt="AWS Lambda logo" /><h1 id="aws-lambda--complete-notes">AWS Lambda — Complete Notes</h1>
+<p><strong>Serverless functions</strong> · Run code without managing servers</p>
+<p><img src="https://img.shields.io/badge/AWS-Lambda-FF9900?style=flat-square&logo=awslambda&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Model-Serverless-FF9900?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Billing-Per%20ms-blue?style=flat-square" alt="Billing">
+<img src="https://img.shields.io/badge/Scaling-Automatic-lightgrey?style=flat-square" alt="Scaling"></p>
+<p><em>A reader-friendly, all-in-one reference for AWS Lambda.</em></p>
+<p><a class="dl-btn" href="aws-lambda-notes.pdf" download="aws-lambda-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-lambda">What is Lambda</a></li>
+<li><a href="#2--core-concepts">Core Concepts</a></li>
+<li><a href="#3--the-execution-model">The Execution Model</a></li>
+<li><a href="#4--triggers--event-sources">Triggers &amp; Event Sources</a></li>
+<li><a href="#5--configuration-memory-timeout-etc">Configuration (Memory, Timeout, etc.)</a></li>
+<li><a href="#6--cold-starts--concurrency">Cold Starts &amp; Concurrency</a></li>
+<li><a href="#7--deployment-packages--layers">Deployment Packages &amp; Layers</a></li>
+<li><a href="#8--permissions-execution-role-vs-resource-policy">Permissions (Execution Role vs Resource Policy)</a></li>
+<li><a href="#9--networking-vpc-access">Networking (VPC Access)</a></li>
+<li><a href="#10--versions--aliases">Versions &amp; Aliases</a></li>
+<li><a href="#11--error-handling--retries">Error Handling &amp; Retries</a></li>
+<li><a href="#12--monitoring--logging">Monitoring &amp; Logging</a></li>
+<li><a href="#13--pricing">Pricing</a></li>
+<li><a href="#14--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#15--limits--best-practices">Limits &amp; Best Practices</a></li>
+<li><a href="#16--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-lambda">1. ⚡ What is Lambda</h2>
+<p>AWS Lambda runs your code <strong>in response to events</strong> without you provisioning or managing servers. You upload a <strong>function</strong>, Lambda runs it on demand, scales automatically, and you pay only for the <strong>compute time consumed</strong> (per millisecond). No idle servers, no patching the OS.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Lambda is <strong>Function as a Service (FaaS)</strong>. You own the function code; AWS owns everything below it — servers, scaling, availability, OS.</p>
+</blockquote>
+<p><strong>Common uses:</strong> API backends (with API Gateway), event processing (S3/DynamoDB/Kafka), stream processing, scheduled jobs (cron), glue between services, real-time file/data transforms, automation.</p>
+<hr>
+<h2 id="2--core-concepts">2. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Function</strong></td>
+<td>Your code + config (runtime, memory, role, handler).</td>
+</tr>
+<tr>
+<td><strong>Handler</strong></td>
+<td>The entry-point method Lambda invokes (<code>file.method</code>).</td>
+</tr>
+<tr>
+<td><strong>Event</strong></td>
+<td>The JSON input passed to the handler.</td>
+</tr>
+<tr>
+<td><strong>Context</strong></td>
+<td>Runtime info (request id, remaining time, log group).</td>
+</tr>
+<tr>
+<td><strong>Runtime</strong></td>
+<td>Language environment: Node.js, Python, Java, Go, .NET, Ruby, or custom.</td>
+</tr>
+<tr>
+<td><strong>Trigger / Event Source</strong></td>
+<td>What invokes the function (S3, API GW, EventBridge…).</td>
+</tr>
+<tr>
+<td><strong>Execution Role</strong></td>
+<td>IAM role giving the function permissions to call AWS.</td>
+</tr>
+<tr>
+<td><strong>Concurrency</strong></td>
+<td>Number of simultaneous executions.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--the-execution-model">3. 🔄 The Execution Model</h2>
+<ol>
+<li>An <strong>event</strong> arrives from a trigger.</li>
+<li>Lambda provisions an <strong>execution environment</strong> (micro-VM / Firecracker) if none is warm.</li>
+<li>It runs <strong>init</strong> code (outside the handler) once per environment.</li>
+<li>It invokes the <strong>handler</strong> with the event + context.</li>
+<li>The environment is <strong>frozen</strong> and <strong>reused</strong> for later invocations (warm), then eventually torn down.</li>
+</ol>
+<p><strong>Invocation types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>How</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Synchronous</strong></td>
+<td>Caller waits for the response</td>
+<td>API Gateway, ALB, direct invoke</td>
+</tr>
+<tr>
+<td><strong>Asynchronous</strong></td>
+<td>Event queued; Lambda retries on failure</td>
+<td>S3, SNS, EventBridge</td>
+</tr>
+<tr>
+<td><strong>Stream / poll-based</strong></td>
+<td>Lambda polls and batches records</td>
+<td>Kinesis, DynamoDB Streams, SQS, Kafka</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 Put expensive setup (DB connections, SDK clients) in the <strong>init</strong> phase (module scope) so warm invocations reuse it.</p>
+</blockquote>
+<hr>
+<h2 id="4--triggers--event-sources">4. 🔔 Triggers &amp; Event Sources</h2>
+<p>Lambda integrates with 200+ services. Common triggers:</p>
+<ul>
+<li><strong>API Gateway / Function URL / ALB</strong> — HTTP APIs and webhooks.</li>
+<li><strong>S3</strong> — object created/deleted (process uploads).</li>
+<li><strong>EventBridge / CloudWatch Events</strong> — schedules (cron) and event rules.</li>
+<li><strong>SNS / SQS</strong> — pub-sub and queue processing.</li>
+<li><strong>DynamoDB Streams / Kinesis</strong> — stream processing.</li>
+<li><strong>MSK / self-managed Kafka</strong> — message consumption.</li>
+<li><strong>Cognito, Step Functions, IoT, CloudFront (Lambda@Edge)</strong> — and many more.</li>
+</ul>
+<hr>
+<h2 id="5--configuration-memory-timeout-etc">5. ⚙️ Configuration (Memory, Timeout, etc.)</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Range / note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Memory</strong></td>
+<td>128 MB – 10,240 MB. <strong>CPU scales with memory</strong> (more memory = more vCPU).</td>
+</tr>
+<tr>
+<td><strong>Timeout</strong></td>
+<td>1 s – <strong>900 s (15 min)</strong> max.</td>
+</tr>
+<tr>
+<td><strong>Ephemeral storage</strong> (<code>/tmp</code>)</td>
+<td>512 MB – 10,240 MB.</td>
+</tr>
+<tr>
+<td><strong>Environment variables</strong></td>
+<td>Up to 4 KB total; can be KMS-encrypted.</td>
+</tr>
+<tr>
+<td><strong>Architecture</strong></td>
+<td>x86_64 or <strong>arm64 (Graviton)</strong> — arm is cheaper/faster for many workloads.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 Tuning <strong>memory</strong> is the main performance lever — more memory also raises CPU, often making functions both faster <em>and</em> cheaper. Use <strong>Lambda Power Tuning</strong> to find the sweet spot.</p>
+</blockquote>
+<hr>
+<h2 id="6--cold-starts--concurrency">6. ❄️ Cold Starts &amp; Concurrency</h2>
+<ul>
+<li><strong>Cold start</strong> = the latency to set up a new execution environment (download code, start runtime, run init) before the first invocation. Warm reuse avoids it.</li>
+<li>Bigger packages, VPC attachment, and heavy init increase cold starts. Smaller deps + lazy loading reduce them.</li>
+<li><strong>Concurrency</strong> = number of simultaneous executions.<ul>
+<li><strong>Reserved concurrency</strong> — caps (and guarantees) a function&#39;s max concurrency.</li>
+<li><strong>Provisioned concurrency</strong> — pre-warms N environments → <strong>no cold starts</strong> (extra cost).</li>
+</ul>
+</li>
+<li><strong>Account concurrency limit</strong> defaults to <strong>1,000</strong> per region (adjustable). Burst scaling adds environments quickly, then linearly.</li>
+</ul>
+<hr>
+<h2 id="7--deployment-packages--layers">7. 📦 Deployment Packages &amp; Layers</h2>
+<ul>
+<li><strong>Package types:</strong> a <strong>.zip archive</strong> (code + deps) or a <strong>container image</strong> (up to 10 GB, OCI).</li>
+<li><strong>Zip limits:</strong> 50 MB zipped (direct upload), 250 MB unzipped; larger via S3.</li>
+<li><strong>Layers</strong> — share common libraries/dependencies across functions (up to 5 layers per function). Keeps deployment packages small.</li>
+<li><strong>Runtimes:</strong> managed (Node, Python, Java, Go, .NET, Ruby) or <strong>custom runtime</strong> via the Runtime API / <code>provided.al2</code>.</li>
+</ul>
+<hr>
+<h2 id="8--permissions-execution-role-vs-resource-policy">8. 🔐 Permissions (Execution Role vs Resource Policy)</h2>
+<p>Two distinct permission directions — don&#39;t confuse them:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Execution Role</strong></th>
+<th><strong>Resource-based Policy</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Question</td>
+<td>What can the <strong>function call</strong>?</td>
+<td>Who can <strong>invoke the function</strong>?</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>IAM role assumed by Lambda</td>
+<td>Policy attached to the function</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Read S3, write DynamoDB, put logs</td>
+<td>Allow S3/EventBridge/API GW to invoke</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>The function always needs <code>logs:CreateLogGroup/Stream/PutLogEvents</code> (usually via the <code>AWSLambdaBasicExecutionRole</code> managed policy) to write to CloudWatch.</p>
+</blockquote>
+<hr>
+<h2 id="9--networking-vpc-access">9. 🌐 Networking (VPC Access)</h2>
+<ul>
+<li>By default a Lambda runs in an AWS-managed network with internet access.</li>
+<li>Attach it to a <strong>VPC</strong> (subnets + security group) to reach private resources (RDS, ElastiCache, internal services).</li>
+<li>A VPC-attached Lambda has <strong>no internet by default</strong> — it needs a <strong>NAT Gateway</strong> (in a private subnet) for outbound internet, or <strong>VPC Endpoints</strong> for AWS services.</li>
+<li>Modern Lambda uses <strong>Hyperplane ENIs</strong> (shared), so VPC cold-start penalty is now minimal.</li>
+</ul>
+<hr>
+<h2 id="10--versions--aliases">10. 🏷️ Versions &amp; Aliases</h2>
+<ul>
+<li><strong>$LATEST</strong> — the mutable working version.</li>
+<li><strong>Published version</strong> — an immutable snapshot (<code>:1</code>, <code>:2</code>…).</li>
+<li><strong>Alias</strong> — a named, movable pointer to a version (<code>prod</code>, <code>staging</code>).</li>
+<li>Aliases enable <strong>weighted/canary deploys</strong> (e.g. 10% traffic to v2, 90% to v1) and clean rollbacks.</li>
+</ul>
+<hr>
+<h2 id="11--error-handling--retries">11. 🔁 Error Handling &amp; Retries</h2>
+<ul>
+<li><strong>Synchronous</strong> invokes: the error returns to the caller; <strong>no automatic retry</strong> (caller decides).</li>
+<li><strong>Asynchronous</strong> invokes: Lambda <strong>retries twice</strong> (3 total attempts) over time; failures go to a <strong>Dead-Letter Queue (SQS/SNS)</strong> or an <strong>on-failure destination</strong>.</li>
+<li><strong>Stream/poll</strong> sources (Kinesis/DynamoDB): retry by <strong>batch</strong> until success or record expiry; can block the shard — use bisect-on-error, max retry, and a failure destination.</li>
+<li><strong>Destinations</strong> (async) route success/failure events to SQS, SNS, Lambda, or EventBridge.</li>
+</ul>
+<hr>
+<h2 id="12--monitoring--logging">12. 📊 Monitoring &amp; Logging</h2>
+<ul>
+<li><strong>CloudWatch Logs</strong> — automatic; <code>console.log</code>/<code>print</code> lands in a log group per function.</li>
+<li><strong>CloudWatch Metrics</strong> — Invocations, Errors, Duration, Throttles, ConcurrentExecutions.</li>
+<li><strong>AWS X-Ray</strong> — distributed tracing of the function and its downstream calls.</li>
+<li><strong>Lambda Insights</strong> — enhanced per-invocation system metrics.</li>
+<li><strong>CloudTrail</strong> — API/management audit.</li>
+</ul>
+<hr>
+<h2 id="13--pricing">13. 💰 Pricing</h2>
+<p>You pay for:</p>
+<ol>
+<li><strong>Requests</strong> — per invocation (first 1M/month free, then per million).</li>
+<li><strong>Duration</strong> — GB-seconds = (memory ÷ 1024) × execution time, billed per <strong>1 ms</strong>.</li>
+<li><strong>Extras</strong> — Provisioned Concurrency (per GB-s reserved), ephemeral storage above 512 MB, data transfer.</li>
+</ol>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> right-size <strong>memory</strong> (it sets CPU too) · use <strong>arm64/Graviton</strong> · trim dependencies and init time · avoid idle Provisioned Concurrency · batch records from streams/queues · keep functions short and single-purpose.</p>
+</blockquote>
+<hr>
+<h2 id="14--common-cli-commands">14. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash">aws lambda create-function --function-name myfn --runtime python3.12 \
+  --handler app.handler --role arn:aws:iam::123:role/lambda-role \
+  --zip-file fileb://function.zip
+
+aws lambda invoke --function-name myfn --payload &#39;{&quot;key&quot;:&quot;val&quot;}&#39; out.json
+aws lambda update-function-code --function-name myfn --zip-file fileb://function.zip
+aws lambda update-function-configuration --function-name myfn --memory-size 512 --timeout 30
+aws lambda publish-version --function-name myfn
+aws lambda create-alias --function-name myfn --name prod --function-version 1
+aws lambda list-functions
+aws lambda get-function --function-name myfn
+</code></pre>
+<hr>
+<h2 id="15--limits--best-practices">15. 📌 Limits &amp; Best Practices</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Max timeout</td>
+<td><strong>15 min (900 s)</strong></td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>128 MB – 10,240 MB</td>
+</tr>
+<tr>
+<td>Ephemeral <code>/tmp</code></td>
+<td>512 MB – 10,240 MB</td>
+</tr>
+<tr>
+<td>Default concurrency</td>
+<td>1,000 / region (adjustable)</td>
+</tr>
+<tr>
+<td>Deployment zip</td>
+<td>50 MB (zipped) / 250 MB (unzipped)</td>
+</tr>
+<tr>
+<td>Container image</td>
+<td>up to 10 GB</td>
+</tr>
+<tr>
+<td>Invocation payload</td>
+<td>6 MB (sync), 256 KB (async)</td>
+</tr>
+<tr>
+<td>Layers per function</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<p><strong>Best practices:</strong> keep functions <strong>small &amp; single-purpose</strong> · do heavy setup in <strong>init</strong> and reuse connections · don&#39;t store state in the environment (it&#39;s ephemeral) · use <strong>environment variables</strong> (encrypted) for config · least-privilege <strong>execution role</strong> · set sensible <strong>timeouts + DLQ</strong> · use <strong>aliases</strong> for safe deploys · prefer <strong>Provisioned Concurrency</strong> only where cold starts hurt.</p>
+<hr>
+<h2 id="16--quick-mental-model">16. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Lambda = run code on events, pay per millisecond, zero servers to manage.</strong></li>
+<li>A <strong>trigger</strong> sends an <strong>event</strong> → Lambda runs your <strong>handler</strong> with an <strong>execution role&#39;s</strong> permissions.</li>
+<li>Environments are <strong>reused</strong> (warm) — put setup in <strong>init</strong>; first call may be a <strong>cold start</strong>.</li>
+<li>Tune <strong>memory</strong> (it also sets CPU); cap blast radius with <strong>reserved</strong>, kill cold starts with <strong>provisioned</strong> concurrency.</li>
+<li><strong>Sync</strong> = caller waits, no retry; <strong>async</strong> = queued + retried + DLQ; <strong>streams</strong> = batched polling.</li>
+<li>Attach to a <strong>VPC</strong> for private resources (needs NAT/endpoints for outbound).</li>
+<li>Ship safely with <strong>versions + aliases</strong>; watch it with <strong>CloudWatch + X-Ray</strong>.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for AWS Lambda.</em></p>
+</div>
+</main></body></html>

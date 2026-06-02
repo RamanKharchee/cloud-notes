@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon VPC — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjOEM0RkZGIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIFZQQzwvdGl0bGU+PHBhdGggZD0iTTIgM2gyMHYxOEgyVjN6bTIgMnYxNGgxNlY1SDR6bTIgMmg2djRINlY3em04IDBoNHY0aC00Vjd6bS04IDZoNnY0SDZ2LTR6bTggMGg0djRoLTR2LTR6Ii8+PC9zdmc+Cg==">
+<style>
+  :root{--ac:#8C4FFF;--acd:#5a2eb0;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjOEM0RkZGIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIFZQQzwvdGl0bGU+PHBhdGggZD0iTTIgM2gyMHYxOEgyVjN6bTIgMnYxNGgxNlY1SDR6bTIgMmg2djRINlY3em04IDBoNHY0aC00Vjd6bS04IDZoNnY0SDZ2LTR6bTggMGg0djRoLTR2LTR6Ii8+PC9zdmc+Cg==" width="110" alt="Amazon VPC logo" /><h1 id="amazon-vpc--complete-notes">Amazon VPC — Complete Notes</h1>
+<p><strong>Virtual Private Cloud</strong> · Your isolated network on AWS</p>
+<p><img src="https://img.shields.io/badge/AWS-VPC-8C4FFF?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Service-Networking-8C4FFF?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Scope-Regional-blue?style=flat-square" alt="Scope">
+<img src="https://img.shields.io/badge/Network-Isolated-lightgrey?style=flat-square" alt="Isolation"></p>
+<p><em>A reader-friendly, all-in-one reference for Amazon VPC.</em></p>
+<p><a class="dl-btn" href="amazon-vpc-notes.pdf" download="amazon-vpc-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-a-vpc">What is a VPC</a></li>
+<li><a href="#2--core-components">Core Components</a></li>
+<li><a href="#3--cidr--ip-addressing">CIDR &amp; IP Addressing</a></li>
+<li><a href="#4--subnets-public-vs-private">Subnets (Public vs Private)</a></li>
+<li><a href="#5--route-tables">Route Tables</a></li>
+<li><a href="#6--gateways-igw-nat-etc">Gateways (IGW, NAT, etc.)</a></li>
+<li><a href="#7--security-groups-vs-nacls">Security Groups vs NACLs</a></li>
+<li><a href="#8--vpc-connectivity-options">VPC Connectivity Options</a></li>
+<li><a href="#9--vpc-endpoints--privatelink">VPC Endpoints &amp; PrivateLink</a></li>
+<li><a href="#10--dns-in-a-vpc">DNS in a VPC</a></li>
+<li><a href="#11--vpc-flow-logs--monitoring">VPC Flow Logs &amp; Monitoring</a></li>
+<li><a href="#12--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#13--key-limits--numbers">Key Limits &amp; Numbers</a></li>
+<li><a href="#14--design-best-practices">Design Best Practices</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-a-vpc">1. 🌐 What is a VPC</h2>
+<p>Amazon VPC lets you provision a <strong>logically isolated virtual network</strong> within AWS where you launch resources (EC2, RDS, Lambda, etc.). You fully control the IP address range, subnets, route tables, gateways, and firewall rules — like running your own data-center network, but software-defined.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> a VPC is your <strong>private slice of the AWS cloud</strong>. It&#39;s <strong>regional</strong> (spans all AZs in one region); subnets live in a single AZ.</p>
+</blockquote>
+<p><strong>Why it matters:</strong> isolation, segmentation (public vs private tiers), fine-grained traffic control, and secure connectivity to on-prem and other VPCs.</p>
+<hr>
+<h2 id="2--core-components">2. 🧩 Core Components</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>VPC</strong></td>
+<td>The network container with a CIDR block; regional.</td>
+</tr>
+<tr>
+<td><strong>Subnet</strong></td>
+<td>A slice of the VPC CIDR, bound to one AZ.</td>
+</tr>
+<tr>
+<td><strong>Route Table</strong></td>
+<td>Rules deciding where subnet traffic goes.</td>
+</tr>
+<tr>
+<td><strong>Internet Gateway (IGW)</strong></td>
+<td>Allows internet access for public subnets.</td>
+</tr>
+<tr>
+<td><strong>NAT Gateway</strong></td>
+<td>Lets private subnets reach the internet outbound only.</td>
+</tr>
+<tr>
+<td><strong>Security Group</strong></td>
+<td>Stateful firewall at the instance/ENI level.</td>
+</tr>
+<tr>
+<td><strong>Network ACL</strong></td>
+<td>Stateless firewall at the subnet level.</td>
+</tr>
+<tr>
+<td><strong>ENI</strong></td>
+<td>Virtual network interface attached to resources.</td>
+</tr>
+<tr>
+<td><strong>Elastic IP</strong></td>
+<td>Static public IPv4 you own.</td>
+</tr>
+<tr>
+<td><strong>VPC Endpoint</strong></td>
+<td>Private access to AWS services without the internet.</td>
+</tr>
+<tr>
+<td><strong>Peering / TGW / VPN / DX</strong></td>
+<td>Ways to connect VPCs and on-prem networks.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--cidr--ip-addressing">3. 🔢 CIDR &amp; IP Addressing</h2>
+<ul>
+<li>A VPC is defined by a <strong>CIDR block</strong>, e.g. <code>10.0.0.0/16</code> (65,536 addresses).</li>
+<li>Allowed VPC CIDR size: <strong>/16 (max) to /28 (min)</strong>. Use <strong>private ranges</strong> (RFC 1918): <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>.</li>
+<li>Subnets carve the VPC CIDR into smaller blocks, e.g. <code>10.0.1.0/24</code> (256 addresses).</li>
+<li><strong>AWS reserves 5 IPs per subnet</strong> (first 4 + last 1): network, VPC router, DNS, future use, broadcast. So a <code>/24</code> gives <strong>251 usable</strong> IPs.</li>
+<li>You can add <strong>secondary CIDR blocks</strong> to a VPC and enable <strong>IPv6</strong> (AWS assigns a <code>/56</code>, subnets get <code>/64</code>).</li>
+</ul>
+<blockquote>
+<p>⚠️ Plan CIDRs so VPCs that may peer or connect to on-prem <strong>don&#39;t overlap</strong> — overlapping ranges can&#39;t be routed between.</p>
+</blockquote>
+<hr>
+<h2 id="4--subnets-public-vs-private">4. 🏗️ Subnets (Public vs Private)</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Public Subnet</strong></th>
+<th><strong>Private Subnet</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Route to IGW</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td>Internet inbound</td>
+<td>Possible (with public IP)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Internet outbound</td>
+<td>Direct via IGW</td>
+<td>Via <strong>NAT Gateway</strong> only</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Load balancers, bastions, NAT GW</td>
+<td>App servers, databases</td>
+</tr>
+</tbody></table>
+<ul>
+<li>A subnet is <strong>public</strong> when its route table has a route <code>0.0.0.0/0 → IGW</code>.</li>
+<li>Spread subnets across <strong>multiple AZs</strong> for high availability.</li>
+<li>Common 3-tier layout: public (web/LB) · private-app · private-data, each replicated per AZ.</li>
+</ul>
+<hr>
+<h2 id="5--route-tables">5. 🗺️ Route Tables</h2>
+<ul>
+<li>Each subnet associates with <strong>exactly one</strong> route table; a route table can serve many subnets.</li>
+<li>The <strong>main route table</strong> is the default; create <strong>custom</strong> ones per tier.</li>
+<li>Routes map a <strong>destination CIDR → target</strong> (IGW, NAT GW, ENI, peering, TGW, endpoint, etc.).</li>
+<li>The <strong>local route</strong> (<code>VPC CIDR → local</code>) is always present and enables intra-VPC routing — it can&#39;t be removed.</li>
+<li><strong>Most specific match wins</strong> (longest prefix).</li>
+</ul>
+<pre><code>Destination        Target
+10.0.0.0/16        local            (intra-VPC, implicit)
+0.0.0.0/0          igw-xxxx         (public subnet → internet)
+0.0.0.0/0          nat-xxxx         (private subnet → NAT)
+</code></pre>
+<hr>
+<h2 id="6--gateways-igw-nat-etc">6. 🚪 Gateways (IGW, NAT, etc.)</h2>
+<table>
+<thead>
+<tr>
+<th>Gateway</th>
+<th>Direction</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Internet Gateway (IGW)</strong></td>
+<td>In + out</td>
+<td>One per VPC; horizontally scaled, no bandwidth limit. Required for public internet.</td>
+</tr>
+<tr>
+<td><strong>NAT Gateway</strong></td>
+<td>Outbound only</td>
+<td>Managed, per-AZ, needs an EIP. Lets private subnets pull updates/reach internet. Charged hourly + per GB.</td>
+</tr>
+<tr>
+<td><strong>NAT Instance</strong></td>
+<td>Outbound only</td>
+<td>Legacy DIY (an EC2 doing NAT). Cheaper but you manage it.</td>
+</tr>
+<tr>
+<td><strong>Egress-Only IGW</strong></td>
+<td>Outbound only (IPv6)</td>
+<td>The IPv6 equivalent of a NAT gateway.</td>
+</tr>
+<tr>
+<td><strong>Virtual Private Gateway (VGW)</strong></td>
+<td>VPN</td>
+<td>AWS side of a Site-to-Site VPN.</td>
+</tr>
+<tr>
+<td><strong>Transit Gateway (TGW)</strong></td>
+<td>Hub</td>
+<td>Connects many VPCs + on-prem at scale.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💸 NAT Gateways cost per hour <strong>and</strong> per GB processed — a common surprise bill. Use <strong>VPC Gateway Endpoints</strong> for S3/DynamoDB to avoid NAT data charges.</p>
+</blockquote>
+<hr>
+<h2 id="7--security-groups-vs-nacls">7. 🛡️ Security Groups vs NACLs</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Security Group</strong></th>
+<th><strong>Network ACL</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Level</td>
+<td>Instance / ENI</td>
+<td>Subnet</td>
+</tr>
+<tr>
+<td>State</td>
+<td><strong>Stateful</strong> (return traffic auto-allowed)</td>
+<td><strong>Stateless</strong> (allow both directions)</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td>Allow only</td>
+<td>Allow <strong>and</strong> Deny</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>All rules together</td>
+<td>Numbered order, first match wins</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Deny inbound / allow outbound</td>
+<td>Default allows all; custom denies all</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>✅ Use <strong>Security Groups</strong> as your primary control (reference other SGs as sources for tier-to-tier rules). Use <strong>NACLs</strong> for coarse subnet-wide allow/deny (e.g. block a bad IP range).</p>
+</blockquote>
+<hr>
+<h2 id="8--vpc-connectivity-options">8. 🔗 VPC Connectivity Options</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Connects</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>VPC Peering</strong></td>
+<td>VPC ↔ VPC (1:1)</td>
+<td>Non-transitive; simple; can be cross-region/cross-account. CIDRs must not overlap.</td>
+</tr>
+<tr>
+<td><strong>Transit Gateway (TGW)</strong></td>
+<td>Many VPCs + VPN/DX (hub-spoke)</td>
+<td>Scales to thousands of VPCs; transitive routing.</td>
+</tr>
+<tr>
+<td><strong>Site-to-Site VPN</strong></td>
+<td>On-prem ↔ VPC over internet</td>
+<td>Encrypted IPsec tunnels via VGW or TGW.</td>
+</tr>
+<tr>
+<td><strong>Direct Connect (DX)</strong></td>
+<td>On-prem ↔ AWS dedicated line</td>
+<td>Private, consistent bandwidth/latency; not over internet.</td>
+</tr>
+<tr>
+<td><strong>PrivateLink / Endpoints</strong></td>
+<td>VPC ↔ AWS or partner service</td>
+<td>Private, no IGW/NAT (see next section).</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Peering is <strong>not transitive</strong>: if A↔B and B↔C peer, A can&#39;t reach C through B. Use a <strong>Transit Gateway</strong> for hub-and-spoke at scale.</p>
+</blockquote>
+<hr>
+<h2 id="9--vpc-endpoints--privatelink">9. 🔌 VPC Endpoints &amp; PrivateLink</h2>
+<p>Reach AWS services <strong>privately</strong>, without an IGW, NAT, or public IPs.</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint type</th>
+<th>How</th>
+<th>Services</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Gateway Endpoint</strong></td>
+<td>A route-table target</td>
+<td><strong>S3 and DynamoDB only</strong>. Free.</td>
+</tr>
+<tr>
+<td><strong>Interface Endpoint (PrivateLink)</strong></td>
+<td>An ENI with a private IP in your subnet</td>
+<td>Most AWS services + partner/SaaS + your own services. Hourly + per-GB cost.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Benefits: traffic stays on the AWS network (more secure), avoids NAT data charges (Gateway Endpoint), and enables private SaaS connectivity (PrivateLink).</p>
+</blockquote>
+<hr>
+<h2 id="10--dns-in-a-vpc">10. 🧭 DNS in a VPC</h2>
+<ul>
+<li>AWS provides DNS at the <strong>VPC base +2 address</strong> (e.g. <code>10.0.0.2</code>) — the <strong>Route 53 Resolver</strong>.</li>
+<li>Two VPC attributes: <code>enableDnsSupport</code> (resolution on) and <code>enableDnsHostnames</code> (assign public DNS names).</li>
+<li><strong>Route 53 Private Hosted Zones</strong> give internal domain names resolvable inside the VPC.</li>
+<li><strong>Resolver endpoints</strong> (inbound/outbound) bridge DNS between on-prem and VPC.</li>
+</ul>
+<hr>
+<h2 id="11--vpc-flow-logs--monitoring">11. 📊 VPC Flow Logs &amp; Monitoring</h2>
+<ul>
+<li><strong>Flow Logs</strong> capture IP traffic metadata (src/dst, ports, bytes, ACCEPT/REJECT) at VPC, subnet, or ENI level.</li>
+<li>Destinations: <strong>CloudWatch Logs</strong>, <strong>S3</strong>, or <strong>Kinesis Firehose</strong>. Great for troubleshooting connectivity and security forensics.</li>
+<li>Flow Logs do <strong>not</strong> capture packet contents (use traffic mirroring for that).</li>
+<li><strong>VPC Reachability Analyzer</strong> and <strong>Network Access Analyzer</strong> help validate/troubleshoot paths and exposure.</li>
+</ul>
+<hr>
+<h2 id="12--common-cli-commands">12. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash">aws ec2 create-vpc --cidr-block 10.0.0.0/16
+aws ec2 create-subnet --vpc-id vpc-123 --cidr-block 10.0.1.0/24 --availability-zone us-east-1a
+aws ec2 create-internet-gateway
+aws ec2 attach-internet-gateway --vpc-id vpc-123 --internet-gateway-id igw-123
+aws ec2 create-route-table --vpc-id vpc-123
+aws ec2 create-route --route-table-id rtb-123 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-123
+aws ec2 create-nat-gateway --subnet-id subnet-123 --allocation-id eipalloc-123
+aws ec2 describe-vpcs
+aws ec2 create-flow-logs --resource-type VPC --resource-ids vpc-123 \
+  --traffic-type ALL --log-destination-type cloud-watch-logs --log-group-name vpc-flow
+</code></pre>
+<hr>
+<h2 id="13--key-limits--numbers">13. 📌 Key Limits &amp; Numbers</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VPCs per region</td>
+<td>5 (default, adjustable)</td>
+</tr>
+<tr>
+<td>VPC CIDR size</td>
+<td>/16 (max) to /28 (min)</td>
+</tr>
+<tr>
+<td>Secondary CIDRs per VPC</td>
+<td>up to 5 (adjustable)</td>
+</tr>
+<tr>
+<td>Subnets per VPC</td>
+<td>200 (default)</td>
+</tr>
+<tr>
+<td>Reserved IPs per subnet</td>
+<td><strong>5</strong> (first 4 + last 1)</td>
+</tr>
+<tr>
+<td>Route tables per VPC</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Routes per route table</td>
+<td>50 (non-propagated)</td>
+</tr>
+<tr>
+<td>Security groups per ENI</td>
+<td>5 (up to 16)</td>
+</tr>
+<tr>
+<td>Rules per security group</td>
+<td>60 in + 60 out</td>
+</tr>
+<tr>
+<td>Internet Gateways</td>
+<td>1 per VPC</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="14--design-best-practices">14. 🧱 Design Best Practices</h2>
+<ul>
+<li><strong>Plan non-overlapping CIDRs</strong> across all VPCs and on-prem from day one.</li>
+<li><strong>Multi-AZ subnets</strong> for every tier → high availability.</li>
+<li><strong>Public/private separation</strong>: only LBs, bastions, and NAT in public subnets; everything else private.</li>
+<li><strong>Least privilege</strong> Security Groups; reference SGs, not raw IPs, for tier-to-tier traffic.</li>
+<li>Use <strong>Gateway Endpoints</strong> (S3/DynamoDB) and <strong>Interface Endpoints</strong> to cut NAT cost and stay private.</li>
+<li>Centralize multi-VPC connectivity with a <strong>Transit Gateway</strong>, not a mesh of peerings.</li>
+<li>Turn on <strong>Flow Logs</strong> for security and troubleshooting.</li>
+</ul>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>VPC = your private network in AWS</strong>, defined by a CIDR, regional in scope.</li>
+<li><strong>Subnets</strong> split it per AZ; <strong>public</strong> = route to IGW, <strong>private</strong> = route to NAT.</li>
+<li><strong>Route tables</strong> decide where traffic goes; <strong>most specific route wins</strong>.</li>
+<li><strong>Security Groups</strong> (stateful, instance) + <strong>NACLs</strong> (stateless, subnet) filter traffic.</li>
+<li>Connect out: <strong>IGW</strong> (public), <strong>NAT</strong> (private outbound), <strong>VPN/DX</strong> (on-prem), <strong>Peering/TGW</strong> (VPC-to-VPC).</li>
+<li>Reach AWS services privately with <strong>Endpoints / PrivateLink</strong>.</li>
+<li><strong>Don&#39;t overlap CIDRs</strong>, spread across AZs, keep data tiers private, and watch <strong>NAT data costs</strong>.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon VPC.</em></p>
+</div>
+</main></body></html>

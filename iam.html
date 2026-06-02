@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS IAM — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjREQzNDRDIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIElkZW50aXR5IEFjY2VzcyBNYW5hZ2VtZW50PC90aXRsZT48cGF0aCBkPSJNMjQgMy40Mjg2djE3LjE0MjhjMCAuMjU3Mi0uMTcxNC40Mjg2LS40Mjg2LjQyODZILjQyODZDLjE3MTQgMjEgMCAyMC44Mjg2IDAgMjAuNTcxNFYzLjQyODZDMCAzLjE3MTQuMTcxNCAzIC40Mjg2IDNoMjMuMTQyOGMuMjU3MiAwIC40Mjg2LjE3MTQuNDI4Ni40Mjg2Wk0uODU3MSAyMC4xNDI5SDIzLjE0M1YzLjg1N0guODU3Wm0xMi44NTcyLTUuNTcxNWg2LjQyODZ2Ljg1NzJoLTYuNDI4NlpNMTkuMjg1NyAxMmgyLjE0Mjl2Ljg1NzFoLTIuMTQyOXptLTUuNTcxNCAwaDMuNDI4NnYuODU3MWgtMy40Mjg2Wk0yLjE0MjkgMTguNDI4NnYtNi44NTcycTAtLjE3MTQuMTI4NS0uMy4xMjg2LS4xMjg1LjMtLjEyODVoLjg1NzJ2LTNjMC0xLjUgMS41NDI4LTIuNyAzLjQyODUtMi43IDEuODg1OCAwIDMuNDI4NiAxLjIgMy40Mjg2IDIuN3YzaC44NTcyYy4yNTcxIDAgLjQyODUuMjE0Mi40Mjg1LjQyODV2Ni44NTcycTAgLjE3MTQtLjEyODUuMy0uMTI4Ni4xMjg1LS4zLjEyODVIMi41NzE0Yy0uMjU3MSAwLS40Mjg1LS4yMTQyLS40Mjg1LS40Mjg1ek0zIDE4aDcuNzE0M3YtMS43MTQzSDl2LS44NTcxaDEuNzE0M3YtMS4yODU3SDl2LS44NTcyaDEuNzE0M1YxMkgzWm01LjE0MjktMy40Mjg2YzAgLjU1NzItLjM0MjkgMS4wMjg2LS44NTcyIDEuMnYuOTQyOWgtLjg1NzF2LS45NDI5Yy0uNTE0My0uMTcxNC0uODU3Mi0uNjQyOC0uODU3Mi0xLjIgMC0uNjg1Ny42LTEuMjg1NyAxLjI4NTctMS4yODU3LjcyODYgMCAxLjI4NTguNiAxLjI4NTggMS4yODU3ek00LjI4NTcgMTEuMTQzaDUuMTQyOXYtM2MwLS45ODU4LTEuMi0xLjg0MjktMi41NzE1LTEuODQyOS0xLjM3MTQgMC0yLjU3MTQuODU3MS0yLjU3MTQgMS44NDI5Wm0zIDMuNDI4NWMwLS4yMTQzLS4xNzE0LS40Mjg1LS40Mjg2LS40Mjg1LS4yMTQyIDAtLjQyODUuMjE0Mi0uNDI4NS40Mjg1IDAgLjI1NzIuMjE0My40Mjg2LjQyODUuNDI4Ni4yNTcyIDAgLjQyODYtLjE3MTQuNDI4Ni0uNDI4NlptMTMuMjg1Ny01LjE0MjhoLjg1NzJ2Ljg1NzFoLS44NTcyem0tNi44NTcxIDBoNC43MTQzdi44NTcxaC00LjcxNDN6Ii8+PC9zdmc+">
+<style>
+  :root{--ac:#DD344C;--acd:#9c2436;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjREQzNDRDIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIElkZW50aXR5IEFjY2VzcyBNYW5hZ2VtZW50PC90aXRsZT48cGF0aCBkPSJNMjQgMy40Mjg2djE3LjE0MjhjMCAuMjU3Mi0uMTcxNC40Mjg2LS40Mjg2LjQyODZILjQyODZDLjE3MTQgMjEgMCAyMC44Mjg2IDAgMjAuNTcxNFYzLjQyODZDMCAzLjE3MTQuMTcxNCAzIC40Mjg2IDNoMjMuMTQyOGMuMjU3MiAwIC40Mjg2LjE3MTQuNDI4Ni40Mjg2Wk0uODU3MSAyMC4xNDI5SDIzLjE0M1YzLjg1N0guODU3Wm0xMi44NTcyLTUuNTcxNWg2LjQyODZ2Ljg1NzJoLTYuNDI4NlpNMTkuMjg1NyAxMmgyLjE0Mjl2Ljg1NzFoLTIuMTQyOXptLTUuNTcxNCAwaDMuNDI4NnYuODU3MWgtMy40Mjg2Wk0yLjE0MjkgMTguNDI4NnYtNi44NTcycTAtLjE3MTQuMTI4NS0uMy4xMjg2LS4xMjg1LjMtLjEyODVoLjg1NzJ2LTNjMC0xLjUgMS41NDI4LTIuNyAzLjQyODUtMi43IDEuODg1OCAwIDMuNDI4NiAxLjIgMy40Mjg2IDIuN3YzaC44NTcyYy4yNTcxIDAgLjQyODUuMjE0Mi40Mjg1LjQyODV2Ni44NTcycTAgLjE3MTQtLjEyODUuMy0uMTI4Ni4xMjg1LS4zLjEyODVIMi41NzE0Yy0uMjU3MSAwLS40Mjg1LS4yMTQyLS40Mjg1LS40Mjg1ek0zIDE4aDcuNzE0M3YtMS43MTQzSDl2LS44NTcxaDEuNzE0M3YtMS4yODU3SDl2LS44NTcyaDEuNzE0M1YxMkgzWm01LjE0MjktMy40Mjg2YzAgLjU1NzItLjM0MjkgMS4wMjg2LS44NTcyIDEuMnYuOTQyOWgtLjg1NzF2LS45NDI5Yy0uNTE0My0uMTcxNC0uODU3Mi0uNjQyOC0uODU3Mi0xLjIgMC0uNjg1Ny42LTEuMjg1NyAxLjI4NTctMS4yODU3LjcyODYgMCAxLjI4NTguNiAxLjI4NTggMS4yODU3ek00LjI4NTcgMTEuMTQzaDUuMTQyOXYtM2MwLS45ODU4LTEuMi0xLjg0MjktMi41NzE1LTEuODQyOS0xLjM3MTQgMC0yLjU3MTQuODU3MS0yLjU3MTQgMS44NDI5Wm0zIDMuNDI4NWMwLS4yMTQzLS4xNzE0LS40Mjg1LS40Mjg2LS40Mjg1LS4yMTQyIDAtLjQyODUuMjE0Mi0uNDI4NS40Mjg1IDAgLjI1NzIuMjE0My40Mjg2LjQyODUuNDI4Ni4yNTcyIDAgLjQyODYtLjE3MTQuNDI4Ni0uNDI4NlptMTMuMjg1Ny01LjE0MjhoLjg1NzJ2Ljg1NzFoLS44NTcyem0tNi44NTcxIDBoNC43MTQzdi44NTcxaC00LjcxNDN6Ii8+PC9zdmc+" width="110" alt="AWS IAM logo" /><h1 id="aws-iam--complete-notes">AWS IAM — Complete Notes</h1>
+<p><strong>Identity and Access Management</strong> · Who can do what on AWS</p>
+<p><img src="https://img.shields.io/badge/AWS-IAM-DD344C?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Service-Security-DD344C?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Scope-Global-blue?style=flat-square" alt="Scope">
+<img src="https://img.shields.io/badge/Cost-Free-lightgrey?style=flat-square" alt="Cost"></p>
+<p><em>A reader-friendly, all-in-one reference for AWS IAM.</em></p>
+<p><a class="dl-btn" href="aws-iam-notes.pdf" download="aws-iam-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-iam">What is IAM</a></li>
+<li><a href="#2--core-identities">Core Identities</a></li>
+<li><a href="#3--policies--how-they-work">Policies &amp; How They Work</a></li>
+<li><a href="#4--policy-document-structure">Policy Document Structure</a></li>
+<li><a href="#5--how-a-request-is-evaluated">How a Request is Evaluated</a></li>
+<li><a href="#6--roles--temporary-credentials-sts">Roles &amp; Temporary Credentials (STS)</a></li>
+<li><a href="#7--permission-boundaries--scps">Permission Boundaries &amp; SCPs</a></li>
+<li><a href="#8--authentication--mfa">Authentication &amp; MFA</a></li>
+<li><a href="#9--access-keys--credential-hygiene">Access Keys &amp; Credential Hygiene</a></li>
+<li><a href="#10--iam-identity-center--federation">IAM Identity Center &amp; Federation</a></li>
+<li><a href="#11--auditing--tools">Auditing &amp; Tools</a></li>
+<li><a href="#12--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#13--best-practices">Best Practices</a></li>
+<li><a href="#14--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-iam">1. 🔐 What is IAM</h2>
+<p>AWS IAM controls <strong>authentication</strong> (who you are) and <strong>authorization</strong> (what you&#39;re allowed to do) for every AWS API call. It lets you create identities, attach <strong>policies</strong> that grant or deny permissions, and enforce least privilege across your account.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> every AWS API call is a <strong>request</strong> that IAM evaluates against policies → <strong>Allow</strong> or <strong>Deny</strong>. <strong>Default = implicit deny</strong>; an explicit Allow is required, and an explicit Deny always wins.</p>
+</blockquote>
+<p><strong>Key facts:</strong> IAM is <strong>global</strong> (not region-scoped), <strong>free</strong>, and foundational to all AWS security.</p>
+<hr>
+<h2 id="2--core-identities">2. 👤 Core Identities</h2>
+<table>
+<thead>
+<tr>
+<th>Identity</th>
+<th>What it is</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Root user</strong></td>
+<td>The account owner (email login)</td>
+<td>Almost never — only a few root-only tasks. Lock it down with MFA.</td>
+</tr>
+<tr>
+<td><strong>IAM User</strong></td>
+<td>A long-lived identity for a person/app</td>
+<td>Console password and/or access keys. Prefer roles where possible.</td>
+</tr>
+<tr>
+<td><strong>IAM Group</strong></td>
+<td>A collection of users</td>
+<td>Attach policies once; users inherit. Cannot be nested or contain roles.</td>
+</tr>
+<tr>
+<td><strong>IAM Role</strong></td>
+<td>An identity with <strong>temporary</strong> credentials, assumed by trusted principals</td>
+<td>EC2/Lambda/services, cross-account, federation. <strong>Preferred</strong> for workloads.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>✅ Groups are for <strong>humans</strong>; roles are for <strong>workloads and temporary access</strong>. Don&#39;t bake long-lived access keys into apps — give them a <strong>role</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="3--policies--how-they-work">3. 📜 Policies &amp; How They Work</h2>
+<p>A <strong>policy</strong> is a JSON document listing permissions. Types:</p>
+<table>
+<thead>
+<tr>
+<th>Policy type</th>
+<th>Attached to</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Identity-based</strong></td>
+<td>User / group / role</td>
+<td>What that identity can do. (Managed or inline.)</td>
+</tr>
+<tr>
+<td><strong>Resource-based</strong></td>
+<td>A resource (S3 bucket, SQS, KMS…)</td>
+<td>Who (which principal) can act on it. Enables cross-account.</td>
+</tr>
+<tr>
+<td><strong>Permission boundary</strong></td>
+<td>User / role</td>
+<td>The <strong>max</strong> permissions an identity can have.</td>
+</tr>
+<tr>
+<td><strong>SCP</strong> (Organizations)</td>
+<td>OU / account</td>
+<td>Guardrail capping permissions across accounts.</td>
+</tr>
+<tr>
+<td><strong>Session policy</strong></td>
+<td>Passed at AssumeRole</td>
+<td>Further limits a session.</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>AWS managed</strong> policies (maintained by AWS), <strong>customer managed</strong> (your reusable policies), or <strong>inline</strong> (embedded, 1:1 with an identity).</li>
+</ul>
+<hr>
+<h2 id="4--policy-document-structure">4. 🧱 Policy Document Structure</h2>
+<pre><code class="language-json">{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Sid&quot;: &quot;AllowReadOneBucket&quot;,
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Action&quot;: [&quot;s3:GetObject&quot;, &quot;s3:ListBucket&quot;],
+      &quot;Resource&quot;: [
+        &quot;arn:aws:s3:::my-bucket&quot;,
+        &quot;arn:aws:s3:::my-bucket/*&quot;
+      ],
+      &quot;Condition&quot;: {
+        &quot;IpAddress&quot;: { &quot;aws:SourceIp&quot;: &quot;203.0.113.0/24&quot; }
+      }
+    }
+  ]
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Effect</strong></td>
+<td><code>Allow</code> or <code>Deny</code></td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>The API operations (<code>s3:GetObject</code>); <code>*</code> = all</td>
+</tr>
+<tr>
+<td><strong>Resource</strong></td>
+<td>ARNs the actions apply to</td>
+</tr>
+<tr>
+<td><strong>Principal</strong></td>
+<td><em>(resource-based only)</em> who is granted access</td>
+</tr>
+<tr>
+<td><strong>Condition</strong></td>
+<td>Optional constraints (IP, MFA, tags, time, etc.)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5--how-a-request-is-evaluated">5. ⚖️ How a Request is Evaluated</h2>
+<p>The decision flow for every request:</p>
+<ol>
+<li><strong>Default deny</strong> (nothing is allowed implicitly).</li>
+<li><strong>Explicit Deny</strong> anywhere → <strong>DENY</strong> (highest precedence).</li>
+<li><strong>SCP</strong> (if in an Org) must allow.</li>
+<li><strong>Resource-based</strong> policy or <strong>identity-based</strong> policy must allow.</li>
+<li><strong>Permission boundary</strong> and <strong>session policy</strong> must also allow (if present).</li>
+<li>If allowed by all applicable policies and no explicit deny → <strong>ALLOW</strong>.</li>
+</ol>
+<blockquote>
+<p>🔑 Remember: <strong>an explicit <code>Deny</code> always overrides any <code>Allow</code>.</strong> Permissions are the <strong>intersection</strong> of all guardrails (SCP ∩ boundary ∩ identity/resource policy).</p>
+</blockquote>
+<hr>
+<h2 id="6--roles--temporary-credentials-sts">6. 🎭 Roles &amp; Temporary Credentials (STS)</h2>
+<ul>
+<li>A <strong>role</strong> has a <strong>trust policy</strong> (who may assume it) + <strong>permission policies</strong> (what it can do).</li>
+<li><strong>AWS STS</strong> issues <strong>short-lived credentials</strong> when a role is assumed (<code>AssumeRole</code>, <code>AssumeRoleWithWebIdentity</code>, <code>AssumeRoleWithSAML</code>).</li>
+<li>Uses: <strong>EC2/Lambda instance roles</strong>, <strong>cross-account access</strong>, <strong>federated/SSO login</strong>, <strong>service-linked roles</strong>.</li>
+<li>Temporary credentials <strong>auto-expire</strong> (minutes to hours) → far safer than static keys.</li>
+</ul>
+<blockquote>
+<p>✅ The golden rule: <strong>prefer roles over users with access keys</strong> for anything programmatic. No secrets to rotate or leak.</p>
+</blockquote>
+<hr>
+<h2 id="7--permission-boundaries--scps">7. 🚧 Permission Boundaries &amp; SCPs</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Permission Boundary</strong></th>
+<th><strong>Service Control Policy (SCP)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Applies to</td>
+<td>An IAM user or role</td>
+<td>An Org OU or account</td>
+</tr>
+<tr>
+<td>Effect</td>
+<td>Caps the identity&#39;s max permissions</td>
+<td>Caps every principal in the account</td>
+</tr>
+<tr>
+<td>Grants access?</td>
+<td>❌ No — only limits</td>
+<td>❌ No — only limits (even root is bound)</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Safe delegation (let teams create roles within a ceiling)</td>
+<td>Org-wide guardrails (e.g. deny disabling CloudTrail)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Neither <strong>grants</strong> permissions — they only set a <strong>maximum</strong>. You still need an identity/resource policy to actually allow an action.</p>
+</blockquote>
+<hr>
+<h2 id="8--authentication--mfa">8. 🔑 Authentication &amp; MFA</h2>
+<ul>
+<li><strong>Console:</strong> username + password (+ MFA).</li>
+<li><strong>Programmatic:</strong> access key ID + secret (or temporary STS creds).</li>
+<li><strong>MFA</strong> (virtual app, hardware key, or FIDO2/passkey) adds a second factor — <strong>enable it on root and all privileged users</strong>.</li>
+<li>Enforce MFA via policy <strong>Conditions</strong> (<code>aws:MultiFactorAuthPresent</code>).</li>
+</ul>
+<hr>
+<h2 id="9--access-keys--credential-hygiene">9. 🗝️ Access Keys &amp; Credential Hygiene</h2>
+<ul>
+<li>Access keys are long-lived secrets — <strong>rotate regularly</strong>, never commit to code/repos.</li>
+<li>Prefer <strong>roles / IAM Identity Center / short-lived creds</strong> over static keys.</li>
+<li>Use the <strong>credential report</strong> and <strong>Access Analyzer</strong> to find unused keys and over-broad access.</li>
+<li>Store secrets in <strong>Secrets Manager</strong> / <strong>SSM Parameter Store</strong>, not in source.</li>
+</ul>
+<hr>
+<h2 id="10--iam-identity-center--federation">10. 🌐 IAM Identity Center &amp; Federation</h2>
+<ul>
+<li><strong>IAM Identity Center</strong> (formerly AWS SSO) — central human sign-in across many accounts with <strong>permission sets</strong>; integrates with external IdPs (Okta, Entra ID, Google).</li>
+<li><strong>Federation</strong> — trust an external IdP (SAML 2.0 / OIDC) so users log in with corporate credentials and assume roles; no IAM user per person.</li>
+<li><strong>Web identity federation</strong> — mobile/web apps get temporary creds via Cognito or an OIDC provider.</li>
+</ul>
+<blockquote>
+<p>For multi-account orgs, <strong>Identity Center + roles</strong> is the modern standard — avoid creating IAM users per person.</p>
+</blockquote>
+<hr>
+<h2 id="11--auditing--tools">11. 🔎 Auditing &amp; Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IAM Access Analyzer</strong></td>
+<td>Finds resources shared externally; validates &amp; generates least-privilege policies.</td>
+</tr>
+<tr>
+<td><strong>Credential Report</strong></td>
+<td>CSV of all users, key age, MFA, last use.</td>
+</tr>
+<tr>
+<td><strong>Last Accessed (Access Advisor)</strong></td>
+<td>Shows which services an identity actually used → trim unused permissions.</td>
+</tr>
+<tr>
+<td><strong>CloudTrail</strong></td>
+<td>Records every API call for audit/forensics.</td>
+</tr>
+<tr>
+<td><strong>Policy Simulator</strong></td>
+<td>Test whether a policy allows/denies a given action.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="12--common-cli-commands">12. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash">aws iam create-user --user-name alice
+aws iam create-group --group-name developers
+aws iam add-user-to-group --user-name alice --group-name developers
+aws iam attach-group-policy --group-name developers \
+  --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+aws iam create-role --role-name app-role \
+  --assume-role-policy-document file://trust.json
+aws iam attach-role-policy --role-name app-role \
+  --policy-arn arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+
+aws iam create-policy --policy-name my-policy --policy-document file://policy.json
+aws iam list-users
+aws iam get-account-authorization-details        # full dump
+aws sts get-caller-identity                       # who am I?
+aws sts assume-role --role-arn arn:... --role-session-name s1
+</code></pre>
+<hr>
+<h2 id="13--best-practices">13. ✅ Best Practices</h2>
+<ul>
+<li><strong>Lock down the root user</strong>: MFA, no access keys, use only for the rare root-only tasks.</li>
+<li><strong>Least privilege</strong> — grant the minimum; widen only as needed (use Access Analyzer to refine).</li>
+<li><strong>Prefer roles</strong> + temporary credentials over IAM users + static keys.</li>
+<li><strong>Enable MFA</strong> everywhere; enforce it with conditions for sensitive actions.</li>
+<li><strong>Rotate</strong> access keys; remove unused users/keys/permissions.</li>
+<li>Use <strong>groups</strong> to manage human permissions; <strong>permission boundaries</strong> for safe delegation; <strong>SCPs</strong> for org guardrails.</li>
+<li><strong>Centralize</strong> sign-in with IAM Identity Center; <strong>audit</strong> with CloudTrail + credential reports.</li>
+<li>Never embed secrets in code — use <strong>Secrets Manager</strong> / <strong>roles</strong>.</li>
+</ul>
+<hr>
+<h2 id="14--quick-mental-model">14. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>IAM = who can do what.</strong> Global, free, evaluated on every API call.</li>
+<li>Identities: <strong>root</strong> (avoid), <strong>users</strong> (humans), <strong>groups</strong> (bundle users), <strong>roles</strong> (workloads + temporary access — <em>prefer these</em>).</li>
+<li><strong>Policies</strong> (JSON) grant/deny via <strong>Effect + Action + Resource + Condition</strong>.</li>
+<li>Evaluation: <strong>default deny → explicit Deny wins → must be allowed by SCP ∩ boundary ∩ identity/resource policy</strong>.</li>
+<li><strong>Roles + STS</strong> give short-lived creds — no secrets to leak.</li>
+<li><strong>Boundaries &amp; SCPs cap, never grant.</strong> <strong>MFA</strong> + key rotation + least privilege are the daily disciplines.</li>
+<li>Audit with <strong>Access Analyzer, credential report, CloudTrail</strong>.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for AWS IAM.</em></p>
+</div>
+</main></body></html>

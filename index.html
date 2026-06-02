@@ -17,23 +17,24 @@
   .hero h1{font-size:46px;margin:0 0 8px;letter-spacing:-1px;}
   .hero p{font-size:18px;opacity:.85;margin:0;}
   .grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:26px;width:100%;max-width:760px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:24px;width:100%;max-width:920px;
   }
   .card{
-    background:#fff;border-radius:16px;padding:30px 28px;text-decoration:none;color:inherit;
+    background:#fff;border-radius:16px;padding:28px 26px;text-decoration:none;color:inherit;
     box-shadow:0 8px 30px rgba(0,0,0,.25);transition:transform .15s,box-shadow .15s;
     display:flex;flex-direction:column;align-items:flex-start;border-top:5px solid var(--ac);
   }
   .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.35);}
-  .card img{width:56px;height:56px;margin-bottom:16px;}
-  .card h2{margin:0 0 6px;font-size:24px;color:var(--ac);}
-  .card .sub{font-size:14px;color:#57606a;margin:0 0 18px;}
+  .card img{width:52px;height:52px;margin-bottom:14px;}
+  .card h2{margin:0 0 6px;font-size:22px;color:var(--ac);}
+  .card .tag{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ac);opacity:.7;margin:0 0 8px;}
+  .card .sub{font-size:14px;color:#57606a;margin:0 0 18px;flex-grow:1;}
   .card .links{display:flex;gap:10px;flex-wrap:wrap;}
   .pill{font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;background:var(--ac);color:#fff;}
   .pill.ghost{background:transparent;color:var(--ac);border:1.5px solid var(--ac);}
-  .s3{--ac:#569A31;}
-  .ec2{--ac:#ED7100;}
+  .s3{--ac:#569A31;} .ec2{--ac:#ED7100;} .vpc{--ac:#8C4FFF;}
+  .lambda{--ac:#FF9900;} .iam{--ac:#DD344C;} .rds{--ac:#527FFF;}
   footer{margin-top:50px;color:#cfd8dc;font-size:13px;text-align:center;}
   footer a{color:#fff;}
 </style>
@@ -47,22 +48,50 @@
   <div class="grid">
     <a class="card s3" href="s3.html">
       <img src="https://cdn.simpleicons.org/amazons3/569A31" alt="Amazon S3">
+      <p class="tag">Storage</p>
       <h2>Amazon S3</h2>
-      <p class="sub">Simple Storage Service — object storage, durability, classes, security &amp; more.</p>
-      <div class="links">
-        <span class="pill">Read notes →</span>
-        <span class="pill ghost">PDF</span>
-      </div>
+      <p class="sub">Object storage — buckets, durability, storage classes, versioning, security.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
     <a class="card ec2" href="ec2.html">
       <img src="https://cdn.simpleicons.org/amazonec2/ED7100" alt="Amazon EC2">
+      <p class="tag">Compute</p>
       <h2>Amazon EC2</h2>
-      <p class="sub">Elastic Compute Cloud — instances, types, pricing, networking, scaling &amp; more.</p>
-      <div class="links">
-        <span class="pill">Read notes →</span>
-        <span class="pill ghost">PDF</span>
-      </div>
+      <p class="sub">Virtual servers — instance types, pricing, storage, networking, scaling.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
+    </a>
+
+    <a class="card vpc" href="vpc.html">
+      <img src="vpc-logo.svg" alt="Amazon VPC">
+      <p class="tag">Networking</p>
+      <h2>Amazon VPC</h2>
+      <p class="sub">Your private network — subnets, route tables, gateways, security, peering.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
+    </a>
+
+    <a class="card lambda" href="lambda.html">
+      <img src="https://cdn.simpleicons.org/awslambda/FF9900" alt="AWS Lambda">
+      <p class="tag">Serverless</p>
+      <h2>AWS Lambda</h2>
+      <p class="sub">Serverless functions — events, concurrency, cold starts, deploys, pricing.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
+    </a>
+
+    <a class="card iam" href="iam.html">
+      <img src="iam-logo.svg" alt="AWS IAM">
+      <p class="tag">Security</p>
+      <h2>AWS IAM</h2>
+      <p class="sub">Identity &amp; access — users, roles, policies, evaluation, MFA, best practices.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
+    </a>
+
+    <a class="card rds" href="rds.html">
+      <img src="https://cdn.simpleicons.org/amazonrds/527FFF" alt="Amazon RDS">
+      <p class="tag">Database</p>
+      <h2>Amazon RDS</h2>
+      <p class="sub">Managed SQL — engines, Multi-AZ, read replicas, backups, Aurora, security.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
   </div>
 
