@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMjQyOTJlIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R2l0SHViPC90aXRsZT48cGF0aCBkPSJNMTIgLjI5N2MtNi42MyAwLTEyIDUuMzczLTEyIDEyIDAgNS4zMDMgMy40MzggOS44IDguMjA1IDExLjM4NS42LjExMy44Mi0uMjU4LjgyLS41NzcgMC0uMjg1LS4wMS0xLjA0LS4wMTUtMi4wNC0zLjMzOC43MjQtNC4wNDItMS42MS00LjA0Mi0xLjYxQzQuNDIyIDE4LjA3IDMuNjMzIDE3LjcgMy42MzMgMTcuN2MtMS4wODctLjc0NC4wODQtLjcyOS4wODQtLjcyOSAxLjIwNS4wODQgMS44MzggMS4yMzYgMS44MzggMS4yMzYgMS4wNyAxLjgzNSAyLjgwOSAxLjMwNSAzLjQ5NS45OTguMTA4LS43NzYuNDE3LTEuMzA1Ljc2LTEuNjA1LTIuNjY1LS4zLTUuNDY2LTEuMzMyLTUuNDY2LTUuOTMgMC0xLjMxLjQ2NS0yLjM4IDEuMjM1LTMuMjItLjEzNS0uMzAzLS41NC0xLjUyMy4xMDUtMy4xNzYgMCAwIDEuMDA1LS4zMjIgMy4zIDEuMjMuOTYtLjI2NyAxLjk4LS4zOTkgMy0uNDA1IDEuMDIuMDA2IDIuMDQuMTM4IDMgLjQwNSAyLjI4LTEuNTUyIDMuMjg1LTEuMjMgMy4yODUtMS4yMy42NDUgMS42NTMuMjQgMi44NzMuMTIgMy4xNzYuNzY1Ljg0IDEuMjMgMS45MSAxLjIzIDMuMjIgMCA0LjYxLTIuODA1IDUuNjI1LTUuNDc1IDUuOTIuNDIuMzYuODEgMS4wOTYuODEgMi4yMiAwIDEuNjA2LS4wMTUgMi44OTYtLjAxNSAzLjI4NiAwIC4zMTUuMjEuNjkuODI1LjU3QzIwLjU2NSAyMi4wOTIgMjQgMTcuNTkyIDI0IDEyLjI5N2MwLTYuNjI3LTUuMzczLTEyLTEyLTEyIi8+PC9zdmc+">
+<style>
+  :root{--ac:#24292e;--acd:#111418;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMjQyOTJlIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R2l0SHViPC90aXRsZT48cGF0aCBkPSJNMTIgLjI5N2MtNi42MyAwLTEyIDUuMzczLTEyIDEyIDAgNS4zMDMgMy40MzggOS44IDguMjA1IDExLjM4NS42LjExMy44Mi0uMjU4LjgyLS41NzcgMC0uMjg1LS4wMS0xLjA0LS4wMTUtMi4wNC0zLjMzOC43MjQtNC4wNDItMS42MS00LjA0Mi0xLjYxQzQuNDIyIDE4LjA3IDMuNjMzIDE3LjcgMy42MzMgMTcuN2MtMS4wODctLjc0NC4wODQtLjcyOS4wODQtLjcyOSAxLjIwNS4wODQgMS44MzggMS4yMzYgMS44MzggMS4yMzYgMS4wNyAxLjgzNSAyLjgwOSAxLjMwNSAzLjQ5NS45OTguMTA4LS43NzYuNDE3LTEuMzA1Ljc2LTEuNjA1LTIuNjY1LS4zLTUuNDY2LTEuMzMyLTUuNDY2LTUuOTMgMC0xLjMxLjQ2NS0yLjM4IDEuMjM1LTMuMjItLjEzNS0uMzAzLS41NC0xLjUyMy4xMDUtMy4xNzYgMCAwIDEuMDA1LS4zMjIgMy4zIDEuMjMuOTYtLjI2NyAxLjk4LS4zOTkgMy0uNDA1IDEuMDIuMDA2IDIuMDQuMTM4IDMgLjQwNSAyLjI4LTEuNTUyIDMuMjg1LTEuMjMgMy4yODUtMS4yMy42NDUgMS42NTMuMjQgMi44NzMuMTIgMy4xNzYuNzY1Ljg0IDEuMjMgMS45MSAxLjIzIDMuMjIgMCA0LjYxLTIuODA1IDUuNjI1LTUuNDc1IDUuOTIuNDIuMzYuODEgMS4wOTYuODEgMi4yMiAwIDEuNjA2LS4wMTUgMi44OTYtLjAxNSAzLjI4NiAwIC4zMTUuMjEuNjkuODI1LjU3QzIwLjU2NSAyMi4wOTIgMjQgMTcuNTkyIDI0IDEyLjI5N2MwLTYuNjI3LTUuMzczLTEyLTEyLTEyIi8+PC9zdmc+" width="110" alt="GitHub logo" /><h1 id="github--complete-notes">GitHub — Complete Notes</h1>
+<p><strong>Git hosting &amp; collaboration</strong> · Code, review, automate, ship</p>
+<p><img src="https://img.shields.io/badge/GitHub-Platform-24292e?style=flat-square&logo=github&logoColor=white" alt="GitHub">
+<img src="https://img.shields.io/badge/Built%20on-Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Built%20on">
+<img src="https://img.shields.io/badge/Workflow-Pull%20Requests-24292e?style=flat-square" alt="Collaboration">
+<img src="https://img.shields.io/badge/Automation-Actions-2088FF?style=flat-square" alt="CI/CD"></p>
+<p><em>A reader-friendly, all-in-one reference for GitHub.</em></p>
+<p><a class="dl-btn" href="github-notes.pdf" download="github-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-github">What is GitHub</a></li>
+<li><a href="#2--git-vs-github">Git vs GitHub</a></li>
+<li><a href="#3--core-concepts">Core Concepts</a></li>
+<li><a href="#4--repositories">Repositories</a></li>
+<li><a href="#5--essential-git-workflow">Essential Git Workflow</a></li>
+<li><a href="#6--branching--merging">Branching &amp; Merging</a></li>
+<li><a href="#7--pull-requests">Pull Requests</a></li>
+<li><a href="#8--forks--collaboration-models">Forks &amp; Collaboration Models</a></li>
+<li><a href="#9--issues--project-management">Issues &amp; Project Management</a></li>
+<li><a href="#10--github-actions-cicd">GitHub Actions (CI/CD)</a></li>
+<li><a href="#11--releases-tags--packages">Releases, Tags &amp; Packages</a></li>
+<li><a href="#12--authentication--security">Authentication &amp; Security</a></li>
+<li><a href="#13--github-cli--useful-commands">GitHub CLI &amp; Useful Commands</a></li>
+<li><a href="#14--best-practices">Best Practices</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-github">1. 🐙 What is GitHub</h2>
+<p>GitHub is a <strong>cloud platform for hosting Git repositories</strong> and collaborating on code. On top of Git&#39;s version control it adds <strong>pull requests, code review, issues, CI/CD (Actions), packages, releases, security scanning, and project management</strong> — making it the hub where teams (and open source) build software together.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> <strong>Git</strong> is the version-control engine (local). <strong>GitHub</strong> is the place your repos live online plus the collaboration + automation layer around them.</p>
+</blockquote>
+<p><strong>Common uses:</strong> source hosting, team collaboration &amp; code review, open-source projects, CI/CD pipelines, issue tracking, documentation (wikis/Pages), and release distribution.</p>
+<hr>
+<h2 id="2--git-vs-github">2. 🔀 Git vs GitHub</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Git</strong></th>
+<th><strong>GitHub</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>What</td>
+<td>Distributed version-control <strong>tool</strong></td>
+<td><strong>Hosting + collaboration platform</strong> built on Git</td>
+</tr>
+<tr>
+<td>Where</td>
+<td>Runs locally (CLI)</td>
+<td>In the cloud (web + API)</td>
+</tr>
+<tr>
+<td>Made by</td>
+<td>Linus Torvalds (2005)</td>
+<td>GitHub, Inc. (now Microsoft)</td>
+</tr>
+<tr>
+<td>Works offline</td>
+<td>✅ Yes</td>
+<td>Needs network to sync</td>
+</tr>
+<tr>
+<td>Adds</td>
+<td>Commits, branches, history</td>
+<td>PRs, issues, Actions, reviews, access control</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Other Git hosts exist (GitLab, Bitbucket, Gitea) — they host the <strong>same Git repos</strong>; GitHub is the most widely used.</p>
+</blockquote>
+<hr>
+<h2 id="3--core-concepts">3. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Repository (repo)</strong></td>
+<td>A project&#39;s files + full version history.</td>
+</tr>
+<tr>
+<td><strong>Commit</strong></td>
+<td>A snapshot of changes with a message + author.</td>
+</tr>
+<tr>
+<td><strong>Branch</strong></td>
+<td>A movable pointer / independent line of work.</td>
+</tr>
+<tr>
+<td><strong>Remote</strong></td>
+<td>A hosted copy of the repo (e.g. <code>origin</code> on GitHub).</td>
+</tr>
+<tr>
+<td><strong>Clone</strong></td>
+<td>A full local copy of a remote repo.</td>
+</tr>
+<tr>
+<td><strong>Fork</strong></td>
+<td>Your own server-side copy of someone else&#39;s repo.</td>
+</tr>
+<tr>
+<td><strong>Pull Request (PR)</strong></td>
+<td>A proposal to merge one branch into another, with review.</td>
+</tr>
+<tr>
+<td><strong>Issue</strong></td>
+<td>A tracked task, bug, or discussion.</td>
+</tr>
+<tr>
+<td><strong>Action / Workflow</strong></td>
+<td>Automated CI/CD jobs triggered by events.</td>
+</tr>
+<tr>
+<td><strong>Release / Tag</strong></td>
+<td>A named, versioned snapshot for distribution.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4--repositories">4. 📂 Repositories</h2>
+<ul>
+<li>A repo holds your code, history, branches, issues, PRs, and settings.</li>
+<li><strong>Visibility:</strong> <strong>Public</strong> (anyone can view), <strong>Private</strong> (you control access), or <strong>Internal</strong> (org-wide, Enterprise).</li>
+<li>Useful repo files: <strong><code>README.md</code></strong> (front page), <strong><code>LICENSE</code></strong>, <strong><code>.gitignore</code></strong>, <strong><code>CONTRIBUTING.md</code></strong>, <strong><code>CODEOWNERS</code></strong>, <strong><code>.github/</code></strong> (templates + workflows).</li>
+<li><strong>Branch protection rules</strong> enforce review, passing checks, and linear history on important branches (e.g. <code>main</code>).</li>
+<li>Extras: <strong>Wiki</strong>, <strong>GitHub Pages</strong> (free static site hosting), <strong>Discussions</strong>, <strong>Projects</strong>.</li>
+</ul>
+<pre><code class="language-bash">gh repo create my-project --public --clone     # create + clone (GitHub CLI)
+git clone https://github.com/user/repo.git      # clone an existing repo
+</code></pre>
+<hr>
+<h2 id="5--essential-git-workflow">5. 🔄 Essential Git Workflow</h2>
+<p>The everyday loop — edit, stage, commit, push:</p>
+<pre><code class="language-bash">git status                       # what changed
+git add file.txt                 # stage a file (git add -A = everything)
+git commit -m &quot;feat: add X&quot;      # snapshot staged changes
+git push origin main             # upload commits to GitHub
+git pull origin main             # fetch + merge remote changes
+git log --oneline -10            # recent history
+git diff                         # unstaged changes
+</code></pre>
+<p><strong>The three areas:</strong> <strong>Working directory</strong> (your edits) → <code>git add</code> → <strong>Staging area</strong> (index) → <code>git commit</code> → <strong>Repository</strong> (history) → <code>git push</code> → <strong>GitHub</strong>.</p>
+<blockquote>
+<p>💡 <code>git fetch</code> downloads remote changes <strong>without</strong> merging; <code>git pull</code> = <code>fetch</code> + <code>merge</code> (or <code>--rebase</code>).</p>
+</blockquote>
+<hr>
+<h2 id="6--branching--merging">6. 🌿 Branching &amp; Merging</h2>
+<ul>
+<li>Branch off <code>main</code> for each feature/fix → isolate work, keep <code>main</code> releasable.</li>
+<li>Merge strategies on GitHub PRs:<ul>
+<li><strong>Merge commit</strong> — preserves all commits + a merge node (full history).</li>
+<li><strong>Squash and merge</strong> — combines a PR into one tidy commit (clean history; common default).</li>
+<li><strong>Rebase and merge</strong> — replays commits linearly, no merge commit.</li>
+</ul>
+</li>
+<li><strong>Merge conflicts</strong> happen when two branches change the same lines — Git marks them; you resolve, then commit.</li>
+</ul>
+<pre><code class="language-bash">git switch -c feature/login      # create + switch to a branch (or: git checkout -b)
+git switch main                  # switch branches
+git merge feature/login          # merge a branch into current
+git rebase main                  # replay current branch on top of main
+git branch -d feature/login      # delete a merged branch
+</code></pre>
+<blockquote>
+<p>⚠️ <strong>Rebase rewrites history</strong> — never rebase commits already pushed and shared, or you&#39;ll diverge from collaborators.</p>
+</blockquote>
+<hr>
+<h2 id="7--pull-requests">7. 🔁 Pull Requests</h2>
+<p>A <strong>PR</strong> proposes merging a branch and is the heart of GitHub collaboration:</p>
+<ol>
+<li>Push a feature branch and <strong>open a PR</strong> against the base (e.g. <code>main</code>).</li>
+<li><strong>Reviewers</strong> comment, request changes, or approve; CI checks run automatically.</li>
+<li>Address feedback with more commits; when approved + green, <strong>merge</strong>.</li>
+</ol>
+<ul>
+<li><strong>Draft PRs</strong> signal work-in-progress (no review yet).</li>
+<li><strong>Required reviews + status checks</strong> (branch protection) gate the merge.</li>
+<li>Reference issues in the description to auto-close them: <strong><code>Fixes #123</code></strong>.</li>
+<li><strong><code>CODEOWNERS</code></strong> auto-requests the right reviewers for touched paths.</li>
+</ul>
+<pre><code class="language-bash">gh pr create --title &quot;feat: login&quot; --body &quot;Fixes #123&quot;
+gh pr status         # PRs involving you
+gh pr checkout 42    # check out PR #42 locally
+gh pr merge 42 --squash --delete-branch
+</code></pre>
+<hr>
+<h2 id="8--forks--collaboration-models">8. 🍴 Forks &amp; Collaboration Models</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>How</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Shared repo</strong></td>
+<td>Collaborators push branches to one repo, open PRs</td>
+<td>Teams / orgs with write access</td>
+</tr>
+<tr>
+<td><strong>Fork &amp; PR</strong></td>
+<td>Fork → push to your fork → PR to upstream</td>
+<td>Open source / external contributors</td>
+</tr>
+</tbody></table>
+<ul>
+<li>A <strong>fork</strong> is your own copy; keep it in sync with <strong>upstream</strong>:</li>
+</ul>
+<pre><code class="language-bash">gh repo fork user/repo --clone
+git remote add upstream https://github.com/user/repo.git
+git fetch upstream &amp;&amp; git merge upstream/main     # sync your fork
+</code></pre>
+<hr>
+<h2 id="9--issues--project-management">9. 📋 Issues &amp; Project Management</h2>
+<ul>
+<li><strong>Issues</strong> track bugs, features, tasks, and discussions — with <strong>labels</strong>, <strong>assignees</strong>, <strong>milestones</strong>, and <strong>issue templates</strong> (<code>.github/ISSUE_TEMPLATE/</code>).</li>
+<li><strong>Closing keywords</strong> in a PR/commit auto-close issues: <code>Fixes #12</code>, <code>Closes #34</code>, <code>Resolves #56</code>.</li>
+<li><strong>GitHub Projects</strong> — flexible boards/tables (kanban, roadmaps) linking issues &amp; PRs.</li>
+<li><strong>Discussions</strong> — Q&amp;A / community threads separate from issues.</li>
+<li><strong>@mentions</strong>, <strong>references</strong> (<code>#123</code>, <code>user/repo#123</code>), and <strong>task lists</strong> (<code>- [ ]</code>) tie everything together.</li>
+</ul>
+<hr>
+<h2 id="10--github-actions-cicd">10. ⚙️ GitHub Actions (CI/CD)</h2>
+<p>GitHub&#39;s built-in automation — run jobs on events (push, PR, schedule, manual).</p>
+<ul>
+<li><strong>Workflow</strong> = a YAML file in <code>.github/workflows/</code>. It has <strong>jobs</strong>, each with <strong>steps</strong>; steps run commands or reusable <strong>actions</strong> (<code>uses:</code>).</li>
+<li><strong>Runners</strong> execute jobs (GitHub-hosted Linux/macOS/Windows, or self-hosted).</li>
+<li>Use <strong>secrets</strong> (<code>${{ secrets.X }}</code>) for credentials; cache deps; build matrices to test many versions.</li>
+</ul>
+<pre><code class="language-yaml"># .github/workflows/ci.yml
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - run: npm test
+</code></pre>
+<blockquote>
+<p>Common uses: lint/test on every PR, build &amp; publish images/packages, deploy on merge, scheduled jobs, release automation.</p>
+</blockquote>
+<hr>
+<h2 id="11--releases-tags--packages">11. 🏷️ Releases, Tags &amp; Packages</h2>
+<ul>
+<li><strong>Tags</strong> mark a point in history; <strong>annotated tags</strong> (<code>git tag -a v1.0 -m &quot;...&quot;</code>) are used for versioned releases (semver: <code>v1.2.3</code>).</li>
+<li><strong>Releases</strong> wrap a tag with notes + downloadable <strong>assets</strong> (binaries, archives); auto-generated changelogs available.</li>
+<li><strong>GitHub Packages / Container Registry (GHCR)</strong> host npm, Maven, NuGet, RubyGems, and <strong>container images</strong> (<code>ghcr.io/owner/image</code>).</li>
+</ul>
+<pre><code class="language-bash">git tag -a v1.0.0 -m &quot;First release&quot; &amp;&amp; git push origin v1.0.0
+gh release create v1.0.0 ./dist/* --notes &quot;Initial release&quot;
+</code></pre>
+<hr>
+<h2 id="12--authentication--security">12. 🔐 Authentication &amp; Security</h2>
+<ul>
+<li><strong>Auth for Git:</strong> <strong>HTTPS + Personal Access Token (PAT)</strong> or <strong>SSH keys</strong> (password auth is disabled). The <strong>GitHub CLI</strong> (<code>gh auth login</code>) manages credentials for you.</li>
+<li><strong>2FA</strong> is required for contributors; use <strong>fine-grained PATs</strong> scoped to specific repos/permissions.</li>
+<li><strong>Security features:</strong> <strong>Dependabot</strong> (dependency updates + alerts), <strong>CodeQL / code scanning</strong>, <strong>secret scanning</strong> (blocks committed credentials), <strong>security advisories</strong>.</li>
+<li><strong>Branch protection</strong>, <strong>signed commits</strong> (GPG/SSH), and <strong>environments</strong> with required approvals protect important code/deploys.</li>
+</ul>
+<blockquote>
+<p>🔑 Never commit secrets. If you do, <strong>rotate the credential immediately</strong> — rewriting history doesn&#39;t un-leak it. Use Actions <strong>secrets</strong> / a secrets manager instead.</p>
+</blockquote>
+<hr>
+<h2 id="13--github-cli--useful-commands">13. ⌨️ GitHub CLI &amp; Useful Commands</h2>
+<pre><code class="language-bash"># GitHub CLI (gh) — auth, repos, PRs, issues, Actions
+gh auth login
+gh repo clone user/repo
+gh pr create / gh pr list / gh pr review / gh pr merge
+gh issue create / gh issue list
+gh run list / gh run watch          # Actions runs
+gh release create v1.0.0
+
+# Handy Git
+git clone &lt;url&gt;                      # copy a repo
+git remote -v                        # show remotes
+git stash / git stash pop            # shelve uncommitted work
+git restore --staged file            # unstage
+git reset --hard origin/main         # discard local, match remote (destructive)
+git revert &lt;sha&gt;                     # undo a commit safely (new commit)
+git cherry-pick &lt;sha&gt;                # apply one commit elsewhere
+</code></pre>
+<hr>
+<h2 id="14--best-practices">14. ✅ Best Practices</h2>
+<ul>
+<li><strong>Small, focused PRs</strong> with clear descriptions — easier to review and revert.</li>
+<li><strong>Meaningful commits</strong> — conventional style (<code>feat:</code>, <code>fix:</code>, <code>docs:</code>) + a body explaining <strong>why</strong>.</li>
+<li><strong>Protect <code>main</code></strong> — require reviews + passing CI; never push directly to it.</li>
+<li><strong>Branch per feature/fix</strong>; delete branches after merge.</li>
+<li><strong>Automate with Actions</strong> — lint/test on every PR; gate merges on green checks.</li>
+<li><strong>Link issues</strong> (<code>Fixes #N</code>) and use <code>CODEOWNERS</code> + templates for consistency.</li>
+<li><strong>Never commit secrets</strong>; enable Dependabot, secret scanning, and 2FA.</li>
+<li>Keep a good <strong>README</strong>, <strong>LICENSE</strong>, and <strong>CONTRIBUTING</strong> so others (and future you) can navigate the repo.</li>
+</ul>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Git = local version control; GitHub = hosting + collaboration + automation on top.</strong></li>
+<li>A <strong>repo</strong> holds code + history; you <strong>clone</strong> it, branch, <strong>commit</strong>, and <strong>push</strong>.</li>
+<li>Propose changes via <strong>Pull Requests</strong> → review + CI → <strong>merge</strong> (squash for clean history).</li>
+<li><strong>Fork &amp; PR</strong> for open source; <strong>shared repo</strong> for teams.</li>
+<li>Track work with <strong>Issues + Projects</strong>; auto-close with <code>Fixes #N</code>.</li>
+<li>Automate everything with <strong>GitHub Actions</strong> (<code>.github/workflows/*.yml</code>).</li>
+<li>Ship with <strong>tags + Releases</strong>; distribute via <strong>Packages/GHCR</strong>.</li>
+<li>Secure it: <strong>protect <code>main</code>, 2FA, scoped tokens, no committed secrets, Dependabot + scanning.</strong></li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for GitHub.</em></p>
+</div>
+</main></body></html>
