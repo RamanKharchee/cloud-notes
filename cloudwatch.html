@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon CloudWatch — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRTcxNTdCIiBmaWxsPSIjRTcxNTdCIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIENsb3VkV2F0Y2g8L3RpdGxlPjxwYXRoIGQ9Ik0xOC40NTQgMTQuOTA1YzAtMS42NzYtMS4zNzItMy4wMzktMy4wNTktMy4wMzktMS42ODYgMC0zLjA1OCAxLjM2My0zLjA1OCAzLjAzOSAwIDEuNjc1IDEuMzcyIDMuMDM4IDMuMDU4IDMuMDM4IDEuNjg3IDAgMy4wNTktMS4zNjMgMy4wNTktMy4wMzhabS44NjIgMGMwIDIuMTQ3LTEuNzU5IDMuODk0LTMuOTIgMy44OTQtMi4xNjIgMC0zLjkyLTEuNzQ3LTMuOTItMy44OTQgMC0yLjE0OCAxLjc1OC0zLjg5NSAzLjkyLTMuODk1IDIuMTYxIDAgMy45MiAxLjc0NyAzLjkyIDMuODk1Wm0zLjYxNyA1Ljg3LTMuMDA0LTIuNjg4Yy0uMjQyLjM0LS41MjMuNjQ5LS44MzQuOTI2bDIuOTk5IDIuNjg3Yy4yNTYuMjMuNjU0LjIwOC44ODUtLjA0NmEuNjIzLjYyMyAwIDAgMC0uMDQ2LS44OFptLTcuNTM4LTEuMjA2YzIuNTkgMCA0LjY5Ni0yLjA5MiA0LjY5Ni00LjY2NCAwLTIuNTczLTIuMTA2LTQuNjY1LTQuNjk2LTQuNjY1LTIuNTg5IDAtNC42OTYgMi4wOTItNC42OTYgNC42NjUgMCAyLjU3MiAyLjEwNyA0LjY2NCA0LjY5NiA0LjY2NFptOC4yMjQgMi42NThjLS4yOTMuMzIzLS43LjQ4Ny0xLjEwNy40ODdhMS40OSAxLjQ5IDAgMCAxLS45OTUtLjM3OEwxOC4zOTkgMTkuNTQyYTUuNTQzIDUuNTQzIDAgMCAxLTMuMDA0Ljg4M2MtMy4wNjQgMC01LjU1Ny0yLjQ3Ni01LjU1Ny01LjUyIDAtMy4wNDQgMi40OTMtNS41MjEgNS41NTctNS41MjEgMy4wNjUgMCA1LjU1OCAyLjQ3NyA1LjU1OCA1LjUyIDAgLjg3NC0uMjEgMS42OTctLjU3NiAyLjQzMmwzLjEzMyAyLjgwM2MuNjA4LjU0Ni42NTcgMS40ODIuMTEgMi4wODhaTTMuOTc3IDcuNDU0YzAgLjIyMi4wMTQuNDQ0LjA0LjY1OWEuNDI2LjQyNiAwIDAgMS0uMzUyLjQ3M0MyLjYwNSA4Ljg1OC44NjIgOS42ODEuODYyIDEyLjE0OGMwIDEuODYzIDEuMDM0IDIuODkyIDEuOTAyIDMuNDI3LjI5Ny4xODUuNjQ3LjI4NCAxLjAxNy4yODhsNS4xOTUuMDA1di44NTZsLTUuMi0uMDA1YTIuODE1IDIuODE1IDAgMCAxLTEuNDY5LS40MThDMS40NDcgMTUuNzcgMCAxNC41MjQgMCAxMi4xNDhjMC0yLjg2NCAxLjk3MS0zLjkyMyAzLjEyOS00LjI5N2E2LjA5MyA2LjA5MyAwIDAgMS0uMDEzLS4zOTdjMC0yLjM0IDEuNTk4LTQuNzY3IDMuNzE2LTUuNjQ1IDIuNDc4LTEuMDMxIDUuMTA0LS41MiA3LjAyMiAxLjM2N2E3LjA0OCA3LjA0OCAwIDAgMSAxLjQ1OSAyLjExNiAyLjc5IDIuNzkgMCAwIDEgMS43OC0uNjQ0YzEuMjg3IDAgMi43MzUuOTcgMi45OTMgMy4wOTIgMS4yMDUuMjc2IDMuNzUxIDEuMjQgMy43NTEgNC40NDEgMCAxLjI3OC0uNDAzIDIuMzMzLTEuMTk5IDMuMTM3bC0uNjE0LS42Yy42MzItLjYzOC45NTItMS40OTEuOTUyLTIuNTM3IDAtMi44LTIuMzYtMy40OTUtMy4zNzQtMy42NjRhLjQzLjQzIDAgMCAxLS4zNTMtLjQ5NmMtLjE0MS0xLjczOC0xLjE4LTIuNTE3LTIuMTU2LTIuNTE3LS42MTYgMC0xLjE5My4yOTgtMS41ODQuODE4YS40MzEuNDMxIDAgMCAxLS43NS0uMTExYy0uMzUzLS45NzEtLjg2MS0xLjc4OC0xLjUxMS0yLjQyNi0xLjY2My0xLjYzNi0zLjkzNi0yLjA3OS02LjA4NC0xLjE4Ni0xLjc4Ny43NC0zLjE4NyAyLjg3My0zLjE4NyA0Ljg1NVoiLz48L3N2Zz4=">
+<style>
+  :root{--ac:#E7157B;--acd:#9c0e53;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRTcxNTdCIiBmaWxsPSIjRTcxNTdCIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIENsb3VkV2F0Y2g8L3RpdGxlPjxwYXRoIGQ9Ik0xOC40NTQgMTQuOTA1YzAtMS42NzYtMS4zNzItMy4wMzktMy4wNTktMy4wMzktMS42ODYgMC0zLjA1OCAxLjM2My0zLjA1OCAzLjAzOSAwIDEuNjc1IDEuMzcyIDMuMDM4IDMuMDU4IDMuMDM4IDEuNjg3IDAgMy4wNTktMS4zNjMgMy4wNTktMy4wMzhabS44NjIgMGMwIDIuMTQ3LTEuNzU5IDMuODk0LTMuOTIgMy44OTQtMi4xNjIgMC0zLjkyLTEuNzQ3LTMuOTItMy44OTQgMC0yLjE0OCAxLjc1OC0zLjg5NSAzLjkyLTMuODk1IDIuMTYxIDAgMy45MiAxLjc0NyAzLjkyIDMuODk1Wm0zLjYxNyA1Ljg3LTMuMDA0LTIuNjg4Yy0uMjQyLjM0LS41MjMuNjQ5LS44MzQuOTI2bDIuOTk5IDIuNjg3Yy4yNTYuMjMuNjU0LjIwOC44ODUtLjA0NmEuNjIzLjYyMyAwIDAgMC0uMDQ2LS44OFptLTcuNTM4LTEuMjA2YzIuNTkgMCA0LjY5Ni0yLjA5MiA0LjY5Ni00LjY2NCAwLTIuNTczLTIuMTA2LTQuNjY1LTQuNjk2LTQuNjY1LTIuNTg5IDAtNC42OTYgMi4wOTItNC42OTYgNC42NjUgMCAyLjU3MiAyLjEwNyA0LjY2NCA0LjY5NiA0LjY2NFptOC4yMjQgMi42NThjLS4yOTMuMzIzLS43LjQ4Ny0xLjEwNy40ODdhMS40OSAxLjQ5IDAgMCAxLS45OTUtLjM3OEwxOC4zOTkgMTkuNTQyYTUuNTQzIDUuNTQzIDAgMCAxLTMuMDA0Ljg4M2MtMy4wNjQgMC01LjU1Ny0yLjQ3Ni01LjU1Ny01LjUyIDAtMy4wNDQgMi40OTMtNS41MjEgNS41NTctNS41MjEgMy4wNjUgMCA1LjU1OCAyLjQ3NyA1LjU1OCA1LjUyIDAgLjg3NC0uMjEgMS42OTctLjU3NiAyLjQzMmwzLjEzMyAyLjgwM2MuNjA4LjU0Ni42NTcgMS40ODIuMTEgMi4wODhaTTMuOTc3IDcuNDU0YzAgLjIyMi4wMTQuNDQ0LjA0LjY1OWEuNDI2LjQyNiAwIDAgMS0uMzUyLjQ3M0MyLjYwNSA4Ljg1OC44NjIgOS42ODEuODYyIDEyLjE0OGMwIDEuODYzIDEuMDM0IDIuODkyIDEuOTAyIDMuNDI3LjI5Ny4xODUuNjQ3LjI4NCAxLjAxNy4yODhsNS4xOTUuMDA1di44NTZsLTUuMi0uMDA1YTIuODE1IDIuODE1IDAgMCAxLTEuNDY5LS40MThDMS40NDcgMTUuNzcgMCAxNC41MjQgMCAxMi4xNDhjMC0yLjg2NCAxLjk3MS0zLjkyMyAzLjEyOS00LjI5N2E2LjA5MyA2LjA5MyAwIDAgMS0uMDEzLS4zOTdjMC0yLjM0IDEuNTk4LTQuNzY3IDMuNzE2LTUuNjQ1IDIuNDc4LTEuMDMxIDUuMTA0LS41MiA3LjAyMiAxLjM2N2E3LjA0OCA3LjA0OCAwIDAgMSAxLjQ1OSAyLjExNiAyLjc5IDIuNzkgMCAwIDEgMS43OC0uNjQ0YzEuMjg3IDAgMi43MzUuOTcgMi45OTMgMy4wOTIgMS4yMDUuMjc2IDMuNzUxIDEuMjQgMy43NTEgNC40NDEgMCAxLjI3OC0uNDAzIDIuMzMzLTEuMTk5IDMuMTM3bC0uNjE0LS42Yy42MzItLjYzOC45NTItMS40OTEuOTUyLTIuNTM3IDAtMi44LTIuMzYtMy40OTUtMy4zNzQtMy42NjRhLjQzLjQzIDAgMCAxLS4zNTMtLjQ5NmMtLjE0MS0xLjczOC0xLjE4LTIuNTE3LTIuMTU2LTIuNTE3LS42MTYgMC0xLjE5My4yOTgtMS41ODQuODE4YS40MzEuNDMxIDAgMCAxLS43NS0uMTExYy0uMzUzLS45NzEtLjg2MS0xLjc4OC0xLjUxMS0yLjQyNi0xLjY2My0xLjYzNi0zLjkzNi0yLjA3OS02LjA4NC0xLjE4Ni0xLjc4Ny43NC0zLjE4NyAyLjg3My0zLjE4NyA0Ljg1NVoiLz48L3N2Zz4=" width="110" alt="Amazon CloudWatch logo" /><h1 id="amazon-cloudwatch--complete-notes">Amazon CloudWatch — Complete Notes</h1>
+<p><strong>Observability</strong> · Metrics, logs, alarms &amp; events for AWS</p>
+<p><img src="https://img.shields.io/badge/AWS-CloudWatch-E7157B?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Service-Monitoring-E7157B?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Metrics-Logs-Alarms-blue?style=flat-square" alt="Pillars">
+<img src="https://img.shields.io/badge/Scope-Regional-lightgrey?style=flat-square" alt="Scope"></p>
+<p><em>A reader-friendly, all-in-one reference for Amazon CloudWatch.</em></p>
+<p><a class="dl-btn" href="amazon-cloudwatch-notes.pdf" download="amazon-cloudwatch-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-cloudwatch">What is CloudWatch</a></li>
+<li><a href="#2--core-concepts">Core Concepts</a></li>
+<li><a href="#3--metrics">Metrics</a></li>
+<li><a href="#4--alarms">Alarms</a></li>
+<li><a href="#5--logs--logs-insights">Logs &amp; Logs Insights</a></li>
+<li><a href="#6--dashboards">Dashboards</a></li>
+<li><a href="#7--events--eventbridge">Events &amp; EventBridge</a></li>
+<li><a href="#8--cloudwatch-agent">CloudWatch Agent</a></li>
+<li><a href="#9--insights-container-lambda-app">Insights (Container, Lambda, App)</a></li>
+<li><a href="#10--cloudwatch-vs-cloudtrail">CloudWatch vs CloudTrail</a></li>
+<li><a href="#11--pricing">Pricing</a></li>
+<li><a href="#12--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#13--best-practices">Best Practices</a></li>
+<li><a href="#14--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#15--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-cloudwatch">1. 📈 What is CloudWatch</h2>
+<p>Amazon CloudWatch is AWS&#39;s <strong>observability service</strong> — it collects <strong>metrics</strong>, <strong>logs</strong>, and <strong>events</strong> from AWS services and your apps, lets you visualize them on <strong>dashboards</strong>, and triggers <strong>alarms/actions</strong> when something crosses a threshold. It&#39;s how you answer <em>&quot;is my system healthy, and what do I do when it isn&#39;t?&quot;</em></p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> CloudWatch is the <strong>monitoring nerve center</strong> of AWS — metrics tell you <em>what&#39;s happening</em>, logs tell you <em>why</em>, alarms <em>react</em>, and EventBridge <em>routes</em> operational events to automation.</p>
+</blockquote>
+<p><strong>Common uses:</strong> infrastructure/app monitoring, alerting, auto-recovery, autoscaling triggers, log aggregation &amp; search, dashboards, scheduled jobs.</p>
+<hr>
+<h2 id="2--core-concepts">2. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Metric</strong></td>
+<td>A time-ordered set of data points (e.g. <code>CPUUtilization</code>).</td>
+</tr>
+<tr>
+<td><strong>Namespace</strong></td>
+<td>A container grouping metrics (e.g. <code>AWS/EC2</code>).</td>
+</tr>
+<tr>
+<td><strong>Dimension</strong></td>
+<td>A name/value pair identifying a metric (e.g. <code>InstanceId=i-123</code>).</td>
+</tr>
+<tr>
+<td><strong>Statistic</strong></td>
+<td>Aggregation over a period (Avg, Sum, Min, Max, p99).</td>
+</tr>
+<tr>
+<td><strong>Alarm</strong></td>
+<td>Watches a metric and changes state / takes action.</td>
+</tr>
+<tr>
+<td><strong>Log Group / Stream</strong></td>
+<td>Container / sequence of log events.</td>
+</tr>
+<tr>
+<td><strong>Dashboard</strong></td>
+<td>Customizable view of metrics &amp; logs.</td>
+</tr>
+<tr>
+<td><strong>Event / Rule</strong></td>
+<td>An operational change routed via EventBridge.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--metrics">3. 📊 Metrics</h2>
+<ul>
+<li>AWS services publish metrics automatically (EC2 CPU, ELB request count, DynamoDB throttles, Lambda duration…).</li>
+<li><strong>Resolution:</strong> standard = <strong>1-minute</strong>; <strong>high-resolution custom metrics</strong> down to <strong>1 second</strong>. EC2 <strong>detailed monitoring</strong> = 1-min (extra cost) vs default 5-min.</li>
+<li><strong>Custom metrics</strong> — push your own with <code>PutMetricData</code> (app KPIs, business metrics).</li>
+<li><strong>Metric Math</strong> combines metrics into computed series; <strong>anomaly detection</strong> builds a band of expected values.</li>
+<li>⚠️ EC2 does <strong>not</strong> report <strong>memory</strong> or <strong>disk usage</strong> by default — you need the <strong>CloudWatch agent</strong> for those.</li>
+</ul>
+<hr>
+<h2 id="4--alarms">4. 🚨 Alarms</h2>
+<ul>
+<li>An alarm watches one metric (or a Metric Math expression) over N periods and enters a <strong>state</strong>: <strong>OK</strong>, <strong>ALARM</strong>, or <strong>INSUFFICIENT_DATA</strong>.</li>
+<li><strong>Actions</strong> on state change: notify via <strong>SNS</strong>, trigger <strong>Auto Scaling</strong>, <strong>EC2 actions</strong> (stop/terminate/reboot/recover), or a <strong>Systems Manager</strong> action.</li>
+<li><strong>Composite alarms</strong> combine several alarms with AND/OR to cut noise.</li>
+<li>Common pattern: <code>CPU &gt; 70% for 3 minutes</code> → SNS email + Auto Scaling scale-out.</li>
+</ul>
+<pre><code>Metric ──▶ Alarm (threshold, periods) ──▶ State change ──▶ Action (SNS / ASG / EC2)
+</code></pre>
+<hr>
+<h2 id="5--logs--logs-insights">5. 📜 Logs &amp; Logs Insights</h2>
+<ul>
+<li><strong>CloudWatch Logs</strong> centralizes logs into <strong>log groups</strong> (per app/service) and <strong>log streams</strong> (per source). Lambda, ECS, API GW, VPC Flow Logs, and the agent all ship here.</li>
+<li><strong>Retention</strong> is configurable per log group (1 day → forever; default never-expire = cost trap).</li>
+<li><strong>Logs Insights</strong> — a fast query language to search/aggregate logs:</li>
+</ul>
+<pre><code class="language-sql">fields @timestamp, @message
+| filter @message like /ERROR/
+| stats count() by bin(5m)
+| sort @timestamp desc
+</code></pre>
+<ul>
+<li><strong>Metric filters</strong> turn log patterns into metrics (e.g. count &quot;ERROR&quot; → alarm). <strong>Subscription filters</strong> stream logs to Lambda/Kinesis/OpenSearch.</li>
+</ul>
+<hr>
+<h2 id="6--dashboards">6. 📐 Dashboards</h2>
+<ul>
+<li>Customizable, <strong>cross-region/cross-account</strong> views combining metric graphs, logs widgets, alarms, and text.</li>
+<li>Use them as a <strong>single pane of glass</strong> for a service or environment; can be shared.</li>
+</ul>
+<hr>
+<h2 id="7--events--eventbridge">7. 🔔 Events &amp; EventBridge</h2>
+<ul>
+<li><strong>CloudWatch Events</strong> (now <strong>Amazon EventBridge</strong>) reacts to <strong>operational events</strong> and <strong>schedules</strong>.</li>
+<li><strong>Rules</strong> match event patterns (e.g. &quot;EC2 instance entered <code>stopped</code>&quot;) or run on a <strong>cron/rate schedule</strong>, then route to <strong>targets</strong> (Lambda, SNS, SQS, Step Functions…).</li>
+<li>Classic uses: scheduled Lambda (cron jobs), auto-remediation, event-driven automation.</li>
+</ul>
+<blockquote>
+<p>EventBridge is the evolution of CloudWatch Events with richer routing, a schema registry, and SaaS/partner event buses.</p>
+</blockquote>
+<hr>
+<h2 id="8--cloudwatch-agent">8. 🛠️ CloudWatch Agent</h2>
+<ul>
+<li>A unified agent installed on EC2/on-prem servers to collect what AWS can&#39;t see from outside: <strong>memory, disk, swap, processes</strong>, plus custom <strong>application logs</strong>.</li>
+<li>Configured via a JSON config (or SSM Parameter Store); pushes custom metrics + logs to CloudWatch.</li>
+</ul>
+<hr>
+<h2 id="9--insights-container-lambda-app">9. 🔬 Insights (Container, Lambda, App)</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Gives</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Container Insights</strong></td>
+<td>Metrics &amp; logs for ECS / EKS / Kubernetes workloads.</td>
+</tr>
+<tr>
+<td><strong>Lambda Insights</strong></td>
+<td>Per-invocation system-level metrics for functions.</td>
+</tr>
+<tr>
+<td><strong>Application Insights</strong></td>
+<td>Automated monitoring/setup for common app stacks.</td>
+</tr>
+<tr>
+<td><strong>ServiceLens / X-Ray</strong></td>
+<td>Traces + service maps tying metrics, logs, and traces together.</td>
+</tr>
+<tr>
+<td><strong>Synthetics</strong></td>
+<td>Canaries that probe endpoints on a schedule.</td>
+</tr>
+<tr>
+<td><strong>RUM</strong></td>
+<td>Real-User Monitoring for front-end performance.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="10--cloudwatch-vs-cloudtrail">10. ⚖️ CloudWatch vs CloudTrail</h2>
+<p>A very common point of confusion:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>CloudWatch</strong></th>
+<th><strong>CloudTrail</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Answers</td>
+<td>&quot;How is it <strong>performing</strong>?&quot;</td>
+<td>&quot;<strong>Who did what</strong>, and when?&quot;</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>Metrics, logs, alarms (performance/ops)</td>
+<td>API call audit log (governance/security)</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Monitoring, alerting, dashboards</td>
+<td>Auditing, compliance, forensics</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Memory hook: <strong>CloudWatch = performance/health; CloudTrail = audit/who-did-what.</strong> They&#39;re complementary, not interchangeable.</p>
+</blockquote>
+<hr>
+<h2 id="11--pricing">11. 💰 Pricing</h2>
+<p>You pay for:</p>
+<ol>
+<li><strong>Metrics</strong> — custom metrics per month; API requests (<code>PutMetricData</code>, <code>GetMetricData</code>).</li>
+<li><strong>Logs</strong> — ingestion per GB + storage per GB-month + Logs Insights queries scanned.</li>
+<li><strong>Alarms</strong> — per alarm per month (high-resolution costs more).</li>
+<li><strong>Dashboards</strong> — per dashboard per month (a free allotment first).</li>
+<li><strong>Extras</strong> — Synthetics canary runs, Contributor Insights, RUM events.</li>
+</ol>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> set <strong>log retention</strong> (don&#39;t keep forever) · avoid excessive high-resolution metrics/alarms · use metric filters instead of streaming everything · sample noisy logs · drop unused custom metrics.</p>
+</blockquote>
+<hr>
+<h2 id="12--common-cli-commands">12. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash">aws cloudwatch put-metric-data --namespace MyApp \
+  --metric-name Latency --value 123 --unit Milliseconds
+
+aws cloudwatch put-metric-alarm --alarm-name high-cpu \
+  --namespace AWS/EC2 --metric-name CPUUtilization \
+  --dimensions Name=InstanceId,Value=i-123 \
+  --statistic Average --period 300 --threshold 70 \
+  --comparison-operator GreaterThanThreshold --evaluation-periods 1 \
+  --alarm-actions arn:aws:sns:...:alerts
+
+aws cloudwatch describe-alarms
+aws logs tail /aws/lambda/myfn --follow          # tail a log group
+aws logs start-query --log-group-name /aws/lambda/myfn \
+  --start-time ... --end-time ... --query-string &#39;fields @message | filter @message like /ERROR/&#39;
+</code></pre>
+<hr>
+<h2 id="13--best-practices">13. ✅ Best Practices</h2>
+<ul>
+<li><strong>Set log retention</strong> on every log group (forever-by-default wastes money).</li>
+<li>Alarm on <strong>symptoms users feel</strong> (latency, error rate, queue depth), not just CPU.</li>
+<li>Use <strong>SNS</strong> for alarm fan-out (email, Slack, PagerDuty); <strong>composite alarms</strong> to reduce noise.</li>
+<li>Install the <strong>agent</strong> for memory/disk + app logs (EC2 doesn&#39;t report them by default).</li>
+<li>Build <strong>dashboards</strong> per service; use <strong>Logs Insights</strong> for ad-hoc investigation.</li>
+<li>Wire alarms to <strong>Auto Scaling</strong> and <strong>EC2 auto-recovery</strong> for self-healing.</li>
+<li>Pair with <strong>CloudTrail</strong> for the full picture (performance + audit).</li>
+</ul>
+<hr>
+<h2 id="14--quick-mental-model">14. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>CloudWatch = AWS observability:</strong> metrics (what), logs (why), alarms (react), events (route).</li>
+<li>Metrics live in <strong>namespaces</strong> with <strong>dimensions</strong>; standard 1-min, high-res 1-sec, custom via <code>PutMetricData</code>.</li>
+<li><strong>Alarms</strong> go OK / ALARM / INSUFFICIENT_DATA and fire <strong>SNS / Auto Scaling / EC2</strong> actions.</li>
+<li><strong>Logs</strong> → log groups/streams; query with <strong>Logs Insights</strong>; turn patterns into metrics with metric filters.</li>
+<li><strong>EventBridge</strong> (CloudWatch Events) routes operational events + cron schedules to targets.</li>
+<li>EC2 needs the <strong>agent</strong> for memory/disk; use <strong>Container/Lambda Insights</strong> for those workloads.</li>
+<li><strong>CloudWatch = performance/health, CloudTrail = audit.</strong></li>
+</ul>
+<hr>
+<h2 id="15--common-interview-questions">15. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about CloudWatch:</p>
+<ul>
+<li><strong>Q: CloudWatch vs CloudTrail?</strong> — CloudWatch monitors performance/health (metrics, logs, alarms). CloudTrail audits API activity (who did what, when).</li>
+<li><strong>Q: Does EC2 report memory usage by default?</strong> — No. CPU/network/disk-I/O yes; <strong>memory and disk space</strong> need the <strong>CloudWatch agent</strong>.</li>
+<li><strong>Q: What are the alarm states?</strong> — OK, ALARM, INSUFFICIENT_DATA. Actions fire on state changes (SNS, Auto Scaling, EC2 recover).</li>
+<li><strong>Q: How do you alert the team?</strong> — Alarm → <strong>SNS</strong> topic → email/SMS/Slack/PagerDuty subscribers.</li>
+<li><strong>Q: How do you run a scheduled task?</strong> — An <strong>EventBridge (CloudWatch Events)</strong> cron/rate rule targeting a Lambda.</li>
+<li><strong>Q: How do you search logs?</strong> — <strong>CloudWatch Logs Insights</strong> query language; or create <strong>metric filters</strong> to alarm on log patterns.</li>
+<li><strong>Q: Standard vs detailed monitoring (EC2)?</strong> — Standard = 5-minute metrics (free); detailed = 1-minute (extra cost).</li>
+<li><strong>Q: How do you make a system self-healing?</strong> — Alarms trigger <strong>Auto Scaling</strong> replacement and <strong>EC2 auto-recovery</strong> on failed status checks.</li>
+<li><strong>Q: How do you control log cost?</strong> — Set <strong>retention</strong> per log group and sample/limit high-cardinality custom metrics.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon CloudWatch.</em></p>
+</div>
+</main></body></html>

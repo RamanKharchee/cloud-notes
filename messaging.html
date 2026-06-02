@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS Messaging (SQS & SNS) — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjOUQ0RUREIiBmaWxsPSIjOUQ0RUREIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIFNRUzwvdGl0bGU+PHBhdGggZD0ibTcuMTY0IDEzLjU4IDEuMjg3LTEuMjdhLjQyNS40MjUgMCAwIDAgLjAwMi0uNjAzTDcuMTY2IDEwLjQybC0uNjA4LjYwMS41NTIuNTUySDUuMTQ3di44NTJoMS45N2wtLjU1Ny41NVptOS44Mi4wNCAxLjcxNS0xLjI4YS40MjcuNDI3IDAgMCAwIDAtLjY4MmwtMS43MTYtMS4yNzctLjUxNS42ODIuNjg2LjUxSDE1LjQ0di44NTNoMS43MTVsLS42ODYuNTExWk05Ljk0NSAxMmMwIC45MDUtLjE1NiAxLjc1OC0uNDQ5IDIuNWE3LjA3IDcuMDcgMCAwIDEgMi41MTEtLjQ0NWMuODcgMCAxLjc0LjE0OCAyLjUxLjQ0NWE2Ljg1NSA2Ljg1NSAwIDAgMS0uNDQ4LTIuNWMwLS45MDUuMTU3LTEuNzU3LjQ0OS0yLjUtMS41NDMuNTkzLTMuNDc5LjU5My01LjAyMiAwIC4yOTMuNzQzLjQ1IDEuNTk1LjQ1IDIuNVptLTIuMSA0LjEzNmEuNDI0LjQyNCAwIDAgMSAwLS42MDJjLjc3OC0uNzc0IDEuMjQzLTIuMDk1IDEuMjQzLTMuNTM0IDAtMS40MzktLjQ2NS0yLjc2LTEuMjQ0LTMuNTM0YS40MjQuNDI0IDAgMCAxIDAtLjYwMi40My40MyAwIDAgMSAuNjA3IDBjMS42NjIgMS42NSA1LjQ1IDEuNjUgNy4xMTMgMGEuNDMuNDMgMCAwIDEgLjczMi4zMDEuNDIuNDIgMCAwIDEtLjEyNi4zMDFjLS43NzguNzc0LTEuMjQzIDIuMDk1LTEuMjQzIDMuNTM0IDAgMS40MzkuNDY1IDIuNzYgMS4yNDMgMy41MzRhLjQyNC40MjQgMCAwIDEgMCAuNjAyLjQzLjQzIDAgMCAxLS42MDYgMGMtMS42NjItMS42NS01LjQ1MS0xLjY1LTcuMTEzIDBhLjQzLjQzIDAgMCAxLS42MDcgMFptMTUuMjk5LTQuMTM0YzAtLjM5Ny0uMTU1LS43Ny0uNDM4LTEuMDUxYTEuNDk1IDEuNDk1IDAgMCAwLTEuMDU4LS40MzVjLS4zODMgMC0uNzY2LjE0NS0xLjA1OC40MzVhMS40ODEgMS40ODEgMCAwIDAgMCAyLjEwMmMuNTgzLjU4IDEuNTMyLjU4IDIuMTE2IDAgLjI4My0uMjguNDM4LS42NTQuNDM4LTEuMDVabS4xNjggMS42NTRhMi4zNTQgMi4zNTQgMCAwIDEtMS42NjQuNjg0IDIuMzU0IDIuMzU0IDAgMCAxLTEuNjY0LS42ODQgMi4zMyAyLjMzIDAgMCAxIDAtMy4zMDggMi4zNjYgMi4zNjYgMCAwIDEgMy4zMjggMCAyLjMzIDIuMzMgMCAwIDEgMCAzLjMwOFpNMy44NSAxMi4wMTJhMS40OTEgMS40OTEgMCAwIDAtMS40OTYtMS40ODcgMS40OTMgMS40OTMgMCAwIDAtMS40OTYgMS40ODdjMCAuMzk3LjE1NS43Ny40MzcgMS4wNTEuNTY2LjU2MSAxLjU1MS41NjEgMi4xMTYgMCAuMjgzLS4yODEuNDM5LS42NTQuNDM5LTEuMDUxWm0uMTY4IDEuNjU0YTIuMzU0IDIuMzU0IDAgMCAxLTEuNjY1LjY4NCAyLjM1NSAyLjM1NSAwIDAgMS0xLjY2NC0uNjg0IDIuMzMyIDIuMzMyIDAgMCAxIDAtMy4zMDggMi4zNjcgMi4zNjcgMCAwIDEgMy4zMjkgMCAyLjMzIDIuMzMgMCAwIDEgMCAzLjMwOFptMTQuMzY3IDQuN2E5LjAzNCA5LjAzNCAwIDAgMS02LjQxIDIuNjM5IDkuMDMzIDkuMDMzIDAgMCAxLTYuNDEtMi42MzhjLTEuMTc1LTEuMTY2LTEuODItMi41Ni0yLjE1Ni0zLjUyNGwtLjgxLjI4Yy4zNjQgMS4wNDcgMS4wNyAyLjU2NiAyLjM2IDMuODQ2YTkuODg4IDkuODg4IDAgMCAwIDcuMDE2IDIuODg4IDkuODg4IDkuODg4IDAgMCAwIDcuMDE2LTIuODg4IDEwLjIzNCAxMC4yMzQgMCAwIDAgMi40My0zLjg0OGwtLjgxMi0uMjc2YTkuMzcgOS4zNyAwIDAgMS0yLjIyNCAzLjUyMlpNMy40MDcgOS4xNThsLS44MS0uMjhjLjUyLTEuNDg0IDEuMzU4LTIuODUxIDIuMzYzLTMuODQ5YTkuODg3IDkuODg3IDAgMCAxIDcuMDE0LTIuODg1IDkuODg1IDkuODg1IDAgMCAxIDcuMDE0IDIuODg1IDEwLjQ5NyAxMC40OTcgMCAwIDEgMi40MyAzLjg1bC0uODA5LjI3OWE5LjYyOCA5LjYyOCAwIDAgMC0yLjIyOC0zLjUyNiA5LjAzIDkuMDMgMCAwIDAtNi40MDctMi42MzYgOS4wMyA5LjAzIDAgMCAwLTYuNDA4IDIuNjM2Yy0uOTE0LjkwOS0xLjY4MSAyLjE2MS0yLjE1OSAzLjUyNloiLz48L3N2Zz4=">
+<style>
+  :root{--ac:#9D4EDD;--acd:#6a2faa;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjOUQ0RUREIiBmaWxsPSIjOUQ0RUREIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIFNRUzwvdGl0bGU+PHBhdGggZD0ibTcuMTY0IDEzLjU4IDEuMjg3LTEuMjdhLjQyNS40MjUgMCAwIDAgLjAwMi0uNjAzTDcuMTY2IDEwLjQybC0uNjA4LjYwMS41NTIuNTUySDUuMTQ3di44NTJoMS45N2wtLjU1Ny41NVptOS44Mi4wNCAxLjcxNS0xLjI4YS40MjcuNDI3IDAgMCAwIDAtLjY4MmwtMS43MTYtMS4yNzctLjUxNS42ODIuNjg2LjUxSDE1LjQ0di44NTNoMS43MTVsLS42ODYuNTExWk05Ljk0NSAxMmMwIC45MDUtLjE1NiAxLjc1OC0uNDQ5IDIuNWE3LjA3IDcuMDcgMCAwIDEgMi41MTEtLjQ0NWMuODcgMCAxLjc0LjE0OCAyLjUxLjQ0NWE2Ljg1NSA2Ljg1NSAwIDAgMS0uNDQ4LTIuNWMwLS45MDUuMTU3LTEuNzU3LjQ0OS0yLjUtMS41NDMuNTkzLTMuNDc5LjU5My01LjAyMiAwIC4yOTMuNzQzLjQ1IDEuNTk1LjQ1IDIuNVptLTIuMSA0LjEzNmEuNDI0LjQyNCAwIDAgMSAwLS42MDJjLjc3OC0uNzc0IDEuMjQzLTIuMDk1IDEuMjQzLTMuNTM0IDAtMS40MzktLjQ2NS0yLjc2LTEuMjQ0LTMuNTM0YS40MjQuNDI0IDAgMCAxIDAtLjYwMi40My40MyAwIDAgMSAuNjA3IDBjMS42NjIgMS42NSA1LjQ1IDEuNjUgNy4xMTMgMGEuNDMuNDMgMCAwIDEgLjczMi4zMDEuNDIuNDIgMCAwIDEtLjEyNi4zMDFjLS43NzguNzc0LTEuMjQzIDIuMDk1LTEuMjQzIDMuNTM0IDAgMS40MzkuNDY1IDIuNzYgMS4yNDMgMy41MzRhLjQyNC40MjQgMCAwIDEgMCAuNjAyLjQzLjQzIDAgMCAxLS42MDYgMGMtMS42NjItMS42NS01LjQ1MS0xLjY1LTcuMTEzIDBhLjQzLjQzIDAgMCAxLS42MDcgMFptMTUuMjk5LTQuMTM0YzAtLjM5Ny0uMTU1LS43Ny0uNDM4LTEuMDUxYTEuNDk1IDEuNDk1IDAgMCAwLTEuMDU4LS40MzVjLS4zODMgMC0uNzY2LjE0NS0xLjA1OC40MzVhMS40ODEgMS40ODEgMCAwIDAgMCAyLjEwMmMuNTgzLjU4IDEuNTMyLjU4IDIuMTE2IDAgLjI4My0uMjguNDM4LS42NTQuNDM4LTEuMDVabS4xNjggMS42NTRhMi4zNTQgMi4zNTQgMCAwIDEtMS42NjQuNjg0IDIuMzU0IDIuMzU0IDAgMCAxLTEuNjY0LS42ODQgMi4zMyAyLjMzIDAgMCAxIDAtMy4zMDggMi4zNjYgMi4zNjYgMCAwIDEgMy4zMjggMCAyLjMzIDIuMzMgMCAwIDEgMCAzLjMwOFpNMy44NSAxMi4wMTJhMS40OTEgMS40OTEgMCAwIDAtMS40OTYtMS40ODcgMS40OTMgMS40OTMgMCAwIDAtMS40OTYgMS40ODdjMCAuMzk3LjE1NS43Ny40MzcgMS4wNTEuNTY2LjU2MSAxLjU1MS41NjEgMi4xMTYgMCAuMjgzLS4yODEuNDM5LS42NTQuNDM5LTEuMDUxWm0uMTY4IDEuNjU0YTIuMzU0IDIuMzU0IDAgMCAxLTEuNjY1LjY4NCAyLjM1NSAyLjM1NSAwIDAgMS0xLjY2NC0uNjg0IDIuMzMyIDIuMzMyIDAgMCAxIDAtMy4zMDggMi4zNjcgMi4zNjcgMCAwIDEgMy4zMjkgMCAyLjMzIDIuMzMgMCAwIDEgMCAzLjMwOFptMTQuMzY3IDQuN2E5LjAzNCA5LjAzNCAwIDAgMS02LjQxIDIuNjM5IDkuMDMzIDkuMDMzIDAgMCAxLTYuNDEtMi42MzhjLTEuMTc1LTEuMTY2LTEuODItMi41Ni0yLjE1Ni0zLjUyNGwtLjgxLjI4Yy4zNjQgMS4wNDcgMS4wNyAyLjU2NiAyLjM2IDMuODQ2YTkuODg4IDkuODg4IDAgMCAwIDcuMDE2IDIuODg4IDkuODg4IDkuODg4IDAgMCAwIDcuMDE2LTIuODg4IDEwLjIzNCAxMC4yMzQgMCAwIDAgMi40My0zLjg0OGwtLjgxMi0uMjc2YTkuMzcgOS4zNyAwIDAgMS0yLjIyNCAzLjUyMlpNMy40MDcgOS4xNThsLS44MS0uMjhjLjUyLTEuNDg0IDEuMzU4LTIuODUxIDIuMzYzLTMuODQ5YTkuODg3IDkuODg3IDAgMCAxIDcuMDE0LTIuODg1IDkuODg1IDkuODg1IDAgMCAxIDcuMDE0IDIuODg1IDEwLjQ5NyAxMC40OTcgMCAwIDEgMi40MyAzLjg1bC0uODA5LjI3OWE5LjYyOCA5LjYyOCAwIDAgMC0yLjIyOC0zLjUyNiA5LjAzIDkuMDMgMCAwIDAtNi40MDctMi42MzYgOS4wMyA5LjAzIDAgMCAwLTYuNDA4IDIuNjM2Yy0uOTE0LjkwOS0xLjY4MSAyLjE2MS0yLjE1OSAzLjUyNloiLz48L3N2Zz4=" width="110" alt="AWS Messaging logo" /><h1 id="aws-messaging-sqs--sns--complete-notes">AWS Messaging (SQS &amp; SNS) — Complete Notes</h1>
+<p><strong>Decoupling</strong> · Queues, pub/sub &amp; event fan-out</p>
+<p><img src="https://img.shields.io/badge/AWS-SQS%20%26%20SNS-9D4EDD?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Pattern-Decoupling-9D4EDD?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/SQS-Queue-blue?style=flat-square" alt="SQS">
+<img src="https://img.shields.io/badge/SNS-Pub%2FSub-lightgrey?style=flat-square" alt="SNS"></p>
+<p><em>A reader-friendly, all-in-one reference for Amazon SQS &amp; SNS.</em></p>
+<p><a class="dl-btn" href="aws-messaging-notes.pdf" download="aws-messaging-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--why-messaging-decoupling">Why Messaging (Decoupling)</a></li>
+<li><a href="#2--sqs--core-concepts">SQS — Core Concepts</a></li>
+<li><a href="#3--sqs-standard-vs-fifo">SQS Standard vs FIFO</a></li>
+<li><a href="#4--sqs-key-features">SQS Key Features</a></li>
+<li><a href="#5--sns--core-concepts">SNS — Core Concepts</a></li>
+<li><a href="#6--sns-delivery--filtering">SNS Delivery &amp; Filtering</a></li>
+<li><a href="#7--fan-out-pattern-sns--sqs">Fan-out Pattern (SNS + SQS)</a></li>
+<li><a href="#8--sqs-vs-sns-vs-eventbridge-vs-kinesis">SQS vs SNS vs EventBridge vs Kinesis</a></li>
+<li><a href="#9--security">Security</a></li>
+<li><a href="#10--pricing">Pricing</a></li>
+<li><a href="#11--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#12--best-practices">Best Practices</a></li>
+<li><a href="#13--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#14--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--why-messaging-decoupling">1. 🔗 Why Messaging (Decoupling)</h2>
+<p>Messaging services let components communicate <strong>asynchronously</strong> so they don&#39;t depend on each other being available at the same time. A producer drops a message; a consumer picks it up later. This <strong>decouples</strong> services → independent scaling, fault tolerance, and smoothing of traffic spikes.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> <strong>SQS = a queue</strong> (one message → one consumer, pull-based). <strong>SNS = a megaphone</strong> (one message → many subscribers, push-based pub/sub). Combine them for <strong>fan-out</strong>.</p>
+</blockquote>
+<p><strong>Common uses:</strong> buffering work, decoupling microservices, fan-out notifications, smoothing spikes, event-driven architectures, retry/back-pressure handling.</p>
+<hr>
+<h2 id="2--sqs--core-concepts">2. 📥 SQS — Core Concepts</h2>
+<p><strong>Amazon SQS</strong> (Simple Queue Service) is a fully managed <strong>message queue</strong>. Producers send messages; consumers <strong>poll</strong> and process them.</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Queue</strong></td>
+<td>Buffer holding messages until consumed.</td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>Up to <strong>256 KB</strong> of text (larger via S3 + extended client).</td>
+</tr>
+<tr>
+<td><strong>Producer / Consumer</strong></td>
+<td>Sends / polls-and-processes messages.</td>
+</tr>
+<tr>
+<td><strong>Visibility Timeout</strong></td>
+<td>After a consumer receives a message it&#39;s <strong>hidden</strong> for this window; if not deleted in time it reappears (default 30s, max 12h).</td>
+</tr>
+<tr>
+<td><strong>Retention</strong></td>
+<td>Messages kept 1 min–<strong>14 days</strong> (default 4 days).</td>
+</tr>
+<tr>
+<td><strong>Delete</strong></td>
+<td>Consumer must explicitly delete after processing (at-least-once).</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ SQS is <strong>pull-based</strong> — consumers ask for messages. A message stays until a consumer <strong>deletes</strong> it; if processing fails it becomes visible again for retry.</p>
+</blockquote>
+<hr>
+<h2 id="3--sqs-standard-vs-fifo">3. 🔀 SQS Standard vs FIFO</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Standard</strong></th>
+<th><strong>FIFO</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Throughput</td>
+<td>Nearly unlimited</td>
+<td>300 msg/s (3,000 with batching)</td>
+</tr>
+<tr>
+<td>Ordering</td>
+<td><strong>Best-effort</strong> (may arrive out of order)</td>
+<td><strong>Strict ordering</strong> within a group</td>
+</tr>
+<tr>
+<td>Delivery</td>
+<td><strong>At-least-once</strong> (rare duplicates)</td>
+<td><strong>Exactly-once</strong> processing</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>any</td>
+<td>must end in <strong><code>.fifo</code></strong></td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Max throughput, order not critical</td>
+<td>Order/no-duplicates required (payments, sequences)</td>
+</tr>
+</tbody></table>
+<ul>
+<li>FIFO uses a <strong>MessageGroupId</strong> (ordering scope) and <strong>MessageDeduplicationId</strong> (dedupe within 5 min).</li>
+</ul>
+<hr>
+<h2 id="4--sqs-key-features">4. ✨ SQS Key Features</h2>
+<ul>
+<li><strong>Dead-Letter Queue (DLQ)</strong> — after N failed receives (<code>maxReceiveCount</code>), a &quot;poison&quot; message is moved to a separate queue for inspection — keeps the main queue flowing.</li>
+<li><strong>Long polling</strong> (<code>WaitTimeSeconds</code> up to 20s) — waits for messages instead of returning empty → fewer empty receives, lower cost. Prefer over short polling.</li>
+<li><strong>Visibility timeout</strong> — set it longer than your processing time; extend with <code>ChangeMessageVisibility</code> for long jobs.</li>
+<li><strong>Delay queues</strong> — postpone delivery of new messages (0–15 min).</li>
+<li><strong>Batching</strong> — send/receive/delete up to 10 messages per call (cheaper, faster).</li>
+</ul>
+<hr>
+<h2 id="5--sns--core-concepts">5. 📣 SNS — Core Concepts</h2>
+<p><strong>Amazon SNS</strong> (Simple Notification Service) is a fully managed <strong>pub/sub</strong> service. A publisher sends a message to a <strong>topic</strong>; SNS <strong>pushes</strong> it to all <strong>subscribers</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Topic</strong></td>
+<td>Named channel publishers send to.</td>
+</tr>
+<tr>
+<td><strong>Subscription</strong></td>
+<td>An endpoint subscribed to a topic.</td>
+</tr>
+<tr>
+<td><strong>Publisher</strong></td>
+<td>Sends a message to a topic.</td>
+</tr>
+<tr>
+<td><strong>Subscriber</strong></td>
+<td>Receives every message (push).</td>
+</tr>
+<tr>
+<td><strong>Standard vs FIFO topic</strong></td>
+<td>FIFO topics preserve order + dedupe (pair with FIFO SQS).</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>SNS is <strong>push-based</strong> and <strong>one-to-many</strong> — a single publish fans out to every subscriber instantly.</p>
+</blockquote>
+<hr>
+<h2 id="6--sns-delivery--filtering">6. 📡 SNS Delivery &amp; Filtering</h2>
+<ul>
+<li><strong>Delivery protocols:</strong> <strong>SQS</strong>, <strong>Lambda</strong>, <strong>HTTP/S</strong> endpoints, <strong>email</strong>, <strong>SMS</strong>, and <strong>mobile push</strong> (application endpoints).</li>
+<li><strong>Message filtering</strong> — subscribers set a <strong>filter policy</strong> so they only receive messages whose attributes match (avoids processing irrelevant events).</li>
+<li><strong>Retries + DLQ</strong> — failed deliveries retry per policy; undeliverable messages can go to an SNS DLQ (an SQS queue).</li>
+<li><strong>Fan-out</strong> to many SQS queues / Lambdas from one publish.</li>
+</ul>
+<hr>
+<h2 id="7--fan-out-pattern-sns--sqs">7. 🌟 Fan-out Pattern (SNS + SQS)</h2>
+<p>The canonical decoupling pattern: publish <strong>once</strong> to an SNS topic, which fans out to <strong>multiple SQS queues</strong>, each feeding a different consumer.</p>
+<pre><code>                         ┌──▶ SQS queue A ──▶ Service A
+Publisher ──▶ SNS topic ─┼──▶ SQS queue B ──▶ Service B
+                         └──▶ SQS queue C ──▶ Service C
+</code></pre>
+<p><strong>Why it&#39;s great:</strong></p>
+<ul>
+<li>Each consumer gets its <strong>own queue</strong> → independent processing, retries, and DLQs.</li>
+<li>New consumers subscribe <strong>without changing the publisher</strong>.</li>
+<li>SQS <strong>buffers</strong> spikes so slow consumers aren&#39;t overwhelmed (back-pressure).</li>
+</ul>
+<hr>
+<h2 id="8--sqs-vs-sns-vs-eventbridge-vs-kinesis">8. ⚖️ SQS vs SNS vs EventBridge vs Kinesis</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Model</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SQS</strong></td>
+<td>Queue, pull, 1 consumer per message</td>
+<td>Decouple + buffer work; reliable async processing</td>
+</tr>
+<tr>
+<td><strong>SNS</strong></td>
+<td>Pub/sub, push, many subscribers</td>
+<td>Fan-out notifications/events to multiple endpoints</td>
+</tr>
+<tr>
+<td><strong>EventBridge</strong></td>
+<td>Event bus, content-based routing, SaaS/partner buses, schema registry</td>
+<td>Event-driven routing with rich rules + integrations</td>
+</tr>
+<tr>
+<td><strong>Kinesis</strong></td>
+<td>Real-time <strong>streaming</strong>, ordered, replayable, multiple consumers re-read</td>
+<td>High-volume streaming analytics, replay, ordered shards</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Rough rule: <strong>SQS</strong> to decouple &amp; buffer, <strong>SNS</strong> to fan-out, <strong>EventBridge</strong> to route by content/source, <strong>Kinesis</strong> to stream &amp; replay big data.</p>
+</blockquote>
+<hr>
+<h2 id="9--security">9. 🔐 Security</h2>
+<ul>
+<li><strong>IAM policies</strong> + resource (queue/topic) <strong>access policies</strong> control who can publish/subscribe/consume.</li>
+<li><strong>Encryption</strong> at rest with <strong>KMS</strong> (SSE) and <strong>TLS</strong> in transit.</li>
+<li>Access privately from a VPC via <strong>interface endpoints (PrivateLink)</strong>.</li>
+<li>SNS supports <strong>message data protection</strong> (redact/deny sensitive data); SQS DLQs help isolate poison messages.</li>
+</ul>
+<hr>
+<h2 id="10--pricing">10. 💰 Pricing</h2>
+<p>You pay for:</p>
+<ol>
+<li><strong>SQS</strong> — per <strong>request</strong> (API calls; batching reduces count). First 1M/month free.</li>
+<li><strong>SNS</strong> — per <strong>publish</strong> + per delivery (HTTP/email cheap; <strong>SMS</strong> notably more).</li>
+<li><strong>Data transfer out</strong> and KMS usage if encrypted.</li>
+</ol>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> use <strong>batching</strong> + <strong>long polling</strong> in SQS to cut request count · filter SNS subscriptions so you don&#39;t deliver (and pay for) irrelevant messages · be mindful <strong>SMS</strong> is the priciest delivery channel.</p>
+</blockquote>
+<hr>
+<h2 id="11--common-cli-commands">11. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash"># SQS
+aws sqs create-queue --queue-name jobs
+aws sqs send-message --queue-url &lt;url&gt; --message-body &quot;hello&quot;
+aws sqs receive-message --queue-url &lt;url&gt; --wait-time-seconds 20   # long polling
+aws sqs delete-message --queue-url &lt;url&gt; --receipt-handle &lt;rh&gt;
+
+# SNS
+aws sns create-topic --name alerts
+aws sns subscribe --topic-arn &lt;arn&gt; --protocol sqs --notification-endpoint &lt;queue-arn&gt;
+aws sns subscribe --topic-arn &lt;arn&gt; --protocol email --notification-endpoint me@example.com
+aws sns publish --topic-arn &lt;arn&gt; --message &quot;deploy finished&quot;
+</code></pre>
+<hr>
+<h2 id="12--best-practices">12. ✅ Best Practices</h2>
+<ul>
+<li><strong>Decouple</strong> producers from consumers with a queue/topic — never call services synchronously when async will do.</li>
+<li>Always configure a <strong>DLQ</strong> with a sensible <code>maxReceiveCount</code> to isolate poison messages.</li>
+<li>Use <strong>long polling</strong> + <strong>batching</strong> in SQS (cheaper, fewer empty receives).</li>
+<li>Set <strong>visibility timeout</strong> &gt; processing time; extend it for long jobs.</li>
+<li>Use <strong>FIFO</strong> only when ordering/dedup is required (it caps throughput).</li>
+<li>Use <strong>SNS message filtering</strong> so subscribers get only relevant messages.</li>
+<li>Make consumers <strong>idempotent</strong> (Standard SQS is at-least-once — duplicates can happen).</li>
+<li>Use the <strong>SNS→SQS fan-out</strong> pattern to add consumers without touching the publisher.</li>
+</ul>
+<hr>
+<h2 id="13--quick-mental-model">13. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>SQS = queue</strong> (pull, one consumer per message, buffer &amp; retry). <strong>SNS = pub/sub</strong> (push, many subscribers, fan-out).</li>
+<li>SQS: <strong>visibility timeout</strong> hides a message while processing; <strong>delete</strong> to finish; failures → <strong>DLQ</strong>. Use <strong>long polling + batching</strong>.</li>
+<li><strong>Standard</strong> (high throughput, at-least-once, best-effort order) vs <strong>FIFO</strong> (ordered, exactly-once, lower throughput).</li>
+<li>SNS pushes to <strong>SQS / Lambda / HTTP / email / SMS</strong>; <strong>filter policies</strong> limit what each subscriber gets.</li>
+<li><strong>Fan-out = SNS → many SQS queues</strong>, each with its own consumer + DLQ.</li>
+<li>Pick: <strong>SQS</strong> decouple/buffer · <strong>SNS</strong> fan-out · <strong>EventBridge</strong> route-by-content · <strong>Kinesis</strong> stream/replay.</li>
+<li>Make consumers <strong>idempotent</strong>.</li>
+</ul>
+<hr>
+<h2 id="14--common-interview-questions">14. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about SQS/SNS:</p>
+<ul>
+<li><strong>Q: SQS vs SNS?</strong> — SQS is a <strong>pull-based queue</strong> (each message processed by one consumer). SNS is <strong>push-based pub/sub</strong> (each message delivered to all subscribers).</li>
+<li><strong>Q: What is visibility timeout?</strong> — After a consumer receives a message, it&#39;s hidden for this window. If the consumer doesn&#39;t delete it in time, it reappears for another consumer (enables retry).</li>
+<li><strong>Q: Standard vs FIFO queue?</strong> — Standard = near-unlimited throughput, at-least-once, best-effort ordering. FIFO = strict ordering + exactly-once within a group, but limited throughput (name ends in <code>.fifo</code>).</li>
+<li><strong>Q: What&#39;s a dead-letter queue?</strong> — A separate queue that receives messages after they fail processing N times, so poison messages don&#39;t block the main queue.</li>
+<li><strong>Q: What is the fan-out pattern?</strong> — Publish once to an SNS topic that delivers to multiple SQS queues, each with its own consumer — add consumers without changing the publisher.</li>
+<li><strong>Q: Long polling vs short polling?</strong> — Long polling waits up to 20s for a message before returning (fewer empty responses, lower cost). Short polling returns immediately.</li>
+<li><strong>Q: How do you handle duplicates?</strong> — Standard SQS is at-least-once, so make consumers <strong>idempotent</strong>; or use FIFO with a deduplication ID.</li>
+<li><strong>Q: SQS vs Kinesis?</strong> — SQS deletes a message once consumed (work queue). Kinesis is an ordered, <strong>replayable</strong> stream that multiple consumers can re-read — for streaming analytics.</li>
+<li><strong>Q: SNS vs EventBridge?</strong> — SNS is simple high-throughput fan-out. EventBridge adds content-based routing rules, SaaS/partner event buses, and a schema registry.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon SQS &amp; SNS.</em></p>
+</div>
+</main></body></html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS ELB & Auto Scaling — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDBBM0EzIiBmaWxsPSIjMDBBM0EzIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QVdTIEVsYXN0aWMgTG9hZCBCYWxhbmNpbmc8L3RpdGxlPjxwYXRoIGQ9Ik03LjIgMTguMjRDMy43NiAxOC4yNC45NiAxNS40NC45NiAxMnMyLjgtNi4yNCA2LjI0LTYuMjQgNi4yNCAyLjggNi4yNCA2LjI0LTIuOCA2LjI0LTYuMjQgNi4yNG0xNC40IDIuODhjMCAxLjA1OS0uODYxIDEuOTItMS45MiAxLjkyYTEuOTIgMS45MiAwIDAgMS0xLjkyLTEuOTJjMC0xLjA1OS44NjEtMS45MiAxLjkyLTEuOTJzMS45Mi44NjEgMS45MiAxLjkyTTE5LjY4Ljk2YzEuMDU5IDAgMS45Mi44NjEgMS45MiAxLjkycy0uODYxIDEuOTItMS45MiAxLjkyYTEuOTIgMS45MiAwIDAgMS0xLjkyLTEuOTJjMC0xLjA1OS44NjEtMS45MiAxLjkyLTEuOTJtMS40NCA5LjEyYzEuMDU5IDAgMS45Mi44NjEgMS45MiAxLjkycy0uODYxIDEuOTItMS45MiAxLjkyQTEuOTIgMS45MiAwIDAgMSAxOS4yIDEyYzAtMS4wNTkuODYxLTEuOTIgMS45Mi0xLjkybS02Ljc0NCAyLjRoMy45MDdhMi44OCAyLjg4IDAgMCAwIDIuODM3IDIuNEEyLjg4MyAyLjg4MyAwIDAgMCAyNCAxMmEyLjg4MyAyLjg4MyAwIDAgMC0yLjg4LTIuODggMi44OCAyLjg4IDAgMCAwLTIuODM3IDIuNGgtMy45MDdhNy4xIDcuMSAwIDAgMC0uNjYxLTIuNTY2bDQuMjYtMy43NTlhMi44NiAyLjg2IDAgMCAwIDEuNzA1LjU2NSAyLjg4MyAyLjg4MyAwIDAgMCAyLjg4LTIuODhBMi44ODMgMi44ODMgMCAwIDAgMTkuNjggMGEyLjg4MyAyLjg4MyAwIDAgMC0yLjg4IDIuODhjMCAuNjAzLjE4NyAxLjE2Mi41MDQgMS42MjVMMTMuMjQgOC4wOTJBNy4yIDcuMiAwIDAgMCA3LjIgNC44QzMuMjMgNC44IDAgOC4wMyAwIDEyczMuMjMgNy4yIDcuMiA3LjJhNy4yIDcuMiAwIDAgMCA2LjAzOS0zLjI5Mmw0LjA2NSAzLjU4N2EyLjg2IDIuODYgMCAwIDAtLjUwNCAxLjYyNUEyLjg4MyAyLjg4MyAwIDAgMCAxOS42OCAyNGEyLjg4MyAyLjg4MyAwIDAgMCAyLjg4LTIuODggMi44ODMgMi44ODMgMCAwIDAtMi44OC0yLjg4IDIuODYgMi44NiAwIDAgMC0xLjcwNi41NjVsLTQuMjYtMy43NTljLjM3MS0uNzg5LjYwMS0xLjY1NC42NjItMi41NjYiLz48L3N2Zz4=">
+<style>
+  :root{--ac:#00A3A3;--acd:#006e6e;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDBBM0EzIiBmaWxsPSIjMDBBM0EzIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QVdTIEVsYXN0aWMgTG9hZCBCYWxhbmNpbmc8L3RpdGxlPjxwYXRoIGQ9Ik03LjIgMTguMjRDMy43NiAxOC4yNC45NiAxNS40NC45NiAxMnMyLjgtNi4yNCA2LjI0LTYuMjQgNi4yNCAyLjggNi4yNCA2LjI0LTIuOCA2LjI0LTYuMjQgNi4yNG0xNC40IDIuODhjMCAxLjA1OS0uODYxIDEuOTItMS45MiAxLjkyYTEuOTIgMS45MiAwIDAgMS0xLjkyLTEuOTJjMC0xLjA1OS44NjEtMS45MiAxLjkyLTEuOTJzMS45Mi44NjEgMS45MiAxLjkyTTE5LjY4Ljk2YzEuMDU5IDAgMS45Mi44NjEgMS45MiAxLjkycy0uODYxIDEuOTItMS45MiAxLjkyYTEuOTIgMS45MiAwIDAgMS0xLjkyLTEuOTJjMC0xLjA1OS44NjEtMS45MiAxLjkyLTEuOTJtMS40NCA5LjEyYzEuMDU5IDAgMS45Mi44NjEgMS45MiAxLjkycy0uODYxIDEuOTItMS45MiAxLjkyQTEuOTIgMS45MiAwIDAgMSAxOS4yIDEyYzAtMS4wNTkuODYxLTEuOTIgMS45Mi0xLjkybS02Ljc0NCAyLjRoMy45MDdhMi44OCAyLjg4IDAgMCAwIDIuODM3IDIuNEEyLjg4MyAyLjg4MyAwIDAgMCAyNCAxMmEyLjg4MyAyLjg4MyAwIDAgMC0yLjg4LTIuODggMi44OCAyLjg4IDAgMCAwLTIuODM3IDIuNGgtMy45MDdhNy4xIDcuMSAwIDAgMC0uNjYxLTIuNTY2bDQuMjYtMy43NTlhMi44NiAyLjg2IDAgMCAwIDEuNzA1LjU2NSAyLjg4MyAyLjg4MyAwIDAgMCAyLjg4LTIuODhBMi44ODMgMi44ODMgMCAwIDAgMTkuNjggMGEyLjg4MyAyLjg4MyAwIDAgMC0yLjg4IDIuODhjMCAuNjAzLjE4NyAxLjE2Mi41MDQgMS42MjVMMTMuMjQgOC4wOTJBNy4yIDcuMiAwIDAgMCA3LjIgNC44QzMuMjMgNC44IDAgOC4wMyAwIDEyczMuMjMgNy4yIDcuMiA3LjJhNy4yIDcuMiAwIDAgMCA2LjAzOS0zLjI5Mmw0LjA2NSAzLjU4N2EyLjg2IDIuODYgMCAwIDAtLjUwNCAxLjYyNUEyLjg4MyAyLjg4MyAwIDAgMCAxOS42OCAyNGEyLjg4MyAyLjg4MyAwIDAgMCAyLjg4LTIuODggMi44ODMgMi44ODMgMCAwIDAtMi44OC0yLjg4IDIuODYgMi44NiAwIDAgMC0xLjcwNi41NjVsLTQuMjYtMy43NTljLjM3MS0uNzg5LjYwMS0xLjY1NC42NjItMi41NjYiLz48L3N2Zz4=" width="110" alt="AWS ELB logo" /><h1 id="aws-elb--auto-scaling--complete-notes">AWS ELB &amp; Auto Scaling — Complete Notes</h1>
+<p><strong>Load balancing + elasticity</strong> · Distribute traffic, scale automatically</p>
+<p><img src="https://img.shields.io/badge/AWS-ELB%20%26%20ASG-00A3A3?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Goal-High%20Availability-00A3A3?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/ELB-ALB%2FNLB%2FGWLB-blue?style=flat-square" alt="ELB">
+<img src="https://img.shields.io/badge/ASG-Self%20Healing-lightgrey?style=flat-square" alt="Scaling"></p>
+<p><em>A reader-friendly, all-in-one reference for Elastic Load Balancing &amp; EC2 Auto Scaling.</em></p>
+<p><a class="dl-btn" href="aws-elb-autoscaling-notes.pdf" download="aws-elb-autoscaling-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--why-elb--auto-scaling">Why ELB &amp; Auto Scaling</a></li>
+<li><a href="#2--load-balancer-types">Load Balancer Types</a></li>
+<li><a href="#3--alb-application-load-balancer">ALB (Application Load Balancer)</a></li>
+<li><a href="#4--nlb-network-load-balancer">NLB (Network Load Balancer)</a></li>
+<li><a href="#5--health-checks">Health Checks</a></li>
+<li><a href="#6--key-elb-concepts">Key ELB Concepts</a></li>
+<li><a href="#7--auto-scaling-groups-asg">Auto Scaling Groups (ASG)</a></li>
+<li><a href="#8--launch-templates">Launch Templates</a></li>
+<li><a href="#9--scaling-policies">Scaling Policies</a></li>
+<li><a href="#10--lifecycle--health">Lifecycle &amp; Health</a></li>
+<li><a href="#11--elb--asg-ha-architecture">ELB + ASG: HA Architecture</a></li>
+<li><a href="#12--pricing">Pricing</a></li>
+<li><a href="#13--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#14--best-practices">Best Practices</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#16--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--why-elb--auto-scaling">1. ⚖️ Why ELB &amp; Auto Scaling</h2>
+<p>These two services together give you <strong>high availability</strong> and <strong>elasticity</strong>:</p>
+<ul>
+<li><strong>Elastic Load Balancing (ELB)</strong> spreads incoming traffic across multiple healthy targets in multiple AZs, so no single instance is a bottleneck or a single point of failure.</li>
+<li><strong>EC2 Auto Scaling (ASG)</strong> automatically adds/removes instances to match demand and <strong>replaces unhealthy ones</strong> — self-healing.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> the <strong>ELB is the front door</strong> that splits traffic; the <strong>ASG is the engine room</strong> that grows/shrinks the fleet and heals it. Together: traffic always reaches a healthy instance, and capacity follows demand.</p>
+</blockquote>
+<hr>
+<h2 id="2--load-balancer-types">2. 🔀 Load Balancer Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Layer</th>
+<th>Routes on</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ALB</strong> (Application)</td>
+<td>L7 (HTTP/HTTPS)</td>
+<td>Host, path, headers, query, method</td>
+<td>Web apps, microservices, containers</td>
+</tr>
+<tr>
+<td><strong>NLB</strong> (Network)</td>
+<td>L4 (TCP/UDP/TLS)</td>
+<td>IP + port</td>
+<td>Ultra-low latency, millions of req/s, static IP</td>
+</tr>
+<tr>
+<td><strong>GWLB</strong> (Gateway)</td>
+<td>L3</td>
+<td>IP packets</td>
+<td>Inline virtual appliances (firewalls, IDS/IPS)</td>
+</tr>
+<tr>
+<td><strong>CLB</strong> (Classic, legacy)</td>
+<td>L4/L7</td>
+<td>basic</td>
+<td>Old accounts only — avoid for new work</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Pick <strong>ALB</strong> for HTTP(S) apps, <strong>NLB</strong> for extreme performance / TCP / a static IP, <strong>GWLB</strong> to insert security appliances.</p>
+</blockquote>
+<hr>
+<h2 id="3--alb-application-load-balancer">3. 🌐 ALB (Application Load Balancer)</h2>
+<p>Operates at <strong>Layer 7</strong> — understands HTTP, so it can route on content.</p>
+<ul>
+<li><strong>Listener</strong> — checks for connections on a port/protocol (e.g. HTTPS:443) and applies <strong>rules</strong>.</li>
+<li><strong>Rules</strong> — route by <strong>host</strong> (<code>api.example.com</code>), <strong>path</strong> (<code>/images/*</code>), header, method, or query → to a <strong>target group</strong>.</li>
+<li><strong>Target group</strong> — a set of targets (EC2, IP, <strong>Lambda</strong>, containers) with its own health check.</li>
+<li>Features: <strong>path/host-based routing</strong>, <strong>HTTP/2 &amp; WebSockets</strong>, <strong>redirects &amp; fixed responses</strong>, <strong>authentication</strong> (Cognito/OIDC), <strong>sticky sessions</strong>, <strong>TLS termination</strong> (ACM certs).</li>
+</ul>
+<pre><code>Client ─▶ ALB listener :443
+            ├─ rule: /api/*  ─▶ target group (api service)
+            ├─ rule: /img/*  ─▶ target group (image service)
+            └─ default       ─▶ target group (web)
+</code></pre>
+<hr>
+<h2 id="4--nlb-network-load-balancer">4. ⚡ NLB (Network Load Balancer)</h2>
+<p>Operates at <strong>Layer 4</strong> (TCP/UDP/TLS) for <strong>extreme performance</strong> and <strong>low latency</strong>.</p>
+<ul>
+<li>Handles <strong>millions of requests/sec</strong>; very low latency.</li>
+<li>Provides a <strong>static IP per AZ</strong> (and supports Elastic IPs) — useful for allow-lists/firewalls.</li>
+<li><strong>Preserves the client source IP</strong> to targets.</li>
+<li>Can do <strong>TLS termination</strong>; great for non-HTTP protocols, gaming, IoT, and when you need a fixed IP.</li>
+</ul>
+<hr>
+<h2 id="5--health-checks">5. 🩺 Health Checks</h2>
+<ul>
+<li>The LB periodically probes each target; only <strong>healthy</strong> targets receive traffic.</li>
+<li>Tunables: protocol/port/path, <strong>interval</strong>, <strong>timeout</strong>, <strong>healthy/unhealthy thresholds</strong>.</li>
+<li>A failing target is <strong>drained</strong> (existing connections finish via <em>deregistration delay</em>) and removed from rotation; recovery re-adds it.</li>
+<li>ELB health checks can also tell the <strong>ASG</strong> to replace an instance (see §10).</li>
+</ul>
+<hr>
+<h2 id="6--key-elb-concepts">6. 🧱 Key ELB Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Cross-zone load balancing</strong></td>
+<td>Evenly spreads traffic across targets in <strong>all</strong> AZs (default on for ALB; optional for NLB).</td>
+</tr>
+<tr>
+<td><strong>Sticky sessions</strong></td>
+<td>Pins a client to the same target via a cookie (ALB/CLB).</td>
+</tr>
+<tr>
+<td><strong>SSL/TLS termination</strong></td>
+<td>LB decrypts HTTPS using an <strong>ACM</strong> cert, forwarding HTTP to targets.</td>
+</tr>
+<tr>
+<td><strong>Connection draining</strong> (deregistration delay)</td>
+<td>Lets in-flight requests finish before removing a target.</td>
+</tr>
+<tr>
+<td><strong>SNI</strong></td>
+<td>Multiple certs/domains on one ALB listener.</td>
+</tr>
+<tr>
+<td><strong>Access logs</strong></td>
+<td>Optionally log requests to S3.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="7--auto-scaling-groups-asg">7. 📈 Auto Scaling Groups (ASG)</h2>
+<p>An <strong>ASG</strong> manages a fleet of EC2 instances between capacity bounds.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Minimum</strong></td>
+<td>Never go below this many instances.</td>
+</tr>
+<tr>
+<td><strong>Desired</strong></td>
+<td>The target count right now.</td>
+</tr>
+<tr>
+<td><strong>Maximum</strong></td>
+<td>Never exceed this many.</td>
+</tr>
+<tr>
+<td><strong>Launch Template</strong></td>
+<td>Defines <em>what</em> to launch (AMI, type, SG, user data).</td>
+</tr>
+<tr>
+<td><strong>Subnets/AZs</strong></td>
+<td>Spread instances across multiple AZs for HA.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>The ASG keeps the running count at <strong>Desired</strong>, <strong>replaces failed instances</strong>, and registers/deregisters them with the ELB automatically.</li>
+</ul>
+<hr>
+<h2 id="8--launch-templates">8. 📝 Launch Templates</h2>
+<ul>
+<li>A <strong>Launch Template</strong> specifies the instance configuration the ASG uses: AMI, instance type, key pair, security groups, IAM role, user data, storage.</li>
+<li><strong>Versioned</strong> (preferred over the older <em>launch configuration</em>) and supports <strong>mixed instances</strong> (combine types + On-Demand/Spot for cost).</li>
+</ul>
+<hr>
+<h2 id="9--scaling-policies">9. 🎯 Scaling Policies</h2>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>How it scales</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Target Tracking</strong></td>
+<td>Keep a metric at a target (e.g. CPU = 50%) — simplest, recommended.</td>
+</tr>
+<tr>
+<td><strong>Step Scaling</strong></td>
+<td>Add/remove N instances based on alarm magnitude.</td>
+</tr>
+<tr>
+<td><strong>Simple Scaling</strong></td>
+<td>One adjustment per alarm (older).</td>
+</tr>
+<tr>
+<td><strong>Scheduled Scaling</strong></td>
+<td>Change capacity on a schedule (e.g. scale up 9am).</td>
+</tr>
+<tr>
+<td><strong>Predictive Scaling</strong></td>
+<td>ML forecasts load and pre-scales ahead of demand.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Policies are driven by <strong>CloudWatch alarms</strong> (CPU, request count per target, custom metrics).</li>
+<li><strong>Cooldown</strong> periods prevent thrashing between rapid scale events.</li>
+</ul>
+<hr>
+<h2 id="10--lifecycle--health">10. 🔄 Lifecycle &amp; Health</h2>
+<ul>
+<li><strong>Health check type:</strong> <strong>EC2</strong> (instance status checks) or <strong>ELB</strong> (the load balancer&#39;s health check). Using <strong>ELB health checks</strong> lets the ASG replace instances the app — not just the OS — considers unhealthy.</li>
+<li><strong>Lifecycle hooks</strong> pause instances in <code>Pending</code>/<code>Terminating</code> so you can run setup (bootstrap) or cleanup (drain, deregister) before they go live or away.</li>
+<li><strong>Termination policies</strong> decide which instance to remove on scale-in (e.g. oldest launch template, closest to billing hour).</li>
+</ul>
+<hr>
+<h2 id="11--elb--asg-ha-architecture">11. 🏛️ ELB + ASG: HA Architecture</h2>
+<p>The textbook highly-available web tier:</p>
+<pre><code>            Internet
+               │
+        ┌──────▼──────┐         (public subnets, ≥2 AZs)
+        │     ALB     │
+        └──────┬──────┘
+        ┌──────┴───────┐
+        ▼              ▼        (private subnets, ≥2 AZs)
+   ┌─────────┐   ┌─────────┐
+   │  EC2 AZ-a│  │ EC2 AZ-b │   ◀── EC2 Auto Scaling Group
+   └─────────┘   └─────────┘        (min/desired/max, ELB health checks)
+</code></pre>
+<ul>
+<li>ALB in <strong>public</strong> subnets across <strong>≥2 AZs</strong>; instances in <strong>private</strong> subnets across the same AZs.</li>
+<li>ASG keeps the fleet sized to load and <strong>replaces unhealthy instances</strong>; ELB only routes to healthy ones.</li>
+<li>Result: <strong>elastic</strong> (scales with demand) <strong>+ self-healing</strong> (failures auto-replaced) <strong>+ multi-AZ</strong> (survives an AZ outage).</li>
+</ul>
+<hr>
+<h2 id="12--pricing">12. 💰 Pricing</h2>
+<ul>
+<li><strong>ELB</strong> — per <strong>load-balancer-hour</strong> + <strong>LCU/NLCU</strong> (capacity units measuring connections, bandwidth, rules processed).</li>
+<li><strong>Auto Scaling</strong> — <strong>free</strong>; you only pay for the <strong>EC2 instances</strong> (and EBS) it launches.</li>
+<li><strong>Data transfer</strong> out is charged as usual.</li>
+</ul>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> Auto Scaling itself is free — scale in aggressively for non-prod · use <strong>mixed instances + Spot</strong> in the ASG for cheap capacity · right-size before scaling out · consolidate services behind one ALB (host/path routing) instead of many LBs.</p>
+</blockquote>
+<hr>
+<h2 id="13--common-cli-commands">13. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash"># Load balancer (ELBv2 = ALB/NLB)
+aws elbv2 create-load-balancer --name web-alb --subnets subnet-a subnet-b
+aws elbv2 create-target-group --name web-tg --protocol HTTP --port 80 --vpc-id vpc-123
+aws elbv2 create-listener --load-balancer-arn &lt;arn&gt; --protocol HTTP --port 80 \
+  --default-actions Type=forward,TargetGroupArn=&lt;tg-arn&gt;
+
+# Auto Scaling
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name web-asg \
+  --launch-template LaunchTemplateName=web-lt --min-size 2 --max-size 6 \
+  --desired-capacity 2 --vpc-zone-identifier &quot;subnet-a,subnet-b&quot; \
+  --target-group-arns &lt;tg-arn&gt; --health-check-type ELB
+aws autoscaling put-scaling-policy --auto-scaling-group-name web-asg \
+  --policy-name cpu50 --policy-type TargetTrackingScaling \
+  --target-tracking-configuration &#39;{&quot;PredefinedMetricSpecification&quot;:{&quot;PredefinedMetricType&quot;:&quot;ASGAverageCPUUtilization&quot;},&quot;TargetValue&quot;:50}&#39;
+aws autoscaling describe-auto-scaling-groups
+</code></pre>
+<hr>
+<h2 id="14--best-practices">14. ✅ Best Practices</h2>
+<ul>
+<li>Spread the <strong>ELB and ASG across ≥2 AZs</strong>; put instances in <strong>private</strong> subnets behind the LB.</li>
+<li>Use <strong>ELB health checks</strong> on the ASG so app-level failures trigger replacement.</li>
+<li>Prefer <strong>Target Tracking</strong> scaling (simple, robust); add <strong>Scheduled/Predictive</strong> for known patterns.</li>
+<li>Use <strong>Launch Templates</strong> + <strong>mixed instances/Spot</strong> for cost-efficient capacity.</li>
+<li>Set <strong>cooldowns</strong> to avoid thrashing; use <strong>lifecycle hooks</strong> for clean bootstrap/drain.</li>
+<li>Terminate gracefully with <strong>connection draining</strong> (deregistration delay).</li>
+<li>Consolidate microservices behind one <strong>ALB</strong> via host/path rules; use <strong>NLB</strong> for static IP / extreme performance.</li>
+</ul>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>ELB = front door</strong> distributing traffic to healthy targets across AZs; <strong>ASG = engine room</strong> scaling and healing the fleet.</li>
+<li><strong>ALB</strong> (L7, host/path routing, web/microservices) · <strong>NLB</strong> (L4, ultra-fast, static IP) · <strong>GWLB</strong> (appliances) · CLB (legacy).</li>
+<li>ALB: <strong>listener → rules → target groups</strong> (each with a <strong>health check</strong>).</li>
+<li><strong>Health checks</strong> keep traffic on healthy targets; <strong>connection draining</strong> finishes in-flight requests.</li>
+<li>ASG = <strong>min / desired / max</strong> + <strong>launch template</strong> across AZs; replaces unhealthy instances.</li>
+<li><strong>Scaling policies:</strong> Target Tracking (default), Step, Scheduled, Predictive — driven by CloudWatch alarms.</li>
+<li><strong>ALB + ASG across ≥2 AZs = elastic + self-healing + highly available.</strong> Auto Scaling is free; pay for instances.</li>
+</ul>
+<hr>
+<h2 id="16--common-interview-questions">16. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about ELB &amp; Auto Scaling:</p>
+<ul>
+<li><strong>Q: ALB vs NLB?</strong> — ALB = Layer 7 (HTTP/HTTPS), routes on host/path/headers, for web apps/microservices. NLB = Layer 4 (TCP/UDP), ultra-low latency, millions of req/s, static IP.</li>
+<li><strong>Q: How do you make a web app highly available?</strong> — ALB + Auto Scaling Group across ≥2 AZs; instances in private subnets; ELB health checks for self-healing.</li>
+<li><strong>Q: What does an Auto Scaling Group give you?</strong> — Elasticity (match capacity to demand) and resilience (auto-replace unhealthy/failed instances).</li>
+<li><strong>Q: EC2 vs ELB health check on the ASG?</strong> — EC2 check = instance status only. ELB check = the load balancer&#39;s app-level check, so the ASG replaces instances the app considers unhealthy.</li>
+<li><strong>Q: What scaling policies exist?</strong> — Target Tracking (keep a metric at a target), Step, Simple, Scheduled, Predictive.</li>
+<li><strong>Q: What is connection draining?</strong> — Deregistration delay that lets in-flight requests finish before a target is removed.</li>
+<li><strong>Q: What is cross-zone load balancing?</strong> — Distributes traffic evenly across targets in all AZs (default on for ALB).</li>
+<li><strong>Q: How does SSL termination work?</strong> — The ALB holds an ACM cert, decrypts HTTPS, and forwards HTTP to targets (offloading TLS).</li>
+<li><strong>Q: Does Auto Scaling cost extra?</strong> — No — it&#39;s free; you pay only for the EC2 instances and EBS it launches.</li>
+<li><strong>Q: How do you reduce capacity cost?</strong> — Mixed instances with Spot in the ASG, right-sizing, and scheduled scale-in for non-prod.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for AWS ELB &amp; Auto Scaling.</em></p>
+</div>
+</main></body></html>
