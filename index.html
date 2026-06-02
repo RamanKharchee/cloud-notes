@@ -34,7 +34,7 @@
   .pill{font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;background:var(--ac);color:#fff;}
   .pill.ghost{background:transparent;color:var(--ac);border:1.5px solid var(--ac);}
   .s3{--ac:#569A31;} .ec2{--ac:#ED7100;} .vpc{--ac:#8C4FFF;}
-  .lambda{--ac:#FF9900;} .iam{--ac:#DD344C;} .rds{--ac:#527FFF;}
+  .lambda{--ac:#FF9900;} .iam{--ac:#DD344C;} .rds{--ac:#527FFF;} .docker{--ac:#2496ED;}
   footer{margin-top:50px;color:#cfd8dc;font-size:13px;text-align:center;}
   footer a{color:#fff;}
 </style>
@@ -42,7 +42,7 @@
 <body>
   <div class="hero">
     <h1>☁️ Cloud Notes</h1>
-    <p>Reader-friendly, all-in-one quick references for AWS</p>
+    <p>Reader-friendly, all-in-one quick references for cloud &amp; DevOps</p>
   </div>
 
   <div class="grid">
@@ -91,6 +91,14 @@
       <p class="tag">Database</p>
       <h2>Amazon RDS</h2>
       <p class="sub">Managed SQL — engines, Multi-AZ, read replicas, backups, Aurora, security.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
+    </a>
+
+    <a class="card docker" href="docker.html">
+      <img src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker">
+      <p class="tag">Containers</p>
+      <h2>Docker</h2>
+      <p class="sub">Containers — images, Dockerfile, volumes, networking, Compose, best practices.</p>
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
   </div>

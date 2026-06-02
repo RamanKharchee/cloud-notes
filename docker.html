@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docker — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMjQ5NkVEIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+RG9ja2VyPC90aXRsZT48cGF0aCBkPSJNMTMuOTgzIDExLjA3OGgyLjExOWEuMTg2LjE4NiAwIDAwLjE4Ni0uMTg1VjkuMDA2YS4xODYuMTg2IDAgMDAtLjE4Ni0uMTg2aC0yLjExOWEuMTg1LjE4NSAwIDAwLS4xODUuMTg1djEuODg4YzAgLjEwMi4wODMuMTg1LjE4NS4xODVtLTIuOTU0LTUuNDNoMi4xMThhLjE4Ni4xODYgMCAwMC4xODYtLjE4NlYzLjU3NGEuMTg2LjE4NiAwIDAwLS4xODYtLjE4NWgtMi4xMThhLjE4NS4xODUgMCAwMC0uMTg1LjE4NXYxLjg4OGMwIC4xMDIuMDgyLjE4NS4xODUuMTg1bTAgMi43MTZoMi4xMThhLjE4Ny4xODcgMCAwMC4xODYtLjE4NlY2LjI5YS4xODYuMTg2IDAgMDAtLjE4Ni0uMTg1aC0yLjExOGEuMTg1LjE4NSAwIDAwLS4xODUuMTg1djEuODg3YzAgLjEwMi4wODIuMTg1LjE4NS4xODZtLTIuOTMgMGgyLjEyYS4xODYuMTg2IDAgMDAuMTg0LS4xODZWNi4yOWEuMTg1LjE4NSAwIDAwLS4xODUtLjE4NUg4LjFhLjE4NS4xODUgMCAwMC0uMTg1LjE4NXYxLjg4N2MwIC4xMDIuMDgzLjE4NS4xODUuMTg2bS0yLjk2NCAwaDIuMTE5YS4xODYuMTg2IDAgMDAuMTg1LS4xODZWNi4yOWEuMTg1LjE4NSAwIDAwLS4xODUtLjE4NUg1LjEzNmEuMTg2LjE4NiAwIDAwLS4xODYuMTg1djEuODg3YzAgLjEwMi4wODQuMTg1LjE4Ni4xODZtNS44OTMgMi43MTVoMi4xMThhLjE4Ni4xODYgMCAwMC4xODYtLjE4NVY5LjAwNmEuMTg2LjE4NiAwIDAwLS4xODYtLjE4NmgtMi4xMThhLjE4NS4xODUgMCAwMC0uMTg1LjE4NXYxLjg4OGMwIC4xMDIuMDgyLjE4NS4xODUuMTg1bS0yLjkzIDBoMi4xMmEuMTg1LjE4NSAwIDAwLjE4NC0uMTg1VjkuMDA2YS4xODUuMTg1IDAgMDAtLjE4NC0uMTg2aC0yLjEyYS4xODUuMTg1IDAgMDAtLjE4NC4xODV2MS44ODhjMCAuMTAyLjA4My4xODUuMTg1LjE4NW0tMi45NjQgMGgyLjExOWEuMTg1LjE4NSAwIDAwLjE4NS0uMTg1VjkuMDA2YS4xODUuMTg1IDAgMDAtLjE4NC0uMTg2aC0yLjEyYS4xODYuMTg2IDAgMDAtLjE4Ni4xODZ2MS44ODdjMCAuMTAyLjA4NC4xODUuMTg2LjE4NW0tMi45MiAwaDIuMTJhLjE4NS4xODUgMCAwMC4xODQtLjE4NVY5LjAwNmEuMTg1LjE4NSAwIDAwLS4xODQtLjE4NmgtMi4xMmEuMTg1LjE4NSAwIDAwLS4xODQuMTg1djEuODg4YzAgLjEwMi4wODIuMTg1LjE4NS4xODVNMjMuNzYzIDkuODljLS4wNjUtLjA1MS0uNjcyLS41MS0xLjk1NC0uNTEtLjMzOC4wMDEtLjY3Ni4wMy0xLjAxLjA4Ny0uMjQ4LTEuNy0xLjY1My0yLjUzLTEuNzE2LTIuNTY2bC0uMzQ0LS4xOTktLjIyNi4zMjdjLS4yODQuNDM4LS40OS45MjItLjYxMiAxLjQzLS4yMy45Ny0uMDkgMS44ODIuNDAzIDIuNjYxLS41OTUuMzMyLTEuNTUuNDEzLTEuNzQ0LjQySC43NTFhLjc1MS43NTEgMCAwMC0uNzUuNzQ4IDExLjM3NiAxMS4zNzYgMCAwMC42OTIgNC4wNjJjLjU0NSAxLjQyOCAxLjM1NSAyLjQ4IDIuNDEgMy4xMjQgMS4xOC43MjMgMy4xIDEuMTM3IDUuMjc1IDEuMTM3Ljk4My4wMDMgMS45NjMtLjA4NiAyLjkzLS4yNjZhMTIuMjQ4IDEyLjI0OCAwIDAwMy44MjMtMS4zODljLjk4LS41NjcgMS44Ni0xLjI4OCAyLjYxLTIuMTM2IDEuMjUyLTEuNDE4IDEuOTk4LTIuOTk3IDIuNTUzLTQuNGguMjIxYzEuMzcyIDAgMi4yMTUtLjU0OSAyLjY4LTEuMDA5LjMwOS0uMjkzLjU1LS42NS43MDctMS4wNDZsLjA5OC0uMjg4WiIvPjwvc3ZnPg==">
+<style>
+  :root{--ac:#2496ED;--acd:#15659e;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMjQ5NkVEIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+RG9ja2VyPC90aXRsZT48cGF0aCBkPSJNMTMuOTgzIDExLjA3OGgyLjExOWEuMTg2LjE4NiAwIDAwLjE4Ni0uMTg1VjkuMDA2YS4xODYuMTg2IDAgMDAtLjE4Ni0uMTg2aC0yLjExOWEuMTg1LjE4NSAwIDAwLS4xODUuMTg1djEuODg4YzAgLjEwMi4wODMuMTg1LjE4NS4xODVtLTIuOTU0LTUuNDNoMi4xMThhLjE4Ni4xODYgMCAwMC4xODYtLjE4NlYzLjU3NGEuMTg2LjE4NiAwIDAwLS4xODYtLjE4NWgtMi4xMThhLjE4NS4xODUgMCAwMC0uMTg1LjE4NXYxLjg4OGMwIC4xMDIuMDgyLjE4NS4xODUuMTg1bTAgMi43MTZoMi4xMThhLjE4Ny4xODcgMCAwMC4xODYtLjE4NlY2LjI5YS4xODYuMTg2IDAgMDAtLjE4Ni0uMTg1aC0yLjExOGEuMTg1LjE4NSAwIDAwLS4xODUuMTg1djEuODg3YzAgLjEwMi4wODIuMTg1LjE4NS4xODZtLTIuOTMgMGgyLjEyYS4xODYuMTg2IDAgMDAuMTg0LS4xODZWNi4yOWEuMTg1LjE4NSAwIDAwLS4xODUtLjE4NUg4LjFhLjE4NS4xODUgMCAwMC0uMTg1LjE4NXYxLjg4N2MwIC4xMDIuMDgzLjE4NS4xODUuMTg2bS0yLjk2NCAwaDIuMTE5YS4xODYuMTg2IDAgMDAuMTg1LS4xODZWNi4yOWEuMTg1LjE4NSAwIDAwLS4xODUtLjE4NUg1LjEzNmEuMTg2LjE4NiAwIDAwLS4xODYuMTg1djEuODg3YzAgLjEwMi4wODQuMTg1LjE4Ni4xODZtNS44OTMgMi43MTVoMi4xMThhLjE4Ni4xODYgMCAwMC4xODYtLjE4NVY5LjAwNmEuMTg2LjE4NiAwIDAwLS4xODYtLjE4NmgtMi4xMThhLjE4NS4xODUgMCAwMC0uMTg1LjE4NXYxLjg4OGMwIC4xMDIuMDgyLjE4NS4xODUuMTg1bS0yLjkzIDBoMi4xMmEuMTg1LjE4NSAwIDAwLjE4NC0uMTg1VjkuMDA2YS4xODUuMTg1IDAgMDAtLjE4NC0uMTg2aC0yLjEyYS4xODUuMTg1IDAgMDAtLjE4NC4xODV2MS44ODhjMCAuMTAyLjA4My4xODUuMTg1LjE4NW0tMi45NjQgMGgyLjExOWEuMTg1LjE4NSAwIDAwLjE4NS0uMTg1VjkuMDA2YS4xODUuMTg1IDAgMDAtLjE4NC0uMTg2aC0yLjEyYS4xODYuMTg2IDAgMDAtLjE4Ni4xODZ2MS44ODdjMCAuMTAyLjA4NC4xODUuMTg2LjE4NW0tMi45MiAwaDIuMTJhLjE4NS4xODUgMCAwMC4xODQtLjE4NVY5LjAwNmEuMTg1LjE4NSAwIDAwLS4xODQtLjE4NmgtMi4xMmEuMTg1LjE4NSAwIDAwLS4xODQuMTg1djEuODg4YzAgLjEwMi4wODIuMTg1LjE4NS4xODVNMjMuNzYzIDkuODljLS4wNjUtLjA1MS0uNjcyLS41MS0xLjk1NC0uNTEtLjMzOC4wMDEtLjY3Ni4wMy0xLjAxLjA4Ny0uMjQ4LTEuNy0xLjY1My0yLjUzLTEuNzE2LTIuNTY2bC0uMzQ0LS4xOTktLjIyNi4zMjdjLS4yODQuNDM4LS40OS45MjItLjYxMiAxLjQzLS4yMy45Ny0uMDkgMS44ODIuNDAzIDIuNjYxLS41OTUuMzMyLTEuNTUuNDEzLTEuNzQ0LjQySC43NTFhLjc1MS43NTEgMCAwMC0uNzUuNzQ4IDExLjM3NiAxMS4zNzYgMCAwMC42OTIgNC4wNjJjLjU0NSAxLjQyOCAxLjM1NSAyLjQ4IDIuNDEgMy4xMjQgMS4xOC43MjMgMy4xIDEuMTM3IDUuMjc1IDEuMTM3Ljk4My4wMDMgMS45NjMtLjA4NiAyLjkzLS4yNjZhMTIuMjQ4IDEyLjI0OCAwIDAwMy44MjMtMS4zODljLjk4LS41NjcgMS44Ni0xLjI4OCAyLjYxLTIuMTM2IDEuMjUyLTEuNDE4IDEuOTk4LTIuOTk3IDIuNTUzLTQuNGguMjIxYzEuMzcyIDAgMi4yMTUtLjU0OSAyLjY4LTEuMDA5LjMwOS0uMjkzLjU1LS42NS43MDctMS4wNDZsLjA5OC0uMjg4WiIvPjwvc3ZnPg==" width="110" alt="Docker logo" /><h1 id="docker--complete-notes">Docker — Complete Notes</h1>
+<p><strong>Containers</strong> · Build, ship, and run apps anywhere</p>
+<p><img src="https://img.shields.io/badge/Docker-Containers-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+<img src="https://img.shields.io/badge/Tech-Containerization-2496ED?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Isolation-Namespaces%20%2B%20cgroups-blue?style=flat-square" alt="Isolation">
+<img src="https://img.shields.io/badge/Run-Anywhere-lightgrey?style=flat-square" alt="Portable"></p>
+<p><em>A reader-friendly, all-in-one reference for Docker.</em></p>
+<p><a class="dl-btn" href="docker-notes.pdf" download="docker-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-docker">What is Docker</a></li>
+<li><a href="#2--containers-vs-virtual-machines">Containers vs Virtual Machines</a></li>
+<li><a href="#3--core-concepts--architecture">Core Concepts &amp; Architecture</a></li>
+<li><a href="#4--images--layers">Images &amp; Layers</a></li>
+<li><a href="#5--dockerfile">Dockerfile</a></li>
+<li><a href="#6--image-best-practices">Image Best Practices</a></li>
+<li><a href="#7--working-with-containers">Working with Containers</a></li>
+<li><a href="#8--data-volumes--bind-mounts">Data: Volumes &amp; Bind Mounts</a></li>
+<li><a href="#9--networking">Networking</a></li>
+<li><a href="#10--registries-docker-hub--others">Registries (Docker Hub &amp; others)</a></li>
+<li><a href="#11--docker-compose">Docker Compose</a></li>
+<li><a href="#12--essential-cli-commands">Essential CLI Commands</a></li>
+<li><a href="#13--security-best-practices">Security Best Practices</a></li>
+<li><a href="#14--beyond-docker-orchestration">Beyond Docker (Orchestration)</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-docker">1. 🐳 What is Docker</h2>
+<p>Docker is a platform to <strong>build, package, and run applications in containers</strong> — lightweight, isolated units that bundle your app with <strong>everything it needs</strong> (code, runtime, libraries, config). A container runs the same on a laptop, a CI runner, or a production server.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> a container is a <strong>running instance of an image</strong>. The image is the immutable recipe/snapshot; the container is the live process. <em>&quot;Build once, run anywhere.&quot;</em></p>
+</blockquote>
+<p><strong>Why it matters:</strong> consistent environments (kills &quot;works on my machine&quot;), fast startup, dense resource use, and a clean unit for CI/CD and microservices.</p>
+<hr>
+<h2 id="2--containers-vs-virtual-machines">2. ⚖️ Containers vs Virtual Machines</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Container</strong></th>
+<th><strong>Virtual Machine</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Isolates</td>
+<td>A process (shares the host <strong>kernel</strong>)</td>
+<td>A whole machine (its own <strong>OS kernel</strong>)</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>MBs</td>
+<td>GBs</td>
+</tr>
+<tr>
+<td>Startup</td>
+<td>Milliseconds–seconds</td>
+<td>Seconds–minutes</td>
+</tr>
+<tr>
+<td>Overhead</td>
+<td>Minimal</td>
+<td>Hypervisor + full guest OS</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>OS-level (namespaces + cgroups)</td>
+<td>Hardware-level (stronger)</td>
+</tr>
+<tr>
+<td>Density</td>
+<td>Many per host</td>
+<td>Fewer per host</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Containers <strong>share the host kernel</strong> — that&#39;s why they&#39;re small and fast, but isolation is weaker than a VM. Linux containers on Windows/macOS actually run inside a lightweight Linux VM.</p>
+</blockquote>
+<hr>
+<h2 id="3--core-concepts--architecture">3. 🧩 Core Concepts &amp; Architecture</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Image</strong></td>
+<td>Read-only template (layers) used to create containers.</td>
+</tr>
+<tr>
+<td><strong>Container</strong></td>
+<td>A runnable instance of an image (an isolated process).</td>
+</tr>
+<tr>
+<td><strong>Dockerfile</strong></td>
+<td>Text recipe to build an image.</td>
+</tr>
+<tr>
+<td><strong>Registry</strong></td>
+<td>Store/distribute images (Docker Hub, ECR, GHCR…).</td>
+</tr>
+<tr>
+<td><strong>Volume</strong></td>
+<td>Persistent, Docker-managed storage.</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>Virtual network connecting containers.</td>
+</tr>
+<tr>
+<td><strong>Docker daemon (<code>dockerd</code>)</strong></td>
+<td>Background service that builds/runs/manages objects.</td>
+</tr>
+<tr>
+<td><strong>Docker client (<code>docker</code>)</strong></td>
+<td>CLI that talks to the daemon (via REST API).</td>
+</tr>
+<tr>
+<td><strong>containerd / runc</strong></td>
+<td>Lower-level runtime that actually runs containers.</td>
+</tr>
+</tbody></table>
+<p><strong>How it fits:</strong> the <strong>client</strong> sends commands → the <strong>daemon</strong> builds images, pulls from <strong>registries</strong>, and runs <strong>containers</strong> via <strong>containerd/runc</strong>, using Linux <strong>namespaces</strong> (isolation) and <strong>cgroups</strong> (resource limits).</p>
+<hr>
+<h2 id="4--images--layers">4. 🧱 Images &amp; Layers</h2>
+<ul>
+<li>An image is a <strong>stack of read-only layers</strong>; each Dockerfile instruction (<code>RUN</code>, <code>COPY</code>, <code>ADD</code>) adds a layer.</li>
+<li>Layers are <strong>cached and shared</strong> — unchanged layers are reused across builds and images (fast builds, small pulls).</li>
+<li>A running container adds a thin <strong>writable layer</strong> on top (copy-on-write); deleting the container discards it.</li>
+<li>Images are identified by <strong>name:tag</strong> (e.g. <code>nginx:1.27</code>) and a content <strong>digest</strong> (<code>sha256:…</code>).</li>
+<li><strong>Base image</strong> = the starting layer (<code>FROM ...</code>), e.g. <code>alpine</code>, <code>ubuntu</code>, <code>python:3.12-slim</code>, or <code>scratch</code> (empty).</li>
+</ul>
+<blockquote>
+<p>💡 Order Dockerfile steps from <strong>least- to most-frequently changing</strong> so the cache survives — put dependency installs before copying source code.</p>
+</blockquote>
+<hr>
+<h2 id="5--dockerfile">5. 📝 Dockerfile</h2>
+<p>A Dockerfile is the build recipe. Common instructions:</p>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FROM</code></td>
+<td>Base image to start from</td>
+</tr>
+<tr>
+<td><code>WORKDIR</code></td>
+<td>Set the working directory</td>
+</tr>
+<tr>
+<td><code>COPY</code> / <code>ADD</code></td>
+<td>Copy files in (<code>ADD</code> also untars / fetches URLs)</td>
+</tr>
+<tr>
+<td><code>RUN</code></td>
+<td>Execute a command at <strong>build</strong> time (creates a layer)</td>
+</tr>
+<tr>
+<td><code>ENV</code></td>
+<td>Set environment variables</td>
+</tr>
+<tr>
+<td><code>ARG</code></td>
+<td>Build-time variable</td>
+</tr>
+<tr>
+<td><code>EXPOSE</code></td>
+<td>Document the port the app listens on</td>
+</tr>
+<tr>
+<td><code>CMD</code></td>
+<td>Default command at <strong>run</strong> time (overridable)</td>
+</tr>
+<tr>
+<td><code>ENTRYPOINT</code></td>
+<td>The fixed executable (args from <code>CMD</code>/CLI)</td>
+</tr>
+<tr>
+<td><code>VOLUME</code></td>
+<td>Declare a mount point</td>
+</tr>
+<tr>
+<td><code>HEALTHCHECK</code></td>
+<td>How Docker tests container health</td>
+</tr>
+<tr>
+<td><code>USER</code></td>
+<td>Run as a non-root user</td>
+</tr>
+</tbody></table>
+<pre><code class="language-dockerfile"># Multi-stage build: small, no build tools in the final image
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:1.27-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+HEALTHCHECK CMD wget -qO- http://localhost/ || exit 1
+CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]
+</code></pre>
+<blockquote>
+<p><strong>CMD vs ENTRYPOINT:</strong> <code>ENTRYPOINT</code> is the program; <code>CMD</code> supplies default args. Use <code>ENTRYPOINT [&quot;app&quot;]</code> + <code>CMD [&quot;--flag&quot;]</code> for a fixed binary with overridable arguments.</p>
+</blockquote>
+<hr>
+<h2 id="6--image-best-practices">6. ✨ Image Best Practices</h2>
+<ul>
+<li><strong>Small base images</strong> — <code>alpine</code> / <code>-slim</code> / <code>distroless</code>; less to ship and a smaller attack surface.</li>
+<li><strong>Multi-stage builds</strong> — compile in a &quot;build&quot; stage, copy only artifacts into a lean final stage.</li>
+<li><strong><code>.dockerignore</code></strong> — keep <code>node_modules</code>, <code>.git</code>, secrets out of the build context.</li>
+<li><strong>Few, ordered layers</strong> — combine related <code>RUN</code>s; put stable steps first for cache hits.</li>
+<li><strong>Pin versions</strong> — <code>python:3.12.4-slim</code>, not <code>latest</code>, for reproducible builds.</li>
+<li><strong>Run as non-root</strong> (<code>USER</code>), set a <code>HEALTHCHECK</code>, and avoid baking secrets into layers (they persist in history).</li>
+<li><strong>One main process per container</strong> — scale by running more containers, not by stuffing many services into one.</li>
+</ul>
+<hr>
+<h2 id="7--working-with-containers">7. 📦 Working with Containers</h2>
+<pre><code class="language-bash">docker run -d --name web -p 8080:80 nginx:1.27   # detached, map host:container
+docker run -it ubuntu bash                         # interactive shell
+docker ps            # running containers (add -a for all)
+docker logs -f web   # follow logs
+docker exec -it web sh   # shell into a running container
+docker stop web &amp;&amp; docker start web
+docker rm web        # remove (must be stopped, or -f)
+</code></pre>
+<ul>
+<li><code>-d</code> detached · <code>-it</code> interactive TTY · <code>-p host:container</code> port map · <code>-e KEY=val</code> env · <code>--rm</code> auto-remove on exit · <code>--restart unless-stopped</code> restart policy · <code>--memory</code>/<code>--cpus</code> resource limits.</li>
+<li><strong>Container states:</strong> <code>created → running → paused → stopped/exited → removed</code>.</li>
+</ul>
+<hr>
+<h2 id="8--data-volumes--bind-mounts">8. 💾 Data: Volumes &amp; Bind Mounts</h2>
+<p>Containers are <strong>ephemeral</strong> — the writable layer dies with the container. Persist data outside it:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Volume</strong></td>
+<td>Docker-managed storage (<code>/var/lib/docker/volumes</code>)</td>
+<td><strong>Preferred</strong> for persistent data (DB files). Portable, backup-able.</td>
+</tr>
+<tr>
+<td><strong>Bind mount</strong></td>
+<td>Maps a host path into the container</td>
+<td>Local dev (live-edit source), host config files.</td>
+</tr>
+<tr>
+<td><strong>tmpfs</strong></td>
+<td>In-memory only</td>
+<td>Sensitive/temp data that must not hit disk.</td>
+</tr>
+</tbody></table>
+<pre><code class="language-bash">docker volume create dbdata
+docker run -v dbdata:/var/lib/postgresql/data postgres   # named volume
+docker run -v &quot;$(pwd)&quot;:/app node:20                       # bind mount (dev)
+</code></pre>
+<blockquote>
+<p>Use <strong>named volumes</strong> for stateful services (databases) and <strong>bind mounts</strong> for live-reloading code during development.</p>
+</blockquote>
+<hr>
+<h2 id="9--networking">9. 🌐 Networking</h2>
+<p>Docker creates virtual networks so containers can talk to each other and the outside.</p>
+<table>
+<thead>
+<tr>
+<th>Driver</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>bridge</strong> (default)</td>
+<td>Private network on the host; containers get internal IPs. On a <strong>user-defined</strong> bridge, containers resolve each other by <strong>name</strong> (built-in DNS).</td>
+</tr>
+<tr>
+<td><strong>host</strong></td>
+<td>Container shares the host&#39;s network stack (no isolation, no port mapping).</td>
+</tr>
+<tr>
+<td><strong>none</strong></td>
+<td>No networking.</td>
+</tr>
+<tr>
+<td><strong>overlay</strong></td>
+<td>Multi-host network (Swarm / clustered services).</td>
+</tr>
+<tr>
+<td><strong>macvlan</strong></td>
+<td>Container gets its own MAC/IP on the physical LAN.</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Port publishing:</strong> <code>-p 8080:80</code> exposes container port 80 as host 8080. Without <code>-p</code>, ports are reachable only within the Docker network.</li>
+<li>Create a network and attach containers so they reach each other by service name:</li>
+</ul>
+<pre><code class="language-bash">docker network create appnet
+docker run -d --name db  --network appnet postgres
+docker run -d --name api --network appnet -p 3000:3000 myapi   # api reaches db as &quot;db&quot;
+</code></pre>
+<hr>
+<h2 id="10--registries-docker-hub--others">10. 🗄️ Registries (Docker Hub &amp; others)</h2>
+<ul>
+<li>A <strong>registry</strong> stores and distributes images; a <strong>repository</strong> holds tagged versions of one image.</li>
+<li><strong>Docker Hub</strong> is the default public registry. Others: <strong>Amazon ECR</strong>, <strong>GitHub GHCR</strong>, <strong>GitLab</strong>, <strong>Google Artifact Registry</strong>, or a self-hosted registry.</li>
+</ul>
+<pre><code class="language-bash">docker login                                  # authenticate
+docker pull nginx:1.27                         # download
+docker tag myapp:1.0 user/myapp:1.0            # name for a repo
+docker push user/myapp:1.0                     # upload
+</code></pre>
+<blockquote>
+<p>Tag images meaningfully (semver + git SHA), and treat <code>latest</code> as &quot;most recent build,&quot; <strong>not</strong> a stable pin for production.</p>
+</blockquote>
+<hr>
+<h2 id="11--docker-compose">11. 🧩 Docker Compose</h2>
+<p><strong>Compose</strong> defines and runs <strong>multi-container</strong> apps from one YAML file — perfect for local dev and simple stacks.</p>
+<pre><code class="language-yaml"># compose.yaml
+services:
+  api:
+    build: .
+    ports: [&quot;3000:3000&quot;]
+    environment:
+      DATABASE_URL: postgres://app:secret@db:5432/app
+    depends_on: [db]
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+    volumes: [&quot;dbdata:/var/lib/postgresql/data&quot;]
+volumes:
+  dbdata:
+</code></pre>
+<pre><code class="language-bash">docker compose up -d      # build + start the whole stack
+docker compose ps         # status
+docker compose logs -f    # tail logs
+docker compose down       # stop &amp; remove (add -v to drop volumes)
+</code></pre>
+<blockquote>
+<p>Services on the same Compose project share a network and resolve each other by <strong>service name</strong> (<code>db</code>, <code>api</code>). Use one Compose file per app stack.</p>
+</blockquote>
+<hr>
+<h2 id="12--essential-cli-commands">12. ⌨️ Essential CLI Commands</h2>
+<pre><code class="language-bash"># Images
+docker build -t myapp:1.0 .          # build from Dockerfile
+docker images                        # list images
+docker rmi myapp:1.0                 # remove image
+docker history myapp:1.0             # inspect layers
+
+# Containers
+docker run / ps / logs / exec / stop / start / rm    # (see section 7)
+docker inspect &lt;id&gt;                  # full JSON detail
+docker stats                         # live resource usage
+docker cp web:/etc/nginx.conf ./     # copy files in/out
+
+# Housekeeping (reclaim disk)
+docker system df                     # space usage
+docker system prune -a               # remove unused images/containers/networks
+docker volume prune                  # remove unused volumes
+</code></pre>
+<hr>
+<h2 id="13--security-best-practices">13. 🔐 Security Best Practices</h2>
+<ul>
+<li><strong>Don&#39;t run as root</strong> — add a <code>USER</code>; consider rootless Docker.</li>
+<li><strong>Trusted, pinned base images</strong> — official/verified, pinned by tag or digest; rebuild to get patches.</li>
+<li><strong>Scan images</strong> for CVEs (<code>docker scout</code>, Trivy, Grype) in CI.</li>
+<li><strong>No secrets in images</strong> — they persist in layer history; inject at runtime (env, secrets, mounted files).</li>
+<li><strong>Least privilege</strong> — drop Linux capabilities (<code>--cap-drop ALL</code>), avoid <code>--privileged</code>, use read-only root FS (<code>--read-only</code>) where possible.</li>
+<li><strong>Resource limits</strong> (<code>--memory</code>, <code>--cpus</code>) to contain noisy/abusive containers.</li>
+<li><strong>Keep the daemon secured</strong> — the Docker socket is root-equivalent; never expose <code>dockerd</code> unprotected.</li>
+</ul>
+<hr>
+<h2 id="14--beyond-docker-orchestration">14. 🚀 Beyond Docker (Orchestration)</h2>
+<p>Docker runs containers on <strong>one host</strong>. Production at scale needs orchestration — scheduling, self-healing, scaling, rolling updates, service discovery across <strong>many</strong> hosts:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Kubernetes (K8s)</strong></td>
+<td>The de-facto standard orchestrator.</td>
+</tr>
+<tr>
+<td><strong>Docker Swarm</strong></td>
+<td>Docker&#39;s built-in, simpler orchestrator.</td>
+</tr>
+<tr>
+<td><strong>Amazon ECS / EKS</strong></td>
+<td>AWS-managed container orchestration.</td>
+</tr>
+<tr>
+<td><strong>Nomad</strong></td>
+<td>HashiCorp&#39;s scheduler.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Docker images are <strong>OCI-compliant</strong> — the same image you build runs on Kubernetes, ECS, etc. Docker for building/local dev; an orchestrator for running fleets in production.</p>
+</blockquote>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Docker = package an app + its environment into a portable container.</strong></li>
+<li><strong>Image</strong> = immutable layered recipe; <strong>container</strong> = a running instance of it.</li>
+<li>Build images with a <strong>Dockerfile</strong> (order steps for cache; use <strong>multi-stage</strong> + small bases).</li>
+<li>Containers are <strong>ephemeral</strong> — persist data with <strong>volumes</strong>, share code in dev with <strong>bind mounts</strong>.</li>
+<li>Containers talk over <strong>networks</strong> (resolve by name on user-defined bridges); expose with <code>-p</code>.</li>
+<li>Share via <strong>registries</strong> (<code>pull</code> / <code>tag</code> / <code>push</code>); pin versions, don&#39;t trust <code>latest</code> in prod.</li>
+<li>Run multi-container stacks with <strong>Compose</strong>; run fleets in prod with <strong>Kubernetes/ECS</strong>.</li>
+<li>Secure it: <strong>non-root, pinned + scanned images, no baked-in secrets, least privilege.</strong></li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Docker.</em></p>
+</div>
+</main></body></html>
