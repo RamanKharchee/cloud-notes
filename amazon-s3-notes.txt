@@ -1,0 +1,488 @@
+================================================================================
+AMAZON S3 (Simple Storage Service) - COMPLETE NOTES
+================================================================================
+
+
+1. WHAT IS S3
+--------------------------------------------------------------------------------
+Amazon S3 is an object storage service from AWS. It stores data as objects
+inside containers called buckets. It is designed for 99.999999999% (11 nines)
+durability and 99.99% availability. It is virtually unlimited in capacity, you
+do not provision disks. You pay only for what you store, requests you make, and
+data you transfer out.
+
+S3 is NOT a file system and NOT a block storage. It is flat object storage
+accessed over HTTP/HTTPS via a REST API. There is no real folder hierarchy,
+"folders" are just a naming convention using "/" in the key.
+
+Common uses: backups, static website hosting, data lakes, media storage,
+software distribution, log storage, big data analytics, archival.
+
+
+2. CORE CONCEPTS
+--------------------------------------------------------------------------------
+BUCKET
+  - Top level container for objects.
+  - Bucket name must be globally unique across ALL AWS accounts worldwide.
+  - Name rules: 3-63 chars, lowercase, numbers, hyphens, dots. No uppercase,
+    no underscores. Must start and end with letter or number. Cannot look like
+    an IP address.
+  - A bucket lives in ONE region. Data never leaves that region unless you
+    copy/replicate it.
+  - Soft limit of 100 buckets per account (can request increase to 1000).
+
+OBJECT
+  - The actual file/data plus metadata.
+  - Made of: Key (name), Value (the data/bytes), Version ID, Metadata,
+    Access control info, sub-resources.
+  - Object size: 0 bytes up to 5 TB.
+  - Single PUT upload limit: 5 GB. Above that you MUST use multipart upload.
+  - Recommended to use multipart upload for anything over 100 MB.
+
+KEY
+  - The full unique name of an object inside a bucket.
+  - Example key: "images/2024/photo.jpg"
+  - The "images/2024/" part is just a prefix, not a real directory.
+
+PREFIX & DELIMITER
+  - Prefix = the start of a key, used to group/filter objects (simulates
+    folders).
+  - Delimiter = usually "/", used by list operations to roll up keys into
+    common prefixes (folder like listing).
+
+REGION
+  - The geographic location where the bucket and its data physically live.
+  - Choose region for latency, cost, and compliance/data residency.
+
+
+3. S3 STORAGE CLASSES
+--------------------------------------------------------------------------------
+Storage classes trade off cost vs access speed vs retrieval fees. All offer
+the same 11 nines durability (except One Zone which is single AZ).
+
+S3 STANDARD
+  - Default. Frequent access. Low latency, high throughput.
+  - Stored across >= 3 Availability Zones.
+  - No retrieval fee. Highest storage cost of the "frequent" tier.
+  - Use: active data, websites, content distribution, analytics.
+
+S3 INTELLIGENT-TIERING
+  - Automatically moves objects between access tiers based on usage.
+  - Small monthly monitoring/automation fee per object.
+  - No retrieval fees, no operational overhead.
+  - Best when access patterns are unknown or changing.
+  - Tiers: Frequent, Infrequent (30 days no access), Archive Instant
+    (90 days), plus optional Archive Access and Deep Archive Access.
+
+S3 STANDARD-IA (Infrequent Access)
+  - For data accessed less often but needs rapid access when needed.
+  - Lower storage cost than Standard, but you pay a per-GB retrieval fee.
+  - Stored across >= 3 AZs.
+  - Minimum storage duration 30 days, minimum billable object size 128 KB.
+  - Use: backups, disaster recovery, older data.
+
+S3 ONE ZONE-IA
+  - Same as Standard-IA but stored in only ONE Availability Zone.
+  - ~20% cheaper than Standard-IA.
+  - Lower availability and resilience (data lost if that AZ is destroyed).
+  - Use: re-creatable data, secondary backups, non-critical data.
+
+S3 GLACIER INSTANT RETRIEVAL
+  - Archive storage with millisecond retrieval.
+  - Cheaper storage, higher retrieval cost.
+  - Minimum storage duration 90 days.
+  - Use: archives accessed maybe once a quarter but needed instantly.
+
+S3 GLACIER FLEXIBLE RETRIEVAL (formerly just "Glacier")
+  - Very cheap archival storage.
+  - Retrieval in minutes to hours. Options: Expedited (1-5 min),
+    Standard (3-5 hrs), Bulk (5-12 hrs).
+  - Minimum storage duration 90 days.
+  - Use: backups, disaster recovery archives.
+
+S3 GLACIER DEEP ARCHIVE
+  - Lowest cost storage in AWS.
+  - Retrieval in 12-48 hours. Standard (~12 hrs), Bulk (~48 hrs).
+  - Minimum storage duration 180 days.
+  - Use: long term compliance archives, data kept 7-10 years, rarely accessed.
+
+S3 ON OUTPOSTS
+  - S3 on on-premises AWS Outposts hardware for local data residency.
+
+
+4. DURABILITY, AVAILABILITY, CONSISTENCY
+--------------------------------------------------------------------------------
+DURABILITY: 99.999999999% (11 nines). Means if you store 10 million objects,
+  you can expect to lose one object roughly once every 10,000 years.
+  Achieved by storing data redundantly across multiple devices and (for most
+  classes) multiple AZs.
+
+AVAILABILITY: varies by class. Standard = 99.99%. Standard-IA = 99.9%.
+  One Zone-IA = 99.5%.
+
+CONSISTENCY: S3 provides STRONG read-after-write consistency for all
+  operations (since Dec 2020). A read immediately after a write/overwrite/
+  delete returns the latest data. No more eventual consistency confusion.
+
+
+5. VERSIONING
+--------------------------------------------------------------------------------
+- Keeps multiple versions of an object in the same bucket.
+- Protects against accidental deletes and overwrites.
+- States: Unversioned (default), Enabled, Suspended.
+- Once enabled, cannot be turned off, only suspended.
+- Each version gets a unique Version ID. Null version ID for objects that
+  existed before versioning was enabled.
+- DELETE on a versioned object adds a "delete marker", it does NOT actually
+  delete data. The previous version is recoverable by removing the marker.
+- To permanently delete you must delete a specific version ID.
+- Versioning increases storage cost (you store every version). Combine with
+  lifecycle rules to expire old versions.
+- MFA Delete: optional extra protection requiring MFA token to delete versions
+  or change versioning state. Enabled only by the root account via CLI.
+
+
+6. LIFECYCLE MANAGEMENT
+--------------------------------------------------------------------------------
+- Rules that automatically transition or expire objects to save cost.
+- Two action types:
+  TRANSITION actions: move objects to cheaper storage class after N days
+    (e.g. Standard -> Standard-IA after 30 days -> Glacier after 90 days).
+  EXPIRATION actions: delete objects after N days, delete old versions,
+    delete incomplete multipart uploads, remove expired delete markers.
+- Rules can apply to whole bucket, a prefix, or by object tags.
+- Useful for log retention, compliance, cost optimization.
+- Note: minimum storage durations and transition constraints apply (cannot
+  transition to IA before 30 days, smaller objects may not be worth moving).
+
+
+7. SECURITY & ACCESS CONTROL
+--------------------------------------------------------------------------------
+By default everything in S3 is PRIVATE. Only the bucket owner has access.
+
+LAYERS OF ACCESS CONTROL:
+
+IAM POLICIES
+  - Attached to users/groups/roles. Define what AWS principals can do.
+  - Identity based. Best for controlling your own account's users.
+
+BUCKET POLICIES
+  - JSON resource based policy attached to a bucket.
+  - Can grant cross account access, enforce encryption, restrict by IP,
+    require HTTPS, etc.
+  - Most common way to manage bucket-wide access.
+
+ACLs (Access Control Lists)
+  - Legacy, object and bucket level grants. AWS now recommends disabling ACLs
+    and using "Bucket owner enforced" object ownership setting.
+
+S3 BLOCK PUBLIC ACCESS
+  - Account and bucket level safety switch. 4 settings that block public ACLs
+    and public bucket policies.
+  - ON by default for new buckets. Prevents accidental public exposure.
+
+ACCESS POINTS
+  - Named network endpoints with their own policies, to manage access at scale
+    for shared buckets/data lakes.
+
+PRESIGNED URLs
+  - Temporary URL granting time-limited access to a specific object without
+    making it public. Generated using the credentials of an IAM principal.
+  - Use: let a user download/upload a private object for a limited time.
+
+VPC ENDPOINTS (Gateway Endpoint)
+  - Access S3 privately from a VPC without going over the public internet.
+
+
+8. ENCRYPTION
+--------------------------------------------------------------------------------
+ENCRYPTION IN TRANSIT
+  - Use HTTPS/TLS. Can enforce via bucket policy (aws:SecureTransport).
+
+ENCRYPTION AT REST (server side encryption, SSE):
+  SSE-S3 (AES-256)
+    - S3 manages the keys. Default encryption since Jan 2023, all new objects
+      are encrypted automatically.
+  SSE-KMS
+    - Uses AWS KMS keys. Adds audit trail (CloudTrail), key rotation, and
+      fine grained key access control. Slight extra cost and API limits.
+  SSE-C
+    - Customer provides the encryption key with each request. AWS does not
+      store the key.
+  CLIENT SIDE ENCRYPTION
+    - You encrypt data before uploading. AWS never sees plaintext.
+
+DSSE-KMS: dual layer KMS encryption for high compliance needs.
+
+
+9. DATA TRANSFER & PERFORMANCE
+--------------------------------------------------------------------------------
+MULTIPART UPLOAD
+  - Splits a large object into parts uploaded in parallel.
+  - Required for objects > 5 GB, recommended > 100 MB.
+  - Improves throughput, can resume failed parts, parts up to 5 GB each,
+    max 10,000 parts.
+  - Remember to abort incomplete uploads (lifecycle rule) to avoid paying for
+    orphaned parts.
+
+S3 TRANSFER ACCELERATION
+  - Uses CloudFront edge locations to speed up uploads/downloads over long
+    distances. Data routed through AWS backbone. Extra cost.
+
+BYTE-RANGE FETCHES
+  - Download only a part of an object using Range header. Parallel and faster.
+
+PERFORMANCE
+  - S3 scales to very high request rates: at least 3,500 PUT/COPY/POST/DELETE
+    and 5,500 GET/HEAD requests per second PER PREFIX.
+  - Spread keys across multiple prefixes to scale horizontally (random prefix
+    no longer needed since 2018, but more prefixes = more parallel throughput).
+
+S3 SELECT
+  - Retrieve a subset of data from an object using SQL expressions
+    (CSV, JSON, Parquet) so you transfer less data. (Being phased toward
+    other query tools but historically important.)
+
+
+10. REPLICATION
+--------------------------------------------------------------------------------
+- Automatically copy objects to another bucket.
+CRR (Cross Region Replication)
+  - Replicate to a bucket in a different region. Use for compliance, lower
+    latency for users in another region, disaster recovery.
+SRR (Same Region Replication)
+  - Replicate within the same region. Use for log aggregation, prod/test
+    sync, separate accounts.
+- Requires versioning enabled on both source and destination.
+- Can replicate to a different account and different storage class.
+- Only replicates NEW objects after rule is enabled (use Batch Replication
+  for existing objects).
+- S3 Replication Time Control (RTC) gives a 15-minute replication SLA.
+
+
+11. STATIC WEBSITE HOSTING
+--------------------------------------------------------------------------------
+- S3 can host static websites (HTML, CSS, JS, images). No server side code.
+- Enable "Static website hosting", set index and error documents.
+- Bucket must allow public read (or front it with CloudFront).
+- Endpoint format: bucket-name.s3-website-region.amazonaws.com
+- For HTTPS + custom domain + caching, put CloudFront in front.
+
+
+12. EVENT NOTIFICATIONS & INTEGRATION
+--------------------------------------------------------------------------------
+- S3 can emit events on actions (object created, deleted, restored, etc.).
+- Targets: SNS (notifications), SQS (queues), Lambda (run code), and
+  EventBridge (advanced routing/filtering).
+- Common pattern: upload object -> trigger Lambda -> process file (resize
+  image, ingest data, etc.).
+
+
+13. MONITORING, LOGGING, ANALYTICS
+--------------------------------------------------------------------------------
+- SERVER ACCESS LOGGING: detailed records of requests to the bucket, stored in
+  another bucket.
+- AWS CLOUDTRAIL: logs S3 API calls for audit (management + data events).
+- AMAZON CLOUDWATCH: metrics (bucket size, number of objects, request metrics).
+- S3 STORAGE LENS: org wide visibility into storage usage and activity, cost
+  optimization recommendations.
+- S3 INVENTORY: scheduled report (CSV/ORC/Parquet) listing objects and their
+  metadata, encryption, replication status.
+- STORAGE CLASS ANALYSIS: analyzes access patterns to recommend when to move
+  to IA.
+
+
+14. OTHER FEATURES
+--------------------------------------------------------------------------------
+OBJECT LOCK
+  - WORM (Write Once Read Many). Prevents deletion/overwrite for a retention
+    period or legal hold. For compliance (SEC, FINRA). Requires versioning.
+  - Modes: Governance (special permission can override) and Compliance
+    (no one, not even root, can delete until retention expires).
+
+OBJECT TAGS
+  - Up to 10 key-value tags per object. Used for lifecycle rules, access
+    control, cost allocation, and filtering.
+
+REQUESTER PAYS
+  - The requester (not bucket owner) pays for requests and data transfer.
+    For sharing large datasets.
+
+S3 BATCH OPERATIONS
+  - Perform actions on billions of objects in bulk (copy, tag, restore from
+    Glacier, invoke Lambda, set ACL).
+
+S3 OBJECT LAMBDA
+  - Run a Lambda to transform data as it is retrieved (redact, resize,
+    convert format) without storing multiple copies.
+
+MOUNTPOINT FOR S3
+  - File-client to mount an S3 bucket as a local file system for read heavy
+    workloads.
+
+
+15. PRICING (what you pay for)
+--------------------------------------------------------------------------------
+1. STORAGE: per GB per month, depends on storage class.
+2. REQUESTS: per 1,000 requests (PUT, GET, LIST, etc.). Cost varies by class.
+3. DATA TRANSFER OUT: to the internet (transfer IN is free; transfer between
+   S3 and EC2 in same region is free).
+4. RETRIEVAL FEES: for IA and Glacier classes (per GB retrieved).
+5. MANAGEMENT FEATURES: Intelligent-Tiering monitoring, inventory, analytics,
+   replication, etc.
+6. EARLY DELETE FEES: deleting before the minimum storage duration of a class.
+
+Cost optimization tips:
+  - Use lifecycle rules to move cold data to cheaper classes.
+  - Use Intelligent-Tiering for unknown patterns.
+  - Delete old versions and incomplete multipart uploads.
+  - Keep compute (EC2/Lambda) in the same region as the bucket.
+  - Use VPC Gateway Endpoint to avoid NAT/data transfer charges.
+
+
+16. COMMON CLI COMMANDS (quick reference)
+--------------------------------------------------------------------------------
+  aws s3 mb s3://my-bucket                  # make/create bucket
+  aws s3 rb s3://my-bucket                  # remove bucket
+  aws s3 ls                                 # list buckets
+  aws s3 ls s3://my-bucket/                 # list objects
+  aws s3 cp file.txt s3://my-bucket/        # upload a file
+  aws s3 cp s3://my-bucket/file.txt .       # download a file
+  aws s3 sync ./localdir s3://my-bucket/    # sync a folder
+  aws s3 rm s3://my-bucket/file.txt         # delete an object
+  aws s3 presign s3://my-bucket/file.txt    # generate presigned URL
+
+  (Low level API uses "aws s3api ..." for fine control like versioning,
+   policies, multipart, etc.)
+
+
+17. KEY LIMITS / NUMBERS TO REMEMBER
+--------------------------------------------------------------------------------
+  - Max object size: 5 TB
+  - Max single PUT upload: 5 GB (use multipart above this)
+  - Max multipart parts: 10,000 ; each part up to 5 GB
+  - Bucket name: 3-63 chars, globally unique, lowercase
+  - Buckets per account: 100 default (up to 1000 on request)
+  - Durability: 11 nines (99.999999999%)
+  - Standard availability: 99.99%
+  - Object tags: 10 max per object
+  - Metadata: 2 KB limit for user-defined metadata
+  - Request rate: 3,500 writes / 5,500 reads per second per prefix
+  - Min storage duration: IA = 30 days, Glacier = 90 days,
+    Deep Archive = 180 days
+
+
+18. WAYS TO CONNECT TO / ACCESS S3
+--------------------------------------------------------------------------------
+There are many ways to interact with S3. All of them ultimately call the same
+REST API, but the entry point differs. You also need valid credentials and
+permissions (IAM) for almost every method.
+
+A. CREDENTIALS FIRST (how you authenticate)
+  - IAM USER ACCESS KEYS: an Access Key ID + Secret Access Key pair. Used by
+    CLI/SDK. Avoid long lived keys when possible.
+  - IAM ROLES: preferred. EC2 instance role, Lambda execution role, ECS task
+    role, EKS IRSA. The service automatically gets temporary credentials, no
+    keys stored in code.
+  - STS TEMPORARY CREDENTIALS: short lived tokens via AssumeRole, federation,
+    or web identity. Most secure for cross account / temporary access.
+  - ROOT ACCOUNT: never use for normal access.
+
+B. AWS MANAGEMENT CONSOLE (web UI)
+  - Browser based. Create buckets, upload/download, set policies, browse
+    objects. Good for manual/admin tasks, not automation.
+
+C. AWS CLI (command line)
+  - "aws s3 ..." (high level) and "aws s3api ..." (low level).
+  - Configure with "aws configure" (sets keys, region, output) or use named
+    profiles ("aws s3 ls --profile myprofile").
+  - Great for scripts, sync jobs, automation.
+
+D. AWS SDKs (in code)
+  - Official SDKs for many languages: Python (boto3), JavaScript/Node
+    (aws-sdk / @aws-sdk/client-s3), Java, Go (aws-sdk-go-v2), .NET, Ruby, PHP,
+    C++, Rust, etc.
+  - SDK handles signing requests (SigV4), retries, multipart, pagination.
+  - Example (Python boto3):
+        import boto3
+        s3 = boto3.client("s3")
+        s3.upload_file("local.txt", "my-bucket", "key.txt")
+        s3.download_file("my-bucket", "key.txt", "local.txt")
+  - Example (Go aws-sdk-go-v2):
+        cfg, _ := config.LoadDefaultConfig(ctx)
+        client := s3.NewFromConfig(cfg)
+        client.PutObject(ctx, &s3.PutObjectInput{...})
+
+E. REST API DIRECTLY (HTTP)
+  - Raw HTTPS requests to the S3 endpoint, signed with AWS Signature v4.
+  - Endpoint forms:
+        https://my-bucket.s3.region.amazonaws.com/key      (virtual hosted)
+        https://s3.region.amazonaws.com/my-bucket/key       (path style, legacy)
+  - You usually let an SDK/CLI do the signing rather than hand sign.
+
+F. PRESIGNED URLs
+  - A time-limited signed URL that lets someone GET (download) or PUT (upload)
+    a specific object WITHOUT having AWS credentials.
+  - Generated by an authorized principal (SDK/CLI). Common for browser uploads
+    and temporary downloads.
+  - "aws s3 presign s3://bucket/key --expires-in 3600"
+
+G. MOUNT AS A FILE SYSTEM
+  - MOUNTPOINT FOR AMAZON S3: official AWS client, mounts a bucket as a local
+    folder (good for read heavy / large sequential workloads).
+  - s3fs-fuse: third party FUSE mount, treat bucket like a drive (slower, not
+    a true filesystem, watch out for performance/consistency).
+  - AWS STORAGE GATEWAY (File Gateway): presents S3 via NFS/SMB to on-prem
+    apps, with local caching.
+
+H. PRIVATE NETWORK CONNECTIVITY
+  - VPC GATEWAY ENDPOINT: lets resources in a VPC reach S3 privately without
+    an internet gateway or NAT (no data leaves AWS network). Free.
+  - VPC INTERFACE ENDPOINT (PrivateLink): private IP in your subnet for S3,
+    used for on-prem-to-VPC and stricter setups (has cost).
+  - DIRECT CONNECT / VPN: connect on-prem networks to AWS, then reach S3
+    (often combined with endpoints).
+
+I. THIRD PARTY / GUI TOOLS
+  - Cyberduck, S3 Browser, WinSCP, Rclone, Transmit. GUI or CLI tools that
+    speak the S3 API using your access keys. Good for manual transfers and
+    cross cloud sync (rclone).
+
+J. THROUGH OTHER AWS SERVICES (S3 as backend)
+  - CloudFront (CDN in front of S3), Athena (SQL queries over S3), Glue,
+    EMR/Spark, Redshift Spectrum, Lambda triggers, DataSync (bulk migration),
+    Transfer Family (SFTP/FTPS/FTP front end to S3).
+
+K. S3-COMPATIBLE ACCESS
+  - Because the S3 API is a de facto standard, many tools/libraries let you
+    point at a custom endpoint (e.g. MinIO, Wasabi, Ceph). Set the endpoint
+    URL in the SDK/CLI config to talk to S3-compatible storage.
+
+QUICK PICK GUIDE
+  - One off manual task           -> Console or a GUI tool
+  - Scripting / automation        -> AWS CLI
+  - Application code              -> AWS SDK (boto3, aws-sdk, etc.)
+  - Let a user upload/download    -> Presigned URL
+  - App inside a VPC             -> IAM role + VPC Gateway Endpoint
+  - Legacy app needs a filesystem -> Mountpoint / Storage Gateway
+  - Serve files to the web        -> CloudFront in front of S3
+
+
+19. QUICK MENTAL MODEL / SUMMARY
+--------------------------------------------------------------------------------
+  - S3 = unlimited buckets of objects, accessed over HTTP, super durable.
+  - Pick a STORAGE CLASS based on how often you read the data and how fast you
+    need it back.
+  - Everything is PRIVATE by default; open access deliberately via IAM +
+    bucket policy, keep Block Public Access ON.
+  - Turn on VERSIONING + LIFECYCLE rules to stay safe and cheap.
+  - ENCRYPT in transit (HTTPS) and at rest (SSE on by default).
+  - Use MULTIPART for big files, TRANSFER ACCELERATION / CloudFront for speed.
+  - Use EVENTS + Lambda to make storage reactive.
+  - Use REPLICATION for DR/compliance, OBJECT LOCK for WORM compliance.
+  - Monitor with CloudWatch, CloudTrail, Storage Lens; optimize cost
+    relentlessly with lifecycle + the right class.
+
+================================================================================
+END OF NOTES
+================================================================================
