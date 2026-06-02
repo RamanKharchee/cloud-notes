@@ -33,15 +33,18 @@
 4. [Repositories](#4--repositories)
 5. [Essential Git Workflow](#5--essential-git-workflow)
 6. [Branching & Merging](#6--branching--merging)
-7. [Pull Requests](#7--pull-requests)
-8. [Forks & Collaboration Models](#8--forks--collaboration-models)
-9. [Issues & Project Management](#9--issues--project-management)
-10. [GitHub Actions (CI/CD)](#10--github-actions-cicd)
-11. [Releases, Tags & Packages](#11--releases-tags--packages)
-12. [Authentication & Security](#12--authentication--security)
-13. [GitHub CLI & Useful Commands](#13--github-cli--useful-commands)
-14. [Best Practices](#14--best-practices)
-15. [Quick Mental Model](#15--quick-mental-model)
+7. [Merging (git merge)](#7--merging-git-merge)
+8. [Rebasing (git rebase)](#8--rebasing-git-rebase)
+9. [Merge vs Rebase](#9--merge-vs-rebase)
+10. [Pull Requests](#10--pull-requests)
+11. [Forks & Collaboration Models](#11--forks--collaboration-models)
+12. [Issues & Project Management](#12--issues--project-management)
+13. [GitHub Actions (CI/CD)](#13--github-actions-cicd)
+14. [Releases, Tags & Packages](#14--releases-tags--packages)
+15. [Authentication & Security](#15--authentication--security)
+16. [GitHub CLI & Useful Commands](#16--github-cli--useful-commands)
+17. [Best Practices](#17--best-practices)
+18. [Quick Mental Model](#18--quick-mental-model)
 
 ---
 
@@ -142,7 +145,90 @@ git branch -d feature/login      # delete a merged branch
 
 ---
 
-## 7. 🔁 Pull Requests
+## 7. 🔀 Merging (`git merge`)
+
+**Merge** combines the history of two branches by creating a join point — it **preserves history exactly as it happened**.
+
+**Two kinds of merge:**
+
+| Type | When | Result |
+|---|---|---|
+| **Fast-forward** | The target branch hasn't moved since you branched | The branch pointer just slides forward — **no merge commit**, perfectly linear |
+| **3-way merge** | Both branches have new commits | Git creates a **merge commit** with **two parents**, tying the histories together |
+
+```
+Before:                          After 3-way merge of feature into main:
+
+main:    A───B───C                main:    A───B───C───────M
+                  \                                  \     /
+feature:           D───E          feature:            D───E
+                                  (M = merge commit, parents C and E)
+```
+
+```bash
+git switch main
+git merge feature/login          # merge feature into main
+git merge --no-ff feature/login  # force a merge commit even if fast-forward
+git merge --squash feature/login # combine all changes into staged edits (one commit)
+```
+
+- **Merge conflicts** arise when both branches edit the same lines. Git marks them with `<<<<<<<`, `=======`, `>>>>>>>`; you edit to resolve, then `git add` + `git commit`.
+- ✅ **Non-destructive** — existing commits are never changed; safe for shared branches.
+
+---
+
+## 8. 📚 Rebasing (`git rebase`)
+
+**Rebase** moves your branch's commits so they **replay on top of another branch's latest commit** — **rewriting** them into new commits with a clean, linear history.
+
+```
+Before:                          After  git rebase main  (on feature):
+
+main:    A───B───C                main:    A───B───C
+                  \                                   \
+feature:  \        (C is new)     feature:             D'──E'
+           D───E                  (D,E replayed as new commits D',E' atop C)
+```
+
+```bash
+git switch feature/login
+git rebase main                  # replay feature's commits on top of main
+git rebase --continue            # after resolving a conflict
+git rebase --abort               # bail out, back to pre-rebase state
+git rebase -i HEAD~3             # interactive: squash/reword/reorder/drop last 3 commits
+```
+
+- **Interactive rebase** (`-i`) lets you **squash**, **reword**, **reorder**, or **drop** commits to tidy history before sharing.
+- Produces a **linear history** with **no merge commits** — easy to read with `git log`.
+- ⚠️ **Golden rule of rebasing:** never rebase commits that have been **pushed and shared**. Rebase rewrites commit hashes, so anyone who pulled the old commits will diverge. Rebase **local, unpushed** work only (or force-push a branch only you own).
+
+---
+
+## 9. ⚖️ Merge vs Rebase
+
+Both integrate changes from one branch into another — the difference is **history shape** and **whether commits are rewritten**.
+
+| | **Merge** | **Rebase** |
+|---|---|---|
+| History | Preserved as-is (branchy) | Rewritten linear |
+| Adds a merge commit? | Yes (3-way) | No |
+| Commit hashes | Unchanged | New (rewritten) |
+| Traceability | Shows *when* branches joined | Looks like one straight line |
+| Safe on shared branches? | ✅ Yes | ❌ No (rewrites history) |
+| `git log` readability | Can get tangled | Clean & linear |
+| Conflict resolution | Once, at the merge | Possibly per replayed commit |
+
+**When to use which:**
+
+- **Merge** → integrating a completed feature into a shared branch (`main`), or any **already-pushed** branch. Keeps a true record of history.
+- **Rebase** → cleaning up **your own local** commits, or syncing a feature branch with the latest `main` **before** opening a PR (`git rebase main`). Keeps history linear.
+- **Common workflow:** `rebase` your feature branch onto the latest `main` while developing (linear, up to date), then **`merge`** it into `main` via the PR.
+
+> 💡 Mnemonic: **"Rebase to clean up, merge to combine."** Rebase **private** history; merge **public** history.
+
+---
+
+## 10. 🔁 Pull Requests
 
 A **PR** proposes merging a branch and is the heart of GitHub collaboration:
 
@@ -164,7 +250,7 @@ gh pr merge 42 --squash --delete-branch
 
 ---
 
-## 8. 🍴 Forks & Collaboration Models
+## 11. 🍴 Forks & Collaboration Models
 
 | Model | How | Best for |
 |---|---|---|
@@ -181,7 +267,7 @@ git fetch upstream && git merge upstream/main     # sync your fork
 
 ---
 
-## 9. 📋 Issues & Project Management
+## 12. 📋 Issues & Project Management
 
 - **Issues** track bugs, features, tasks, and discussions — with **labels**, **assignees**, **milestones**, and **issue templates** (`.github/ISSUE_TEMPLATE/`).
 - **Closing keywords** in a PR/commit auto-close issues: `Fixes #12`, `Closes #34`, `Resolves #56`.
@@ -191,7 +277,7 @@ git fetch upstream && git merge upstream/main     # sync your fork
 
 ---
 
-## 10. ⚙️ GitHub Actions (CI/CD)
+## 13. ⚙️ GitHub Actions (CI/CD)
 
 GitHub's built-in automation — run jobs on events (push, PR, schedule, manual).
 
@@ -220,7 +306,7 @@ jobs:
 
 ---
 
-## 11. 🏷️ Releases, Tags & Packages
+## 14. 🏷️ Releases, Tags & Packages
 
 - **Tags** mark a point in history; **annotated tags** (`git tag -a v1.0 -m "..."`) are used for versioned releases (semver: `v1.2.3`).
 - **Releases** wrap a tag with notes + downloadable **assets** (binaries, archives); auto-generated changelogs available.
@@ -233,7 +319,7 @@ gh release create v1.0.0 ./dist/* --notes "Initial release"
 
 ---
 
-## 12. 🔐 Authentication & Security
+## 15. 🔐 Authentication & Security
 
 - **Auth for Git:** **HTTPS + Personal Access Token (PAT)** or **SSH keys** (password auth is disabled). The **GitHub CLI** (`gh auth login`) manages credentials for you.
 - **2FA** is required for contributors; use **fine-grained PATs** scoped to specific repos/permissions.
@@ -244,7 +330,7 @@ gh release create v1.0.0 ./dist/* --notes "Initial release"
 
 ---
 
-## 13. ⌨️ GitHub CLI & Useful Commands
+## 16. ⌨️ GitHub CLI & Useful Commands
 
 ```bash
 # GitHub CLI (gh) — auth, repos, PRs, issues, Actions
@@ -267,7 +353,7 @@ git cherry-pick <sha>                # apply one commit elsewhere
 
 ---
 
-## 14. ✅ Best Practices
+## 17. ✅ Best Practices
 
 - **Small, focused PRs** with clear descriptions — easier to review and revert.
 - **Meaningful commits** — conventional style (`feat:`, `fix:`, `docs:`) + a body explaining **why**.
@@ -280,7 +366,7 @@ git cherry-pick <sha>                # apply one commit elsewhere
 
 ---
 
-## 15. 🧠 Quick Mental Model
+## 18. 🧠 Quick Mental Model
 
 - **Git = local version control; GitHub = hosting + collaboration + automation on top.**
 - A **repo** holds code + history; you **clone** it, branch, **commit**, and **push**.

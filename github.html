@@ -51,15 +51,18 @@
 <li><a href="#4--repositories">Repositories</a></li>
 <li><a href="#5--essential-git-workflow">Essential Git Workflow</a></li>
 <li><a href="#6--branching--merging">Branching &amp; Merging</a></li>
-<li><a href="#7--pull-requests">Pull Requests</a></li>
-<li><a href="#8--forks--collaboration-models">Forks &amp; Collaboration Models</a></li>
-<li><a href="#9--issues--project-management">Issues &amp; Project Management</a></li>
-<li><a href="#10--github-actions-cicd">GitHub Actions (CI/CD)</a></li>
-<li><a href="#11--releases-tags--packages">Releases, Tags &amp; Packages</a></li>
-<li><a href="#12--authentication--security">Authentication &amp; Security</a></li>
-<li><a href="#13--github-cli--useful-commands">GitHub CLI &amp; Useful Commands</a></li>
-<li><a href="#14--best-practices">Best Practices</a></li>
-<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#7--merging-git-merge">Merging (git merge)</a></li>
+<li><a href="#8--rebasing-git-rebase">Rebasing (git rebase)</a></li>
+<li><a href="#9--merge-vs-rebase">Merge vs Rebase</a></li>
+<li><a href="#10--pull-requests">Pull Requests</a></li>
+<li><a href="#11--forks--collaboration-models">Forks &amp; Collaboration Models</a></li>
+<li><a href="#12--issues--project-management">Issues &amp; Project Management</a></li>
+<li><a href="#13--github-actions-cicd">GitHub Actions (CI/CD)</a></li>
+<li><a href="#14--releases-tags--packages">Releases, Tags &amp; Packages</a></li>
+<li><a href="#15--authentication--security">Authentication &amp; Security</a></li>
+<li><a href="#16--github-cli--useful-commands">GitHub CLI &amp; Useful Commands</a></li>
+<li><a href="#17--best-practices">Best Practices</a></li>
+<li><a href="#18--quick-mental-model">Quick Mental Model</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-github">1. 🐙 What is GitHub</h2>
@@ -206,7 +209,123 @@ git branch -d feature/login      # delete a merged branch
 <p>⚠️ <strong>Rebase rewrites history</strong> — never rebase commits already pushed and shared, or you&#39;ll diverge from collaborators.</p>
 </blockquote>
 <hr>
-<h2 id="7--pull-requests">7. 🔁 Pull Requests</h2>
+<h2 id="7--merging-git-merge">7. 🔀 Merging (<code>git merge</code>)</h2>
+<p><strong>Merge</strong> combines the history of two branches by creating a join point — it <strong>preserves history exactly as it happened</strong>.</p>
+<p><strong>Two kinds of merge:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>When</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Fast-forward</strong></td>
+<td>The target branch hasn&#39;t moved since you branched</td>
+<td>The branch pointer just slides forward — <strong>no merge commit</strong>, perfectly linear</td>
+</tr>
+<tr>
+<td><strong>3-way merge</strong></td>
+<td>Both branches have new commits</td>
+<td>Git creates a <strong>merge commit</strong> with <strong>two parents</strong>, tying the histories together</td>
+</tr>
+</tbody></table>
+<pre><code>Before:                          After 3-way merge of feature into main:
+
+main:    A───B───C                main:    A───B───C───────M
+                  \                                  \     /
+feature:           D───E          feature:            D───E
+                                  (M = merge commit, parents C and E)
+</code></pre>
+<pre><code class="language-bash">git switch main
+git merge feature/login          # merge feature into main
+git merge --no-ff feature/login  # force a merge commit even if fast-forward
+git merge --squash feature/login # combine all changes into staged edits (one commit)
+</code></pre>
+<ul>
+<li><strong>Merge conflicts</strong> arise when both branches edit the same lines. Git marks them with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>; you edit to resolve, then <code>git add</code> + <code>git commit</code>.</li>
+<li>✅ <strong>Non-destructive</strong> — existing commits are never changed; safe for shared branches.</li>
+</ul>
+<hr>
+<h2 id="8--rebasing-git-rebase">8. 📚 Rebasing (<code>git rebase</code>)</h2>
+<p><strong>Rebase</strong> moves your branch&#39;s commits so they <strong>replay on top of another branch&#39;s latest commit</strong> — <strong>rewriting</strong> them into new commits with a clean, linear history.</p>
+<pre><code>Before:                          After  git rebase main  (on feature):
+
+main:    A───B───C                main:    A───B───C
+                  \                                   \
+feature:  \        (C is new)     feature:             D&#39;──E&#39;
+           D───E                  (D,E replayed as new commits D&#39;,E&#39; atop C)
+</code></pre>
+<pre><code class="language-bash">git switch feature/login
+git rebase main                  # replay feature&#39;s commits on top of main
+git rebase --continue            # after resolving a conflict
+git rebase --abort               # bail out, back to pre-rebase state
+git rebase -i HEAD~3             # interactive: squash/reword/reorder/drop last 3 commits
+</code></pre>
+<ul>
+<li><strong>Interactive rebase</strong> (<code>-i</code>) lets you <strong>squash</strong>, <strong>reword</strong>, <strong>reorder</strong>, or <strong>drop</strong> commits to tidy history before sharing.</li>
+<li>Produces a <strong>linear history</strong> with <strong>no merge commits</strong> — easy to read with <code>git log</code>.</li>
+<li>⚠️ <strong>Golden rule of rebasing:</strong> never rebase commits that have been <strong>pushed and shared</strong>. Rebase rewrites commit hashes, so anyone who pulled the old commits will diverge. Rebase <strong>local, unpushed</strong> work only (or force-push a branch only you own).</li>
+</ul>
+<hr>
+<h2 id="9--merge-vs-rebase">9. ⚖️ Merge vs Rebase</h2>
+<p>Both integrate changes from one branch into another — the difference is <strong>history shape</strong> and <strong>whether commits are rewritten</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Merge</strong></th>
+<th><strong>Rebase</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>History</td>
+<td>Preserved as-is (branchy)</td>
+<td>Rewritten linear</td>
+</tr>
+<tr>
+<td>Adds a merge commit?</td>
+<td>Yes (3-way)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Commit hashes</td>
+<td>Unchanged</td>
+<td>New (rewritten)</td>
+</tr>
+<tr>
+<td>Traceability</td>
+<td>Shows <em>when</em> branches joined</td>
+<td>Looks like one straight line</td>
+</tr>
+<tr>
+<td>Safe on shared branches?</td>
+<td>✅ Yes</td>
+<td>❌ No (rewrites history)</td>
+</tr>
+<tr>
+<td><code>git log</code> readability</td>
+<td>Can get tangled</td>
+<td>Clean &amp; linear</td>
+</tr>
+<tr>
+<td>Conflict resolution</td>
+<td>Once, at the merge</td>
+<td>Possibly per replayed commit</td>
+</tr>
+</tbody></table>
+<p><strong>When to use which:</strong></p>
+<ul>
+<li><strong>Merge</strong> → integrating a completed feature into a shared branch (<code>main</code>), or any <strong>already-pushed</strong> branch. Keeps a true record of history.</li>
+<li><strong>Rebase</strong> → cleaning up <strong>your own local</strong> commits, or syncing a feature branch with the latest <code>main</code> <strong>before</strong> opening a PR (<code>git rebase main</code>). Keeps history linear.</li>
+<li><strong>Common workflow:</strong> <code>rebase</code> your feature branch onto the latest <code>main</code> while developing (linear, up to date), then <strong><code>merge</code></strong> it into <code>main</code> via the PR.</li>
+</ul>
+<blockquote>
+<p>💡 Mnemonic: <strong>&quot;Rebase to clean up, merge to combine.&quot;</strong> Rebase <strong>private</strong> history; merge <strong>public</strong> history.</p>
+</blockquote>
+<hr>
+<h2 id="10--pull-requests">10. 🔁 Pull Requests</h2>
 <p>A <strong>PR</strong> proposes merging a branch and is the heart of GitHub collaboration:</p>
 <ol>
 <li>Push a feature branch and <strong>open a PR</strong> against the base (e.g. <code>main</code>).</li>
@@ -225,7 +344,7 @@ gh pr checkout 42    # check out PR #42 locally
 gh pr merge 42 --squash --delete-branch
 </code></pre>
 <hr>
-<h2 id="8--forks--collaboration-models">8. 🍴 Forks &amp; Collaboration Models</h2>
+<h2 id="11--forks--collaboration-models">11. 🍴 Forks &amp; Collaboration Models</h2>
 <table>
 <thead>
 <tr>
@@ -253,7 +372,7 @@ git remote add upstream https://github.com/user/repo.git
 git fetch upstream &amp;&amp; git merge upstream/main     # sync your fork
 </code></pre>
 <hr>
-<h2 id="9--issues--project-management">9. 📋 Issues &amp; Project Management</h2>
+<h2 id="12--issues--project-management">12. 📋 Issues &amp; Project Management</h2>
 <ul>
 <li><strong>Issues</strong> track bugs, features, tasks, and discussions — with <strong>labels</strong>, <strong>assignees</strong>, <strong>milestones</strong>, and <strong>issue templates</strong> (<code>.github/ISSUE_TEMPLATE/</code>).</li>
 <li><strong>Closing keywords</strong> in a PR/commit auto-close issues: <code>Fixes #12</code>, <code>Closes #34</code>, <code>Resolves #56</code>.</li>
@@ -262,7 +381,7 @@ git fetch upstream &amp;&amp; git merge upstream/main     # sync your fork
 <li><strong>@mentions</strong>, <strong>references</strong> (<code>#123</code>, <code>user/repo#123</code>), and <strong>task lists</strong> (<code>- [ ]</code>) tie everything together.</li>
 </ul>
 <hr>
-<h2 id="10--github-actions-cicd">10. ⚙️ GitHub Actions (CI/CD)</h2>
+<h2 id="13--github-actions-cicd">13. ⚙️ GitHub Actions (CI/CD)</h2>
 <p>GitHub&#39;s built-in automation — run jobs on events (push, PR, schedule, manual).</p>
 <ul>
 <li><strong>Workflow</strong> = a YAML file in <code>.github/workflows/</code>. It has <strong>jobs</strong>, each with <strong>steps</strong>; steps run commands or reusable <strong>actions</strong> (<code>uses:</code>).</li>
@@ -288,7 +407,7 @@ jobs:
 <p>Common uses: lint/test on every PR, build &amp; publish images/packages, deploy on merge, scheduled jobs, release automation.</p>
 </blockquote>
 <hr>
-<h2 id="11--releases-tags--packages">11. 🏷️ Releases, Tags &amp; Packages</h2>
+<h2 id="14--releases-tags--packages">14. 🏷️ Releases, Tags &amp; Packages</h2>
 <ul>
 <li><strong>Tags</strong> mark a point in history; <strong>annotated tags</strong> (<code>git tag -a v1.0 -m &quot;...&quot;</code>) are used for versioned releases (semver: <code>v1.2.3</code>).</li>
 <li><strong>Releases</strong> wrap a tag with notes + downloadable <strong>assets</strong> (binaries, archives); auto-generated changelogs available.</li>
@@ -298,7 +417,7 @@ jobs:
 gh release create v1.0.0 ./dist/* --notes &quot;Initial release&quot;
 </code></pre>
 <hr>
-<h2 id="12--authentication--security">12. 🔐 Authentication &amp; Security</h2>
+<h2 id="15--authentication--security">15. 🔐 Authentication &amp; Security</h2>
 <ul>
 <li><strong>Auth for Git:</strong> <strong>HTTPS + Personal Access Token (PAT)</strong> or <strong>SSH keys</strong> (password auth is disabled). The <strong>GitHub CLI</strong> (<code>gh auth login</code>) manages credentials for you.</li>
 <li><strong>2FA</strong> is required for contributors; use <strong>fine-grained PATs</strong> scoped to specific repos/permissions.</li>
@@ -309,7 +428,7 @@ gh release create v1.0.0 ./dist/* --notes &quot;Initial release&quot;
 <p>🔑 Never commit secrets. If you do, <strong>rotate the credential immediately</strong> — rewriting history doesn&#39;t un-leak it. Use Actions <strong>secrets</strong> / a secrets manager instead.</p>
 </blockquote>
 <hr>
-<h2 id="13--github-cli--useful-commands">13. ⌨️ GitHub CLI &amp; Useful Commands</h2>
+<h2 id="16--github-cli--useful-commands">16. ⌨️ GitHub CLI &amp; Useful Commands</h2>
 <pre><code class="language-bash"># GitHub CLI (gh) — auth, repos, PRs, issues, Actions
 gh auth login
 gh repo clone user/repo
@@ -328,7 +447,7 @@ git revert &lt;sha&gt;                     # undo a commit safely (new commit)
 git cherry-pick &lt;sha&gt;                # apply one commit elsewhere
 </code></pre>
 <hr>
-<h2 id="14--best-practices">14. ✅ Best Practices</h2>
+<h2 id="17--best-practices">17. ✅ Best Practices</h2>
 <ul>
 <li><strong>Small, focused PRs</strong> with clear descriptions — easier to review and revert.</li>
 <li><strong>Meaningful commits</strong> — conventional style (<code>feat:</code>, <code>fix:</code>, <code>docs:</code>) + a body explaining <strong>why</strong>.</li>
@@ -340,7 +459,7 @@ git cherry-pick &lt;sha&gt;                # apply one commit elsewhere
 <li>Keep a good <strong>README</strong>, <strong>LICENSE</strong>, and <strong>CONTRIBUTING</strong> so others (and future you) can navigate the repo.</li>
 </ul>
 <hr>
-<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<h2 id="18--quick-mental-model">18. 🧠 Quick Mental Model</h2>
 <ul>
 <li><strong>Git = local version control; GitHub = hosting + collaboration + automation on top.</strong></li>
 <li>A <strong>repo</strong> holds code + history; you <strong>clone</strong> it, branch, <strong>commit</strong>, and <strong>push</strong>.</li>
