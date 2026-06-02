@@ -44,19 +44,21 @@
 <ol>
 <li><a href="#1--what-is-docker">What is Docker</a></li>
 <li><a href="#2--containers-vs-virtual-machines">Containers vs Virtual Machines</a></li>
-<li><a href="#3--core-concepts--architecture">Core Concepts &amp; Architecture</a></li>
-<li><a href="#4--images--layers">Images &amp; Layers</a></li>
-<li><a href="#5--dockerfile">Dockerfile</a></li>
-<li><a href="#6--image-best-practices">Image Best Practices</a></li>
-<li><a href="#7--working-with-containers">Working with Containers</a></li>
-<li><a href="#8--data-volumes--bind-mounts">Data: Volumes &amp; Bind Mounts</a></li>
-<li><a href="#9--networking">Networking</a></li>
-<li><a href="#10--registries-docker-hub--others">Registries (Docker Hub &amp; others)</a></li>
-<li><a href="#11--docker-compose">Docker Compose</a></li>
-<li><a href="#12--essential-cli-commands">Essential CLI Commands</a></li>
-<li><a href="#13--security-best-practices">Security Best Practices</a></li>
-<li><a href="#14--beyond-docker-orchestration">Beyond Docker (Orchestration)</a></li>
-<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#3--core-concepts">Core Concepts</a></li>
+<li><a href="#4--docker-architecture">Docker Architecture</a></li>
+<li><a href="#5--how-docker-works-lifecycle">How Docker Works (Lifecycle)</a></li>
+<li><a href="#6--images--layers">Images &amp; Layers</a></li>
+<li><a href="#7--dockerfile">Dockerfile</a></li>
+<li><a href="#8--image-best-practices">Image Best Practices</a></li>
+<li><a href="#9--working-with-containers">Working with Containers</a></li>
+<li><a href="#10--data-volumes--bind-mounts">Data: Volumes &amp; Bind Mounts</a></li>
+<li><a href="#11--networking">Networking</a></li>
+<li><a href="#12--registries-docker-hub--others">Registries (Docker Hub &amp; others)</a></li>
+<li><a href="#13--docker-compose">Docker Compose</a></li>
+<li><a href="#14--essential-cli-commands">Essential CLI Commands</a></li>
+<li><a href="#15--security-best-practices">Security Best Practices</a></li>
+<li><a href="#16--beyond-docker-orchestration">Beyond Docker (Orchestration)</a></li>
+<li><a href="#17--quick-mental-model">Quick Mental Model</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-docker">1. 🐳 What is Docker</h2>
@@ -110,7 +112,7 @@
 <p>Containers <strong>share the host kernel</strong> — that&#39;s why they&#39;re small and fast, but isolation is weaker than a VM. Linux containers on Windows/macOS actually run inside a lightweight Linux VM.</p>
 </blockquote>
 <hr>
-<h2 id="3--core-concepts--architecture">3. 🧩 Core Concepts &amp; Architecture</h2>
+<h2 id="3--core-concepts">3. 🧩 Core Concepts</h2>
 <table>
 <thead>
 <tr>
@@ -155,9 +157,110 @@
 <td>Lower-level runtime that actually runs containers.</td>
 </tr>
 </tbody></table>
-<p><strong>How it fits:</strong> the <strong>client</strong> sends commands → the <strong>daemon</strong> builds images, pulls from <strong>registries</strong>, and runs <strong>containers</strong> via <strong>containerd/runc</strong>, using Linux <strong>namespaces</strong> (isolation) and <strong>cgroups</strong> (resource limits).</p>
 <hr>
-<h2 id="4--images--layers">4. 🧱 Images &amp; Layers</h2>
+<h2 id="4--docker-architecture">4. 🏗️ Docker Architecture</h2>
+<p>Docker uses a <strong>client–server architecture</strong> with three main parts: the <strong>Client</strong> (you), the <strong>Docker Host</strong> (the daemon plus everything it manages), and the <strong>Registry</strong> (where images live). The client talks to the daemon over a REST API; the daemon does the real work.</p>
+<pre><code>   ┌──────────────────────────────────────────────────────────┐
+   │  CLIENT        docker CLI  /  Docker Desktop  /  REST API  │
+   └───────────────────────────┬──────────────────────────────┘
+                               │  Docker API  (build / run / pull)
+                               ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  DOCKER HOST                                               │
+   │                                                            │
+   │   dockerd (daemon) ── manages ──▶ Images · Networks ·      │
+   │        │                          Volumes                  │
+   │        ▼                                                   │
+   │   containerd ──▶ runc ──▶ Containers (isolated processes)  │
+   │                                                            │
+   │   Linux kernel: namespaces (isolation) + cgroups (limits)  │
+   └───────────────────────────┬──────────────────────────────┘
+                               │  pull / push images
+                               ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  REGISTRY     Docker Hub · Amazon ECR · GHCR · private     │
+   └──────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>The components:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Docker Client</strong> (<code>docker</code>)</td>
+<td>The CLI you type into. Sends commands (<code>build</code>, <code>run</code>, <code>pull</code>…) to the daemon over the Docker REST API (local socket or remote).</td>
+</tr>
+<tr>
+<td><strong>Docker Daemon</strong> (<code>dockerd</code>)</td>
+<td>The brain/server. Builds images, manages containers, networks, and volumes, and talks to registries. Listens for API requests.</td>
+</tr>
+<tr>
+<td><strong>containerd</strong></td>
+<td>High-level container runtime the daemon delegates to — pulls images, manages the container lifecycle (start/stop), and storage.</td>
+</tr>
+<tr>
+<td><strong>runc</strong></td>
+<td>Low-level runtime that actually <strong>spawns the container process</strong> using kernel features (OCI-compliant).</td>
+</tr>
+<tr>
+<td><strong>Images</strong></td>
+<td>Read-only layered templates, cached locally on the host.</td>
+</tr>
+<tr>
+<td><strong>Containers</strong></td>
+<td>Running instances of images — isolated processes on the host kernel.</td>
+</tr>
+<tr>
+<td><strong>Registry</strong></td>
+<td>Remote image store (Docker Hub by default; or ECR, GHCR, private). The daemon pulls/pushes images here.</td>
+</tr>
+</tbody></table>
+<p><strong>The kernel features that make it work:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Gives</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Namespaces</strong></td>
+<td><strong>Isolation</strong> — each container gets its own view of PIDs, network, mounts, hostname, users, IPC.</td>
+</tr>
+<tr>
+<td><strong>Control groups (cgroups)</strong></td>
+<td><strong>Resource limits</strong> — caps CPU, memory, I/O per container.</td>
+</tr>
+<tr>
+<td><strong>Union filesystem</strong> (overlay2)</td>
+<td><strong>Layered images</strong> — stacks read-only layers + a writable layer (copy-on-write).</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 The daemon — <strong>not</strong> the client — holds all state (images, containers, volumes). The client is just a thin front-end, which is why a local <code>docker</code> CLI can manage a remote Docker host.</p>
+</blockquote>
+<hr>
+<h2 id="5--how-docker-works-lifecycle">5. ⚙️ How Docker Works (Lifecycle)</h2>
+<p>What actually happens when you run <code>docker run -p 8080:80 nginx</code>:</p>
+<ol>
+<li><strong>Client → Daemon.</strong> The CLI sends the run request to <code>dockerd</code> via the Docker API.</li>
+<li><strong>Image resolve.</strong> The daemon checks the <strong>local cache</strong> for <code>nginx</code>. If it&#39;s missing, it <strong>pulls</strong> the image layers from the <strong>registry</strong> (Docker Hub).</li>
+<li><strong>Container create.</strong> It assembles the container&#39;s filesystem by stacking the image&#39;s <strong>read-only layers</strong> and adding a thin <strong>writable layer</strong> on top (union FS, copy-on-write).</li>
+<li><strong>Isolate &amp; limit.</strong> Via <strong>containerd → runc</strong>, the kernel creates <strong>namespaces</strong> (so the container has its own PID/network/mount view) and applies <strong>cgroups</strong> (CPU/memory limits).</li>
+<li><strong>Networking.</strong> The container is attached to a network (e.g. a <code>veth</code> pair into the <code>bridge</code>); <code>-p 8080:80</code> publishes the port to the host. Volumes/mounts are set up.</li>
+<li><strong>Process start.</strong> runc launches the image&#39;s <strong>ENTRYPOINT/CMD</strong> as <strong>PID 1</strong> inside the container. <code>STDOUT</code>/<code>STDERR</code> are captured as logs.</li>
+<li><strong>Run &amp; monitor.</strong> The container runs as long as its main process lives. <code>docker ps</code>/<code>logs</code>/<code>stats</code> query the daemon for its state.</li>
+<li><strong>Stop &amp; remove.</strong> <code>docker stop</code> signals the process to exit (SIGTERM → SIGKILL); the <strong>writable layer persists</strong> until <code>docker rm</code> removes the container.</li>
+</ol>
+<p><strong>Build flow</strong> (<code>docker build</code>): the daemon reads the <strong>Dockerfile</strong>, executes each instruction in a temporary container, and <strong>commits the result as a new read-only layer</strong> — reusing cached layers for unchanged steps — producing the final image.</p>
+<blockquote>
+<p>🔑 Key insight: a container is <strong>just a normal Linux process</strong> on the host, wrapped in namespaces + cgroups and given a layered filesystem. There&#39;s no guest OS — that&#39;s why it starts in milliseconds.</p>
+</blockquote>
+<hr>
+<h2 id="6--images--layers">6. 🧱 Images &amp; Layers</h2>
 <ul>
 <li>An image is a <strong>stack of read-only layers</strong>; each Dockerfile instruction (<code>RUN</code>, <code>COPY</code>, <code>ADD</code>) adds a layer.</li>
 <li>Layers are <strong>cached and shared</strong> — unchanged layers are reused across builds and images (fast builds, small pulls).</li>
@@ -169,7 +272,7 @@
 <p>💡 Order Dockerfile steps from <strong>least- to most-frequently changing</strong> so the cache survives — put dependency installs before copying source code.</p>
 </blockquote>
 <hr>
-<h2 id="5--dockerfile">5. 📝 Dockerfile</h2>
+<h2 id="7--dockerfile">7. 📝 Dockerfile</h2>
 <p>A Dockerfile is the build recipe. Common instructions:</p>
 <table>
 <thead>
@@ -245,7 +348,7 @@ CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]
 <p><strong>CMD vs ENTRYPOINT:</strong> <code>ENTRYPOINT</code> is the program; <code>CMD</code> supplies default args. Use <code>ENTRYPOINT [&quot;app&quot;]</code> + <code>CMD [&quot;--flag&quot;]</code> for a fixed binary with overridable arguments.</p>
 </blockquote>
 <hr>
-<h2 id="6--image-best-practices">6. ✨ Image Best Practices</h2>
+<h2 id="8--image-best-practices">8. ✨ Image Best Practices</h2>
 <ul>
 <li><strong>Small base images</strong> — <code>alpine</code> / <code>-slim</code> / <code>distroless</code>; less to ship and a smaller attack surface.</li>
 <li><strong>Multi-stage builds</strong> — compile in a &quot;build&quot; stage, copy only artifacts into a lean final stage.</li>
@@ -256,7 +359,7 @@ CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]
 <li><strong>One main process per container</strong> — scale by running more containers, not by stuffing many services into one.</li>
 </ul>
 <hr>
-<h2 id="7--working-with-containers">7. 📦 Working with Containers</h2>
+<h2 id="9--working-with-containers">9. 📦 Working with Containers</h2>
 <pre><code class="language-bash">docker run -d --name web -p 8080:80 nginx:1.27   # detached, map host:container
 docker run -it ubuntu bash                         # interactive shell
 docker ps            # running containers (add -a for all)
@@ -270,7 +373,7 @@ docker rm web        # remove (must be stopped, or -f)
 <li><strong>Container states:</strong> <code>created → running → paused → stopped/exited → removed</code>.</li>
 </ul>
 <hr>
-<h2 id="8--data-volumes--bind-mounts">8. 💾 Data: Volumes &amp; Bind Mounts</h2>
+<h2 id="10--data-volumes--bind-mounts">10. 💾 Data: Volumes &amp; Bind Mounts</h2>
 <p>Containers are <strong>ephemeral</strong> — the writable layer dies with the container. Persist data outside it:</p>
 <table>
 <thead>
@@ -304,7 +407,7 @@ docker run -v &quot;$(pwd)&quot;:/app node:20                       # bind mount
 <p>Use <strong>named volumes</strong> for stateful services (databases) and <strong>bind mounts</strong> for live-reloading code during development.</p>
 </blockquote>
 <hr>
-<h2 id="9--networking">9. 🌐 Networking</h2>
+<h2 id="11--networking">11. 🌐 Networking</h2>
 <p>Docker creates virtual networks so containers can talk to each other and the outside.</p>
 <table>
 <thead>
@@ -343,7 +446,7 @@ docker run -d --name db  --network appnet postgres
 docker run -d --name api --network appnet -p 3000:3000 myapi   # api reaches db as &quot;db&quot;
 </code></pre>
 <hr>
-<h2 id="10--registries-docker-hub--others">10. 🗄️ Registries (Docker Hub &amp; others)</h2>
+<h2 id="12--registries-docker-hub--others">12. 🗄️ Registries (Docker Hub &amp; others)</h2>
 <ul>
 <li>A <strong>registry</strong> stores and distributes images; a <strong>repository</strong> holds tagged versions of one image.</li>
 <li><strong>Docker Hub</strong> is the default public registry. Others: <strong>Amazon ECR</strong>, <strong>GitHub GHCR</strong>, <strong>GitLab</strong>, <strong>Google Artifact Registry</strong>, or a self-hosted registry.</li>
@@ -357,7 +460,7 @@ docker push user/myapp:1.0                     # upload
 <p>Tag images meaningfully (semver + git SHA), and treat <code>latest</code> as &quot;most recent build,&quot; <strong>not</strong> a stable pin for production.</p>
 </blockquote>
 <hr>
-<h2 id="11--docker-compose">11. 🧩 Docker Compose</h2>
+<h2 id="13--docker-compose">13. 🧩 Docker Compose</h2>
 <p><strong>Compose</strong> defines and runs <strong>multi-container</strong> apps from one YAML file — perfect for local dev and simple stacks.</p>
 <pre><code class="language-yaml"># compose.yaml
 services:
@@ -385,7 +488,7 @@ docker compose down       # stop &amp; remove (add -v to drop volumes)
 <p>Services on the same Compose project share a network and resolve each other by <strong>service name</strong> (<code>db</code>, <code>api</code>). Use one Compose file per app stack.</p>
 </blockquote>
 <hr>
-<h2 id="12--essential-cli-commands">12. ⌨️ Essential CLI Commands</h2>
+<h2 id="14--essential-cli-commands">14. ⌨️ Essential CLI Commands</h2>
 <pre><code class="language-bash"># Images
 docker build -t myapp:1.0 .          # build from Dockerfile
 docker images                        # list images
@@ -404,7 +507,7 @@ docker system prune -a               # remove unused images/containers/networks
 docker volume prune                  # remove unused volumes
 </code></pre>
 <hr>
-<h2 id="13--security-best-practices">13. 🔐 Security Best Practices</h2>
+<h2 id="15--security-best-practices">15. 🔐 Security Best Practices</h2>
 <ul>
 <li><strong>Don&#39;t run as root</strong> — add a <code>USER</code>; consider rootless Docker.</li>
 <li><strong>Trusted, pinned base images</strong> — official/verified, pinned by tag or digest; rebuild to get patches.</li>
@@ -415,7 +518,7 @@ docker volume prune                  # remove unused volumes
 <li><strong>Keep the daemon secured</strong> — the Docker socket is root-equivalent; never expose <code>dockerd</code> unprotected.</li>
 </ul>
 <hr>
-<h2 id="14--beyond-docker-orchestration">14. 🚀 Beyond Docker (Orchestration)</h2>
+<h2 id="16--beyond-docker-orchestration">16. 🚀 Beyond Docker (Orchestration)</h2>
 <p>Docker runs containers on <strong>one host</strong>. Production at scale needs orchestration — scheduling, self-healing, scaling, rolling updates, service discovery across <strong>many</strong> hosts:</p>
 <table>
 <thead>
@@ -445,7 +548,7 @@ docker volume prune                  # remove unused volumes
 <p>Docker images are <strong>OCI-compliant</strong> — the same image you build runs on Kubernetes, ECS, etc. Docker for building/local dev; an orchestrator for running fleets in production.</p>
 </blockquote>
 <hr>
-<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<h2 id="17--quick-mental-model">17. 🧠 Quick Mental Model</h2>
 <ul>
 <li><strong>Docker = package an app + its environment into a portable container.</strong></li>
 <li><strong>Image</strong> = immutable layered recipe; <strong>container</strong> = a running instance of it.</li>
