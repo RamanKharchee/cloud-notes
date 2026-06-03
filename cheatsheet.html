@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparison Cheat-Sheet — "X vs Y"</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDc1NTY5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Q29tcGFyaXNvbiBDaGVhdC1TaGVldDwvdGl0bGU+PHBhdGggZD0iTTEzIDNhMSAxIDAgMCAwLTIgMHYxLjJMNCA2djEuOWwyLjQtLjY2TDMgMTQuMmEzLjIgMy4yIDAgMCAwIDYuNCAwTDYgNy4wMiAxMSA1LjdWMTlINi41djJoMTF2LTJIMTNWNS43bDUgMS4zMkwxNC42IDE0LjJhMy4yIDMuMiAwIDAgMCA2LjQgMEwxNy42IDcuMjQgMjAgNy45VjZsLTctMS44eiBNNi4yIDkuOSA4IDEzLjZINC40ek0xNy44IDkuOSAxOS42IDEzLjZoLTMuNnoiLz48L3N2Zz4K">
+<style>
+  :root{--ac:#475569;--acd:#1e293b;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNDc1NTY5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Q29tcGFyaXNvbiBDaGVhdC1TaGVldDwvdGl0bGU+PHBhdGggZD0iTTEzIDNhMSAxIDAgMCAwLTIgMHYxLjJMNCA2djEuOWwyLjQtLjY2TDMgMTQuMmEzLjIgMy4yIDAgMCAwIDYuNCAwTDYgNy4wMiAxMSA1LjdWMTlINi41djJoMTF2LTJIMTNWNS43bDUgMS4zMkwxNC42IDE0LjJhMy4yIDMuMiAwIDAgMCA2LjQgMEwxNy42IDcuMjQgMjAgNy45VjZsLTctMS44eiBNNi4yIDkuOSA4IDEzLjZINC40ek0xNy44IDkuOSAxOS42IDEzLjZoLTMuNnoiLz48L3N2Zz4K" width="110" alt="Comparison Cheat-Sheet logo" /><h1 id="comparison-cheat-sheet--quotx-vs-yquot">Comparison Cheat-Sheet — &quot;X vs Y&quot;</h1>
+<p><strong>Rapid revision</strong> · Every easy-to-confuse distinction in one place</p>
+<p><img src="https://img.shields.io/badge/Type-Cheat--Sheet-475569?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Use-Last--minute%20revision-475569?style=flat-square" alt="Use">
+<img src="https://img.shields.io/badge/Format-Compare%20tables-blue?style=flat-square" alt="Format">
+<img src="https://img.shields.io/badge/Covers-All%20notes-lightgrey?style=flat-square" alt="Scope"></p>
+<p><em>Every &quot;this vs that&quot; interviewers love to test — scan this the night before.</em></p>
+<p><a class="dl-btn" href="comparison-cheatsheet-notes.pdf" download="comparison-cheatsheet-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--storage">Storage</a></li>
+<li><a href="#2--compute--containers">Compute &amp; Containers</a></li>
+<li><a href="#3--databases">Databases</a></li>
+<li><a href="#4--networking">Networking</a></li>
+<li><a href="#5--dns--cdn">DNS &amp; CDN</a></li>
+<li><a href="#6--messaging--events">Messaging &amp; Events</a></li>
+<li><a href="#7--security--identity">Security &amp; Identity</a></li>
+<li><a href="#8--monitoring--audit">Monitoring &amp; Audit</a></li>
+<li><a href="#9--git--github">Git &amp; GitHub</a></li>
+<li><a href="#10--memory-hooks">Memory Hooks</a></li>
+<li><a href="#11--quick-decision-prompts">Quick Decision Prompts</a></li>
+</ol>
+<hr>
+<h2 id="1--storage">1. 💾 Storage</h2>
+<p><strong>S3 vs EBS vs EFS</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>S3</strong></th>
+<th><strong>EBS</strong></th>
+<th><strong>EFS</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Type</td>
+<td>Object</td>
+<td>Block</td>
+<td>File (NFS)</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>HTTP API, anywhere</td>
+<td>One EC2 (one AZ)</td>
+<td>Many EC2 across AZs</td>
+</tr>
+<tr>
+<td>Scale</td>
+<td>Unlimited</td>
+<td>Up to 64 TiB/volume</td>
+<td>Auto-scaling</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Backups, data lake, static sites</td>
+<td>Boot/data disk for an instance</td>
+<td>Shared filesystem</td>
+</tr>
+</tbody></table>
+<p><strong>S3 storage classes (when to use)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Standard</td>
+<td>Frequent access</td>
+</tr>
+<tr>
+<td>Standard-IA / One Zone-IA</td>
+<td>Infrequent, instant access (One Zone = 1 AZ, cheaper)</td>
+</tr>
+<tr>
+<td>Glacier Instant / Flexible / Deep Archive</td>
+<td>Archive: ms / minutes-hours / 12-48h retrieval</td>
+</tr>
+<tr>
+<td>Intelligent-Tiering</td>
+<td>Unknown/changing access patterns</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="2--compute--containers">2. 🖥️ Compute &amp; Containers</h2>
+<p><strong>EC2 pricing models</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Commitment</th>
+<th>Discount</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>On-Demand</td>
+<td>None</td>
+<td>—</td>
+<td>Spiky / short-term</td>
+</tr>
+<tr>
+<td>Reserved / Savings Plans</td>
+<td>1–3 yr</td>
+<td>up to ~72%</td>
+<td>Steady-state</td>
+</tr>
+<tr>
+<td>Spot</td>
+<td>None (interruptible)</td>
+<td>up to ~90%</td>
+<td>Fault-tolerant, batch</td>
+</tr>
+<tr>
+<td>Dedicated Host</td>
+<td>Per host</td>
+<td>—</td>
+<td>Licensing / compliance</td>
+</tr>
+</tbody></table>
+<p><strong>Container vs VM</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Container</th>
+<th>VM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Isolates</td>
+<td>A process (shares host kernel)</td>
+<td>A full OS (own kernel)</td>
+</tr>
+<tr>
+<td>Size / start</td>
+<td>MBs / ms</td>
+<td>GBs / minutes</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>OS-level (namespaces+cgroups)</td>
+<td>Hardware-level (stronger)</td>
+</tr>
+</tbody></table>
+<p><strong>Docker vs Kubernetes</strong> — Docker builds/runs containers on <strong>one host</strong>; Kubernetes <strong>orchestrates</strong> many containers across <strong>many hosts</strong> (scheduling, scaling, self-healing).</p>
+<p><strong>Lambda vs EC2</strong> — Lambda = serverless, event-driven, ≤15 min, pay per ms, auto-scale. EC2 = full VM you manage, always-on, any runtime/length.</p>
+<hr>
+<h2 id="3--databases">3. 🗃️ Databases</h2>
+<p><strong>DynamoDB vs RDS</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>DynamoDB</th>
+<th>RDS / Aurora</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model</td>
+<td>NoSQL key-value/document</td>
+<td>Relational (SQL)</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>Flexible</td>
+<td>Fixed</td>
+</tr>
+<tr>
+<td>Scale</td>
+<td>Unlimited, automatic</td>
+<td>Vertical + read replicas</td>
+</tr>
+<tr>
+<td>Queries</td>
+<td>By key/index (no joins)</td>
+<td>Rich SQL, joins</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>High scale, known patterns</td>
+<td>Complex queries, transactions</td>
+</tr>
+</tbody></table>
+<p><strong>RDS Multi-AZ vs Read Replica</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Multi-AZ</th>
+<th>Read Replica</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Purpose</td>
+<td>High availability</td>
+<td>Scale reads</td>
+</tr>
+<tr>
+<td>Replication</td>
+<td>Synchronous</td>
+<td>Asynchronous</td>
+</tr>
+<tr>
+<td>Readable?</td>
+<td>❌ No</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Failover</td>
+<td>Automatic, same endpoint</td>
+<td>Manual promote</td>
+</tr>
+</tbody></table>
+<p><strong>DynamoDB GSI vs LSI</strong> — GSI = different partition key, added anytime, own capacity, eventual reads. LSI = same partition key + alt sort key, created at table creation only, strong reads.</p>
+<hr>
+<h2 id="4--networking">4. 🌐 Networking</h2>
+<p><strong>Security Group vs NACL</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Security Group</th>
+<th>NACL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Level</td>
+<td>Instance / ENI</td>
+<td>Subnet</td>
+</tr>
+<tr>
+<td>State</td>
+<td>Stateful</td>
+<td>Stateless</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td>Allow only</td>
+<td>Allow + Deny (ordered)</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Deny in / allow out</td>
+<td>Default allow all</td>
+</tr>
+</tbody></table>
+<p><strong>ALB vs NLB vs GWLB</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ALB</th>
+<th>NLB</th>
+<th>GWLB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Layer</td>
+<td>L7 (HTTP)</td>
+<td>L4 (TCP/UDP)</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>Routes on</td>
+<td>Host/path/header</td>
+<td>IP + port</td>
+<td>IP packets</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Web apps, microservices</td>
+<td>Ultra-fast, static IP</td>
+<td>Virtual appliances</td>
+</tr>
+</tbody></table>
+<p><strong>VPC Peering vs Transit Gateway</strong> — Peering = 1:1, non-transitive. TGW = hub-and-spoke, transitive, scales to many VPCs + on-prem.</p>
+<p><strong>Gateway vs Interface endpoint</strong> — Gateway = free, route-table target, <strong>S3 &amp; DynamoDB only</strong>. Interface (PrivateLink) = ENI + private IP, most services, hourly + per-GB.</p>
+<p><strong>Public vs Private subnet</strong> — Public has a route <code>0.0.0.0/0 → IGW</code>; private reaches internet only outbound via <strong>NAT</strong>.</p>
+<hr>
+<h2 id="5--dns--cdn">5. 🛰️ DNS &amp; CDN</h2>
+<p><strong>Route 53 Alias vs CNAME</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Alias</th>
+<th>CNAME</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Points to</td>
+<td>AWS resources</td>
+<td>Any DNS name</td>
+</tr>
+<tr>
+<td>Zone apex?</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Free (to AWS targets)</td>
+<td>Charged</td>
+</tr>
+</tbody></table>
+<p><strong>CloudFront vs S3 vs Global Accelerator</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CloudFront</th>
+<th>S3</th>
+<th>Global Accelerator</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Role</td>
+<td>CDN (cache at edge)</td>
+<td>Object store</td>
+<td>Route TCP/UDP to nearest endpoint</td>
+</tr>
+<tr>
+<td>Caches?</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td>Layer</td>
+<td>HTTP(S)</td>
+<td>Storage</td>
+<td>Network (static anycast IPs)</td>
+</tr>
+</tbody></table>
+<p><strong>CloudFront Functions vs Lambda@Edge</strong> — Functions = lightweight JS, sub-ms, viewer-side (header/redirect). Lambda@Edge = full runtime, origin-side too, heavier logic.</p>
+<hr>
+<h2 id="6--messaging--events">6. 📨 Messaging &amp; Events</h2>
+<p><strong>SQS vs SNS vs EventBridge vs Kinesis</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SQS</th>
+<th>SNS</th>
+<th>EventBridge</th>
+<th>Kinesis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model</td>
+<td>Queue (pull)</td>
+<td>Pub/sub (push)</td>
+<td>Event bus (routing)</td>
+<td>Stream</td>
+</tr>
+<tr>
+<td>Consumers</td>
+<td>1 per message</td>
+<td>Many subscribers</td>
+<td>Rule targets</td>
+<td>Many, replayable</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Decouple + buffer</td>
+<td>Fan-out</td>
+<td>Route by content/source</td>
+<td>Real-time analytics, replay</td>
+</tr>
+</tbody></table>
+<p><strong>SQS Standard vs FIFO</strong> — Standard = high throughput, at-least-once, best-effort order. FIFO = strict order + exactly-once, lower throughput (<code>.fifo</code>).</p>
+<p><strong>SQS vs Kinesis</strong> — SQS deletes a message once consumed (work queue). Kinesis is an ordered, <strong>replayable</strong> stream multiple consumers can re-read.</p>
+<hr>
+<h2 id="7--security--identity">7. 🔐 Security &amp; Identity</h2>
+<p><strong>IAM User vs Role</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>User</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Credentials</td>
+<td>Long-lived (keys/password)</td>
+<td>Temporary (STS)</td>
+</tr>
+<tr>
+<td>For</td>
+<td>A person</td>
+<td>Workloads, cross-account, federation</td>
+</tr>
+<tr>
+<td>Preferred?</td>
+<td>Avoid for apps</td>
+<td>✅ Yes</td>
+</tr>
+</tbody></table>
+<p><strong>SCP vs Permission Boundary</strong> — both only <strong>cap</strong> (never grant). SCP = org/OU/account-wide guardrail. Boundary = max for one user/role (safe delegation).</p>
+<p><strong>Identity-based vs Resource-based policy</strong> — identity-based attaches to a user/role; resource-based attaches to a resource and names a <strong>Principal</strong> (enables cross-account).</p>
+<p><strong>IAM evaluation:</strong> default deny → explicit <strong>Deny wins</strong> → must be allowed by SCP ∩ boundary ∩ identity/resource policy.</p>
+<hr>
+<h2 id="8--monitoring--audit">8. 📊 Monitoring &amp; Audit</h2>
+<p><strong>CloudWatch vs CloudTrail</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CloudWatch</th>
+<th>CloudTrail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Answers</td>
+<td>How is it <strong>performing</strong>?</td>
+<td><strong>Who did what</strong>, when?</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>Metrics, logs, alarms</td>
+<td>API call audit log</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Monitoring, alerting</td>
+<td>Auditing, compliance, forensics</td>
+</tr>
+</tbody></table>
+<p><strong>EC2 status checks:</strong> System check = AWS infra (fix: stop/start). Instance check = the OS/instance (fix: reboot/fix OS).</p>
+<hr>
+<h2 id="9--git--github">9. 🔀 Git &amp; GitHub</h2>
+<p><strong>Merge vs Rebase</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Merge</th>
+<th>Rebase</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>History</td>
+<td>Preserved (branchy)</td>
+<td>Rewritten (linear)</td>
+</tr>
+<tr>
+<td>Merge commit</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Safe on shared branches?</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+</tr>
+</tbody></table>
+<p><strong>git fetch vs pull</strong> — fetch downloads without merging; pull = fetch + merge (or <code>--rebase</code>).</p>
+<p><strong>Fork vs Clone vs Branch</strong> — fork = your server-side copy; clone = a local copy; branch = a line of work in a repo.</p>
+<hr>
+<h2 id="10--memory-hooks">10. 🧠 Memory Hooks</h2>
+<p>One-liners worth memorizing verbatim:</p>
+<ul>
+<li><strong>CloudWatch = performance/health · CloudTrail = audit/who-did-what.</strong></li>
+<li><strong>Rebase private history, merge public history</strong> (&quot;rebase to clean up, merge to combine&quot;).</li>
+<li><strong>Multi-AZ = availability (sync, not readable) · Read Replica = scaling (async, readable).</strong></li>
+<li><strong>Alias = AWS targets + works at apex + free · CNAME = any name, not at apex.</strong></li>
+<li><strong>SG = stateful/instance/allow-only · NACL = stateless/subnet/allow+deny.</strong></li>
+<li><strong>SQS = queue (one consumer) · SNS = pub/sub (many subscribers) · fan-out = SNS → many SQS.</strong></li>
+<li><strong>Explicit Deny always wins</strong> in IAM; boundaries &amp; SCPs <strong>cap, never grant</strong>.</li>
+<li><strong>CloudFront caches; Global Accelerator routes (no cache).</strong></li>
+<li><strong>Container shares the host kernel; a VM ships its own.</strong></li>
+<li><strong>Spot = cheapest + interruptible (2-min notice); Reserved/Savings = steady; On-Demand = flexible.</strong></li>
+</ul>
+<hr>
+<h2 id="11--quick-decision-prompts">11. 🎯 Quick Decision Prompts</h2>
+<p>&quot;Which service?&quot; gut-checks:</p>
+<ul>
+<li><strong>Need a static IP on a load balancer?</strong> → NLB (or Global Accelerator).</li>
+<li><strong>Route by URL path / host?</strong> → ALB.</li>
+<li><strong>Decouple two services + buffer spikes?</strong> → SQS.</li>
+<li><strong>Notify many subscribers at once?</strong> → SNS (fan-out to SQS).</li>
+<li><strong>Key-value at massive scale, single-digit ms?</strong> → DynamoDB.</li>
+<li><strong>Complex joins / transactions / reporting?</strong> → RDS/Aurora.</li>
+<li><strong>Cache content near users / front S3 with HTTPS?</strong> → CloudFront.</li>
+<li><strong>Run code on an event, no servers, ≤15 min?</strong> → Lambda.</li>
+<li><strong>Give an EC2 app AWS permissions?</strong> → IAM role (never hard-coded keys).</li>
+<li><strong>Private access to S3 from a VPC?</strong> → Gateway VPC endpoint (free).</li>
+<li><strong>Highly available web tier?</strong> → ALB + Auto Scaling across ≥2 AZs.</li>
+<li><strong>Audit who deleted a resource?</strong> → CloudTrail. <strong>Why is CPU high?</strong> → CloudWatch.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick-revision comparison cheat-sheet.</em></p>
+</div>
+</main></body></html>

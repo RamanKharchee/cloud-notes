@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS Well-Architected Framework — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjQjQ1MzA5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+V2VsbC1BcmNoaXRlY3RlZDwvdGl0bGU+PHBhdGggZD0iTTEyIDIgMS41IDcuMlY5SDIyLjVWNy4yek00IDEwLjJ2Ny4zSDIuNlYyMGgxOC44di0yLjVIMjB2LTcuM2gtMi40djcuM2gtMi4ydi03LjNIMTN2Ny4zaC0ydi03LjNIOC42djcuM0g2LjR2LTcuM3oiLz48L3N2Zz4K">
+<style>
+  :root{--ac:#B45309;--acd:#7c3d06;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjQjQ1MzA5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+V2VsbC1BcmNoaXRlY3RlZDwvdGl0bGU+PHBhdGggZD0iTTEyIDIgMS41IDcuMlY5SDIyLjVWNy4yek00IDEwLjJ2Ny4zSDIuNlYyMGgxOC44di0yLjVIMjB2LTcuM2gtMi40djcuM2gtMi4ydi03LjNIMTN2Ny4zaC0ydi03LjNIOC42djcuM0g2LjR2LTcuM3oiLz48L3N2Zz4K" width="110" alt="AWS Well-Architected logo" /><h1 id="aws-well-architected-framework--complete-notes">AWS Well-Architected Framework — Complete Notes</h1>
+<p><strong>6 pillars</strong> · How AWS judges a &quot;good&quot; architecture</p>
+<p><img src="https://img.shields.io/badge/AWS-Well--Architected-B45309?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Pillars-6-B45309?style=flat-square" alt="Pillars">
+<img src="https://img.shields.io/badge/Type-Framework-blue?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Free-WA%20Tool-lightgrey?style=flat-square" alt="Tool"></p>
+<p><em>A reader-friendly, all-in-one reference for the AWS Well-Architected Framework.</em></p>
+<p><a class="dl-btn" href="well-architected-notes.pdf" download="well-architected-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-well-architected">What is Well-Architected</a></li>
+<li><a href="#2--the-6-pillars-at-a-glance">The 6 Pillars at a Glance</a></li>
+<li><a href="#3--operational-excellence">Operational Excellence</a></li>
+<li><a href="#4--security">Security</a></li>
+<li><a href="#5--reliability">Reliability</a></li>
+<li><a href="#6--performance-efficiency">Performance Efficiency</a></li>
+<li><a href="#7--cost-optimization">Cost Optimization</a></li>
+<li><a href="#8--sustainability">Sustainability</a></li>
+<li><a href="#9--cross-cutting-design-principles">Cross-Cutting Design Principles</a></li>
+<li><a href="#10--trade-offs-between-pillars">Trade-offs Between Pillars</a></li>
+<li><a href="#11--wa-tool-lenses--reviews">WA Tool, Lenses &amp; Reviews</a></li>
+<li><a href="#12--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#13--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-well-architected">1. 🏛️ What is Well-Architected</h2>
+<p>The <strong>AWS Well-Architected Framework</strong> is AWS&#39;s set of <strong>best practices</strong> for designing and operating reliable, secure, efficient, cost-effective, and sustainable systems in the cloud. It&#39;s <strong>not a service</strong> — it&#39;s a <strong>lens</strong> (a checklist + set of questions) used to evaluate whether an architecture is &quot;good,&quot; and to find and fix risks before they bite.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Well-Architected is the <strong>rubric AWS grades your architecture against.</strong> Six pillars, each a set of design principles and questions. A &quot;Well-Architected Review&quot; walks the questions and surfaces risks.</p>
+</blockquote>
+<p><strong>Why it matters:</strong> it&#39;s a near-guaranteed conceptual interview question, and it gives you a vocabulary to justify design decisions (&quot;this improves the <em>reliability</em> pillar via multi-AZ&quot;).</p>
+<hr>
+<h2 id="2--the-6-pillars-at-a-glance">2. 🗂️ The 6 Pillars at a Glance</h2>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>One-line goal</th>
+<th>Key services</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Operational Excellence</strong></td>
+<td>Run &amp; improve systems; automate; learn from failure</td>
+<td>CloudFormation, CloudWatch, Systems Manager</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Protect data &amp; systems; least privilege; defense in depth</td>
+<td>IAM, KMS, WAF, CloudTrail, Shield</td>
+</tr>
+<tr>
+<td><strong>Reliability</strong></td>
+<td>Recover from failure; meet demand</td>
+<td>Auto Scaling, Multi-AZ, Route 53, backups</td>
+</tr>
+<tr>
+<td><strong>Performance Efficiency</strong></td>
+<td>Use resources efficiently; pick the right tool</td>
+<td>CloudFront, ElastiCache, right-sized instances, serverless</td>
+</tr>
+<tr>
+<td><strong>Cost Optimization</strong></td>
+<td>Avoid unnecessary spend; pay for what you use</td>
+<td>Cost Explorer, Savings Plans, Spot, S3 lifecycle</td>
+</tr>
+<tr>
+<td><strong>Sustainability</strong></td>
+<td>Minimize environmental impact</td>
+<td>Graviton, managed/serverless, right-sizing</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Memory aid (order): <strong>&quot;OPS-SEC-REL-PERF-COST-SUS&quot;</strong> — Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability. (Sustainability was added in 2021 — older material lists <strong>5</strong> pillars.)</p>
+</blockquote>
+<hr>
+<h2 id="3--operational-excellence">3. ⚙️ Operational Excellence</h2>
+<p><strong>Goal:</strong> run and monitor systems to deliver business value, and continuously improve.</p>
+<ul>
+<li><strong>Design principles:</strong> perform operations <strong>as code</strong> (IaC), make <strong>frequent, small, reversible</strong> changes, refine procedures often, anticipate failure, learn from all operational events (blameless post-mortems).</li>
+<li><strong>In practice:</strong> CloudFormation/Terraform, CI/CD pipelines, CloudWatch dashboards/alarms, runbooks &amp; playbooks, Systems Manager for automation.</li>
+</ul>
+<hr>
+<h2 id="4--security">4. 🔐 Security</h2>
+<p><strong>Goal:</strong> protect information, systems, and assets.</p>
+<ul>
+<li><strong>Design principles:</strong> strong <strong>identity foundation</strong> (least privilege, central IAM), <strong>traceability</strong> (log &amp; audit everything), <strong>defense in depth</strong> (multiple layers), <strong>encrypt</strong> in transit and at rest, keep people away from data (automate), prepare for incidents.</li>
+<li><strong>In practice:</strong> IAM roles + MFA, KMS encryption, WAF + Shield, CloudTrail audit, GuardDuty/Security Hub, Secrets Manager, VPC isolation.</li>
+</ul>
+<hr>
+<h2 id="5--reliability">5. 🛟 Reliability</h2>
+<p><strong>Goal:</strong> a workload performs its function correctly and recovers from failure.</p>
+<ul>
+<li><strong>Design principles:</strong> <strong>automatically recover</strong> from failure, <strong>test recovery</strong> procedures, <strong>scale horizontally</strong> to increase availability, <strong>stop guessing capacity</strong> (elasticity), manage change through automation.</li>
+<li><strong>In practice:</strong> Multi-AZ deployments, Auto Scaling, ELB health checks, Route 53 failover, backups + PITR, multi-region for DR, decoupling with SQS.</li>
+</ul>
+<hr>
+<h2 id="6--performance-efficiency">6. ⚡ Performance Efficiency</h2>
+<p><strong>Goal:</strong> use computing resources efficiently as demand and tech change.</p>
+<ul>
+<li><strong>Design principles:</strong> <strong>democratize advanced tech</strong> (use managed services), <strong>go global in minutes</strong>, use <strong>serverless</strong>, experiment more often, use the <strong>right resource for the job</strong> (mechanical sympathy).</li>
+<li><strong>In practice:</strong> right-size instance types (incl. Graviton), caching (CloudFront, ElastiCache), serverless (Lambda, DynamoDB), read replicas, choosing the correct storage/database for the access pattern.</li>
+</ul>
+<hr>
+<h2 id="7--cost-optimization">7. 💰 Cost Optimization</h2>
+<p><strong>Goal:</strong> deliver value at the lowest price point.</p>
+<ul>
+<li><strong>Design principles:</strong> adopt a <strong>consumption model</strong> (pay for what you use), measure <strong>overall efficiency</strong>, <strong>stop spending on undifferentiated heavy lifting</strong> (use managed services), analyze and <strong>attribute spend</strong>, right-size continuously.</li>
+<li><strong>In practice:</strong> Savings Plans / Reserved Instances, <strong>Spot</strong> for interruptible work, right-sizing (Compute Optimizer), S3 lifecycle + Intelligent-Tiering, auto-scaling down, Cost Explorer + budgets + tagging.</li>
+</ul>
+<hr>
+<h2 id="8--sustainability">8. 🌱 Sustainability</h2>
+<p><strong>Goal:</strong> minimize the environmental impact of running cloud workloads.</p>
+<ul>
+<li><strong>Design principles:</strong> understand your impact, set goals, <strong>maximize utilization</strong> (right-size, don&#39;t over-provision), adopt <strong>efficient hardware/software</strong> (e.g. <strong>Graviton</strong>), use <strong>managed services</strong> (shared, efficient), reduce downstream impact (less data movement, fewer devices needed).</li>
+<li><strong>In practice:</strong> Graviton instances, serverless/managed services, efficient storage tiers, scaling to actual demand, region choice.</li>
+</ul>
+<hr>
+<h2 id="9--cross-cutting-design-principles">9. 🧩 Cross-Cutting Design Principles</h2>
+<p>Themes that appear across pillars:</p>
+<ul>
+<li><strong>Automate everything</strong> (infra as code, recovery, scaling, ops).</li>
+<li><strong>Stop guessing capacity</strong> — use elasticity instead of fixed sizing.</li>
+<li><strong>Test at production scale</strong> and <strong>practice failure</strong> (game days, chaos).</li>
+<li><strong>Decouple</strong> components for independent scaling &amp; resilience.</li>
+<li><strong>Loosely couple + design for failure</strong> — assume things break.</li>
+<li><strong>Data-driven decisions</strong> — measure, then improve.</li>
+</ul>
+<hr>
+<h2 id="10--trade-offs-between-pillars">10. ⚖️ Trade-offs Between Pillars</h2>
+<p>Pillars often <strong>pull against each other</strong> — being &quot;well-architected&quot; means choosing consciously for the business need, not maxing every pillar:</p>
+<ul>
+<li><strong>Reliability vs Cost</strong> — Multi-AZ/multi-region improves reliability but roughly doubles cost.</li>
+<li><strong>Performance vs Cost</strong> — bigger instances / provisioned concurrency / DAX cost more.</li>
+<li><strong>Security vs Operational simplicity</strong> — more controls add friction; automate to keep both.</li>
+<li><strong>Performance vs Sustainability</strong> — over-provisioning wastes energy; right-size instead.</li>
+</ul>
+<blockquote>
+<p>💡 Interviewers love: <em>&quot;There&#39;s no single right architecture — it depends on the workload&#39;s priorities.&quot;</em> Name the trade-off you&#39;re making and why.</p>
+</blockquote>
+<hr>
+<h2 id="11--wa-tool-lenses--reviews">11. 🛠️ WA Tool, Lenses &amp; Reviews</h2>
+<ul>
+<li><strong>AWS Well-Architected Tool</strong> — a <strong>free</strong> tool in the console to review a workload against the pillars, get a risk list (HRIs — High/Medium Risk Issues), and track improvements.</li>
+<li><strong>Lenses</strong> — pillar questions tailored to a domain (Serverless, SaaS, Machine Learning, Data Analytics, IoT, Financial Services…).</li>
+<li><strong>Well-Architected Review</strong> — the process of answering the questions with stakeholders to find and prioritize risks; repeat periodically and after major changes.</li>
+</ul>
+<hr>
+<h2 id="12--quick-mental-model">12. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Well-Architected = AWS&#39;s rubric for a &quot;good&quot; cloud architecture</strong> — a lens, not a service.</li>
+<li><strong>6 pillars:</strong> Operational Excellence · Security · Reliability · Performance Efficiency · Cost Optimization · Sustainability. (Was 5 before Sustainability in 2021.)</li>
+<li>Each pillar = <strong>design principles + questions + supporting services</strong>.</li>
+<li>Pillars <strong>trade off</strong> (e.g. reliability vs cost) — choose deliberately for the workload.</li>
+<li>Recurring themes: <strong>automate, stop guessing capacity, decouple, design for failure, measure</strong>.</li>
+<li>Use the <strong>free WA Tool</strong> + <strong>lenses</strong> to run a <strong>Well-Architected Review</strong> and fix risks.</li>
+</ul>
+<hr>
+<h2 id="13--common-interview-questions">13. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Well-Architected:</p>
+<ul>
+<li><strong>Q: Name the 6 pillars.</strong> — Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability.</li>
+<li><strong>Q: Which pillar covers encryption and least privilege?</strong> — Security.</li>
+<li><strong>Q: Which pillar covers Multi-AZ and Auto Scaling for recovery?</strong> — Reliability.</li>
+<li><strong>Q: Which pillar covers Spot, Savings Plans, and right-sizing?</strong> — Cost Optimization.</li>
+<li><strong>Q: What was the most recently added pillar?</strong> — Sustainability (2021); before that there were 5.</li>
+<li><strong>Q: How do reliability and cost trade off?</strong> — Multi-AZ/multi-region boosts reliability but increases cost; you balance per the workload&#39;s needs.</li>
+<li><strong>Q: Is Well-Architected a service?</strong> — No — it&#39;s a framework/best-practice lens. The free <strong>Well-Architected Tool</strong> helps you review against it.</li>
+<li><strong>Q: What&#39;s a key principle shared across pillars?</strong> — Automate (infra as code), stop guessing capacity (elasticity), and design for failure.</li>
+<li><strong>Q: Which pillar does &quot;perform operations as code&quot; belong to?</strong> — Operational Excellence.</li>
+<li><strong>Q: How does Graviton relate to the pillars?</strong> — It improves Cost Optimization, Performance Efficiency, and Sustainability (better price/performance per watt).</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for the AWS Well-Architected Framework.</em></p>
+</div>
+</main></body></html>
