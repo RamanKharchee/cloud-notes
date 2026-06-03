@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon CloudFront — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjOTMzM0VBIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIENsb3VkRnJvbnQ8L3RpdGxlPjxwYXRoIGQ9Ik0xMS41NSA0LjQgNS4zIDcuM2wuNDIuOSA2LjI1LTIuOXptLjkgMC0uNDIuOSA2LjI1IDIuOS40Mi0uOXpNNS43MiAxNS44bC0uNDIuOSA2LjI1IDIuOS40NS0uOTV6bTEyLjU2IDAtNi4yOCAyLjg1LjQ1Ljk1IDYuMjUtMi45eiIvPjxwYXRoIGQ9Ik0xMiA5LjNhMi43IDIuNyAwIDEgMCAwIDUuNCAyLjcgMi43IDAgMCAwIDAtNS40em0wLTcuM2EyLjE1IDIuMTUgMCAxIDAgMCA0LjMgMi4xNSAyLjE1IDAgMCAwIDAtNC4zem0wIDE2YTIuMTUgMi4xNSAwIDEgMCAwIDQuMyAyLjE1IDIuMTUgMCAwIDAgMC00LjN6TTQuMyA1Ljg1YTIuMTUgMi4xNSAwIDEgMCAwIDQuMyAyLjE1IDIuMTUgMCAwIDAgMC00LjN6bTE1LjQgMGEyLjE1IDIuMTUgMCAxIDAgMCA0LjMgMi4xNSAyLjE1IDAgMCAwIDAtNC4zek00LjMgMTMuODVhMi4xNSAyLjE1IDAgMSAwIDAgNC4zIDIuMTUgMi4xNSAwIDAgMCAwLTQuM3ptMTUuNCAwYTIuMTUgMi4xNSAwIDEgMCAwIDQuMyAyLjE1IDIuMTUgMCAwIDAgMC00LjN6Ii8+PC9zdmc+Cg==">
+<style>
+  :root{--ac:#9333EA;--acd:#6b21a8;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjOTMzM0VBIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+QW1hem9uIENsb3VkRnJvbnQ8L3RpdGxlPjxwYXRoIGQ9Ik0xMS41NSA0LjQgNS4zIDcuM2wuNDIuOSA2LjI1LTIuOXptLjkgMC0uNDIuOSA2LjI1IDIuOS40Mi0uOXpNNS43MiAxNS44bC0uNDIuOSA2LjI1IDIuOS40NS0uOTV6bTEyLjU2IDAtNi4yOCAyLjg1LjQ1Ljk1IDYuMjUtMi45eiIvPjxwYXRoIGQ9Ik0xMiA5LjNhMi43IDIuNyAwIDEgMCAwIDUuNCAyLjcgMi43IDAgMCAwIDAtNS40em0wLTcuM2EyLjE1IDIuMTUgMCAxIDAgMCA0LjMgMi4xNSAyLjE1IDAgMCAwIDAtNC4zem0wIDE2YTIuMTUgMi4xNSAwIDEgMCAwIDQuMyAyLjE1IDIuMTUgMCAwIDAgMC00LjN6TTQuMyA1Ljg1YTIuMTUgMi4xNSAwIDEgMCAwIDQuMyAyLjE1IDIuMTUgMCAwIDAgMC00LjN6bTE1LjQgMGEyLjE1IDIuMTUgMCAxIDAgMCA0LjMgMi4xNSAyLjE1IDAgMCAwIDAtNC4zek00LjMgMTMuODVhMi4xNSAyLjE1IDAgMSAwIDAgNC4zIDIuMTUgMi4xNSAwIDAgMCAwLTQuM3ptMTUuNCAwYTIuMTUgMi4xNSAwIDEgMCAwIDQuMyAyLjE1IDIuMTUgMCAwIDAgMC00LjN6Ii8+PC9zdmc+Cg==" width="110" alt="Amazon CloudFront logo" /><h1 id="amazon-cloudfront--complete-notes">Amazon CloudFront — Complete Notes</h1>
+<p><strong>Content Delivery Network (CDN)</strong> · Cache &amp; deliver content from the edge</p>
+<p><img src="https://img.shields.io/badge/AWS-CloudFront-9333EA?style=flat-square&logoColor=white" alt="AWS">
+<img src="https://img.shields.io/badge/Service-CDN-9333EA?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Network-Global%20Edge-blue?style=flat-square" alt="Scope">
+<img src="https://img.shields.io/badge/Goal-Low%20latency-lightgrey?style=flat-square" alt="Latency"></p>
+<p><em>A reader-friendly, all-in-one reference for Amazon CloudFront.</em></p>
+<p><a class="dl-btn" href="amazon-cloudfront-notes.pdf" download="amazon-cloudfront-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-cloudfront">What is CloudFront</a></li>
+<li><a href="#2--how-it-works-edge-caching">How It Works (Edge Caching)</a></li>
+<li><a href="#3--core-concepts">Core Concepts</a></li>
+<li><a href="#4--origins">Origins</a></li>
+<li><a href="#5--cache-behaviors--cache-key">Cache Behaviors &amp; Cache Key</a></li>
+<li><a href="#6--ttls--invalidation">TTLs &amp; Invalidation</a></li>
+<li><a href="#7--security-https-oac-waf">Security (HTTPS, OAC, WAF)</a></li>
+<li><a href="#8--restricting-access">Restricting Access</a></li>
+<li><a href="#9--edge-compute-lambdaedge--functions">Edge Compute (Lambda@Edge &amp; Functions)</a></li>
+<li><a href="#10--cloudfront-vs-s3-vs-global-accelerator">CloudFront vs S3 vs Global Accelerator</a></li>
+<li><a href="#11--pricing">Pricing</a></li>
+<li><a href="#12--common-cli-commands">Common CLI Commands</a></li>
+<li><a href="#13--best-practices">Best Practices</a></li>
+<li><a href="#14--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#15--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-cloudfront">1. 🌍 What is CloudFront</h2>
+<p>Amazon CloudFront is AWS&#39;s <strong>Content Delivery Network (CDN)</strong>. It caches your content at a global network of <strong>edge locations</strong> so users are served from a nearby point of presence instead of reaching across the world to your origin — cutting <strong>latency</strong>, offloading your servers, and adding a <strong>security</strong> layer.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> CloudFront is a <strong>fleet of caches near your users</strong>. The first request for an object fetches it from the <strong>origin</strong> and stores it at the edge; later requests are served from that cache — fast and cheap.</p>
+</blockquote>
+<p><strong>Common uses:</strong> static asset delivery (images/JS/CSS), accelerating dynamic APIs, video streaming, fronting an S3 static website, software downloads, and as a security/HTTPS layer in front of ALB/S3.</p>
+<hr>
+<h2 id="2--how-it-works-edge-caching">2. ⚙️ How It Works (Edge Caching)</h2>
+<pre><code>   User ─▶ nearest Edge Location ──(cache HIT)──▶ served instantly
+                    │
+                    └──(cache MISS)──▶ Regional Edge Cache ──▶ Origin (S3 / ALB / server)
+                                                                  │
+                                          object cached at edge ◀─┘  (for next time, per TTL)
+</code></pre>
+<ol>
+<li>A user request hits the <strong>closest edge location</strong> (200+ globally).</li>
+<li><strong>Cache HIT</strong> → the edge serves the cached object immediately.</li>
+<li><strong>Cache MISS</strong> → CloudFront fetches from the <strong>origin</strong> (often via a larger <strong>Regional Edge Cache</strong>), returns it, and <strong>caches it at the edge</strong> for the object&#39;s TTL.</li>
+<li>Subsequent nearby requests are served from cache → low latency + less origin load.</li>
+</ol>
+<hr>
+<h2 id="3--core-concepts">3. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Distribution</strong></td>
+<td>The CloudFront config (its domain <code>dxxxx.cloudfront.net</code> + behaviors).</td>
+</tr>
+<tr>
+<td><strong>Edge Location</strong></td>
+<td>A global PoP that caches and serves content.</td>
+</tr>
+<tr>
+<td><strong>Regional Edge Cache</strong></td>
+<td>A larger mid-tier cache between edges and the origin.</td>
+</tr>
+<tr>
+<td><strong>Origin</strong></td>
+<td>Where the real content lives (S3, ALB, EC2, any HTTP server).</td>
+</tr>
+<tr>
+<td><strong>Cache Behavior</strong></td>
+<td>Rules (by path pattern) for how to cache/route requests.</td>
+</tr>
+<tr>
+<td><strong>Cache Key</strong></td>
+<td>What identifies a cached object (host, path, + chosen headers/query/cookies).</td>
+</tr>
+<tr>
+<td><strong>TTL</strong></td>
+<td>How long an object stays cached at the edge.</td>
+</tr>
+<tr>
+<td><strong>Invalidation</strong></td>
+<td>Force-remove cached objects before TTL expiry.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4--origins">4. 🎯 Origins</h2>
+<p>CloudFront pulls content from an <strong>origin</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Origin</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>S3 bucket</strong></td>
+<td>Static assets / static website hosting (lock down with OAC).</td>
+</tr>
+<tr>
+<td><strong>ALB / EC2 / custom HTTP</strong></td>
+<td>Dynamic apps and APIs.</td>
+</tr>
+<tr>
+<td><strong>MediaStore / MediaPackage</strong></td>
+<td>Video streaming.</td>
+</tr>
+<tr>
+<td><strong>Origin Group</strong></td>
+<td>Primary + secondary origin for <strong>origin failover</strong> (high availability).</td>
+</tr>
+</tbody></table>
+<ul>
+<li>A single distribution can have <strong>multiple origins</strong> and route to them via cache behaviors (e.g. <code>/api/*</code> → ALB, everything else → S3).</li>
+</ul>
+<hr>
+<h2 id="5--cache-behaviors--cache-key">5. 🗝️ Cache Behaviors &amp; Cache Key</h2>
+<ul>
+<li><strong>Cache behaviors</strong> match request <strong>path patterns</strong> (<code>/images/*</code>, <code>/api/*</code>) and set: target origin, allowed HTTP methods, <strong>caching policy</strong>, header/cookie/query forwarding, and whether to compress.</li>
+<li>The <strong>cache key</strong> decides whether two requests hit the same cached object. Keep it <strong>minimal</strong> — including unnecessary headers, cookies, or query strings fragments the cache and lowers the hit rate.</li>
+<li><strong>Cache policies</strong> + <strong>origin request policies</strong> (managed or custom) control what&#39;s in the cache key vs what&#39;s merely forwarded to the origin.</li>
+</ul>
+<blockquote>
+<p>💡 Higher <strong>cache hit ratio</strong> = lower latency + less origin cost. Forward only the fields that actually change the response.</p>
+</blockquote>
+<hr>
+<h2 id="6--ttls--invalidation">6. ⏱️ TTLs &amp; Invalidation</h2>
+<ul>
+<li><strong>TTL</strong> governs cache lifetime at the edge — set via origin headers (<code>Cache-Control: max-age</code>, <code>Expires</code>) or CloudFront <strong>min/default/max TTL</strong> settings.</li>
+<li><strong>Cache busting</strong> (versioned filenames like <code>app.4f3a.js</code>) is the cleanest way to ship updates — a new name is a new object, so caches never serve stale content.</li>
+<li><strong>Invalidation</strong> forcibly removes objects from edge caches before TTL (e.g. <code>/index.html</code> or <code>/*</code>). First 1,000 paths/month free, then charged — so prefer <strong>versioned filenames</strong> over frequent invalidations.</li>
+</ul>
+<hr>
+<h2 id="7--security-https-oac-waf">7. 🔐 Security (HTTPS, OAC, WAF)</h2>
+<ul>
+<li><strong>HTTPS</strong> everywhere — use <strong>ACM certificates</strong> (must be in <strong>us-east-1</strong> for CloudFront), enforce <em>Viewer Protocol Policy</em> = redirect-to-HTTPS, set min TLS version.</li>
+<li><strong>OAC (Origin Access Control)</strong> — locks an <strong>S3 origin</strong> so it&#39;s reachable <strong>only</strong> through CloudFront, not directly (replaces the legacy OAI).</li>
+<li><strong>AWS WAF</strong> — attach a web ACL to filter SQLi/XSS/bad bots and rate-limit at the edge.</li>
+<li><strong>AWS Shield</strong> — DDoS protection (Standard is automatic; Advanced for more).</li>
+<li><strong>Field-level encryption</strong> for sensitive form fields.</li>
+</ul>
+<hr>
+<h2 id="8--restricting-access">8. 🚧 Restricting Access</h2>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Restricts by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Signed URLs</strong></td>
+<td>Time-limited access to <strong>one</strong> file (premium downloads).</td>
+</tr>
+<tr>
+<td><strong>Signed Cookies</strong></td>
+<td>Time-limited access to <strong>many</strong> files (whole sections/streams).</td>
+</tr>
+<tr>
+<td><strong>Geo Restriction</strong></td>
+<td>Allow/deny by country (compliance, licensing).</td>
+</tr>
+<tr>
+<td><strong>OAC + bucket policy</strong></td>
+<td>Force S3 access only via CloudFront.</td>
+</tr>
+<tr>
+<td><strong>WAF rules</strong></td>
+<td>IP allow/deny, rate limits, managed rule groups.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="9--edge-compute-lambdaedge--functions">9. ⚡ Edge Compute (Lambda@Edge &amp; Functions)</h2>
+<p>Run code at the edge to customize requests/responses without a round-trip to the origin:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>CloudFront Functions</strong></th>
+<th><strong>Lambda@Edge</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Runtime</td>
+<td>Lightweight JS</td>
+<td>Node.js / Python (full Lambda)</td>
+</tr>
+<tr>
+<td>Latency / scale</td>
+<td>Sub-ms, massive scale</td>
+<td>Milliseconds</td>
+</tr>
+<tr>
+<td>Triggers</td>
+<td>Viewer request/response</td>
+<td>All 4 (viewer + origin request/response)</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Header rewrites, redirects, URL normalization, simple auth</td>
+<td>Heavier logic, calls to other AWS services, A/B, auth</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Use <strong>CloudFront Functions</strong> for tiny, ultra-fast viewer-side tweaks; <strong>Lambda@Edge</strong> when you need real compute or origin-side logic.</p>
+</blockquote>
+<hr>
+<h2 id="10--cloudfront-vs-s3-vs-global-accelerator">10. ⚖️ CloudFront vs S3 vs Global Accelerator</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>CloudFront</strong></th>
+<th><strong>S3 (alone)</strong></th>
+<th><strong>Global Accelerator</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Purpose</td>
+<td>Cache + deliver content at the edge</td>
+<td>Store objects</td>
+<td>Route TCP/UDP to nearest healthy endpoint</td>
+</tr>
+<tr>
+<td>Caches content?</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td>Layer</td>
+<td>HTTP(S) content (L7)</td>
+<td>Storage</td>
+<td>Network (L4), static anycast IPs</td>
+</tr>
+<tr>
+<td>Use with</td>
+<td>Any origin (often S3/ALB)</td>
+<td>Origin for CloudFront</td>
+<td>Non-HTTP / fast failover, gaming, APIs</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Front an S3 static site with <strong>CloudFront</strong> for caching, HTTPS, custom domain, and OAC. Use <strong>Global Accelerator</strong> (not CloudFront) for non-HTTP protocols or static-IP fast failover.</p>
+</blockquote>
+<hr>
+<h2 id="11--pricing">11. 💰 Pricing</h2>
+<p>You pay for:</p>
+<ol>
+<li><strong>Data transfer out</strong> to the internet (varies by region/edge), tiered by volume.</li>
+<li><strong>HTTP/HTTPS requests</strong> (per 10,000).</li>
+<li><strong>Invalidations</strong> beyond the free 1,000 paths/month.</li>
+<li><strong>Edge compute</strong> (CloudFront Functions invocations / Lambda@Edge) and optional features (field-level encryption, real-time logs).</li>
+</ol>
+<blockquote>
+<p><strong>💸 Cost tips:</strong> maximize <strong>cache hit ratio</strong> (minimal cache key, good TTLs) to cut origin transfer · transfer from S3/EC2 <strong>into</strong> CloudFront is free · use <strong>versioned filenames</strong> instead of paid invalidations · pick a <strong>price class</strong> (limit to certain regions) if global edges aren&#39;t needed.</p>
+</blockquote>
+<hr>
+<h2 id="12--common-cli-commands">12. ⌨️ Common CLI Commands</h2>
+<pre><code class="language-bash">aws cloudfront create-distribution --distribution-config file://dist.json
+aws cloudfront list-distributions
+aws cloudfront get-distribution --id E123ABC
+
+# Invalidate cached objects (prefer versioned filenames over frequent invalidations)
+aws cloudfront create-invalidation --distribution-id E123ABC --paths &quot;/index.html&quot; &quot;/css/*&quot;
+
+aws cloudfront update-distribution --id E123ABC --distribution-config file://dist.json --if-match &lt;ETag&gt;
+</code></pre>
+<hr>
+<h2 id="13--best-practices">13. ✅ Best Practices</h2>
+<ul>
+<li><strong>Maximize cache hit ratio</strong> — minimal cache key; forward only headers/cookies/query that change the response.</li>
+<li>Use <strong>versioned filenames</strong> (<code>app.&lt;hash&gt;.js</code>) for instant, free cache busting instead of invalidations.</li>
+<li><strong>Lock S3 origins with OAC</strong> so content is only reachable via CloudFront.</li>
+<li><strong>Enforce HTTPS</strong> (ACM cert in us-east-1, redirect-to-HTTPS, modern TLS).</li>
+<li>Add <strong>WAF + Shield</strong> for security; <strong>geo restriction</strong> for compliance/licensing.</li>
+<li>Use <strong>Origin Groups</strong> for origin failover (HA); set sensible <strong>TTLs</strong> per content type.</li>
+<li>Use <strong>CloudFront Functions</strong> for light edge logic, <strong>Lambda@Edge</strong> for heavier needs.</li>
+<li>Enable <strong>compression</strong> (gzip/Brotli) and pick a <strong>price class</strong> to control cost.</li>
+</ul>
+<hr>
+<h2 id="14--quick-mental-model">14. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>CloudFront = global CDN:</strong> caches content at 200+ <strong>edge locations</strong> near users → low latency + origin offload.</li>
+<li>First request = <strong>MISS</strong> (fetch from <strong>origin</strong>, cache it); later = <strong>HIT</strong> (served from edge per <strong>TTL</strong>).</li>
+<li>A <strong>distribution</strong> routes by <strong>cache behaviors</strong> (path patterns) to <strong>origins</strong> (S3, ALB, custom).</li>
+<li>The <strong>cache key</strong> decides reuse — keep it minimal for a high <strong>hit ratio</strong>.</li>
+<li>Update content via <strong>versioned filenames</strong> (free) over <strong>invalidations</strong> (paid beyond 1,000/mo).</li>
+<li>Secure with <strong>HTTPS (ACM in us-east-1)</strong>, <strong>OAC</strong> (lock S3), <strong>WAF/Shield</strong>, signed URLs/cookies, geo restriction.</li>
+<li>Customize at the edge with <strong>CloudFront Functions</strong> (tiny/fast) or <strong>Lambda@Edge</strong> (full compute).</li>
+</ul>
+<hr>
+<h2 id="15--common-interview-questions">15. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about CloudFront:</p>
+<ul>
+<li><strong>Q: What is CloudFront and why use it?</strong> — A CDN that caches content at global edge locations, reducing latency, offloading the origin, and adding HTTPS/security.</li>
+<li><strong>Q: Cache HIT vs MISS?</strong> — HIT = served from the edge cache. MISS = edge fetches from the origin, then caches it for the TTL.</li>
+<li><strong>Q: How do you serve updated content immediately?</strong> — Use <strong>versioned filenames</strong> (preferred) or create an <strong>invalidation</strong> to purge cached paths.</li>
+<li><strong>Q: How do you secure an S3 origin?</strong> — <strong>Origin Access Control (OAC)</strong> + a bucket policy so S3 is reachable only through CloudFront, not directly.</li>
+<li><strong>Q: Where must the ACM cert live for CloudFront?</strong> — In <strong>us-east-1</strong> (N. Virginia), regardless of where your origin is.</li>
+<li><strong>Q: Signed URL vs signed cookie?</strong> — Signed URL = time-limited access to one file; signed cookie = access to many files without changing URLs.</li>
+<li><strong>Q: CloudFront Functions vs Lambda@Edge?</strong> — Functions = lightweight JS, sub-ms, viewer-side (header rewrites/redirects). Lambda@Edge = full runtime, origin-side too, heavier logic.</li>
+<li><strong>Q: CloudFront vs Global Accelerator?</strong> — CloudFront caches HTTP(S) content at the edge. Global Accelerator doesn&#39;t cache — it routes TCP/UDP over the AWS backbone to the nearest healthy endpoint with static anycast IPs.</li>
+<li><strong>Q: How do you improve cache hit ratio?</strong> — Minimize the cache key (forward only necessary headers/cookies/query strings) and set good TTLs.</li>
+<li><strong>Q: How do you restrict content by country?</strong> — <strong>Geo restriction</strong> (allow/deny lists) on the distribution.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon CloudFront.</em></p>
+</div>
+</main></body></html>
