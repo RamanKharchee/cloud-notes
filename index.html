@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cloud Notes — AWS Quick References</title>
-<meta name="description" content="Reader-friendly, all-in-one quick references for AWS services.">
+<meta name="description" content="Reader-friendly, all-in-one quick references for cloud & DevOps.">
 <style>
   *{box-sizing:border-box;}
   body{
@@ -13,9 +13,19 @@
     background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     display:flex;flex-direction:column;align-items:center;padding:60px 20px;
   }
-  .hero{text-align:center;color:#fff;margin-bottom:46px;}
+  .hero{text-align:center;color:#fff;margin-bottom:28px;}
   .hero h1{font-size:46px;margin:0 0 8px;letter-spacing:-1px;}
   .hero p{font-size:18px;opacity:.85;margin:0;}
+  /* Filter bar */
+  .filters{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;max-width:920px;margin:0 0 30px;}
+  .chip{
+    font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;cursor:pointer;
+    color:#dbe4ea;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+    transition:background .15s,color .15s,border-color .15s;user-select:none;
+  }
+  .chip:hover{background:rgba(255,255,255,.18);color:#fff;}
+  .chip.active{background:#fff;color:#0f2027;border-color:#fff;}
+  .chip .count{opacity:.55;font-weight:500;margin-left:5px;}
   .grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:24px;width:100%;max-width:920px;
@@ -26,6 +36,7 @@
     display:flex;flex-direction:column;align-items:flex-start;border-top:5px solid var(--ac);
   }
   .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.35);}
+  .card.hidden{display:none;}
   .card img{width:52px;height:52px;margin-bottom:14px;}
   .card h2{margin:0 0 6px;font-size:22px;color:var(--ac);}
   .card .tag{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ac);opacity:.7;margin:0 0 8px;}
@@ -37,6 +48,7 @@
   .lambda{--ac:#FF9900;} .iam{--ac:#DD344C;} .rds{--ac:#527FFF;} .docker{--ac:#2496ED;} .github{--ac:#24292e;} .route53{--ac:#6E40C9;}
   .dynamodb{--ac:#4053D6;} .cloudwatch{--ac:#E7157B;} .messaging{--ac:#9D4EDD;} .elb{--ac:#00A3A3;} .cloudfront{--ac:#9333EA;}
   .cheatsheet{--ac:#475569;} .wellarch{--ac:#B45309;}
+  .empty{color:#cfd8dc;text-align:center;margin:30px 0;display:none;}
   footer{margin-top:50px;color:#cfd8dc;font-size:13px;text-align:center;}
   footer a{color:#fff;}
 </style>
@@ -47,8 +59,22 @@
     <p>Reader-friendly, all-in-one quick references for cloud &amp; DevOps</p>
   </div>
 
-  <div class="grid">
-    <a class="card s3" href="s3.html">
+  <div class="filters" id="filters">
+    <span class="chip active" data-filter="all">All</span>
+    <span class="chip" data-filter="aws">AWS</span>
+    <span class="chip" data-filter="devops">DevOps / CI-CD</span>
+    <span class="chip" data-filter="compute">Compute</span>
+    <span class="chip" data-filter="storage">Storage</span>
+    <span class="chip" data-filter="database">Database</span>
+    <span class="chip" data-filter="networking">Networking</span>
+    <span class="chip" data-filter="security">Security</span>
+    <span class="chip" data-filter="monitoring">Monitoring</span>
+    <span class="chip" data-filter="messaging">Messaging</span>
+    <span class="chip" data-filter="reference">Reference</span>
+  </div>
+
+  <div class="grid" id="grid">
+    <a class="card s3" href="s3.html" data-tags="aws storage">
       <img src="s3-logo.svg" alt="Amazon S3">
       <p class="tag">Storage</p>
       <h2>Amazon S3</h2>
@@ -56,7 +82,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card ec2" href="ec2.html">
+    <a class="card ec2" href="ec2.html" data-tags="aws compute">
       <img src="ec2-logo.svg" alt="Amazon EC2">
       <p class="tag">Compute</p>
       <h2>Amazon EC2</h2>
@@ -64,7 +90,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card vpc" href="vpc.html">
+    <a class="card vpc" href="vpc.html" data-tags="aws networking">
       <img src="vpc-logo.svg" alt="Amazon VPC">
       <p class="tag">Networking</p>
       <h2>Amazon VPC</h2>
@@ -72,7 +98,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card lambda" href="lambda.html">
+    <a class="card lambda" href="lambda.html" data-tags="aws compute">
       <img src="lambda-logo.svg" alt="AWS Lambda">
       <p class="tag">Serverless</p>
       <h2>AWS Lambda</h2>
@@ -80,7 +106,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card iam" href="iam.html">
+    <a class="card iam" href="iam.html" data-tags="aws security">
       <img src="iam-logo.svg" alt="AWS IAM">
       <p class="tag">Security</p>
       <h2>AWS IAM</h2>
@@ -88,7 +114,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card rds" href="rds.html">
+    <a class="card rds" href="rds.html" data-tags="aws database">
       <img src="rds-logo.svg" alt="Amazon RDS">
       <p class="tag">Database</p>
       <h2>Amazon RDS</h2>
@@ -96,7 +122,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card docker" href="docker.html">
+    <a class="card docker" href="docker.html" data-tags="devops containers">
       <img src="docker-logo.svg" alt="Docker">
       <p class="tag">Containers</p>
       <h2>Docker</h2>
@@ -104,7 +130,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card github" href="github.html">
+    <a class="card github" href="github.html" data-tags="devops cicd">
       <img src="github-logo.svg" alt="GitHub">
       <p class="tag">Source Control</p>
       <h2>GitHub</h2>
@@ -112,7 +138,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card route53" href="route53.html">
+    <a class="card route53" href="route53.html" data-tags="aws networking">
       <img src="route53-logo.svg" alt="Amazon Route 53">
       <p class="tag">DNS</p>
       <h2>Amazon Route 53</h2>
@@ -120,7 +146,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card dynamodb" href="dynamodb.html">
+    <a class="card dynamodb" href="dynamodb.html" data-tags="aws database">
       <img src="dynamodb-logo.svg" alt="Amazon DynamoDB">
       <p class="tag">Database</p>
       <h2>Amazon DynamoDB</h2>
@@ -128,7 +154,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card cloudwatch" href="cloudwatch.html">
+    <a class="card cloudwatch" href="cloudwatch.html" data-tags="aws monitoring">
       <img src="cloudwatch-logo.svg" alt="Amazon CloudWatch">
       <p class="tag">Monitoring</p>
       <h2>Amazon CloudWatch</h2>
@@ -136,7 +162,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card messaging" href="messaging.html">
+    <a class="card messaging" href="messaging.html" data-tags="aws messaging">
       <img src="messaging-logo.svg" alt="AWS SQS & SNS">
       <p class="tag">Messaging</p>
       <h2>SQS &amp; SNS</h2>
@@ -144,7 +170,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card elb" href="elb.html">
+    <a class="card elb" href="elb.html" data-tags="aws networking compute">
       <img src="elb-logo.svg" alt="AWS ELB & Auto Scaling">
       <p class="tag">Networking</p>
       <h2>ELB &amp; Auto Scaling</h2>
@@ -152,7 +178,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card cloudfront" href="cloudfront.html">
+    <a class="card cloudfront" href="cloudfront.html" data-tags="aws networking">
       <img src="cloudfront-logo.svg" alt="Amazon CloudFront">
       <p class="tag">CDN</p>
       <h2>Amazon CloudFront</h2>
@@ -160,7 +186,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card cheatsheet" href="cheatsheet.html">
+    <a class="card cheatsheet" href="cheatsheet.html" data-tags="reference">
       <img src="cheatsheet-logo.svg" alt="Comparison Cheat-Sheet">
       <p class="tag">Reference</p>
       <h2>Comparison Cheat-Sheet</h2>
@@ -168,7 +194,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card wellarch" href="well-architected.html">
+    <a class="card wellarch" href="well-architected.html" data-tags="aws reference">
       <img src="well-architected-logo.svg" alt="AWS Well-Architected">
       <p class="tag">Framework</p>
       <h2>Well-Architected</h2>
@@ -177,8 +203,59 @@
     </a>
   </div>
 
+  <p class="empty" id="empty">No notes in this category yet.</p>
+
   <footer>
     Built as a quick-reference set · <a href="https://github.com/RamanKharchee/cloud-notes">View on GitHub</a>
   </footer>
+
+  <script>
+    (function () {
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+      var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+      var empty = document.getElementById('empty');
+
+      // Show a count next to each chip.
+      chips.forEach(function (chip) {
+        var f = chip.getAttribute('data-filter');
+        var n = f === 'all'
+          ? cards.length
+          : cards.filter(function (c) { return c.getAttribute('data-tags').split(' ').indexOf(f) !== -1; }).length;
+        var s = document.createElement('span');
+        s.className = 'count';
+        s.textContent = n;
+        chip.appendChild(s);
+      });
+
+      function apply(filter) {
+        var shown = 0;
+        cards.forEach(function (c) {
+          var match = filter === 'all' || c.getAttribute('data-tags').split(' ').indexOf(filter) !== -1;
+          c.classList.toggle('hidden', !match);
+          if (match) shown++;
+        });
+        empty.style.display = shown === 0 ? 'block' : 'none';
+      }
+
+      document.getElementById('filters').addEventListener('click', function (e) {
+        var chip = e.target.closest('.chip');
+        if (!chip) return;
+        chips.forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        var filter = chip.getAttribute('data-filter');
+        apply(filter);
+        history.replaceState(null, '', filter === 'all' ? location.pathname : '#' + filter);
+      });
+
+      // Honour a #filter in the URL on load (e.g. shareable /#database).
+      var initial = (location.hash || '').replace('#', '');
+      var match = chips.filter(function (c) { return c.getAttribute('data-filter') === initial; })[0];
+      if (match) {
+        chips.forEach(function (c) { c.classList.remove('active'); });
+        match.classList.add('active');
+        apply(initial);
+      }
+    })();
+  </script>
 </body>
 </html>
