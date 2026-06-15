@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bash Scripting — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNEVBQTI1IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R05VIEJhc2g8L3RpdGxlPjxwYXRoIGQ9Ik0yMS4wMzgsNC45bC03LjU3Ny00LjQ5OEMxMy4wMDksMC4xMzQsMTIuNTA1LDAsMTIsMGMtMC41MDUsMC0xLjAwOSwwLjEzNC0xLjQ2MiwwLjQwM0wyLjk2MSw0LjkgQzIuMDU3LDUuNDM3LDEuNSw2LjQyOSwxLjUsNy41MDN2OC45OTVjMCwxLjA3MywwLjU1NywyLjA2NiwxLjQ2MiwyLjYwM2w3LjU3Nyw0LjQ5N0MxMC45OTEsMjMuODY2LDExLjQ5NSwyNCwxMiwyNCBjMC41MDUsMCwxLjAwOS0wLjEzNCwxLjQ2MS0wLjQwMmw3LjU3Ny00LjQ5N2MwLjkwNC0wLjUzNywxLjQ2Mi0xLjUyOSwxLjQ2Mi0yLjYwM1Y3LjUwM0MyMi41LDYuNDI5LDIxLjk0Myw1LjQzNywyMS4wMzgsNC45eiBNMTUuMTcsMTguOTQ2bDAuMDEzLDAuNjQ2YzAuMDAxLDAuMDc4LTAuMDUsMC4xNjctMC4xMTEsMC4xOThsLTAuMzgzLDAuMjJjLTAuMDYxLDAuMDMxLTAuMTExLTAuMDA3LTAuMTEyLTAuMDg1TDE0LjU3LDE5LjI5IGMtMC4zMjgsMC4xMzYtMC42NiwwLjE2OS0wLjg3MiwwLjA4NGMtMC4wNC0wLjAxNi0wLjA1Ny0wLjA3NS0wLjA0MS0wLjE0MmwwLjEzOS0wLjU4NGMwLjAxMS0wLjA0NiwwLjAzNi0wLjA5MiwwLjA2OS0wLjEyMSBjMC4wMTItMC4wMTEsMC4wMjQtMC4wMiwwLjAzNi0wLjAyNmMwLjAyMi0wLjAxMSwwLjA0My0wLjAxNCwwLjA2Mi0wLjAwNmMwLjIyOSwwLjA3NywwLjUyMSwwLjA0MSwwLjgwMi0wLjEwMSBjMC4zNTctMC4xODEsMC41OTYtMC41NDUsMC41OTItMC45MDdjLTAuMDAzLTAuMzI4LTAuMTgxLTAuNDY1LTAuNjEzLTAuNDY4Yy0wLjU1LDAuMDAxLTEuMDY0LTAuMTA3LTEuMDcyLTAuOTE3IGMtMC4wMDctMC42NjcsMC4zNC0xLjM2MSwwLjg4OS0xLjhsLTAuMDA3LTAuNjUyYy0wLjAwMS0wLjA4LDAuMDQ4LTAuMTY4LDAuMTExLTAuMmwwLjM3LTAuMjM2IGMwLjA2MS0wLjAzMSwwLjExMSwwLjAwNywwLjExMiwwLjA4N2wwLjAwNiwwLjY1M2MwLjI3My0wLjEwOSwwLjUxMS0wLjEzOCwwLjcyNi0wLjA4OGMwLjA0NywwLjAxMiwwLjA2NywwLjA3NiwwLjA0OCwwLjE1MSBsLTAuMTQ0LDAuNTc4Yy0wLjAxMSwwLjA0NC0wLjAzNiwwLjA4OC0wLjA2NSwwLjExNmMtMC4wMTIsMC4wMTItMC4wMjUsMC4wMjEtMC4wMzgsMC4wMjhjLTAuMDE5LDAuMDEtMC4wMzgsMC4wMTMtMC4wNTcsMC4wMDkgYy0wLjA5OC0wLjAyMi0wLjMzMi0wLjA3My0wLjY5OSwwLjExM2MtMC4zODUsMC4xOTUtMC41MiwwLjUzLTAuNTE3LDAuNzc4YzAuMDAzLDAuMjk3LDAuMTU1LDAuMzg3LDAuNjgxLDAuMzk2IGMwLjcsMC4wMTIsMS4wMDMsMC4zMTgsMS4wMSwxLjAyM0MxNi4xMDUsMTcuNzQ3LDE1LjczNiwxOC40OTEsMTUuMTcsMTguOTQ2eiBNMTkuMTQzLDE3Ljg1OWMwLDAuMDYtMC4wMDgsMC4xMTYtMC4wNTgsMC4xNDUgbC0xLjkxNiwxLjE2NGMtMC4wNSwwLjAyOS0wLjA5LDAuMDA0LTAuMDktMC4wNTZ2LTAuNDk0YzAtMC4wNiwwLjAzNy0wLjA5MywwLjA4Ny0wLjEyMmwxLjg4Ny0xLjEyOSBjMC4wNS0wLjAyOSwwLjA5LTAuMDA0LDAuMDksMC4wNTZWMTcuODU5eiBNMjAuNDU5LDYuNzk3bC03LjE2OCw0LjQyN2MtMC44OTQsMC41MjMtMS41NTMsMS4xMDktMS41NTMsMi4xODd2OC44MzMgYzAsMC42NDUsMC4yNiwxLjA2MywwLjY2LDEuMTg0Yy0wLjEzMSwwLjAyMy0wLjI2NCwwLjAzOS0wLjM5OCwwLjAzOWMtMC40MiwwLTAuODMzLTAuMTE0LTEuMTk3LTAuMzNMMy4yMjYsMTguNjQgYy0wLjc0MS0wLjQ0LTEuMjAxLTEuMjYxLTEuMjAxLTIuMTQyVjcuNTAzYzAtMC44ODEsMC40Ni0xLjcwMiwxLjIwMS0yLjE0Mmw3LjU3Ny00LjQ5OGMwLjM2My0wLjIxNiwwLjc3Ny0wLjMzLDEuMTk3LTAuMzMgYzAuNDE5LDAsMC44MzMsMC4xMTQsMS4xOTcsMC4zM2w3LjU3Nyw0LjQ5OGMwLjYyNCwwLjM3MSwxLjA0NiwxLjAxMywxLjE2NCwxLjczMkMyMS42ODYsNi41NTcsMjEuMTIsNi40MTEsMjAuNDU5LDYuNzk3eiIvPjwvc3ZnPg==">
+<style>
+  :root{--ac:#4EAA25;--acd:#357a1a;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNEVBQTI1IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R05VIEJhc2g8L3RpdGxlPjxwYXRoIGQ9Ik0yMS4wMzgsNC45bC03LjU3Ny00LjQ5OEMxMy4wMDksMC4xMzQsMTIuNTA1LDAsMTIsMGMtMC41MDUsMC0xLjAwOSwwLjEzNC0xLjQ2MiwwLjQwM0wyLjk2MSw0LjkgQzIuMDU3LDUuNDM3LDEuNSw2LjQyOSwxLjUsNy41MDN2OC45OTVjMCwxLjA3MywwLjU1NywyLjA2NiwxLjQ2MiwyLjYwM2w3LjU3Nyw0LjQ5N0MxMC45OTEsMjMuODY2LDExLjQ5NSwyNCwxMiwyNCBjMC41MDUsMCwxLjAwOS0wLjEzNCwxLjQ2MS0wLjQwMmw3LjU3Ny00LjQ5N2MwLjkwNC0wLjUzNywxLjQ2Mi0xLjUyOSwxLjQ2Mi0yLjYwM1Y3LjUwM0MyMi41LDYuNDI5LDIxLjk0Myw1LjQzNywyMS4wMzgsNC45eiBNMTUuMTcsMTguOTQ2bDAuMDEzLDAuNjQ2YzAuMDAxLDAuMDc4LTAuMDUsMC4xNjctMC4xMTEsMC4xOThsLTAuMzgzLDAuMjJjLTAuMDYxLDAuMDMxLTAuMTExLTAuMDA3LTAuMTEyLTAuMDg1TDE0LjU3LDE5LjI5IGMtMC4zMjgsMC4xMzYtMC42NiwwLjE2OS0wLjg3MiwwLjA4NGMtMC4wNC0wLjAxNi0wLjA1Ny0wLjA3NS0wLjA0MS0wLjE0MmwwLjEzOS0wLjU4NGMwLjAxMS0wLjA0NiwwLjAzNi0wLjA5MiwwLjA2OS0wLjEyMSBjMC4wMTItMC4wMTEsMC4wMjQtMC4wMiwwLjAzNi0wLjAyNmMwLjAyMi0wLjAxMSwwLjA0My0wLjAxNCwwLjA2Mi0wLjAwNmMwLjIyOSwwLjA3NywwLjUyMSwwLjA0MSwwLjgwMi0wLjEwMSBjMC4zNTctMC4xODEsMC41OTYtMC41NDUsMC41OTItMC45MDdjLTAuMDAzLTAuMzI4LTAuMTgxLTAuNDY1LTAuNjEzLTAuNDY4Yy0wLjU1LDAuMDAxLTEuMDY0LTAuMTA3LTEuMDcyLTAuOTE3IGMtMC4wMDctMC42NjcsMC4zNC0xLjM2MSwwLjg4OS0xLjhsLTAuMDA3LTAuNjUyYy0wLjAwMS0wLjA4LDAuMDQ4LTAuMTY4LDAuMTExLTAuMmwwLjM3LTAuMjM2IGMwLjA2MS0wLjAzMSwwLjExMSwwLjAwNywwLjExMiwwLjA4N2wwLjAwNiwwLjY1M2MwLjI3My0wLjEwOSwwLjUxMS0wLjEzOCwwLjcyNi0wLjA4OGMwLjA0NywwLjAxMiwwLjA2NywwLjA3NiwwLjA0OCwwLjE1MSBsLTAuMTQ0LDAuNTc4Yy0wLjAxMSwwLjA0NC0wLjAzNiwwLjA4OC0wLjA2NSwwLjExNmMtMC4wMTIsMC4wMTItMC4wMjUsMC4wMjEtMC4wMzgsMC4wMjhjLTAuMDE5LDAuMDEtMC4wMzgsMC4wMTMtMC4wNTcsMC4wMDkgYy0wLjA5OC0wLjAyMi0wLjMzMi0wLjA3My0wLjY5OSwwLjExM2MtMC4zODUsMC4xOTUtMC41MiwwLjUzLTAuNTE3LDAuNzc4YzAuMDAzLDAuMjk3LDAuMTU1LDAuMzg3LDAuNjgxLDAuMzk2IGMwLjcsMC4wMTIsMS4wMDMsMC4zMTgsMS4wMSwxLjAyM0MxNi4xMDUsMTcuNzQ3LDE1LjczNiwxOC40OTEsMTUuMTcsMTguOTQ2eiBNMTkuMTQzLDE3Ljg1OWMwLDAuMDYtMC4wMDgsMC4xMTYtMC4wNTgsMC4xNDUgbC0xLjkxNiwxLjE2NGMtMC4wNSwwLjAyOS0wLjA5LDAuMDA0LTAuMDktMC4wNTZ2LTAuNDk0YzAtMC4wNiwwLjAzNy0wLjA5MywwLjA4Ny0wLjEyMmwxLjg4Ny0xLjEyOSBjMC4wNS0wLjAyOSwwLjA5LTAuMDA0LDAuMDksMC4wNTZWMTcuODU5eiBNMjAuNDU5LDYuNzk3bC03LjE2OCw0LjQyN2MtMC44OTQsMC41MjMtMS41NTMsMS4xMDktMS41NTMsMi4xODd2OC44MzMgYzAsMC42NDUsMC4yNiwxLjA2MywwLjY2LDEuMTg0Yy0wLjEzMSwwLjAyMy0wLjI2NCwwLjAzOS0wLjM5OCwwLjAzOWMtMC40MiwwLTAuODMzLTAuMTE0LTEuMTk3LTAuMzNMMy4yMjYsMTguNjQgYy0wLjc0MS0wLjQ0LTEuMjAxLTEuMjYxLTEuMjAxLTIuMTQyVjcuNTAzYzAtMC44ODEsMC40Ni0xLjcwMiwxLjIwMS0yLjE0Mmw3LjU3Ny00LjQ5OGMwLjM2My0wLjIxNiwwLjc3Ny0wLjMzLDEuMTk3LTAuMzMgYzAuNDE5LDAsMC44MzMsMC4xMTQsMS4xOTcsMC4zM2w3LjU3Nyw0LjQ5OGMwLjYyNCwwLjM3MSwxLjA0NiwxLjAxMywxLjE2NCwxLjczMkMyMS42ODYsNi41NTcsMjEuMTIsNi40MTEsMjAuNDU5LDYuNzk3eiIvPjwvc3ZnPg==" width="110" alt="Bash logo" /><h1 id="bash-scripting--complete-notes">Bash Scripting — Complete Notes</h1>
+<p><strong>Shell automation</strong> · Variables, conditionals, loops, functions &amp; more</p>
+<p><img src="https://img.shields.io/badge/Topic-Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white" alt="Type">
+<img src="https://img.shields.io/badge/Use-Automation%20%2F%20Glue-4EAA25?style=flat-square" alt="Use">
+<img src="https://img.shields.io/badge/Shell-POSIX%20%2B%20Bashisms-blue?style=flat-square" alt="Shell">
+<img src="https://img.shields.io/badge/DevOps-Essential-lightgrey?style=flat-square" alt="Skill"></p>
+<p><em>A reader-friendly, all-in-one reference for Bash scripting.</em></p>
+<p><a class="dl-btn" href="bash-notes.pdf" download="bash-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-bash">What is Bash</a></li>
+<li><a href="#2--script-basics-shebang--running">Script Basics (Shebang &amp; Running)</a></li>
+<li><a href="#3--variables--quoting">Variables &amp; Quoting</a></li>
+<li><a href="#4--command-substitution--arithmetic">Command Substitution &amp; Arithmetic</a></li>
+<li><a href="#5--conditionals">Conditionals</a></li>
+<li><a href="#6--loops">Loops</a></li>
+<li><a href="#7--functions">Functions</a></li>
+<li><a href="#8--arguments--special-variables">Arguments &amp; Special Variables</a></li>
+<li><a href="#9--io--redirection">I/O &amp; Redirection</a></li>
+<li><a href="#10--parameter-expansion--strings">Parameter Expansion &amp; Strings</a></li>
+<li><a href="#11--arrays">Arrays</a></li>
+<li><a href="#12--exit-codes--error-handling">Exit Codes &amp; Error Handling</a></li>
+<li><a href="#13--essential-text-tools">Essential Text Tools</a></li>
+<li><a href="#14--best-practices">Best Practices</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#16--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-bash">1. 🐚 What is Bash</h2>
+<p>Bash (<strong>Bourne Again SHell</strong>) is the default command-line shell on most Linux systems and a scripting language for <strong>automating tasks</strong>: gluing commands together, file manipulation, deployments, CI/CD steps, backups, and system administration. A Bash <strong>script</strong> is just a text file of shell commands run top to bottom.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Bash is <strong>automation glue</strong> — it orchestrates other programs (<code>grep</code>, <code>curl</code>, <code>aws</code>…), wiring their inputs/outputs together. It shines for short automation; reach for Python when logic gets complex.</p>
+</blockquote>
+<p><strong>Common uses:</strong> CI/CD pipeline steps, deploy/build scripts, cron jobs, log processing, environment setup, and one-off sysadmin tasks.</p>
+<hr>
+<h2 id="2--script-basics-shebang--running">2. ⚙️ Script Basics (Shebang &amp; Running)</h2>
+<pre><code class="language-bash">#!/usr/bin/env bash      # shebang — tells the OS to run this with bash
+echo &quot;Hello, world&quot;
+</code></pre>
+<ul>
+<li>The <strong>shebang</strong> (<code>#!</code>) on line 1 picks the interpreter; <code>#!/usr/bin/env bash</code> is portable.</li>
+<li>Make it executable and run it:</li>
+</ul>
+<pre><code class="language-bash">chmod +x script.sh      # add execute permission
+./script.sh             # run it
+bash script.sh          # or run explicitly with bash
+</code></pre>
+<ul>
+<li><code># comment</code> — everything after <code>#</code> is ignored. Run with <code>bash -x script.sh</code> to <strong>trace</strong> each command (debugging).</li>
+</ul>
+<hr>
+<h2 id="3--variables--quoting">3. 📦 Variables &amp; Quoting</h2>
+<pre><code class="language-bash">name=&quot;Alice&quot;            # NO spaces around = ; assignment
+echo &quot;$name&quot;            # use with $ ; quote to be safe
+echo &quot;${name}_suffix&quot;   # braces disambiguate
+readonly PI=3.14        # constant
+export PATH=&quot;$PATH:/opt/bin&quot;   # export to child processes
+</code></pre>
+<p><strong>Quoting (the #1 source of bugs):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Quote</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;double&quot;</code></td>
+<td>Expands <code>$variables</code> and <code>$(commands)</code> — <strong>use by default</strong></td>
+</tr>
+<tr>
+<td><code>&#39;single&#39;</code></td>
+<td>Literal — no expansion at all</td>
+</tr>
+<tr>
+<td><code>`backticks`</code></td>
+<td>Old command substitution — prefer <code>$( )</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ <strong>Always quote your variables</strong> (<code>&quot;$var&quot;</code>). Unquoted, a value with spaces or globs splits into multiple words — the classic source of broken scripts.</p>
+</blockquote>
+<hr>
+<h2 id="4--command-substitution--arithmetic">4. 🔢 Command Substitution &amp; Arithmetic</h2>
+<pre><code class="language-bash">today=$(date +%F)            # capture command output
+files=$(ls | wc -l)
+echo &quot;There are $files files as of $today&quot;
+
+count=$(( 3 + 4 * 2 ))       # arithmetic: 11
+(( count++ ))                # increment
+if (( count &gt; 10 )); then echo big; fi
+</code></pre>
+<ul>
+<li><code>$( ... )</code> — <strong>command substitution</strong> (preferred over backticks; nests cleanly).</li>
+<li><code>$(( ... ))</code> — <strong>integer arithmetic</strong>. For floats use <code>bc</code> or <code>awk</code>.</li>
+</ul>
+<hr>
+<h2 id="5--conditionals">5. 🔀 Conditionals</h2>
+<pre><code class="language-bash">if [[ &quot;$age&quot; -ge 18 ]]; then
+  echo &quot;adult&quot;
+elif [[ -z &quot;$age&quot; ]]; then
+  echo &quot;no age given&quot;
+else
+  echo &quot;minor&quot;
+fi
+
+# case
+case &quot;$1&quot; in
+  start) echo &quot;starting&quot; ;;
+  stop)  echo &quot;stopping&quot; ;;
+  *)     echo &quot;usage: $0 {start|stop}&quot; ;;
+esac
+</code></pre>
+<p><strong><code>[[ ]]</code> test operators:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Numbers</th>
+<th>Strings</th>
+<th>Files</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-eq -ne -lt -le -gt -ge</code></td>
+<td><code>=</code> <code>!=</code> <code>-z</code> (empty) <code>-n</code> (non-empty)</td>
+<td><code>-f</code> (file) <code>-d</code> (dir) <code>-e</code> (exists) <code>-r/-w/-x</code> (perms)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Prefer <strong><code>[[ ]]</code></strong> (Bash) over <code>[ ]</code> (POSIX <code>test</code>) — it&#39;s safer with strings, supports <code>&amp;&amp;</code>/<code>||</code> and <code>=~</code> regex, and doesn&#39;t need as much quoting.</p>
+</blockquote>
+<hr>
+<h2 id="6--loops">6. 🔁 Loops</h2>
+<pre><code class="language-bash">for f in *.log; do            # iterate files/words
+  echo &quot;processing $f&quot;
+done
+
+for i in {1..5}; do echo &quot;$i&quot;; done      # range
+for ((i=0; i&lt;5; i++)); do echo &quot;$i&quot;; done # C-style
+
+while read -r line; do         # read a file line by line
+  echo &quot;$line&quot;
+done &lt; input.txt
+
+until ping -c1 host &amp;&gt;/dev/null; do sleep 1; done   # until success
+</code></pre>
+<ul>
+<li><code>break</code> exits a loop; <code>continue</code> skips to the next iteration.</li>
+<li><code>read -r</code> prevents backslash mangling — always use <code>-r</code>.</li>
+</ul>
+<hr>
+<h2 id="7--functions">7. 🧩 Functions</h2>
+<pre><code class="language-bash">greet() {
+  local name=&quot;$1&quot;            # local — scope to the function
+  echo &quot;Hello, $name&quot;
+  return 0                   # exit status (0 = success), not a value
+}
+
+greet &quot;Bob&quot;                  # call it
+result=$(greet &quot;Carol&quot;)      # &quot;return&quot; data via stdout + capture
+</code></pre>
+<ul>
+<li>Functions <strong>return an exit status</strong> (0–255), not arbitrary values — to return data, <code>echo</code> it and capture with <code>$( )</code>.</li>
+<li>Use <strong><code>local</code></strong> for variables so they don&#39;t leak into the global scope.</li>
+</ul>
+<hr>
+<h2 id="8--arguments--special-variables">8. 🎰 Arguments &amp; Special Variables</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$0</code></td>
+<td>Script name</td>
+</tr>
+<tr>
+<td><code>$1, $2, …</code></td>
+<td>Positional arguments</td>
+</tr>
+<tr>
+<td><code>$#</code></td>
+<td>Number of arguments</td>
+</tr>
+<tr>
+<td><code>$@</code></td>
+<td>All args (as separate words — quote it: <code>&quot;$@&quot;</code>)</td>
+</tr>
+<tr>
+<td><code>$*</code></td>
+<td>All args (as one string)</td>
+</tr>
+<tr>
+<td><code>$?</code></td>
+<td>Exit status of the <strong>last</strong> command</td>
+</tr>
+<tr>
+<td><code>$$</code></td>
+<td>Current script&#39;s PID</td>
+</tr>
+<tr>
+<td><code>$!</code></td>
+<td>PID of the last background command</td>
+</tr>
+</tbody></table>
+<pre><code class="language-bash">if [[ $# -lt 1 ]]; then
+  echo &quot;usage: $0 &lt;name&gt;&quot; &gt;&amp;2
+  exit 1
+fi
+for arg in &quot;$@&quot;; do echo &quot;$arg&quot;; done
+</code></pre>
+<hr>
+<h2 id="9--io--redirection">9. 📤 I/O &amp; Redirection</h2>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&gt;</code></td>
+<td>Redirect stdout to a file (overwrite)</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>Append stdout to a file</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>Read stdin from a file</td>
+</tr>
+<tr>
+<td><code>2&gt;</code></td>
+<td>Redirect stderr</td>
+</tr>
+<tr>
+<td><code>2&gt;&amp;1</code></td>
+<td>Send stderr to wherever stdout goes</td>
+</tr>
+<tr>
+<td><code>&amp;&gt;file</code></td>
+<td>Both stdout + stderr to a file</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>Pipe stdout of one command into stdin of the next</td>
+</tr>
+</tbody></table>
+<pre><code class="language-bash">command &gt; out.log 2&gt;&amp;1        # capture everything
+grep ERROR log | wc -l        # pipe
+cat &lt;&lt;&#39;EOF&#39; &gt; config.txt      # here-document (literal block)
+key=value
+host=localhost
+EOF
+echo &quot;data&quot; | tee file.txt     # write to file AND stdout
+</code></pre>
+<blockquote>
+<p><code>/dev/null</code> is the bit-bucket: <code>cmd &amp;&gt;/dev/null</code> discards all output. <code>1</code> = stdout, <code>2</code> = stderr.</p>
+</blockquote>
+<hr>
+<h2 id="10--parameter-expansion--strings">10. ✂️ Parameter Expansion &amp; Strings</h2>
+<p>Powerful built-in string manipulation (no external tools needed):</p>
+<pre><code class="language-bash">file=&quot;report.txt&quot;
+echo &quot;${#file}&quot;          # length: 10
+echo &quot;${file%.txt}&quot;      # strip suffix → report
+echo &quot;${file##*.}&quot;       # extension → txt
+echo &quot;${file/report/summary}&quot;   # replace → summary.txt
+echo &quot;${name:-default}&quot;  # use &#39;default&#39; if name is unset/empty
+echo &quot;${name:=def}&quot;      # assign default if unset
+echo &quot;${path:0:4}&quot;       # substring
+echo &quot;${var^^}&quot;          # uppercase  ${var,,} = lowercase
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>${v:-x}</code></td>
+<td>Default if unset/empty</td>
+</tr>
+<tr>
+<td><code>${v:?msg}</code></td>
+<td>Error &amp; exit if unset</td>
+</tr>
+<tr>
+<td><code>${v#pat}</code> / <code>${v##pat}</code></td>
+<td>Trim shortest/longest <strong>prefix</strong></td>
+</tr>
+<tr>
+<td><code>${v%pat}</code> / <code>${v%%pat}</code></td>
+<td>Trim shortest/longest <strong>suffix</strong></td>
+</tr>
+<tr>
+<td><code>${v/a/b}</code> / <code>${v//a/b}</code></td>
+<td>Replace first / all</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="11--arrays">11. 🗂️ Arrays</h2>
+<pre><code class="language-bash">arr=(apple banana cherry)     # indexed array
+echo &quot;${arr[0]}&quot;              # apple
+echo &quot;${arr[@]}&quot;             # all elements
+echo &quot;${#arr[@]}&quot;            # length: 3
+arr+=(date)                   # append
+for x in &quot;${arr[@]}&quot;; do echo &quot;$x&quot;; done
+
+declare -A map                # associative array (Bash 4+)
+map[name]=&quot;Alice&quot;; map[role]=&quot;dev&quot;
+echo &quot;${map[name]}&quot;
+for k in &quot;${!map[@]}&quot;; do echo &quot;$k=${map[$k]}&quot;; done
+</code></pre>
+<blockquote>
+<p>Always expand arrays as <strong><code>&quot;${arr[@]}&quot;</code></strong> (quoted) to preserve elements with spaces.</p>
+</blockquote>
+<hr>
+<h2 id="12--exit-codes--error-handling">12. 🛡️ Exit Codes &amp; Error Handling</h2>
+<ul>
+<li>Every command returns an <strong>exit code</strong>: <strong>0 = success</strong>, non-zero = failure (stored in <code>$?</code>).</li>
+<li>Make scripts <strong>fail safely</strong> with the &quot;unofficial strict mode&quot;:</li>
+</ul>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -euo pipefail
+# -e  exit on any command failure
+# -u  error on use of an unset variable
+# -o pipefail  a pipeline fails if ANY stage fails
+
+trap &#39;echo &quot;error on line $LINENO&quot; &gt;&amp;2&#39; ERR   # run on error
+trap &#39;rm -f &quot;$tmp&quot;&#39; EXIT                        # cleanup on exit
+
+cmd1 &amp;&amp; cmd2        # run cmd2 only if cmd1 succeeded
+cmd1 || echo &quot;fail&quot; # run only if cmd1 failed
+mycommand || exit 1 # propagate failure
+</code></pre>
+<blockquote>
+<p><code>set -euo pipefail</code> + <code>trap</code> is the standard safety harness — without it, scripts silently continue after errors and use empty unset variables.</p>
+</blockquote>
+<hr>
+<h2 id="13--essential-text-tools">13. 🔧 Essential Text Tools</h2>
+<p>Bash orchestrates these constantly:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>grep</code></td>
+<td>Search lines by pattern (<code>grep -r &#39;ERROR&#39; .</code>)</td>
+</tr>
+<tr>
+<td><code>sed</code></td>
+<td>Stream edit / substitute (<code>sed &#39;s/old/new/g&#39;</code>)</td>
+</tr>
+<tr>
+<td><code>awk</code></td>
+<td>Column/field processing (<code>awk &#39;{print $1}&#39;</code>)</td>
+</tr>
+<tr>
+<td><code>cut</code> / <code>sort</code> / <code>uniq</code> / <code>wc</code></td>
+<td>Slice / sort / dedupe / count</td>
+</tr>
+<tr>
+<td><code>find</code></td>
+<td>Locate files (<code>find . -name &#39;*.log&#39; -mtime +7</code>)</td>
+</tr>
+<tr>
+<td><code>xargs</code></td>
+<td>Turn input into args (`find . -name &#39;*.tmp&#39;</td>
+</tr>
+<tr>
+<td><code>tr</code></td>
+<td>Translate/delete chars</td>
+</tr>
+<tr>
+<td><code>curl</code> / <code>jq</code></td>
+<td>HTTP + JSON parsing</td>
+</tr>
+</tbody></table>
+<pre><code class="language-bash"># count error lines per file, top 5
+grep -c ERROR *.log | sort -t: -k2 -nr | head -5
+</code></pre>
+<hr>
+<h2 id="14--best-practices">14. ✅ Best Practices</h2>
+<ul>
+<li>Start with <strong><code>set -euo pipefail</code></strong> and a <code>trap</code> for cleanup.</li>
+<li><strong>Always quote</strong> variables (<code>&quot;$var&quot;</code>, <code>&quot;$@&quot;</code>, <code>&quot;${arr[@]}&quot;</code>).</li>
+<li>Prefer <strong><code>[[ ]]</code></strong> over <code>[ ]</code>, and <strong><code>$( )</code></strong> over backticks.</li>
+<li>Use <strong><code>local</code></strong> in functions; check args (<code>$#</code>) and <code>exit 1</code> with a usage message on bad input.</li>
+<li>Write errors to <strong>stderr</strong> (<code>&gt;&amp;2</code>); use meaningful <strong>exit codes</strong>.</li>
+<li>Run <strong><code>shellcheck</code></strong> (a linter) on every script — it catches the common footguns.</li>
+<li>Use <code>read -r</code>; avoid parsing <code>ls</code> (use globs/<code>find</code>); quote command substitutions.</li>
+<li>Keep it small — if it grows complex logic/data structures, <strong>switch to Python</strong>.</li>
+</ul>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Bash = automation glue</strong> that orchestrates other commands; great for short scripts, not heavy logic.</li>
+<li><strong>Shebang</strong> + <code>chmod +x</code> to run; comment with <code>#</code>; trace with <code>bash -x</code>.</li>
+<li><strong>Quote everything</strong> (<code>&quot;$var&quot;</code>) — unquoted values split on spaces/globs (the #1 bug).</li>
+<li><code>$( )</code> captures output; <code>$(( ))</code> does integer math; <code>[[ ]]</code> tests conditions.</li>
+<li>Loops: <code>for</code> / <code>while read -r</code> / <code>until</code>. Functions return an <strong>exit status</strong>; &quot;return&quot; data via stdout.</li>
+<li><strong>Special vars:</strong> <code>$1</code>/<code>$@</code>/<code>$#</code>/<code>$?</code>/<code>$0</code>. Redirect with <code>&gt;</code> <code>&gt;&gt;</code> <code>2&gt;&amp;1</code> <code>|</code>; <code>&amp;&gt;/dev/null</code> discards.</li>
+<li><strong>Parameter expansion</strong> (<code>${v%.txt}</code>, <code>${v:-default}</code>) does strings without external tools.</li>
+<li><strong><code>set -euo pipefail</code> + <code>trap</code></strong> = safety harness; <strong>0 = success</strong>; run <strong>shellcheck</strong>.</li>
+</ul>
+<hr>
+<h2 id="16--common-interview-questions">16. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Bash:</p>
+<ul>
+<li><strong>Q: What does the shebang do?</strong> — The <code>#!</code> line picks the interpreter that runs the script (e.g. <code>#!/usr/bin/env bash</code>).</li>
+<li><strong>Q: Single vs double quotes?</strong> — Double quotes expand <code>$variables</code>/<code>$(...)</code>; single quotes are fully literal (no expansion).</li>
+<li><strong>Q: Why quote variables?</strong> — Unquoted values undergo word-splitting and globbing, so a value with spaces breaks into multiple arguments.</li>
+<li><strong>Q: What does <code>$?</code> hold?</strong> — The exit status of the last command (0 = success, non-zero = failure).</li>
+<li><strong>Q: <code>[ ]</code> vs <code>[[ ]]</code>?</strong> — <code>[[ ]]</code> is the Bash test: safer with strings/empty vars, supports <code>&amp;&amp;</code>, <code>||</code>, and <code>=~</code> regex.</li>
+<li><strong>Q: What does <code>set -euo pipefail</code> do?</strong> — Exit on error (<code>-e</code>), error on unset variables (<code>-u</code>), and fail a pipeline if any stage fails (<code>pipefail</code>).</li>
+<li><strong>Q: <code>$@</code> vs <code>$*</code>?</strong> — <code>&quot;$@&quot;</code> expands each argument as a separate quoted word (almost always what you want); <code>&quot;$*&quot;</code> joins them into one string.</li>
+<li><strong>Q: How does a function &quot;return&quot; a value?</strong> — <code>return</code> sets only the exit status (0–255); to return data, <code>echo</code> it and capture with <code>$(...)</code>.</li>
+<li><strong>Q: How do you redirect stderr to stdout?</strong> — <code>2&gt;&amp;1</code> (order matters: <code>&gt; file 2&gt;&amp;1</code>).</li>
+<li><strong>Q: Command substitution syntax?</strong> — <code>$(command)</code> (preferred) or legacy backticks; captures the command&#39;s stdout.</li>
+<li><strong>Q: How do you debug a script?</strong> — <code>bash -x script.sh</code> to trace, and run <code>shellcheck</code> to lint for common mistakes.</li>
+<li><strong>Q: Bash vs Python — when?</strong> — Bash for short command orchestration/glue; Python when you need real data structures, complex logic, or maintainability.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Bash scripting.</em></p>
+</div>
+</main></body></html>
