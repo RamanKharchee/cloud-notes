@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linux & Commands — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNEQ0RDREIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+TGludXg8L3RpdGxlPjxwYXRoIGQ9Ik0xMi41MDQgMGMtLjE1NSAwLS4zMTUuMDA4LS40OC4wMjEtNC4yMjYuMzMzLTMuMTA1IDQuODA3LTMuMTcgNi4yOTgtLjA3NiAxLjA5Mi0uMyAxLjk1My0xLjA1IDMuMDItLjg4NSAxLjA1MS0yLjEyNyAyLjc1LTIuNzE2IDQuNTIxLS4yNzguODMyLS40MSAxLjY4NC0uMjg3IDIuNDg5YS40MjQuNDI0IDAgMDAtLjExLjEzNWMtLjI2LjI2OC0uNDUuNi0uNjYzLjgzOS0uMTk5LjE5OS0uNDg1LjI2Ny0uNzk3LjQtLjMxMy4xMzYtLjY1OC4yNjktLjg2NC42OC0uMDkuMTg5LS4xMzYuMzk0LS4xMzIuNjAyIDAgLjE5OS4wMjcuNC4wNTUuNTM2LjA1OC4zOTkuMTE2LjcyOC4wNC45Ny0uMjQ5LjY4LS4yOCAxLjE0NS0uMTA2IDEuNDg0LjE3NC4zMzQuNTM1LjQ3Ljk0LjYwMS44MS4yIDEuOTEuMTM1IDIuNzc0LjYuOTI2LjQ2NiAxLjg2Ni42NyAyLjYxNi40Ny41MjYtLjExNi45Ny0uNDY0IDEuMjA4LS45NDYuNTg3LS4wMDMgMS4yMy0uMjY5IDIuMjYtLjMzNC42OTktLjA1OCAxLjU3NC4yNjcgMi41NzcuMi4wMjUuMTM0LjA2My4xOTguMTE0LjMzM2wuMDAzLjAwM2MuMzkxLjc3OCAxLjExMyAxLjEzMiAxLjg4NCAxLjA3MS43NzEtLjA2IDEuNTkyLS41MzYgMi4yNTctMS4zMDYuNjMxLS43NjUgMS42ODMtMS4wODQgMi4zNzgtMS41MDMuMzQ4LS4xOTkuNjI5LS40NjkuNjQ5LS44NTMuMDIzLS40LS4yLS44MTEtLjcxNC0xLjM3NnYtLjA5N2wtLjAwMy0uMDAzYy0uMTctLjItLjI1LS41MzUtLjMzOC0uOTI2LS4wODUtLjQwMS0uMTgyLS43ODYtLjQ5Mi0xLjA0NmgtLjAwM2MtLjA1OS0uMDU0LS4xMjMtLjA2Ny0uMTg4LS4xMzVhLjM1Ny4zNTcgMCAwMC0uMTktLjA2NGMuNDMxLTEuMjc4LjI2NC0yLjU1LS4xNzMtMy42OTQtLjUzMy0xLjQxLTEuNDY1LTIuNjM4LTIuMTc1LTMuNDgzLS43OTYtMS4wMDUtMS41NzYtMS45NTctMS41Ni0zLjM2OC4wMjYtMi4xNTIuMjM2LTYuMTMzLTMuNTQ0LTYuMTM5em0uNTI5IDMuNDA1aC4wMTNjLjIxMyAwIC4zOTYuMDYyLjU4NC4xOTguMTkuMTM1LjMzLjMzMi40MzguNTMzLjEwNS4yNTkuMTU4LjQ1OS4xNjYuNzI0IDAtLjAyLjAwNi0uMDQuMDA2LS4wNnYuMTA1YS4wODYuMDg2IDAgMDEtLjAwNC0uMDIxbC0uMDA0LS4wMjRhMS44MDcgMS44MDcgMCAwMS0uMTUuNzA2Ljk1My45NTMgMCAwMS0uMjEzLjMzNS43MS43MSAwIDAwLS4wODgtLjA0MmMtLjEwNC0uMDQ1LS4xOTgtLjA2NC0uMjg0LS4xMzNhMS4zMTIgMS4zMTIgMCAwMC0uMjItLjA2NmMuMDUtLjA2LjE0Ni0uMTMzLjE4My0uMTk4LjA1My0uMTI4LjA4Mi0uMjY0LjA4OC0uNDAydi0uMDJhMS4yMSAxLjIxIDAgMDAtLjA2MS0uNGMtLjA0NS0uMTM0LS4xMDEtLjItLjE4My0uMzMzLS4wODQtLjA2Ni0uMTY3LS4xMzItLjI2Ny0uMTMyaC0uMDE2Yy0uMDkzIDAtLjE3Ni4wMy0uMjYyLjEzMmEuOC44IDAgMDAtLjIwNS4zMzQgMS4xOCAxLjE4IDAgMDAtLjA5LjR2LjAxOWMuMDAyLjA4OS4wMDguMTc5LjAyLjI2Ny0uMTkzLS4wNjctLjQzOC0uMTM1LS42MDctLjIwMmExLjYzNSAxLjYzNSAwIDAxLS4wMTgtLjJ2LS4wMmExLjc3MiAxLjc3MiAwIDAxLjE1LS43NjhjLjA4Mi0uMjIuMjMyLS40MDYuNDMtLjUzM2EuOTg1Ljk4NSAwIDAxLjU5NC0uMnptLTIuOTYyLjA1OWguMDM2Yy4xNDIgMCAuMjcuMDQ4LjM5OS4xMzUuMTQ2LjEyOS4yNjQuMjg4LjM0NC40NjUuMDkuMTk5LjE0LjQuMTUzLjY2N3YuMDA0Yy4wMDcuMTM0LjAwNi4yLS4wMDIuMjY2di4wOGMtLjAzLjAwNy0uMDU2LjAxOC0uMDgzLjAyNC0uMTUyLjA1NS0uMjc0LjEzNS0uMzkzLjIuMDEyLS4wOS4wMTMtLjE4LjAwMy0uMjY3di0uMDE1Yy0uMDEyLS4xMzMtLjA0LS4yLS4wODItLjMzM2EuNjEzLjYxMyAwIDAwLS4xNjYtLjI2Ny4yNDguMjQ4IDAgMDAtLjE4My0uMDY0aC0uMDIxYy0uMDcxLjAwNi0uMTMuMDQtLjE4Ni4xMzJhLjU1Mi41NTIgMCAwMC0uMTIuMjcuOTQ0Ljk0NCAwIDAwLS4wMjMuMzN2LjAxNWMuMDEyLjEzNS4wMzcuMi4wOC4zMzQuMDQ2LjEzNC4wOTguMi4xNjYuMjY4LjAxLjAwOS4wMi4wMTguMDM0LjAyNC0uMDcuMDU3LS4xMTcuMDctLjE3Ni4xMzZhLjMwNC4zMDQgMCAwMS0uMTMxLjA2OCAyLjYyIDIuNjIgMCAwMS0uMjc1LS40MDIgMS43NzIgMS43NzIgMCAwMS0uMTU1LS42NjcgMS43NTkgMS43NTkgMCAwMS4wOC0uNjY4IDEuNDMgMS40MyAwIDAxLjI4My0uNTM1Yy4xMjgtLjEzMy4yNi0uMi40MTgtLjJ6bTEuMzcgMS43MDZjLjMzMiAwIC43MzMuMDY1IDEuMjE2LjM5OS4yOTMuMi41MjMuMjY5IDEuMDUyLjQ2OGguMDAzYy4yNTUuMTM2LjQwNS4yNjYuNDc4LjM5OXYtLjEzMWEuNTcxLjU3MSAwIDAxLjAxNi40N2MtLjEyMy4zMS0uNTE2LjY0My0xLjA2My44NDJ2LjAwMmMtLjI2OC4xMzUtLjUwMS4zMzMtLjc3NS40NjUtLjI3Ni4xMzUtLjU4OC4yOTItMS4wMTIuMjY3YTEuMTM5IDEuMTM5IDAgMDEtLjQ0OC0uMDY3IDMuNTY2IDMuNTY2IDAgMDEtLjMyMi0uMTk4Yy0uMTk1LS4xMzUtLjM2My0uMzMyLS42MTItLjQ2NXYtLjAwNWgtLjAwNWMtLjQtLjI0Ni0uNjE2LS41MTItLjY4Ni0uNzEtLjA3LS4yNjgtLjAwNS0uNDcuMTkzLS42LjIyNC0uMTM1LjM4LS4yNzEuNDgzLS4zMzYuMTA0LS4wNzQuMTQzLS4xMDIuMTc2LS4xMzFoLjAwMnYtLjAwM2MuMTY5LS4yMDIuNDM2LS40Ny44MzktLjYwMS4xMzktLjAzNi4yOTQtLjA2NS40NjYtLjA2NXptMi44IDIuMTQyYy4zNTggMS40MTcgMS4xOTYgMy40NzUgMS43MzUgNC40NzMuMjg2LjUzNC44NTUgMS42NTkgMS4xMDIgMy4wMjQuMTU2LS4wMDUuMzMuMDE4LjUxMy4wNjQuNjQ2LTEuNjcxLS41NDYtMy40NjctMS4wODktMy45NjYtLjIyLS4yLS4yMzItLjMzNS0uMTIzLS4zMzUuNTkuNTM0IDEuMzY1IDEuNTcyIDEuNjQ2IDIuNzU3LjEzLjUzNS4xNiAxLjEwNC4wMjEgMS42Ny4wNjcuMDI4LjEzNS4wNi4yMDUuMDY3IDEuMDMyLjUzNCAxLjQxMy45MzggMS4yMyAxLjUzN3YtLjA0M2MtLjA2LS4wMDMtLjEyIDAtLjE4IDBoLS4wMTZjLjE1MS0uNDY3LS4xODItLjgyNS0xLjA2NS0xLjIyNC0uOTE1LS40LTEuNjQ2LS4zMzYtMS43Ny40NjUtLjAwOC4wNDMtLjAxMy4wNjYtLjAxOC4xMzUtLjA2OC4wMjMtLjEzOS4wNTMtLjIwOS4wNjQtLjQzLjI2OC0uNjYyLjY2OS0uNzkzIDEuMTg3LS4xMy41MzMtLjE3IDEuMTU2LS4yMDUgMS44Njl2LjAwM2MtLjAyLjMzNC0uMTcuODM4LS4zMTkgMS4zNS0xLjUgMS4wNzItMy41OCAxLjUzOC01LjM0OC4zMzRhMi42NDUgMi42NDUgMCAwMC0uNDAyLS41MzMgMS40NSAxLjQ1IDAgMDAtLjI3NS0uMzMzYy4xODIgMCAuMzM4LS4wMy40NjUtLjA2N2EuNjE1LjYxNSAwIDAwLjMxNC0uMzM0Yy4xMDgtLjI2NyAwLS42OTctLjM0NS0xLjE2My0uMzQ1LS40NjctLjkzMS0uOTk1LTEuNzg4LTEuNTIxLS42My0uNC0uOTg2LS44Ny0xLjE1LTEuMzk2LS4xNjUtLjUzNC0uMTQzLTEuMDg1LS4wMTUtMS42NDUuMjQ1LTEuMDcuODczLTIuMTEgMS4yNzQtMi43NjMuMTA3LS4wNjUuMDM3LjEzNS0uNDA4Ljk3NC0uMzk2Ljc1MS0xLjE0IDIuNDk3LS4xMjIgMy44NTRhOC4xMjMgOC4xMjMgMCAwMS42NDctMi44NzZjLjU2NC0xLjI3OCAxLjc0My0zLjUwNCAxLjgzNi01LjI2OC4wNDguMDM2LjIxNy4xMzUuMjg5LjIwMi4yMTguMTMzLjM4LjMzMy41OS40NjUuMjEuMjAxLjQ3Ny4zMzUuODc2LjMzNS4wMzkuMDAzLjA3NS4wMDYuMTEuMDA2LjQxMiAwIC43My0uMTM0Ljk5Ny0uMjY4LjI5LS4xMzQuNTItLjMzNC43NC0uNGguMDA1Yy40NjctLjEzNS44MzUtLjQwMiAxLjA0NC0uN3ptMi4xODUgOC45NThjLjAzNy42LjM0MyAxLjI0NS44ODIgMS4zNzcuNTg4LjEzNCAxLjQzNC0uMzMzIDEuNzkxLS43NjVsLjIxMS0uMDFjLjMxNS0uMDA3LjU3Ny4wMS44NDcuMjY4bC4wMDMuMDAzYy4yMDguMTk5LjMwNS41My4zOTEuODc2LjA4NS40LjE1NC43OC40MDkgMS4wNjYuNDg2LjUyNy42NDUuOTA2LjYzNiAxLjE0bC4wMDMtLjAwN3YuMDE4bC0uMDAzLS4wMTJjLS4wMTUuMjYyLS4xODUuMzk2LS40OTguNTk1LS42My40MDEtMS43NDYuNzEyLTIuNDU3IDEuNTctLjYxOC43MzctMS4zNyAxLjE0LTIuMDM2IDEuMTkxLS42NjQuMDUzLTEuMjM3LS4yLTEuNTc0LS44OThsLS4wMDUtLjAwM2MtLjIxLS40LS4xMi0xLjAyNS4wNTYtMS42OS4xNzYtLjY2OC40MjgtMS4zNDQuNDYzLTEuODk3LjAzNy0uNzE0LjA3Ni0xLjMzNS4xOTUtMS44MTQuMTItLjQ2NS4zMDgtLjc5Ny42NDEtLjk4NGwuMDQ1LS4wMjJ6bS0xMC44MTQuMDQ5aC4wMWMuMDUzIDAgLjEwNS4wMDUuMTU3LjAxNC4zNzYuMDU1LjcwNi4zMzMgMS4wMjMuNzUybC45MSAxLjY2NC4wMDMuMDAzYy4yNDMuNTMzLjc1NCAxLjA2NCAxLjE4OSAxLjYzNy40MzQuNTk4Ljc3IDEuMTMxLjcyOSAxLjU3di4wMDZjLS4wNTcuNzQ0LS40OCAxLjE0OC0xLjEyNSAxLjI5NC0uNjQ1LjEzNS0xLjUyLjAwMi0yLjM5NS0uNDY0LS45NjgtLjUzNi0yLjExOC0uNDY5LTIuODU3LS42MDItLjM2OS0uMDY2LS42MS0uMi0uNzIzLS40LS4xMS0uMi0uMTEzLS42MDIuMTIzLTEuMjN2LS4wMDRsLjAwMi0uMDAzYy4xMTctLjMzNC4wMy0uNzUyLS4wMjctMS4xMTgtLjA1NS0uNDAxLS4wODMtLjcxLjA0My0uOTQuMTYtLjMzNC4zOTYtLjQuNjktLjUzMy4yOTQtLjEzNS42NC0uMjAyLjkxNS0uNDdoLjAwMnYtLjAwMmMuMjU2LS4yNjguNDQ1LS42MDEuNjY4LS44MzguMTktLjIwMS4zOC0uMzM2LjY2My0uMzM2em03LjE1OS05LjA3NGMtLjQzNS4yMDEtLjk0NS41MzUtMS40ODguNTM1LS41NDIgMC0uOTctLjI2Ny0xLjI4LS40NjYtLjE1NC0uMTM0LS4yOC0uMjY4LS4zNzMtLjMzNS0uMTY0LS4xMzQtLjE0NC0uMzMzLS4wNzQtLjMzMy4xMDkuMDE2LjEyOS4xMzQuMTk5LjIuMDk2LjA2Ni4yMTUuMi4zNi4zMzMuMjkyLjIuNjguNDY3IDEuMTY3LjQ2Ny40ODUgMCAxLjA1My0uMjY3IDEuMzk4LS40NjYuMTk1LS4xMzUuNDQ1LS4zMzQuNjQ4LS40NjcuMTU2LS4xMzYuMTQ5LS4yNjcuMjc5LS4yNjcuMTI4LjAxNi4wMzQuMTM0LS4xNDcuMzMyYTguMDk3IDguMDk3IDAgMDEtLjY5LjQ2OHptLTEuMDgyLTEuNTgzVjUuNjRjLS4wMDYtLjAyLjAxMy0uMDQyLjAyOS0uMDUuMDc0LS4wNDMuMTgtLjAyNy4yNi4wMDQuMDYzIDAgLjE2LjA2Ny4xNS4xMzUtLjAwNi4wNDktLjA4NS4wNjYtLjEzNS4wNjYtLjA1NSAwLS4wOTItLjA0My0uMTQxLS4wNjgtLjA1Mi0uMDE4LS4xNDYtLjAwOC0uMTYzLS4wNjV6bS0uNTUxIDBjLS4wMi4wNTgtLjExMy4wNDktLjE2Ni4wNjYtLjA0Ny4wMjUtLjA4Ni4wNjgtLjE0LjA2OC0uMDUgMC0uMTMtLjAyLS4xMzYtLjA2OC0uMDEtLjA2Ni4wODgtLjEzMy4xNS0uMTMzLjA4LS4wMzEuMTg0LS4wNDcuMjU5LS4wMDUuMDE5LjAwOS4wMzYuMDMuMDMuMDV2LjAyaC4wMDN6Ii8+PC9zdmc+">
+<style>
+  :root{--ac:#4D4D4D;--acd:#262626;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNEQ0RDREIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+TGludXg8L3RpdGxlPjxwYXRoIGQ9Ik0xMi41MDQgMGMtLjE1NSAwLS4zMTUuMDA4LS40OC4wMjEtNC4yMjYuMzMzLTMuMTA1IDQuODA3LTMuMTcgNi4yOTgtLjA3NiAxLjA5Mi0uMyAxLjk1My0xLjA1IDMuMDItLjg4NSAxLjA1MS0yLjEyNyAyLjc1LTIuNzE2IDQuNTIxLS4yNzguODMyLS40MSAxLjY4NC0uMjg3IDIuNDg5YS40MjQuNDI0IDAgMDAtLjExLjEzNWMtLjI2LjI2OC0uNDUuNi0uNjYzLjgzOS0uMTk5LjE5OS0uNDg1LjI2Ny0uNzk3LjQtLjMxMy4xMzYtLjY1OC4yNjktLjg2NC42OC0uMDkuMTg5LS4xMzYuMzk0LS4xMzIuNjAyIDAgLjE5OS4wMjcuNC4wNTUuNTM2LjA1OC4zOTkuMTE2LjcyOC4wNC45Ny0uMjQ5LjY4LS4yOCAxLjE0NS0uMTA2IDEuNDg0LjE3NC4zMzQuNTM1LjQ3Ljk0LjYwMS44MS4yIDEuOTEuMTM1IDIuNzc0LjYuOTI2LjQ2NiAxLjg2Ni42NyAyLjYxNi40Ny41MjYtLjExNi45Ny0uNDY0IDEuMjA4LS45NDYuNTg3LS4wMDMgMS4yMy0uMjY5IDIuMjYtLjMzNC42OTktLjA1OCAxLjU3NC4yNjcgMi41NzcuMi4wMjUuMTM0LjA2My4xOTguMTE0LjMzM2wuMDAzLjAwM2MuMzkxLjc3OCAxLjExMyAxLjEzMiAxLjg4NCAxLjA3MS43NzEtLjA2IDEuNTkyLS41MzYgMi4yNTctMS4zMDYuNjMxLS43NjUgMS42ODMtMS4wODQgMi4zNzgtMS41MDMuMzQ4LS4xOTkuNjI5LS40NjkuNjQ5LS44NTMuMDIzLS40LS4yLS44MTEtLjcxNC0xLjM3NnYtLjA5N2wtLjAwMy0uMDAzYy0uMTctLjItLjI1LS41MzUtLjMzOC0uOTI2LS4wODUtLjQwMS0uMTgyLS43ODYtLjQ5Mi0xLjA0NmgtLjAwM2MtLjA1OS0uMDU0LS4xMjMtLjA2Ny0uMTg4LS4xMzVhLjM1Ny4zNTcgMCAwMC0uMTktLjA2NGMuNDMxLTEuMjc4LjI2NC0yLjU1LS4xNzMtMy42OTQtLjUzMy0xLjQxLTEuNDY1LTIuNjM4LTIuMTc1LTMuNDgzLS43OTYtMS4wMDUtMS41NzYtMS45NTctMS41Ni0zLjM2OC4wMjYtMi4xNTIuMjM2LTYuMTMzLTMuNTQ0LTYuMTM5em0uNTI5IDMuNDA1aC4wMTNjLjIxMyAwIC4zOTYuMDYyLjU4NC4xOTguMTkuMTM1LjMzLjMzMi40MzguNTMzLjEwNS4yNTkuMTU4LjQ1OS4xNjYuNzI0IDAtLjAyLjAwNi0uMDQuMDA2LS4wNnYuMTA1YS4wODYuMDg2IDAgMDEtLjAwNC0uMDIxbC0uMDA0LS4wMjRhMS44MDcgMS44MDcgMCAwMS0uMTUuNzA2Ljk1My45NTMgMCAwMS0uMjEzLjMzNS43MS43MSAwIDAwLS4wODgtLjA0MmMtLjEwNC0uMDQ1LS4xOTgtLjA2NC0uMjg0LS4xMzNhMS4zMTIgMS4zMTIgMCAwMC0uMjItLjA2NmMuMDUtLjA2LjE0Ni0uMTMzLjE4My0uMTk4LjA1My0uMTI4LjA4Mi0uMjY0LjA4OC0uNDAydi0uMDJhMS4yMSAxLjIxIDAgMDAtLjA2MS0uNGMtLjA0NS0uMTM0LS4xMDEtLjItLjE4My0uMzMzLS4wODQtLjA2Ni0uMTY3LS4xMzItLjI2Ny0uMTMyaC0uMDE2Yy0uMDkzIDAtLjE3Ni4wMy0uMjYyLjEzMmEuOC44IDAgMDAtLjIwNS4zMzQgMS4xOCAxLjE4IDAgMDAtLjA5LjR2LjAxOWMuMDAyLjA4OS4wMDguMTc5LjAyLjI2Ny0uMTkzLS4wNjctLjQzOC0uMTM1LS42MDctLjIwMmExLjYzNSAxLjYzNSAwIDAxLS4wMTgtLjJ2LS4wMmExLjc3MiAxLjc3MiAwIDAxLjE1LS43NjhjLjA4Mi0uMjIuMjMyLS40MDYuNDMtLjUzM2EuOTg1Ljk4NSAwIDAxLjU5NC0uMnptLTIuOTYyLjA1OWguMDM2Yy4xNDIgMCAuMjcuMDQ4LjM5OS4xMzUuMTQ2LjEyOS4yNjQuMjg4LjM0NC40NjUuMDkuMTk5LjE0LjQuMTUzLjY2N3YuMDA0Yy4wMDcuMTM0LjAwNi4yLS4wMDIuMjY2di4wOGMtLjAzLjAwNy0uMDU2LjAxOC0uMDgzLjAyNC0uMTUyLjA1NS0uMjc0LjEzNS0uMzkzLjIuMDEyLS4wOS4wMTMtLjE4LjAwMy0uMjY3di0uMDE1Yy0uMDEyLS4xMzMtLjA0LS4yLS4wODItLjMzM2EuNjEzLjYxMyAwIDAwLS4xNjYtLjI2Ny4yNDguMjQ4IDAgMDAtLjE4My0uMDY0aC0uMDIxYy0uMDcxLjAwNi0uMTMuMDQtLjE4Ni4xMzJhLjU1Mi41NTIgMCAwMC0uMTIuMjcuOTQ0Ljk0NCAwIDAwLS4wMjMuMzN2LjAxNWMuMDEyLjEzNS4wMzcuMi4wOC4zMzQuMDQ2LjEzNC4wOTguMi4xNjYuMjY4LjAxLjAwOS4wMi4wMTguMDM0LjAyNC0uMDcuMDU3LS4xMTcuMDctLjE3Ni4xMzZhLjMwNC4zMDQgMCAwMS0uMTMxLjA2OCAyLjYyIDIuNjIgMCAwMS0uMjc1LS40MDIgMS43NzIgMS43NzIgMCAwMS0uMTU1LS42NjcgMS43NTkgMS43NTkgMCAwMS4wOC0uNjY4IDEuNDMgMS40MyAwIDAxLjI4My0uNTM1Yy4xMjgtLjEzMy4yNi0uMi40MTgtLjJ6bTEuMzcgMS43MDZjLjMzMiAwIC43MzMuMDY1IDEuMjE2LjM5OS4yOTMuMi41MjMuMjY5IDEuMDUyLjQ2OGguMDAzYy4yNTUuMTM2LjQwNS4yNjYuNDc4LjM5OXYtLjEzMWEuNTcxLjU3MSAwIDAxLjAxNi40N2MtLjEyMy4zMS0uNTE2LjY0My0xLjA2My44NDJ2LjAwMmMtLjI2OC4xMzUtLjUwMS4zMzMtLjc3NS40NjUtLjI3Ni4xMzUtLjU4OC4yOTItMS4wMTIuMjY3YTEuMTM5IDEuMTM5IDAgMDEtLjQ0OC0uMDY3IDMuNTY2IDMuNTY2IDAgMDEtLjMyMi0uMTk4Yy0uMTk1LS4xMzUtLjM2My0uMzMyLS42MTItLjQ2NXYtLjAwNWgtLjAwNWMtLjQtLjI0Ni0uNjE2LS41MTItLjY4Ni0uNzEtLjA3LS4yNjgtLjAwNS0uNDcuMTkzLS42LjIyNC0uMTM1LjM4LS4yNzEuNDgzLS4zMzYuMTA0LS4wNzQuMTQzLS4xMDIuMTc2LS4xMzFoLjAwMnYtLjAwM2MuMTY5LS4yMDIuNDM2LS40Ny44MzktLjYwMS4xMzktLjAzNi4yOTQtLjA2NS40NjYtLjA2NXptMi44IDIuMTQyYy4zNTggMS40MTcgMS4xOTYgMy40NzUgMS43MzUgNC40NzMuMjg2LjUzNC44NTUgMS42NTkgMS4xMDIgMy4wMjQuMTU2LS4wMDUuMzMuMDE4LjUxMy4wNjQuNjQ2LTEuNjcxLS41NDYtMy40NjctMS4wODktMy45NjYtLjIyLS4yLS4yMzItLjMzNS0uMTIzLS4zMzUuNTkuNTM0IDEuMzY1IDEuNTcyIDEuNjQ2IDIuNzU3LjEzLjUzNS4xNiAxLjEwNC4wMjEgMS42Ny4wNjcuMDI4LjEzNS4wNi4yMDUuMDY3IDEuMDMyLjUzNCAxLjQxMy45MzggMS4yMyAxLjUzN3YtLjA0M2MtLjA2LS4wMDMtLjEyIDAtLjE4IDBoLS4wMTZjLjE1MS0uNDY3LS4xODItLjgyNS0xLjA2NS0xLjIyNC0uOTE1LS40LTEuNjQ2LS4zMzYtMS43Ny40NjUtLjAwOC4wNDMtLjAxMy4wNjYtLjAxOC4xMzUtLjA2OC4wMjMtLjEzOS4wNTMtLjIwOS4wNjQtLjQzLjI2OC0uNjYyLjY2OS0uNzkzIDEuMTg3LS4xMy41MzMtLjE3IDEuMTU2LS4yMDUgMS44Njl2LjAwM2MtLjAyLjMzNC0uMTcuODM4LS4zMTkgMS4zNS0xLjUgMS4wNzItMy41OCAxLjUzOC01LjM0OC4zMzRhMi42NDUgMi42NDUgMCAwMC0uNDAyLS41MzMgMS40NSAxLjQ1IDAgMDAtLjI3NS0uMzMzYy4xODIgMCAuMzM4LS4wMy40NjUtLjA2N2EuNjE1LjYxNSAwIDAwLjMxNC0uMzM0Yy4xMDgtLjI2NyAwLS42OTctLjM0NS0xLjE2My0uMzQ1LS40NjctLjkzMS0uOTk1LTEuNzg4LTEuNTIxLS42My0uNC0uOTg2LS44Ny0xLjE1LTEuMzk2LS4xNjUtLjUzNC0uMTQzLTEuMDg1LS4wMTUtMS42NDUuMjQ1LTEuMDcuODczLTIuMTEgMS4yNzQtMi43NjMuMTA3LS4wNjUuMDM3LjEzNS0uNDA4Ljk3NC0uMzk2Ljc1MS0xLjE0IDIuNDk3LS4xMjIgMy44NTRhOC4xMjMgOC4xMjMgMCAwMS42NDctMi44NzZjLjU2NC0xLjI3OCAxLjc0My0zLjUwNCAxLjgzNi01LjI2OC4wNDguMDM2LjIxNy4xMzUuMjg5LjIwMi4yMTguMTMzLjM4LjMzMy41OS40NjUuMjEuMjAxLjQ3Ny4zMzUuODc2LjMzNS4wMzkuMDAzLjA3NS4wMDYuMTEuMDA2LjQxMiAwIC43My0uMTM0Ljk5Ny0uMjY4LjI5LS4xMzQuNTItLjMzNC43NC0uNGguMDA1Yy40NjctLjEzNS44MzUtLjQwMiAxLjA0NC0uN3ptMi4xODUgOC45NThjLjAzNy42LjM0MyAxLjI0NS44ODIgMS4zNzcuNTg4LjEzNCAxLjQzNC0uMzMzIDEuNzkxLS43NjVsLjIxMS0uMDFjLjMxNS0uMDA3LjU3Ny4wMS44NDcuMjY4bC4wMDMuMDAzYy4yMDguMTk5LjMwNS41My4zOTEuODc2LjA4NS40LjE1NC43OC40MDkgMS4wNjYuNDg2LjUyNy42NDUuOTA2LjYzNiAxLjE0bC4wMDMtLjAwN3YuMDE4bC0uMDAzLS4wMTJjLS4wMTUuMjYyLS4xODUuMzk2LS40OTguNTk1LS42My40MDEtMS43NDYuNzEyLTIuNDU3IDEuNTctLjYxOC43MzctMS4zNyAxLjE0LTIuMDM2IDEuMTkxLS42NjQuMDUzLTEuMjM3LS4yLTEuNTc0LS44OThsLS4wMDUtLjAwM2MtLjIxLS40LS4xMi0xLjAyNS4wNTYtMS42OS4xNzYtLjY2OC40MjgtMS4zNDQuNDYzLTEuODk3LjAzNy0uNzE0LjA3Ni0xLjMzNS4xOTUtMS44MTQuMTItLjQ2NS4zMDgtLjc5Ny42NDEtLjk4NGwuMDQ1LS4wMjJ6bS0xMC44MTQuMDQ5aC4wMWMuMDUzIDAgLjEwNS4wMDUuMTU3LjAxNC4zNzYuMDU1LjcwNi4zMzMgMS4wMjMuNzUybC45MSAxLjY2NC4wMDMuMDAzYy4yNDMuNTMzLjc1NCAxLjA2NCAxLjE4OSAxLjYzNy40MzQuNTk4Ljc3IDEuMTMxLjcyOSAxLjU3di4wMDZjLS4wNTcuNzQ0LS40OCAxLjE0OC0xLjEyNSAxLjI5NC0uNjQ1LjEzNS0xLjUyLjAwMi0yLjM5NS0uNDY0LS45NjgtLjUzNi0yLjExOC0uNDY5LTIuODU3LS42MDItLjM2OS0uMDY2LS42MS0uMi0uNzIzLS40LS4xMS0uMi0uMTEzLS42MDIuMTIzLTEuMjN2LS4wMDRsLjAwMi0uMDAzYy4xMTctLjMzNC4wMy0uNzUyLS4wMjctMS4xMTgtLjA1NS0uNDAxLS4wODMtLjcxLjA0My0uOTQuMTYtLjMzNC4zOTYtLjQuNjktLjUzMy4yOTQtLjEzNS42NC0uMjAyLjkxNS0uNDdoLjAwMnYtLjAwMmMuMjU2LS4yNjguNDQ1LS42MDEuNjY4LS44MzguMTktLjIwMS4zOC0uMzM2LjY2My0uMzM2em03LjE1OS05LjA3NGMtLjQzNS4yMDEtLjk0NS41MzUtMS40ODguNTM1LS41NDIgMC0uOTctLjI2Ny0xLjI4LS40NjYtLjE1NC0uMTM0LS4yOC0uMjY4LS4zNzMtLjMzNS0uMTY0LS4xMzQtLjE0NC0uMzMzLS4wNzQtLjMzMy4xMDkuMDE2LjEyOS4xMzQuMTk5LjIuMDk2LjA2Ni4yMTUuMi4zNi4zMzMuMjkyLjIuNjguNDY3IDEuMTY3LjQ2Ny40ODUgMCAxLjA1My0uMjY3IDEuMzk4LS40NjYuMTk1LS4xMzUuNDQ1LS4zMzQuNjQ4LS40NjcuMTU2LS4xMzYuMTQ5LS4yNjcuMjc5LS4yNjcuMTI4LjAxNi4wMzQuMTM0LS4xNDcuMzMyYTguMDk3IDguMDk3IDAgMDEtLjY5LjQ2OHptLTEuMDgyLTEuNTgzVjUuNjRjLS4wMDYtLjAyLjAxMy0uMDQyLjAyOS0uMDUuMDc0LS4wNDMuMTgtLjAyNy4yNi4wMDQuMDYzIDAgLjE2LjA2Ny4xNS4xMzUtLjAwNi4wNDktLjA4NS4wNjYtLjEzNS4wNjYtLjA1NSAwLS4wOTItLjA0My0uMTQxLS4wNjgtLjA1Mi0uMDE4LS4xNDYtLjAwOC0uMTYzLS4wNjV6bS0uNTUxIDBjLS4wMi4wNTgtLjExMy4wNDktLjE2Ni4wNjYtLjA0Ny4wMjUtLjA4Ni4wNjgtLjE0LjA2OC0uMDUgMC0uMTMtLjAyLS4xMzYtLjA2OC0uMDEtLjA2Ni4wODgtLjEzMy4xNS0uMTMzLjA4LS4wMzEuMTg0LS4wNDcuMjU5LS4wMDUuMDE5LjAwOS4wMzYuMDMuMDMuMDV2LjAyaC4wMDN6Ii8+PC9zdmc+" width="110" alt="Linux logo" /><h1 id="linux--commands--complete-notes">Linux &amp; Commands — Complete Notes</h1>
+<p><strong>The OS of servers</strong> · Filesystem, permissions, processes &amp; the command line</p>
+<p><img src="https://img.shields.io/badge/Topic-Linux-4D4D4D?style=flat-square&logo=linux&logoColor=white" alt="Type">
+<img src="https://img.shields.io/badge/Runs-Most%20servers-4D4D4D?style=flat-square" alt="Use">
+<img src="https://img.shields.io/badge/Interface-Command%20line-blue?style=flat-square" alt="Shell">
+<img src="https://img.shields.io/badge/DevOps-Essential-lightgrey?style=flat-square" alt="Skill"></p>
+<p><em>A reader-friendly, all-in-one reference for Linux and its commands.</em></p>
+<p><a class="dl-btn" href="linux-notes.pdf" download="linux-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-linux">What is Linux</a></li>
+<li><a href="#2--filesystem-hierarchy">Filesystem Hierarchy</a></li>
+<li><a href="#3--navigation--files">Navigation &amp; Files</a></li>
+<li><a href="#4--viewing--searching-files">Viewing &amp; Searching Files</a></li>
+<li><a href="#5--permissions--ownership">Permissions &amp; Ownership</a></li>
+<li><a href="#6--users--groups">Users &amp; Groups</a></li>
+<li><a href="#7--processes--jobs">Processes &amp; Jobs</a></li>
+<li><a href="#8--package-management">Package Management</a></li>
+<li><a href="#9--networking-commands">Networking Commands</a></li>
+<li><a href="#10--disk--system-info">Disk &amp; System Info</a></li>
+<li><a href="#11--text-processing--pipes">Text Processing &amp; Pipes</a></li>
+<li><a href="#12--services-systemd">Services (systemd)</a></li>
+<li><a href="#13--archives--compression">Archives &amp; Compression</a></li>
+<li><a href="#14--command-cheat-sheet">Command Cheat-Sheet</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#16--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-linux">1. 🐧 What is Linux</h2>
+<p>Linux is an <strong>open-source, Unix-like operating system kernel</strong> that, with GNU tools, powers most <strong>servers, cloud instances, containers, and Android</strong>. You interact with it mainly through the <strong>shell</strong> (command line). Distributions (Ubuntu, Debian, RHEL, Amazon Linux, Alpine…) bundle the kernel with tools and a package manager.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> in Linux <strong>&quot;everything is a file&quot;</strong> — devices, processes, and configs are accessed as files/paths. You compose small single-purpose commands with <strong>pipes</strong> to do powerful things. Mastering the CLI is the core DevOps skill.</p>
+</blockquote>
+<p><strong>Common uses:</strong> servers, cloud (EC2), containers (Docker base images), CI runners, embedded, networking gear.</p>
+<hr>
+<h2 id="2--filesystem-hierarchy">2. 🗂️ Filesystem Hierarchy</h2>
+<p>One <strong>single tree</strong> rooted at <code>/</code> (no drive letters):</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/</code></td>
+<td>Root of everything</td>
+</tr>
+<tr>
+<td><code>/home</code></td>
+<td>User home directories (<code>/home/alice</code>)</td>
+</tr>
+<tr>
+<td><code>/etc</code></td>
+<td>System <strong>configuration</strong> files</td>
+</tr>
+<tr>
+<td><code>/var</code></td>
+<td>Variable data — <strong>logs</strong> (<code>/var/log</code>), spool, caches</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>Temporary files (cleared on reboot)</td>
+</tr>
+<tr>
+<td><code>/bin</code>, <code>/usr/bin</code></td>
+<td>Executables / commands</td>
+</tr>
+<tr>
+<td><code>/opt</code></td>
+<td>Optional / third-party software</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>Device files</td>
+</tr>
+<tr>
+<td><code>/proc</code>, <code>/sys</code></td>
+<td>Kernel/process info (virtual)</td>
+</tr>
+<tr>
+<td><code>/root</code></td>
+<td>The root user&#39;s home</td>
+</tr>
+<tr>
+<td><code>/mnt</code>, <code>/media</code></td>
+<td>Mount points for drives</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Paths are <strong>absolute</strong> (<code>/etc/hosts</code>, from root) or <strong>relative</strong> (<code>./script</code>, from the current dir). <code>~</code> = your home, <code>.</code> = here, <code>..</code> = parent.</p>
+</blockquote>
+<hr>
+<h2 id="3--navigation--files">3. 📁 Navigation &amp; Files</h2>
+<pre><code class="language-bash">pwd                 # print working directory
+ls -lah             # list: long, all (hidden), human sizes
+cd /var/log         # change dir   (cd ~ = home, cd - = previous)
+tree                # directory tree
+
+mkdir -p a/b/c      # make dirs (and parents)
+touch file.txt      # create empty file / update timestamp
+cp -r src/ dst/     # copy (recursive for dirs)
+mv old new          # move / rename
+rm -rf dir/         # remove recursively + force  ⚠️ irreversible
+ln -s target link   # symbolic link
+find . -name &quot;*.log&quot; -mtime +7      # find logs older than 7 days
+find . -type f -size +100M          # files over 100MB
+</code></pre>
+<blockquote>
+<p>⚠️ <code>rm -rf</code> has no undo and no trash — double-check the path before running, especially with <code>sudo</code>.</p>
+</blockquote>
+<hr>
+<h2 id="4--viewing--searching-files">4. 👀 Viewing &amp; Searching Files</h2>
+<pre><code class="language-bash">cat file            # print whole file
+less file           # scroll (q to quit, / to search)
+head -n 20 file     # first 20 lines
+tail -n 50 file     # last 50 lines
+tail -f /var/log/syslog   # follow live (great for logs)
+wc -l file          # count lines
+
+grep &quot;ERROR&quot; app.log            # find matching lines
+grep -ri &quot;timeout&quot; /etc         # recursive, case-insensitive
+grep -n &quot;TODO&quot; *.py             # show line numbers
+nano file           # simple editor   (vim/vi = powerful, modal)
+</code></pre>
+<hr>
+<h2 id="5--permissions--ownership">5. 🔐 Permissions &amp; Ownership</h2>
+<p>Each file has permissions for <strong>user (owner) / group / others</strong>, each with <strong>read (r=4), write (w=2), execute (x=1)</strong>.</p>
+<pre><code>-rwxr-xr--   1 alice devs  ...
+ │└┬┘└┬┘└┬┘
+ │ u  g  o      u=rwx(7) g=r-x(5) o=r--(4)  →  chmod 754
+type
+</code></pre>
+<pre><code class="language-bash">chmod 755 script.sh     # rwxr-xr-x  (numeric)
+chmod +x script.sh      # add execute for all (symbolic)
+chmod u+w,o-r file      # user +write, others -read
+chown alice:devs file   # change owner:group
+chown -R alice dir/     # recursive
+sudo command            # run as root (superuser)
+umask                   # default permission mask
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Perms</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7</td>
+<td>rwx</td>
+<td>read+write+execute</td>
+</tr>
+<tr>
+<td>5</td>
+<td>r-x</td>
+<td>read+execute</td>
+</tr>
+<tr>
+<td>4</td>
+<td>r--</td>
+<td>read only</td>
+</tr>
+<tr>
+<td>6</td>
+<td>rw-</td>
+<td>read+write</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="6--users--groups">6. 👤 Users &amp; Groups</h2>
+<pre><code class="language-bash">whoami              # current user
+id                  # uid, gid, groups
+who / w             # who&#39;s logged in
+sudo useradd -m bob # create user (with home)
+sudo passwd bob     # set password
+sudo usermod -aG sudo bob   # add bob to &#39;sudo&#39; group
+sudo userdel -r bob # delete user + home
+su - bob            # switch user
+groups              # my groups
+</code></pre>
+<ul>
+<li><strong>root</strong> (uid 0) is the superuser; prefer <strong><code>sudo</code></strong> for one-off privileged commands over logging in as root.</li>
+<li>User info in <code>/etc/passwd</code>; groups in <code>/etc/group</code>; hashed passwords in <code>/etc/shadow</code>.</li>
+</ul>
+<hr>
+<h2 id="7--processes--jobs">7. ⚙️ Processes &amp; Jobs</h2>
+<pre><code class="language-bash">ps aux              # all processes (snapshot)
+ps aux | grep nginx # find a process
+top                 # live process monitor   (htop = nicer)
+kill 1234           # send SIGTERM to PID 1234 (graceful)
+kill -9 1234        # SIGKILL (force)  ⚠️ no cleanup
+pkill nginx         # kill by name
+killall firefox
+
+sleep 60 &amp;          # run in background (&amp;)
+jobs                # background jobs in this shell
+fg %1               # bring job 1 to foreground
+bg %1               # resume job 1 in background
+nohup ./long.sh &amp;   # keep running after logout
+Ctrl+C              # interrupt   Ctrl+Z = suspend
+</code></pre>
+<ul>
+<li><strong>Signals:</strong> <code>SIGTERM</code> (15, graceful, default) vs <code>SIGKILL</code> (9, force). Try TERM first.</li>
+<li>Each process has a <strong>PID</strong>; <code>$$</code> is the shell&#39;s PID, <code>$!</code> the last background PID.</li>
+</ul>
+<hr>
+<h2 id="8--package-management">8. 📦 Package Management</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Install</th>
+<th>Update</th>
+<th>Search</th>
+<th>Remove</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Debian/Ubuntu</strong> (<code>apt</code>)</td>
+<td><code>sudo apt install nginx</code></td>
+<td><code>sudo apt update &amp;&amp; sudo apt upgrade</code></td>
+<td><code>apt search x</code></td>
+<td><code>sudo apt remove nginx</code></td>
+</tr>
+<tr>
+<td><strong>RHEL/Amazon/Fedora</strong> (<code>dnf</code>/<code>yum</code>)</td>
+<td><code>sudo dnf install nginx</code></td>
+<td><code>sudo dnf upgrade</code></td>
+<td><code>dnf search x</code></td>
+<td><code>sudo dnf remove nginx</code></td>
+</tr>
+<tr>
+<td><strong>Alpine</strong> (<code>apk</code>)</td>
+<td><code>apk add nginx</code></td>
+<td><code>apk update &amp;&amp; apk upgrade</code></td>
+<td><code>apk search x</code></td>
+<td><code>apk del nginx</code></td>
+</tr>
+</tbody></table>
+<pre><code class="language-bash">sudo apt update              # refresh package index (do first)
+sudo apt install -y htop     # -y = assume yes
+dpkg -l | grep nginx         # list installed (Debian)
+which python3                # path of a command
+</code></pre>
+<hr>
+<h2 id="9--networking-commands">9. 🌐 Networking Commands</h2>
+<pre><code class="language-bash">ip addr             # interfaces &amp; IPs   (modern; old: ifconfig)
+ip route            # routing table
+ping -c4 google.com # connectivity test
+curl -I https://x.com         # HTTP headers   (wget = download)
+curl -s url | jq .            # fetch + parse JSON
+ss -tulpn           # listening ports/sockets (modern; old: netstat)
+dig example.com     # DNS lookup   (nslookup = alt)
+ssh user@host       # remote shell
+ssh -i key.pem ec2-user@1.2.3.4
+scp file user@host:/path      # secure copy
+rsync -avz src/ host:/dst/    # efficient sync
+nc -zv host 443     # test if a port is open
+</code></pre>
+<hr>
+<h2 id="10--disk--system-info">10. 💽 Disk &amp; System Info</h2>
+<pre><code class="language-bash">df -h               # disk space per filesystem (human)
+du -sh *            # size of each item here
+du -sh /var/log     # total size of a dir
+free -h             # memory usage
+lsblk               # block devices / disks
+mount / umount      # mount or unmount a filesystem
+uname -a            # kernel &amp; arch
+uptime              # load average + how long up
+cat /etc/os-release # which distro/version
+nproc               # number of CPUs
+date                # current date/time
+lsof -i :8080       # what&#39;s using port 8080
+</code></pre>
+<hr>
+<h2 id="11--text-processing--pipes">11. ✂️ Text Processing &amp; Pipes</h2>
+<p>The Unix superpower: <strong>pipe</strong> (<code>|</code>) the output of one command into the next.</p>
+<pre><code class="language-bash">cmd1 | cmd2                    # pipe stdout → stdin
+grep ERROR app.log | wc -l     # count error lines
+cat access.log | cut -d&#39; &#39; -f1 | sort | uniq -c | sort -nr | head
+#  ^read       ^col 1        ^sort  ^count uniq  ^by count  ^top
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>grep</code></td>
+<td>Filter lines by pattern</td>
+</tr>
+<tr>
+<td><code>sed</code></td>
+<td>Stream edit (<code>sed &#39;s/old/new/g&#39;</code>)</td>
+</tr>
+<tr>
+<td><code>awk</code></td>
+<td>Field/column processing (<code>awk &#39;{print $1}&#39;</code>)</td>
+</tr>
+<tr>
+<td><code>cut</code></td>
+<td>Extract columns (<code>cut -d, -f2</code>)</td>
+</tr>
+<tr>
+<td><code>sort</code> / <code>uniq</code></td>
+<td>Sort / dedupe (<code>sort | uniq -c</code>)</td>
+</tr>
+<tr>
+<td><code>wc</code></td>
+<td>Count lines/words/bytes (<code>wc -l</code>)</td>
+</tr>
+<tr>
+<td><code>tr</code></td>
+<td>Translate/delete chars</td>
+</tr>
+<tr>
+<td><code>xargs</code></td>
+<td>Turn input into command args</td>
+</tr>
+<tr>
+<td><code>tee</code></td>
+<td>Write to a file <strong>and</strong> stdout</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Redirection: <code>&gt;</code> overwrite, <code>&gt;&gt;</code> append, <code>2&gt;</code> stderr, <code>2&gt;&amp;1</code> merge, <code>&amp;&gt;/dev/null</code> discard, <code>&lt;</code> read from file.</p>
+</blockquote>
+<hr>
+<h2 id="12--services-systemd">12. 🔧 Services (systemd)</h2>
+<p>Most modern distros manage services with <strong>systemd</strong>:</p>
+<pre><code class="language-bash">sudo systemctl start nginx       # start now
+sudo systemctl stop nginx
+sudo systemctl restart nginx
+sudo systemctl status nginx      # state + recent logs
+sudo systemctl enable nginx      # start on boot
+sudo systemctl disable nginx
+systemctl list-units --type=service   # all services
+
+journalctl -u nginx -f           # follow a service&#39;s logs
+journalctl -xe                   # recent errors
+journalctl --since &quot;1 hour ago&quot;
+</code></pre>
+<blockquote>
+<p><code>enable</code> = start at boot; <code>start</code> = start right now. Use <code>status</code> + <code>journalctl -u &lt;svc&gt;</code> to debug a failing service.</p>
+</blockquote>
+<hr>
+<h2 id="13--archives--compression">13. 🗜️ Archives &amp; Compression</h2>
+<pre><code class="language-bash">tar -czf backup.tar.gz dir/      # create gzip archive  (c=create z=gzip f=file)
+tar -xzf backup.tar.gz           # extract               (x=extract)
+tar -tzf backup.tar.gz           # list contents          (t=list)
+gzip file        # → file.gz       gunzip file.gz
+zip -r out.zip dir/              # zip   /  unzip out.zip
+</code></pre>
+<blockquote>
+<p>Mnemonic for tar: <strong>&quot;Create Ze File&quot;</strong> (<code>-czf</code>) and e<strong>X</strong>tract Ze File (<code>-xzf</code>).</p>
+</blockquote>
+<hr>
+<h2 id="14--command-cheat-sheet">14. 📋 Command Cheat-Sheet</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Where am I / list</td>
+<td><code>pwd</code> · <code>ls -lah</code></td>
+</tr>
+<tr>
+<td>Move / copy / delete</td>
+<td><code>mv</code> · <code>cp -r</code> · <code>rm -rf</code></td>
+</tr>
+<tr>
+<td>Find files</td>
+<td><code>find . -name &quot;*.log&quot;</code></td>
+</tr>
+<tr>
+<td>Search text</td>
+<td><code>grep -rni &quot;text&quot; .</code></td>
+</tr>
+<tr>
+<td>Follow a log</td>
+<td><code>tail -f /var/log/...</code></td>
+</tr>
+<tr>
+<td>Permissions</td>
+<td><code>chmod 755</code> · <code>chown user:grp</code></td>
+</tr>
+<tr>
+<td>Run as root</td>
+<td><code>sudo &lt;cmd&gt;</code></td>
+</tr>
+<tr>
+<td>Processes</td>
+<td><code>ps aux</code> · <code>top</code> · <code>kill -9 PID</code></td>
+</tr>
+<tr>
+<td>Install package</td>
+<td><code>sudo apt install x</code></td>
+</tr>
+<tr>
+<td>Disk / memory</td>
+<td><code>df -h</code> · <code>du -sh *</code> · <code>free -h</code></td>
+</tr>
+<tr>
+<td>Ports listening</td>
+<td><code>ss -tulpn</code></td>
+</tr>
+<tr>
+<td>Service control</td>
+<td><code>systemctl restart x</code> · <code>journalctl -u x</code></td>
+</tr>
+<tr>
+<td>Remote / copy</td>
+<td><code>ssh user@host</code> · <code>scp f host:/p</code></td>
+</tr>
+<tr>
+<td>Archive</td>
+<td><code>tar -czf a.tgz dir/</code> · <code>tar -xzf a.tgz</code></td>
+</tr>
+<tr>
+<td>Command help</td>
+<td><code>man &lt;cmd&gt;</code> · <code>&lt;cmd&gt; --help</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Linux = the OS of servers/cloud/containers</strong>, driven from the <strong>shell</strong>; &quot;everything is a file.&quot;</li>
+<li>One tree from <strong><code>/</code></strong>: configs in <strong><code>/etc</code></strong>, logs in <strong><code>/var/log</code></strong>, homes in <strong><code>/home</code></strong>.</li>
+<li>Permissions = <strong>rwx</strong> for <strong>user/group/other</strong> → <code>chmod</code> (755) + <code>chown</code>; <strong><code>sudo</code></strong> for root tasks.</li>
+<li>Manage processes with <strong><code>ps</code>/<code>top</code>/<code>kill</code></strong>; jobs with <strong><code>&amp;</code>/<code>jobs</code>/<code>fg</code>/<code>nohup</code></strong>.</li>
+<li><strong>Pipe</strong> (<code>|</code>) small commands together; <strong>grep/sed/awk/sort/uniq</strong> for text; redirect with <code>&gt;</code>/<code>&gt;&gt;</code>/<code>2&gt;&amp;1</code>.</li>
+<li>Install via the distro&#39;s package manager (<strong>apt/dnf/apk</strong>); control services with <strong>systemctl</strong> + <strong>journalctl</strong>.</li>
+<li>Networking: <strong>ip/ss/curl/ssh/scp</strong>; disk/mem: <strong>df/du/free</strong>; archives: <strong>tar -czf / -xzf</strong>.</li>
+<li>When stuck: <strong><code>man &lt;cmd&gt;</code></strong> or <strong><code>&lt;cmd&gt; --help</code></strong>.</li>
+</ul>
+<hr>
+<h2 id="16--common-interview-questions">16. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Linux:</p>
+<ul>
+<li><strong>Q: What does <code>chmod 755</code> mean?</strong> — rwx for owner, r-x for group, r-x for others (7=rwx, 5=r-x). Common for executables/scripts.</li>
+<li><strong>Q: How do you find which process uses a port?</strong> — <code>ss -tulpn | grep :8080</code> or <code>lsof -i :8080</code>.</li>
+<li><strong>Q: <code>kill</code> vs <code>kill -9</code>?</strong> — <code>kill</code> sends SIGTERM (graceful, lets the process clean up); <code>kill -9</code> sends SIGKILL (forced, no cleanup) — use only if TERM fails.</li>
+<li><strong>Q: How do you view live logs?</strong> — <code>tail -f /var/log/...</code> or <code>journalctl -u &lt;service&gt; -f</code>.</li>
+<li><strong>Q: Difference between <code>&gt;</code> and <code>&gt;&gt;</code>?</strong> — <code>&gt;</code> overwrites a file; <code>&gt;&gt;</code> appends to it.</li>
+<li><strong>Q: How do you check disk and memory usage?</strong> — <code>df -h</code> (disk per filesystem), <code>du -sh *</code> (per item), <code>free -h</code> (memory).</li>
+<li><strong>Q: What&#39;s the difference between absolute and relative paths?</strong> — Absolute starts from <code>/</code>; relative is from the current directory (<code>.</code>/<code>..</code>).</li>
+<li><strong>Q: How do you run a command as another/super user?</strong> — <code>sudo &lt;cmd&gt;</code> for root; <code>su - user</code> to switch users.</li>
+<li><strong>Q: <code>systemctl start</code> vs <code>enable</code>?</strong> — <code>start</code> runs it now; <code>enable</code> makes it start on boot.</li>
+<li><strong>Q: How do you search recursively for text?</strong> — <code>grep -rn &quot;pattern&quot; /path</code>.</li>
+<li><strong>Q: What does &quot;everything is a file&quot; mean?</strong> — Devices, processes, and many kernel interfaces are exposed as file paths (e.g. <code>/dev</code>, <code>/proc</code>), so the same tools work on them.</li>
+<li><strong>Q: How do you make a script executable and run it?</strong> — <code>chmod +x script.sh</code> then <code>./script.sh</code>.</li>
+<li><strong>Q: How do you keep a process running after logout?</strong> — <code>nohup ./cmd &amp;</code>, or use <code>tmux</code>/<code>screen</code>, or a systemd service.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Linux &amp; its commands.</em></p>
+</div>
+</main></body></html>
