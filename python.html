@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Scripting — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMzc3NkFCIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+UHl0aG9uPC90aXRsZT48cGF0aCBkPSJNMTQuMjUuMThsLjkuMi43My4yNi41OS4zLjQ1LjMyLjM0LjM0LjI1LjM0LjE2LjMzLjEuMy4wNC4yNi4wMi4yLS4wMS4xM1Y4LjVsLS4wNS42My0uMTMuNTUtLjIxLjQ2LS4yNi4zOC0uMy4zMS0uMzMuMjUtLjM1LjE5LS4zNS4xNC0uMzMuMS0uMy4wNy0uMjYuMDQtLjIxLjAySDguNzdsLS42OS4wNS0uNTkuMTQtLjUuMjItLjQxLjI3LS4zMy4zMi0uMjcuMzUtLjIuMzYtLjE1LjM3LS4xLjM1LS4wNy4zMi0uMDQuMjctLjAyLjIxdjMuMDZIMy4xN2wtLjIxLS4wMy0uMjgtLjA3LS4zMi0uMTItLjM1LS4xOC0uMzYtLjI2LS4zNi0uMzYtLjM1LS40Ni0uMzItLjU5LS4yOC0uNzMtLjIxLS44OC0uMTQtMS4wNS0uMDUtMS4yMy4wNi0xLjIyLjE2LTEuMDQuMjQtLjg3LjMyLS43MS4zNi0uNTcuNC0uNDQuNDItLjMzLjQyLS4yNC40LS4xNi4zNi0uMS4zMi0uMDUuMjQtLjAxaC4xNmwuMDYuMDFoOC4xNnYtLjgzSDYuMThsLS4wMS0yLjc1LS4wMi0uMzcuMDUtLjM0LjExLS4zMS4xNy0uMjguMjUtLjI2LjMxLS4yMy4zOC0uMi40NC0uMTguNTEtLjE1LjU4LS4xMi42NC0uMS43MS0uMDYuNzctLjA0Ljg0LS4wMiAxLjI3LjA1em0tNi4zIDEuOThsLS4yMy4zMy0uMDguNDEuMDguNDEuMjMuMzQuMzMuMjIuNDEuMDkuNDEtLjA5LjMzLS4yMi4yMy0uMzQuMDgtLjQxLS4wOC0uNDEtLjIzLS4zMy0uMzMtLjIyLS40MS0uMDktLjQxLjA5em0xMy4wOSAzLjk1bC4yOC4wNi4zMi4xMi4zNS4xOC4zNi4yNy4zNi4zNS4zNS40Ny4zMi41OS4yOC43My4yMS44OC4xNCAxLjA0LjA1IDEuMjMtLjA2IDEuMjMtLjE2IDEuMDQtLjI0Ljg2LS4zMi43MS0uMzYuNTctLjQuNDUtLjQyLjMzLS40Mi4yNC0uNC4xNi0uMzYuMDktLjMyLjA1LS4yNC4wMi0uMTYtLjAxaC04LjIydi44Mmg1Ljg0bC4wMSAyLjc2LjAyLjM2LS4wNS4zNC0uMTEuMzEtLjE3LjI5LS4yNS4yNS0uMzEuMjQtLjM4LjItLjQ0LjE3LS41MS4xNS0uNTguMTMtLjY0LjA5LS43MS4wNy0uNzcuMDQtLjg0LjAxLTEuMjctLjA0LTEuMDctLjE0LS45LS4yLS43My0uMjUtLjU5LS4zLS40NS0uMzMtLjM0LS4zNC0uMjUtLjM0LS4xNi0uMzMtLjEtLjMtLjA0LS4yNS0uMDItLjIuMDEtLjEzdi01LjM0bC4wNS0uNjQuMTMtLjU0LjIxLS40Ni4yNi0uMzguMy0uMzIuMzMtLjI0LjM1LS4yLjM1LS4xNC4zMy0uMS4zLS4wNi4yNi0uMDQuMjEtLjAyLjEzLS4wMWg1Ljg0bC42OS0uMDUuNTktLjE0LjUtLjIxLjQxLS4yOC4zMy0uMzIuMjctLjM1LjItLjM2LjE1LS4zNi4xLS4zNS4wNy0uMzIuMDQtLjI4LjAyLS4yMVY2LjA3aDIuMDlsLjE0LjAxem0tNi40NyAxNC4yNWwtLjIzLjMzLS4wOC40MS4wOC40MS4yMy4zMy4zMy4yMy40MS4wOC40MS0uMDguMzMtLjIzLjIzLS4zMy4wOC0uNDEtLjA4LS40MS0uMjMtLjMzLS4zMy0uMjMtLjQxLS4wOC0uNDEuMDh6Ii8+PC9zdmc+">
+<style>
+  :root{--ac:#3776AB;--acd:#2b5a82;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMzc3NkFCIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+UHl0aG9uPC90aXRsZT48cGF0aCBkPSJNMTQuMjUuMThsLjkuMi43My4yNi41OS4zLjQ1LjMyLjM0LjM0LjI1LjM0LjE2LjMzLjEuMy4wNC4yNi4wMi4yLS4wMS4xM1Y4LjVsLS4wNS42My0uMTMuNTUtLjIxLjQ2LS4yNi4zOC0uMy4zMS0uMzMuMjUtLjM1LjE5LS4zNS4xNC0uMzMuMS0uMy4wNy0uMjYuMDQtLjIxLjAySDguNzdsLS42OS4wNS0uNTkuMTQtLjUuMjItLjQxLjI3LS4zMy4zMi0uMjcuMzUtLjIuMzYtLjE1LjM3LS4xLjM1LS4wNy4zMi0uMDQuMjctLjAyLjIxdjMuMDZIMy4xN2wtLjIxLS4wMy0uMjgtLjA3LS4zMi0uMTItLjM1LS4xOC0uMzYtLjI2LS4zNi0uMzYtLjM1LS40Ni0uMzItLjU5LS4yOC0uNzMtLjIxLS44OC0uMTQtMS4wNS0uMDUtMS4yMy4wNi0xLjIyLjE2LTEuMDQuMjQtLjg3LjMyLS43MS4zNi0uNTcuNC0uNDQuNDItLjMzLjQyLS4yNC40LS4xNi4zNi0uMS4zMi0uMDUuMjQtLjAxaC4xNmwuMDYuMDFoOC4xNnYtLjgzSDYuMThsLS4wMS0yLjc1LS4wMi0uMzcuMDUtLjM0LjExLS4zMS4xNy0uMjguMjUtLjI2LjMxLS4yMy4zOC0uMi40NC0uMTguNTEtLjE1LjU4LS4xMi42NC0uMS43MS0uMDYuNzctLjA0Ljg0LS4wMiAxLjI3LjA1em0tNi4zIDEuOThsLS4yMy4zMy0uMDguNDEuMDguNDEuMjMuMzQuMzMuMjIuNDEuMDkuNDEtLjA5LjMzLS4yMi4yMy0uMzQuMDgtLjQxLS4wOC0uNDEtLjIzLS4zMy0uMzMtLjIyLS40MS0uMDktLjQxLjA5em0xMy4wOSAzLjk1bC4yOC4wNi4zMi4xMi4zNS4xOC4zNi4yNy4zNi4zNS4zNS40Ny4zMi41OS4yOC43My4yMS44OC4xNCAxLjA0LjA1IDEuMjMtLjA2IDEuMjMtLjE2IDEuMDQtLjI0Ljg2LS4zMi43MS0uMzYuNTctLjQuNDUtLjQyLjMzLS40Mi4yNC0uNC4xNi0uMzYuMDktLjMyLjA1LS4yNC4wMi0uMTYtLjAxaC04LjIydi44Mmg1Ljg0bC4wMSAyLjc2LjAyLjM2LS4wNS4zNC0uMTEuMzEtLjE3LjI5LS4yNS4yNS0uMzEuMjQtLjM4LjItLjQ0LjE3LS41MS4xNS0uNTguMTMtLjY0LjA5LS43MS4wNy0uNzcuMDQtLjg0LjAxLTEuMjctLjA0LTEuMDctLjE0LS45LS4yLS43My0uMjUtLjU5LS4zLS40NS0uMzMtLjM0LS4zNC0uMjUtLjM0LS4xNi0uMzMtLjEtLjMtLjA0LS4yNS0uMDItLjIuMDEtLjEzdi01LjM0bC4wNS0uNjQuMTMtLjU0LjIxLS40Ni4yNi0uMzguMy0uMzIuMzMtLjI0LjM1LS4yLjM1LS4xNC4zMy0uMS4zLS4wNi4yNi0uMDQuMjEtLjAyLjEzLS4wMWg1Ljg0bC42OS0uMDUuNTktLjE0LjUtLjIxLjQxLS4yOC4zMy0uMzIuMjctLjM1LjItLjM2LjE1LS4zNi4xLS4zNS4wNy0uMzIuMDQtLjI4LjAyLS4yMVY2LjA3aDIuMDlsLjE0LjAxem0tNi40NyAxNC4yNWwtLjIzLjMzLS4wOC40MS4wOC40MS4yMy4zMy4zMy4yMy40MS4wOC40MS0uMDguMzMtLjIzLjIzLS4zMy4wOC0uNDEtLjA4LS40MS0uMjMtLjMzLS4zMy0uMjMtLjQxLS4wOC0uNDEuMDh6Ii8+PC9zdmc+" width="110" alt="Python logo" /><h1 id="python-scripting--complete-notes">Python Scripting — Complete Notes</h1>
+<p><strong>Readable, batteries-included</strong> · Automation, tooling &amp; glue</p>
+<p><img src="https://img.shields.io/badge/Topic-Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Type">
+<img src="https://img.shields.io/badge/Use-Scripting%20%2F%20Automation-3776AB?style=flat-square" alt="Use">
+<img src="https://img.shields.io/badge/Style-Readable-blue?style=flat-square" alt="Style">
+<img src="https://img.shields.io/badge/Batteries-Included-lightgrey?style=flat-square" alt="Stdlib"></p>
+<p><em>A reader-friendly, all-in-one reference for Python scripting.</em></p>
+<p><a class="dl-btn" href="python-notes.pdf" download="python-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-python">What is Python</a></li>
+<li><a href="#2--running-python--virtual-envs">Running Python &amp; Virtual Envs</a></li>
+<li><a href="#3--variables--data-types">Variables &amp; Data Types</a></li>
+<li><a href="#4--strings--f-strings">Strings &amp; f-strings</a></li>
+<li><a href="#5--data-structures">Data Structures</a></li>
+<li><a href="#6--control-flow--comprehensions">Control Flow &amp; Comprehensions</a></li>
+<li><a href="#7--functions">Functions</a></li>
+<li><a href="#8--modules--packages">Modules &amp; Packages</a></li>
+<li><a href="#9--file-io--context-managers">File I/O &amp; Context Managers</a></li>
+<li><a href="#10--error-handling">Error Handling</a></li>
+<li><a href="#11--classes--oop">Classes &amp; OOP</a></li>
+<li><a href="#12--scripting-toolkit-argparse-subprocess">Scripting Toolkit (argparse, subprocess…)</a></li>
+<li><a href="#13--pythonic-idioms">Pythonic Idioms</a></li>
+<li><a href="#14--best-practices">Best Practices</a></li>
+<li><a href="#15--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#16--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-python">1. 🐍 What is Python</h2>
+<p>Python is a <strong>high-level, readable, general-purpose</strong> language famous for clean syntax and a huge <strong>standard library</strong> (&quot;batteries included&quot;). For scripting it&#39;s the go-to when Bash gets awkward — real data structures, error handling, and libraries make it ideal for automation, tooling, data tasks, and APIs.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Python reads almost like pseudocode and trades a little speed for <strong>developer productivity</strong>. Use it when a script needs <strong>logic, data structures, or maintainability</strong>; use Bash for short command orchestration.</p>
+</blockquote>
+<p><strong>Common uses:</strong> automation scripts, CLI tools, data processing/ETL, web backends, DevOps tooling, testing, and ML/AI.</p>
+<hr>
+<h2 id="2--running-python--virtual-envs">2. ⚙️ Running Python &amp; Virtual Envs</h2>
+<pre><code class="language-bash">python3 script.py          # run a script
+python3 -c &quot;print(1+1)&quot;    # one-liner
+python3                    # interactive REPL
+</code></pre>
+<pre><code class="language-python">#!/usr/bin/env python3      # shebang → chmod +x then ./script.py
+print(&quot;hello&quot;)
+</code></pre>
+<p><strong>Virtual environments</strong> isolate per-project dependencies:</p>
+<pre><code class="language-bash">python3 -m venv .venv          # create
+source .venv/bin/activate      # activate (Linux/macOS)
+pip install requests           # install into the venv
+pip freeze &gt; requirements.txt  # pin deps
+pip install -r requirements.txt
+</code></pre>
+<blockquote>
+<p>Always use a <strong>venv</strong> (or <code>uv</code>/<code>poetry</code>) per project — never <code>pip install</code> globally. <code>python -m venv</code> ships with Python.</p>
+</blockquote>
+<hr>
+<h2 id="3--variables--data-types">3. 🔢 Variables &amp; Data Types</h2>
+<pre><code class="language-python">name = &quot;Alice&quot;        # str
+age = 30              # int
+price = 9.99          # float
+active = True         # bool
+nothing = None        # NoneType
+</code></pre>
+<ul>
+<li><strong>Dynamically typed</strong> (no type declared) but <strong>strongly typed</strong> (no implicit <code>&quot;3&quot; + 4</code>).</li>
+<li>Everything is an <strong>object</strong>; check types with <code>type(x)</code> / <code>isinstance(x, int)</code>.</li>
+<li><strong>Optional type hints</strong> improve readability &amp; tooling: <code>def add(a: int, b: int) -&gt; int:</code>.</li>
+<li><strong>Mutable</strong> (list, dict, set) vs <strong>immutable</strong> (int, str, tuple, frozenset) — matters for function args and dict keys.</li>
+</ul>
+<hr>
+<h2 id="4--strings--f-strings">4. 🔤 Strings &amp; f-strings</h2>
+<pre><code class="language-python">name, n = &quot;Bob&quot;, 3
+s = f&quot;Hello {name}, you have {n} messages&quot;   # f-string (preferred)
+s.upper(); s.lower(); s.strip()
+s.split(&quot;,&quot;)          # → list
+&quot;,&quot;.join([&quot;a&quot;, &quot;b&quot;])  # → &quot;a,b&quot;
+s.replace(&quot;a&quot;, &quot;b&quot;)
+&quot;py&quot; in &quot;python&quot;      # membership → True
+s[0:2]; s[::-1]       # slicing / reverse
+</code></pre>
+<blockquote>
+<p><strong>f-strings</strong> (<code>f&quot;...{expr}...&quot;</code>) are the modern way to format — readable and fast. Strings are <strong>immutable</strong>; methods return new strings.</p>
+</blockquote>
+<hr>
+<h2 id="5--data-structures">5. 🗂️ Data Structures</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Syntax</th>
+<th>Traits</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>list</strong></td>
+<td><code>[1, 2, 3]</code></td>
+<td>Ordered, <strong>mutable</strong>, duplicates OK</td>
+</tr>
+<tr>
+<td><strong>tuple</strong></td>
+<td><code>(1, 2, 3)</code></td>
+<td>Ordered, <strong>immutable</strong></td>
+</tr>
+<tr>
+<td><strong>dict</strong></td>
+<td><code>{&quot;k&quot;: &quot;v&quot;}</code></td>
+<td>Key→value, ordered (3.7+), fast lookup</td>
+</tr>
+<tr>
+<td><strong>set</strong></td>
+<td><code>{1, 2, 3}</code></td>
+<td>Unordered, <strong>unique</strong> elements</td>
+</tr>
+</tbody></table>
+<pre><code class="language-python">nums = [3, 1, 2]
+nums.append(4); nums.sort(); nums[0]      # list ops
+person = {&quot;name&quot;: &quot;Al&quot;, &quot;age&quot;: 30}
+person[&quot;role&quot;] = &quot;dev&quot;                     # add key
+person.get(&quot;missing&quot;, &quot;default&quot;)           # safe lookup
+for k, v in person.items(): ...
+unique = set([1, 1, 2])                     # {1, 2}
+</code></pre>
+<blockquote>
+<p>Pick by need: <strong>list</strong> = ordered collection, <strong>dict</strong> = lookups by key, <strong>set</strong> = uniqueness/membership, <strong>tuple</strong> = fixed record.</p>
+</blockquote>
+<hr>
+<h2 id="6--control-flow--comprehensions">6. 🔁 Control Flow &amp; Comprehensions</h2>
+<pre><code class="language-python">if age &gt;= 18:
+    print(&quot;adult&quot;)
+elif age &gt; 0:
+    print(&quot;minor&quot;)
+else:
+    print(&quot;invalid&quot;)
+
+for i in range(5): ...          # 0..4
+for item in mylist: ...
+while condition: ...
+# break / continue / else-on-loop
+
+# Comprehensions — concise transforms
+squares = [x*x for x in range(10)]
+evens   = [x for x in nums if x % 2 == 0]
+lookup  = {k: len(k) for k in words}
+</code></pre>
+<blockquote>
+<p><strong>Indentation defines blocks</strong> (no braces) — consistent whitespace is syntax. <strong>Comprehensions</strong> are the Pythonic way to build lists/dicts/sets from loops.</p>
+</blockquote>
+<hr>
+<h2 id="7--functions">7. 🧩 Functions</h2>
+<pre><code class="language-python">def greet(name, greeting=&quot;Hello&quot;):     # default arg
+    return f&quot;{greeting}, {name}&quot;
+
+def total(*args, **kwargs):            # variadic
+    # args = tuple of positional, kwargs = dict of keyword
+    return sum(args)
+
+square = lambda x: x * x               # anonymous (small)
+greet(&quot;Al&quot;); greet(&quot;Al&quot;, greeting=&quot;Hi&quot;)
+</code></pre>
+<ul>
+<li><strong>Default arguments</strong> make params optional. <strong><code>*args</code></strong> captures extra positionals (tuple); <strong><code>**kwargs</code></strong> captures extra keyword args (dict).</li>
+<li>⚠️ <strong>Never use a mutable default</strong> (<code>def f(x=[])</code>) — it&#39;s shared across calls; use <code>None</code> and create inside.</li>
+<li>Functions are <strong>first-class</strong> (pass/return them); <strong>lambda</strong> is for tiny inline functions.</li>
+</ul>
+<hr>
+<h2 id="8--modules--packages">8. 📦 Modules &amp; Packages</h2>
+<pre><code class="language-python">import math
+from datetime import datetime
+import json as j
+from mymodule import helper
+
+print(math.sqrt(16))
+</code></pre>
+<ul>
+<li>A <strong>module</strong> = a <code>.py</code> file; a <strong>package</strong> = a directory of modules.</li>
+<li><strong><code>if __name__ == &quot;__main__&quot;:</code></strong> — code under it runs only when the file is executed directly, not when imported (the standard script entry-point guard).</li>
+</ul>
+<pre><code class="language-python">def main():
+    ...
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<hr>
+<h2 id="9--file-io--context-managers">9. 📄 File I/O &amp; Context Managers</h2>
+<pre><code class="language-python">with open(&quot;data.txt&quot;) as f:        # auto-closes (context manager)
+    for line in f:
+        print(line.rstrip())
+
+with open(&quot;out.txt&quot;, &quot;w&quot;) as f:    # &quot;w&quot; write, &quot;a&quot; append, &quot;r&quot; read
+    f.write(&quot;hello\n&quot;)
+
+import json
+with open(&quot;config.json&quot;) as f:
+    cfg = json.load(f)             # parse JSON → dict
+</code></pre>
+<blockquote>
+<p>Always use <strong><code>with open(...)</code></strong> — the context manager closes the file even on error. Modes: <code>r</code> read, <code>w</code> overwrite, <code>a</code> append, <code>b</code> binary.</p>
+</blockquote>
+<hr>
+<h2 id="10--error-handling">10. 🛡️ Error Handling</h2>
+<pre><code class="language-python">try:
+    result = 10 / x
+except ZeroDivisionError:
+    print(&quot;can&#39;t divide by zero&quot;)
+except (ValueError, TypeError) as e:
+    print(f&quot;bad input: {e}&quot;)
+else:
+    print(&quot;ok:&quot;, result)        # runs if no exception
+finally:
+    print(&quot;always runs&quot;)        # cleanup
+
+if x &lt; 0:
+    raise ValueError(&quot;x must be non-negative&quot;)   # raise your own
+</code></pre>
+<ul>
+<li>Python uses <strong>exceptions</strong> (EAFP — &quot;easier to ask forgiveness than permission&quot;): try the action, handle the failure.</li>
+<li>Catch <strong>specific</strong> exceptions, not bare <code>except:</code>. <code>finally</code> always runs (cleanup); <code>else</code> runs only if no exception.</li>
+</ul>
+<hr>
+<h2 id="11--classes--oop">11. 🧱 Classes &amp; OOP</h2>
+<pre><code class="language-python">class Dog:
+    species = &quot;Canis&quot;               # class attribute (shared)
+
+    def __init__(self, name):       # constructor
+        self.name = name            # instance attribute
+
+    def bark(self):                 # method (self = instance)
+        return f&quot;{self.name} says woof&quot;
+
+class Puppy(Dog):                   # inheritance
+    def bark(self):
+        return super().bark() + &quot;!&quot; # override + call parent
+
+d = Puppy(&quot;Rex&quot;)
+d.bark()                            # &quot;Rex says woof!&quot;
+</code></pre>
+<ul>
+<li><strong><code>__init__</code></strong> initializes a new instance; <strong><code>self</code></strong> is the instance. Class attrs are shared; instance attrs are per-object.</li>
+<li>Supports <strong>inheritance</strong>, <strong><code>super()</code></strong>, and <strong>dunder methods</strong> (<code>__str__</code>, <code>__repr__</code>, <code>__eq__</code>, <code>__len__</code>). <strong><code>@dataclass</code></strong> auto-generates boilerplate for data-holding classes.</li>
+</ul>
+<hr>
+<h2 id="12--scripting-toolkit-argparse-subprocess">12. 🧰 Scripting Toolkit (argparse, subprocess…)</h2>
+<p>The stdlib modules that make Python great for scripts:</p>
+<pre><code class="language-python">import argparse, subprocess, os, sys
+from pathlib import Path
+
+# CLI arguments
+p = argparse.ArgumentParser()
+p.add_argument(&quot;path&quot;); p.add_argument(&quot;--verbose&quot;, action=&quot;store_true&quot;)
+args = p.parse_args()
+
+# Run shell commands
+out = subprocess.run([&quot;ls&quot;, &quot;-la&quot;], capture_output=True, text=True, check=True)
+print(out.stdout)
+
+# Paths &amp; files (modern)
+for f in Path(&quot;.&quot;).glob(&quot;*.log&quot;):
+    print(f.name, f.stat().st_size)
+
+os.environ.get(&quot;HOME&quot;)              # env vars
+sys.argv; sys.exit(1)               # raw args / exit code
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>argparse</code></td>
+<td>Parse CLI flags/args</td>
+</tr>
+<tr>
+<td><code>subprocess</code></td>
+<td>Run external commands</td>
+</tr>
+<tr>
+<td><code>pathlib</code></td>
+<td>Modern path/file handling</td>
+</tr>
+<tr>
+<td><code>os</code> / <code>sys</code></td>
+<td>Env, args, exit codes</td>
+</tr>
+<tr>
+<td><code>json</code> / <code>csv</code></td>
+<td>Data formats</td>
+</tr>
+<tr>
+<td><code>logging</code></td>
+<td>Proper logging (over <code>print</code>)</td>
+</tr>
+<tr>
+<td><code>requests</code></td>
+<td>HTTP (third-party, ubiquitous)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="13--pythonic-idioms">13. ✨ Pythonic Idioms</h2>
+<pre><code class="language-python">a, b = b, a                         # swap (tuple unpacking)
+for i, x in enumerate(items): ...   # index + value
+for k, v in d.items(): ...          # dict iteration
+for a, b in zip(list1, list2): ...  # parallel iteration
+text = &quot; &quot;.join(words)              # build strings
+val = d.get(key, default)           # safe dict access
+result = x if cond else y           # ternary
+squares = [x*x for x in nums]       # comprehension over loop
+with open(f) as fh: ...             # context managers for resources
+</code></pre>
+<blockquote>
+<p>&quot;Pythonic&quot; = readable, idiomatic code. Prefer comprehensions, unpacking, <code>enumerate</code>/<code>zip</code>, <code>with</code>, and the standard library over manual/verbose patterns. Follow <strong>PEP 8</strong> (style guide).</p>
+</blockquote>
+<hr>
+<h2 id="14--best-practices">14. ✅ Best Practices</h2>
+<ul>
+<li>Use a <strong>virtual environment</strong> per project; pin deps in <code>requirements.txt</code> (or <code>pyproject.toml</code>).</li>
+<li>Follow <strong>PEP 8</strong>; format with <strong>black</strong>, lint with <strong>ruff</strong>/<strong>flake8</strong>, type-check with <strong>mypy</strong>.</li>
+<li>Add <strong>type hints</strong> for clarity and tooling.</li>
+<li>Guard the entry point with <strong><code>if __name__ == &quot;__main__&quot;:</code></strong>.</li>
+<li>Catch <strong>specific</strong> exceptions; use <strong><code>with</code></strong> for files/resources; use <strong><code>logging</code></strong> not <code>print</code> in real tools.</li>
+<li>Prefer <strong>comprehensions, <code>pathlib</code>, f-strings</strong>; avoid mutable default arguments.</li>
+<li>Write <strong>functions small and testable</strong>; add <strong>docstrings</strong>; test with <strong>pytest</strong>.</li>
+<li>Choose Python over Bash once a script needs real logic, data structures, or error handling.</li>
+</ul>
+<hr>
+<h2 id="15--quick-mental-model">15. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Python = readable, batteries-included scripting</strong> — reach for it when Bash gets awkward.</li>
+<li><strong>Dynamically but strongly typed</strong>; everything&#39;s an object; <strong>indentation = blocks</strong>.</li>
+<li>Core structures: <strong>list</strong> (ordered), <strong>dict</strong> (key→value), <strong>set</strong> (unique), <strong>tuple</strong> (immutable).</li>
+<li><strong>f-strings</strong> for formatting; <strong>comprehensions</strong> for transforms; <strong><code>with</code></strong> for resources.</li>
+<li>Functions: defaults, <code>*args</code>/<code>**kwargs</code>, first-class; avoid <strong>mutable default args</strong>.</li>
+<li>Handle errors with <strong>try/except/finally</strong> (EAFP); catch specific exceptions.</li>
+<li>Scripting toolkit: <strong>argparse</strong> (CLI), <strong>subprocess</strong> (commands), <strong>pathlib</strong> (files), <strong>logging</strong>.</li>
+<li><strong>venv per project</strong>, <strong>PEP 8</strong>, <code>if __name__ == &quot;__main__&quot;:</code>, test with <strong>pytest</strong>.</li>
+</ul>
+<hr>
+<h2 id="16--common-interview-questions">16. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Python:</p>
+<ul>
+<li><strong>Q: List vs tuple?</strong> — List is mutable and ordered; tuple is immutable (and can be a dict key / set element).</li>
+<li><strong>Q: Is Python statically or dynamically typed?</strong> — Dynamically typed (no declared types) but strongly typed (no implicit type coercion like <code>&quot;3&quot; + 4</code>).</li>
+<li><strong>Q: What does <code>if __name__ == &quot;__main__&quot;:</code> do?</strong> — Runs that block only when the file is executed directly, not when imported as a module.</li>
+<li><strong>Q: <code>*args</code> vs <code>**kwargs</code>?</strong> — <code>*args</code> collects extra positional arguments into a tuple; <code>**kwargs</code> collects extra keyword arguments into a dict.</li>
+<li><strong>Q: What&#39;s the mutable-default-argument gotcha?</strong> — A default like <code>def f(x=[])</code> is created once and shared across calls; use <code>None</code> and create the value inside.</li>
+<li><strong>Q: What is a list comprehension?</strong> — A concise expression to build a list from an iterable: <code>[x*x for x in nums if x&gt;0]</code>.</li>
+<li><strong>Q: What is a context manager / <code>with</code>?</strong> — An object that sets up and tears down a resource automatically (e.g. closes a file) even if an error occurs.</li>
+<li><strong>Q: How do you handle errors?</strong> — <code>try/except</code> specific exceptions, optional <code>else</code> (no error) and <code>finally</code> (always runs); raise with <code>raise</code>.</li>
+<li><strong>Q: What is a virtual environment and why?</strong> — An isolated per-project Python + dependency set, so projects don&#39;t conflict and you don&#39;t pollute the system Python.</li>
+<li><strong>Q: Shallow vs deep copy?</strong> — Shallow copies the outer object but shares nested objects; <code>copy.deepcopy</code> recursively copies everything.</li>
+<li><strong>Q: How do you run a shell command from Python?</strong> — <code>subprocess.run([...], capture_output=True, text=True, check=True)</code>.</li>
+<li><strong>Q: Bash vs Python for scripting?</strong> — Bash for short command orchestration/glue; Python once you need data structures, real logic, error handling, or maintainability.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Python scripting.</em></p>
+</div>
+</main></body></html>
