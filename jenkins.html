@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jenkins — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRDI0OTM5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+SmVua2luczwvdGl0bGU+PHBhdGggZD0iTTIuODcyIDI0aC0uOTc1YTMuODY2IDMuODY2IDAgMDEtLjA3LS4xOTdjLS4yMTUtLjY2Ni0uNTk0LTEuNDktLjY5Mi0yLjE1NC0uMTQ2LS45ODQuNzgtMS4wMzkgMS4zNzQtMS40NjUuOTE1LS42NiAxLjYzNS0xLjAyNSAyLjYyNy0xLjYyLjI5NS0uMTc5IDEuMTgyLS42MjQgMS4yODEtLjgyOS4yMDEtLjQwOC0uMzQ1LS45ODItLjQ5LTEuMy0uMjI1LS41MDctLjM0NS0uOTM3LS4zNzYtMS40MzUtLjgyNC0uMTMtMS40NTUtLjYyNy0xLjg0NC0xLjE4NS0uNjMtLjkyNS0xLjA2Ni0yLjYzNS0uNTI1LTMuOTM2LjA0NS0uMTAzLjI1NC0uMzA1LjI4NS0uNDYzLjA2LS4zMDgtLjEwNS0uNzItLjEyLTEuMDQ4LS4wNi0xLjY5Mi4yODQtMy4xNSAxLjQyNS0zLjY2LjQ2My0xLjg0IDIuMTEzLTIuNDUzIDMuNjczLTMuMzY3LjU4LS4zNDIgMS4yMjQtLjU2MiAxLjg5LS44MDcgMi4zNzItLjg3NyA2LjAyNy0uNzEyIDcuOTk0Ljc4My44MzYuNjMzIDIuMTc2IDEuOTcgMi42NTYgMi45MzkgMS4yNjIgMi41NTUgMS4xNyA2LjgyNS4yODcgOS45MzQtLjEyLjQyMS0uMjkgMS4wMzItLjUzMyAxLjUzMy0uMTY4LjM1LS42ODkgMS4wNS0uNjI1IDEuMzYuMDY0LjMxNCAxLjE5IDEuMTcgMS40MzIgMS4zOTUuNDM0LjQyMiAxLjI2Ljk3NSAxLjMyNCAxLjUuMDcuNTU3LS4yNDggMS4zMzYtLjQxIDEuODc1LS4yMTcuNzIxLS40MzYgMS40NDEtLjY1NCAyLjEzMUgyLjg3em0xMS4xMDQtMy41NGMtLjU0NS0uMy0xLjM2MS0uNjIyLTIuMDY1LS43NTctLjg3LS4xNjQtLjc4IDEuMTg4LS43NSAxLjk5NC4wMy42NDMuMzYgMS4zMTYuNTEgMS43NDQuMDc2LjE5Ny4wOS40MS4yNTYuNDQ5LjMuMDY4IDEuMjktLjMyNiAxLjU3NS0uNDc5LjYtLjMyOCAxLjA2NC0uODQ0IDEuNTc0LTEuMTg5LjAxNi0uMTcuMDE2LS4zNC4wMy0uNTA4YTIuNjQ4IDIuNjQ4IDAgMDAtMS4wOTUtLjI3N2MuMzE0LS4xNS43NS0uMTUgMS4wMzUtLjMzMmwuMDE2LS4xOTNjLS40OTYtLjAzLS42OS0uMjU0LTEuMDIxLS40MzZ6bTcuNDU0IDIuOTM1YTE3Ljc4IDE3Ljc4IDAgMDAuNDY1LTEuNzUyYy4wNi0uMjg3LjIxNS0uOTE4LjE3OC0xLjE3Ni0uMDU5LS40NTktLjY4NC0uNzk5LTEuMDA0LTEuMDg2LS41ODQtLjUyNS0uOTUtLjk3NS0xLjU2LTEuNDY5LS4yNDkuMzc1LS43OC42MTUtLjk4My45MTQgMS40NDctLjY4OSAxLjcxIDIuNjI1IDEuMTQxIDMuNjkuMDkuMzI5LjM5MS40NS41MTQuNzM1bC0uMDg2LjE2NmgxLjI5Yy4wMTMgMCAuMDMgMCAuMDQ0LjAxNHptLTYuNjM0LS4wMTJjLS4wNS0uMDc0LS4xLS4xMzUtLjE1LS4yMDlsLS4zMDEuMTk1aC40NXptMi43NyAwYy4wMDgtLjIwOS4wMTgtLjQwNC4wMy0uNTk4LS41My4wMjktLjgyNS0uNDgtMS4xOTYtLjUyNy0uMzI0LS4wNDUtLjYuMzYxLTEuMDIuMTk1LS4wOTUuMTA1LS4xODMuMjI3LS4yODQuMzE2LjE1NC4xOC4yOTUuMzc1LjQyNC41ODRoLjgxNWMuMDE0LS4xNjQuMTM1LS4yODUuMy0uMjg1LjE2NSAwIC4yODQuMTIxLjI4NC4yN2guNjZ6bTIuMTE2IDBjLS4zMTQtLjQ3OS0uOTQ3LS44OTgtMS42OC0uNTU1bC0uMDMuNTQxaDEuNzF6bS04LjUxIDBsLS4xMDQtLjM0NGMtLjIyNS0uNzItLjM2LTEuMjYtLjQwNS0xLjY4LS45MTQtLjQzNi0xLjg3NS0uODctMi42NTQtMS40MjYtLjE1LS4xMDUtMS4xMDktMS4zNS0xLjIzLTEuMzA1LTEuNzM5LjY3Ni0zLjM1OSAxLjg2LTQuODE0IDIuOTg0LjI1Ni41NTcuNDggMS4xNDEuNjkgMS43NGg4LjUwNXptOC4yNjUtMi4xMTNjLS4wMjktLjUxMi0uMTY0LTEuNTYtLjQ4LTEuNzQtLjY2LS4zOS0xLjg0Ni43OC0yLjM0Ljk0My4wNDUuMTUuMTM1LjI3MS4xNS40OC4yODUtLjA3NC42NDUtLjAyOS44OTguMDkyLS4yOTkuMDMtLjYyOS4wMy0uODI0LjE2NC0uMDc0LjE5NS4wMTYuNDgtLjAyOS43NjQuNjkuMTk3IDEuNS4zMDMgMi4zODUuMzMyLjE2NC0uMjI3LjIyNS0uNjQ1LjIxMS0xLjA4MnptLTQuMDgtLjM2Yy0uMDQ0LjM3NS4wNDYuNTEuMTIuOTQzIDEuMjYuMzkxIDEuMDM0LTEuNzQtLjEzNS0uOTU5ek04Ljc2IDE5LjVjLS40NS40NTcgMS4yNyAxLjA4MiAxLjgxNCAxLjExNSAwLS4yOS4xNjUtLjU2NC4xMzUtLjc3LS42NS0uMTE4LTEuNTAyLS4wNDItMS45NDUtLjM0N3ptNS41NjUuMjE1YzAgLjA0My0uMDYxLjAzLS4wNjguMDY0LjU4LjQ1MSAxLjAxNC41NDUgMS44MDIuNTEuMzU0LS4yNjIuNjctLjU2MyAxLjA0My0uODA3LS44NTUuMDc0LTEuOTMxLjYwNy0yLjc3NC4yM3ptMy40Mi0xNy43MjZjLTEuNjA2LS45MDYtNC4zNS0xLjU5MS02LjA3Ni0uNzMxLTEuMzguNjkyLTMuMjcgMS44NC0zLjg5OSAzLjI5Mi42IDEuNDAyLS4xNjYgMi42ODYtLjIyNiA0LjEwOS0uMDE4Ljc1Ny4zNiAxLjQyLjM5MSAyLjI0Mi0uMi4zMzgtLjgyNS4zOC0xLjI2LjM1Ni0uMTQ2LS43MjktLjQtMS41NDktMS4xNTUtMS42My0xLjA2NC0uMTE2LTEuODQ1Ljc2NC0xLjg5IDEuNjgzLS4wNiAxLjA4LjgzMyAyLjg2NCAyLjA4NSAyLjc0NS40ODgtLjA0Ni42MDgtLjU0IDEuMTM5LS41NC4yODUuNTctLjQ0NS43NS0uNTIzIDEuMTU0LS4wMTYuMTA1LjA2LjUxMS4xMDQuNzA1LjIzMy45NDQuNzQ0IDIuMTYgMS4yNDUgMi44OC42MzUuOSAxLjg4NCAxLjA1MSAzLjIyOSAxLjE0MS4yNC0uNTI1IDEuMTI1LS40OCAxLjcwNi0uMzQ2LS42OTEtLjI3LTEuMzM2LS45NDUtMS44NzUtMS41MjktLjYxNS0uNjc2LTEuMjMtMS40MS0xLjI2MS0yLjI4IDEuMTU1IDEuNjA0IDIuMSAzIDQuMiAzLjcwNCAxLjU5LjUyNSAzLjQ1LS4yNTQgNC42NjQtMS4xMDkuNTEtLjM1OS44MTEtLjkzIDEuMTctMS40MzkgMS4zNS0xLjkzNiAxLjk4LTQuNzEgMS44NDYtNy4zOTQtLjA2LTEuMTExLS4wNi0yLjIyMS0uNDM2LTIuOTU1LS4zODktLjc4MS0xLjY5NS0xLjQ3MS0yLjQ3NS0uNzgxLS4xNS0uNzY0LjYzLTEuMjMgMS41NDUtLjk2LS42Ni0uODU0LTEuMzM2LTEuODU4LTIuMjY2LTIuMzg0ek0xMy41OCAxNC44OTZjLjYxNSAxLjU0NCAyLjcyNCAxLjM2MyA0LjUwNSAxLjMyMy0uMDg0LjE5NC0uMjU2LjQzNS0uNDY1LjUxNS0uNTcuMjMyLTIuMTQ1LjQwOC0yLjkzNy0uMDEyLS41MDYtLjI3LS44MjQtLjg3My0xLjEwMi0xLjIyNy0uMTM3LS4xNzItLjc5NS0uNjA4LS4wMTItLjYwOXptLjE2NC0uODdjLjg5My40NjQgMi41Mi41MTcgMy43MzEuNDguMDY2LjI2Ny4wNjYuNTkzLjA2OC45MTMtMS41NS4wOC0zLjM4Ni0uMzA0LTMuNzk0LTEuMzk1aC0uMDA1em02LjY3NS0uNTg2Yy0uNDczLjktMS4xNDUgMS44OTctMi41MzkgMS45MjgtLjAyMy0uMjg0LS4wNDUtLjczNSAwLS45MDQgMS4wNjQtLjEwMyAxLjcyNy0uNjQ2IDIuNTQzLTEuMDE3em0tLjY0OS0uNjY3Yy0xLjAyLjY2LTIuMTU0IDEuMzc1LTMuODI0IDEuMjEtLjM1MS0uMzEtLjQ4NS0xLS4xNC0xLjQ1OC4xODEuMzEzLjA2Ljg4NS41Ny45Ny45NDQuMTY1IDIuMDM4LS41NzkgMi43My0uODQuNDItLjcxMy0uMDQ2LS45NzYtLjQyLTEuNDMzLS43ODItLjkzLTEuODMtMi4xLTEuODAyLTMuNTEuMzE0LS4yMjQuMzQ2LjM0Ni4zOTEuNDUuNDA0Ljk2IDEuNDI0IDIuMTc1IDIuMTc0IDMgLjE4LjIxLjQ4LjM5LjUxLjUyNC4wOTIuMzktLjI1NC44NTQtLjIwOSAxLjExem0tMTMuNDM5LS42NzVjLS4zMTQtLjE4NC0uMzkzLS45OS0uNzY4LTEuMDEtLjUzNS0uMDMtLjQzOCAxLjA1LS40MzYgMS42OC0uMzctLjMzLS40MzUtMS4zNjUtLjE2NC0xLjg5LS4zMDgtLjE1LS40NDUuMTY0LS42MTguMjg0LjIyLTEuNTkgMi4zNC0uNzM0IDEuOTkuOTZ6TTQuNzEzIDUuOTk1Yy0uNjg1Ljc1Ni0uNTQgMi4xNzQtLjQ1OSAzLjE4OCAxLjI0NC0uNzg1IDIuODk4LjA2IDIuODgzIDEuMzk0LjU5NS0uMDE2LjIyMy0uNzQ0LjExNS0xLjIxNS0uMzUzLTEuNTI4LjU5Mi0zLjE4Ny4wNDEtNC41OS0xLjA2NC4wODQtMS45MzkuNTItMi41NzggMS4yMTV6bTkuMTIgMS4xMTNjLjMwNy41NjIuNDA0IDEuMTQ4Ljg0IDEuNTcuMTk1LjE5LjU3NC40MjQuMzg3Ljk1LS4wNDUuMTIxLS4zNjUuMzkxLS41NTEuNDUtLjY3NC4xOTUtMi4yNTQuMDMtMS43MjEtLjgxLjU2My4wMTUgMS4zMTQuMzYgMS43MzItLjA0NS0uMzE0LS41MjQtLjg4NS0xLjUzLS42NzQtMi4xM3ptNi4xOTgtLjAxM2guMDY4Yy4zMy42NjguNiAxLjM3NSAxLjAwNCAxLjk2NS0uMjcuNjI4LTIuMDUzIDEuMTktMi4wMjMuMDU3LjM5LS4xNyAxLjA1LS4wMzUgMS4zOTUtLjI1LS4xOTMtLjU1Ni0uNDgtMS4wMDYtLjQzNC0xLjc3MXptLTYuOTI3LTEuNjE3Yy0xLjQyMi0uMzMtMi4xMzEuNTkyLTIuNTYgMS41NTMtLjM4NC0uMDk0LS4yMzEtLjYxNS0uMTM1LS44ODMuMjU1LS43MDEgMS4yOC0xLjYzMyAyLjExOS0xLjUwNi4zNTkuMDU3Ljg0OC4zODYuNTc2LjgzNHpNOS42NDIgMS41OTNjLTEuNTYuNDQtMy41NiAxLjU3NC00LjIgMi45NzQuNDk1LS4wNy44NC0uMzIxIDEuMzMtLjM1MS4xODYtLjAxNi40MjguMDc0LjY0MS4wMTUuNDI0LS4xMDQuNzgtMS4wNjUgMS4xMDItMS40MS4zMS0uMzQ1LjY4NS0uNDk2Ljk0LS44MS4xNjctLjA5LjQwOS0uMDc0LjQyLS4zMy0uMDczLS4wNzUtLjE1LS4xMzUtLjIzMi0uMTA1di4wMTd6Ii8+PC9zdmc+">
+<style>
+  :root{--ac:#D24939;--acd:#9c3225;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRDI0OTM5IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+SmVua2luczwvdGl0bGU+PHBhdGggZD0iTTIuODcyIDI0aC0uOTc1YTMuODY2IDMuODY2IDAgMDEtLjA3LS4xOTdjLS4yMTUtLjY2Ni0uNTk0LTEuNDktLjY5Mi0yLjE1NC0uMTQ2LS45ODQuNzgtMS4wMzkgMS4zNzQtMS40NjUuOTE1LS42NiAxLjYzNS0xLjAyNSAyLjYyNy0xLjYyLjI5NS0uMTc5IDEuMTgyLS42MjQgMS4yODEtLjgyOS4yMDEtLjQwOC0uMzQ1LS45ODItLjQ5LTEuMy0uMjI1LS41MDctLjM0NS0uOTM3LS4zNzYtMS40MzUtLjgyNC0uMTMtMS40NTUtLjYyNy0xLjg0NC0xLjE4NS0uNjMtLjkyNS0xLjA2Ni0yLjYzNS0uNTI1LTMuOTM2LjA0NS0uMTAzLjI1NC0uMzA1LjI4NS0uNDYzLjA2LS4zMDgtLjEwNS0uNzItLjEyLTEuMDQ4LS4wNi0xLjY5Mi4yODQtMy4xNSAxLjQyNS0zLjY2LjQ2My0xLjg0IDIuMTEzLTIuNDUzIDMuNjczLTMuMzY3LjU4LS4zNDIgMS4yMjQtLjU2MiAxLjg5LS44MDcgMi4zNzItLjg3NyA2LjAyNy0uNzEyIDcuOTk0Ljc4My44MzYuNjMzIDIuMTc2IDEuOTcgMi42NTYgMi45MzkgMS4yNjIgMi41NTUgMS4xNyA2LjgyNS4yODcgOS45MzQtLjEyLjQyMS0uMjkgMS4wMzItLjUzMyAxLjUzMy0uMTY4LjM1LS42ODkgMS4wNS0uNjI1IDEuMzYuMDY0LjMxNCAxLjE5IDEuMTcgMS40MzIgMS4zOTUuNDM0LjQyMiAxLjI2Ljk3NSAxLjMyNCAxLjUuMDcuNTU3LS4yNDggMS4zMzYtLjQxIDEuODc1LS4yMTcuNzIxLS40MzYgMS40NDEtLjY1NCAyLjEzMUgyLjg3em0xMS4xMDQtMy41NGMtLjU0NS0uMy0xLjM2MS0uNjIyLTIuMDY1LS43NTctLjg3LS4xNjQtLjc4IDEuMTg4LS43NSAxLjk5NC4wMy42NDMuMzYgMS4zMTYuNTEgMS43NDQuMDc2LjE5Ny4wOS40MS4yNTYuNDQ5LjMuMDY4IDEuMjktLjMyNiAxLjU3NS0uNDc5LjYtLjMyOCAxLjA2NC0uODQ0IDEuNTc0LTEuMTg5LjAxNi0uMTcuMDE2LS4zNC4wMy0uNTA4YTIuNjQ4IDIuNjQ4IDAgMDAtMS4wOTUtLjI3N2MuMzE0LS4xNS43NS0uMTUgMS4wMzUtLjMzMmwuMDE2LS4xOTNjLS40OTYtLjAzLS42OS0uMjU0LTEuMDIxLS40MzZ6bTcuNDU0IDIuOTM1YTE3Ljc4IDE3Ljc4IDAgMDAuNDY1LTEuNzUyYy4wNi0uMjg3LjIxNS0uOTE4LjE3OC0xLjE3Ni0uMDU5LS40NTktLjY4NC0uNzk5LTEuMDA0LTEuMDg2LS41ODQtLjUyNS0uOTUtLjk3NS0xLjU2LTEuNDY5LS4yNDkuMzc1LS43OC42MTUtLjk4My45MTQgMS40NDctLjY4OSAxLjcxIDIuNjI1IDEuMTQxIDMuNjkuMDkuMzI5LjM5MS40NS41MTQuNzM1bC0uMDg2LjE2NmgxLjI5Yy4wMTMgMCAuMDMgMCAuMDQ0LjAxNHptLTYuNjM0LS4wMTJjLS4wNS0uMDc0LS4xLS4xMzUtLjE1LS4yMDlsLS4zMDEuMTk1aC40NXptMi43NyAwYy4wMDgtLjIwOS4wMTgtLjQwNC4wMy0uNTk4LS41My4wMjktLjgyNS0uNDgtMS4xOTYtLjUyNy0uMzI0LS4wNDUtLjYuMzYxLTEuMDIuMTk1LS4wOTUuMTA1LS4xODMuMjI3LS4yODQuMzE2LjE1NC4xOC4yOTUuMzc1LjQyNC41ODRoLjgxNWMuMDE0LS4xNjQuMTM1LS4yODUuMy0uMjg1LjE2NSAwIC4yODQuMTIxLjI4NC4yN2guNjZ6bTIuMTE2IDBjLS4zMTQtLjQ3OS0uOTQ3LS44OTgtMS42OC0uNTU1bC0uMDMuNTQxaDEuNzF6bS04LjUxIDBsLS4xMDQtLjM0NGMtLjIyNS0uNzItLjM2LTEuMjYtLjQwNS0xLjY4LS45MTQtLjQzNi0xLjg3NS0uODctMi42NTQtMS40MjYtLjE1LS4xMDUtMS4xMDktMS4zNS0xLjIzLTEuMzA1LTEuNzM5LjY3Ni0zLjM1OSAxLjg2LTQuODE0IDIuOTg0LjI1Ni41NTcuNDggMS4xNDEuNjkgMS43NGg4LjUwNXptOC4yNjUtMi4xMTNjLS4wMjktLjUxMi0uMTY0LTEuNTYtLjQ4LTEuNzQtLjY2LS4zOS0xLjg0Ni43OC0yLjM0Ljk0My4wNDUuMTUuMTM1LjI3MS4xNS40OC4yODUtLjA3NC42NDUtLjAyOS44OTguMDkyLS4yOTkuMDMtLjYyOS4wMy0uODI0LjE2NC0uMDc0LjE5NS4wMTYuNDgtLjAyOS43NjQuNjkuMTk3IDEuNS4zMDMgMi4zODUuMzMyLjE2NC0uMjI3LjIyNS0uNjQ1LjIxMS0xLjA4MnptLTQuMDgtLjM2Yy0uMDQ0LjM3NS4wNDYuNTEuMTIuOTQzIDEuMjYuMzkxIDEuMDM0LTEuNzQtLjEzNS0uOTU5ek04Ljc2IDE5LjVjLS40NS40NTcgMS4yNyAxLjA4MiAxLjgxNCAxLjExNSAwLS4yOS4xNjUtLjU2NC4xMzUtLjc3LS42NS0uMTE4LTEuNTAyLS4wNDItMS45NDUtLjM0N3ptNS41NjUuMjE1YzAgLjA0My0uMDYxLjAzLS4wNjguMDY0LjU4LjQ1MSAxLjAxNC41NDUgMS44MDIuNTEuMzU0LS4yNjIuNjctLjU2MyAxLjA0My0uODA3LS44NTUuMDc0LTEuOTMxLjYwNy0yLjc3NC4yM3ptMy40Mi0xNy43MjZjLTEuNjA2LS45MDYtNC4zNS0xLjU5MS02LjA3Ni0uNzMxLTEuMzguNjkyLTMuMjcgMS44NC0zLjg5OSAzLjI5Mi42IDEuNDAyLS4xNjYgMi42ODYtLjIyNiA0LjEwOS0uMDE4Ljc1Ny4zNiAxLjQyLjM5MSAyLjI0Mi0uMi4zMzgtLjgyNS4zOC0xLjI2LjM1Ni0uMTQ2LS43MjktLjQtMS41NDktMS4xNTUtMS42My0xLjA2NC0uMTE2LTEuODQ1Ljc2NC0xLjg5IDEuNjgzLS4wNiAxLjA4LjgzMyAyLjg2NCAyLjA4NSAyLjc0NS40ODgtLjA0Ni42MDgtLjU0IDEuMTM5LS41NC4yODUuNTctLjQ0NS43NS0uNTIzIDEuMTU0LS4wMTYuMTA1LjA2LjUxMS4xMDQuNzA1LjIzMy45NDQuNzQ0IDIuMTYgMS4yNDUgMi44OC42MzUuOSAxLjg4NCAxLjA1MSAzLjIyOSAxLjE0MS4yNC0uNTI1IDEuMTI1LS40OCAxLjcwNi0uMzQ2LS42OTEtLjI3LTEuMzM2LS45NDUtMS44NzUtMS41MjktLjYxNS0uNjc2LTEuMjMtMS40MS0xLjI2MS0yLjI4IDEuMTU1IDEuNjA0IDIuMSAzIDQuMiAzLjcwNCAxLjU5LjUyNSAzLjQ1LS4yNTQgNC42NjQtMS4xMDkuNTEtLjM1OS44MTEtLjkzIDEuMTctMS40MzkgMS4zNS0xLjkzNiAxLjk4LTQuNzEgMS44NDYtNy4zOTQtLjA2LTEuMTExLS4wNi0yLjIyMS0uNDM2LTIuOTU1LS4zODktLjc4MS0xLjY5NS0xLjQ3MS0yLjQ3NS0uNzgxLS4xNS0uNzY0LjYzLTEuMjMgMS41NDUtLjk2LS42Ni0uODU0LTEuMzM2LTEuODU4LTIuMjY2LTIuMzg0ek0xMy41OCAxNC44OTZjLjYxNSAxLjU0NCAyLjcyNCAxLjM2MyA0LjUwNSAxLjMyMy0uMDg0LjE5NC0uMjU2LjQzNS0uNDY1LjUxNS0uNTcuMjMyLTIuMTQ1LjQwOC0yLjkzNy0uMDEyLS41MDYtLjI3LS44MjQtLjg3My0xLjEwMi0xLjIyNy0uMTM3LS4xNzItLjc5NS0uNjA4LS4wMTItLjYwOXptLjE2NC0uODdjLjg5My40NjQgMi41Mi41MTcgMy43MzEuNDguMDY2LjI2Ny4wNjYuNTkzLjA2OC45MTMtMS41NS4wOC0zLjM4Ni0uMzA0LTMuNzk0LTEuMzk1aC0uMDA1em02LjY3NS0uNTg2Yy0uNDczLjktMS4xNDUgMS44OTctMi41MzkgMS45MjgtLjAyMy0uMjg0LS4wNDUtLjczNSAwLS45MDQgMS4wNjQtLjEwMyAxLjcyNy0uNjQ2IDIuNTQzLTEuMDE3em0tLjY0OS0uNjY3Yy0xLjAyLjY2LTIuMTU0IDEuMzc1LTMuODI0IDEuMjEtLjM1MS0uMzEtLjQ4NS0xLS4xNC0xLjQ1OC4xODEuMzEzLjA2Ljg4NS41Ny45Ny45NDQuMTY1IDIuMDM4LS41NzkgMi43My0uODQuNDItLjcxMy0uMDQ2LS45NzYtLjQyLTEuNDMzLS43ODItLjkzLTEuODMtMi4xLTEuODAyLTMuNTEuMzE0LS4yMjQuMzQ2LjM0Ni4zOTEuNDUuNDA0Ljk2IDEuNDI0IDIuMTc1IDIuMTc0IDMgLjE4LjIxLjQ4LjM5LjUxLjUyNC4wOTIuMzktLjI1NC44NTQtLjIwOSAxLjExem0tMTMuNDM5LS42NzVjLS4zMTQtLjE4NC0uMzkzLS45OS0uNzY4LTEuMDEtLjUzNS0uMDMtLjQzOCAxLjA1LS40MzYgMS42OC0uMzctLjMzLS40MzUtMS4zNjUtLjE2NC0xLjg5LS4zMDgtLjE1LS40NDUuMTY0LS42MTguMjg0LjIyLTEuNTkgMi4zNC0uNzM0IDEuOTkuOTZ6TTQuNzEzIDUuOTk1Yy0uNjg1Ljc1Ni0uNTQgMi4xNzQtLjQ1OSAzLjE4OCAxLjI0NC0uNzg1IDIuODk4LjA2IDIuODgzIDEuMzk0LjU5NS0uMDE2LjIyMy0uNzQ0LjExNS0xLjIxNS0uMzUzLTEuNTI4LjU5Mi0zLjE4Ny4wNDEtNC41OS0xLjA2NC4wODQtMS45MzkuNTItMi41NzggMS4yMTV6bTkuMTIgMS4xMTNjLjMwNy41NjIuNDA0IDEuMTQ4Ljg0IDEuNTcuMTk1LjE5LjU3NC40MjQuMzg3Ljk1LS4wNDUuMTIxLS4zNjUuMzkxLS41NTEuNDUtLjY3NC4xOTUtMi4yNTQuMDMtMS43MjEtLjgxLjU2My4wMTUgMS4zMTQuMzYgMS43MzItLjA0NS0uMzE0LS41MjQtLjg4NS0xLjUzLS42NzQtMi4xM3ptNi4xOTgtLjAxM2guMDY4Yy4zMy42NjguNiAxLjM3NSAxLjAwNCAxLjk2NS0uMjcuNjI4LTIuMDUzIDEuMTktMi4wMjMuMDU3LjM5LS4xNyAxLjA1LS4wMzUgMS4zOTUtLjI1LS4xOTMtLjU1Ni0uNDgtMS4wMDYtLjQzNC0xLjc3MXptLTYuOTI3LTEuNjE3Yy0xLjQyMi0uMzMtMi4xMzEuNTkyLTIuNTYgMS41NTMtLjM4NC0uMDk0LS4yMzEtLjYxNS0uMTM1LS44ODMuMjU1LS43MDEgMS4yOC0xLjYzMyAyLjExOS0xLjUwNi4zNTkuMDU3Ljg0OC4zODYuNTc2LjgzNHpNOS42NDIgMS41OTNjLTEuNTYuNDQtMy41NiAxLjU3NC00LjIgMi45NzQuNDk1LS4wNy44NC0uMzIxIDEuMzMtLjM1MS4xODYtLjAxNi40MjguMDc0LjY0MS4wMTUuNDI0LS4xMDQuNzgtMS4wNjUgMS4xMDItMS40MS4zMS0uMzQ1LjY4NS0uNDk2Ljk0LS44MS4xNjctLjA5LjQwOS0uMDc0LjQyLS4zMy0uMDczLS4wNzUtLjE1LS4xMzUtLjIzMi0uMTA1di4wMTd6Ii8+PC9zdmc+" width="110" alt="Jenkins logo" /><h1 id="jenkins--complete-notes">Jenkins — Complete Notes</h1>
+<p><strong>Automation server</strong> · Build, test &amp; deploy with pipelines</p>
+<p><img src="https://img.shields.io/badge/Tool-CI%2FCD-D24939?style=flat-square&logo=jenkins&logoColor=white" alt="Type">
+<img src="https://img.shields.io/badge/Model-Self--hosted-D24939?style=flat-square" alt="Model">
+<img src="https://img.shields.io/badge/Pipeline-as%20Code-blue?style=flat-square" alt="Pipeline">
+<img src="https://img.shields.io/badge/Plugins-1800%2B-lightgrey?style=flat-square" alt="Plugins"></p>
+<p><em>A reader-friendly, all-in-one reference for Jenkins.</em></p>
+<p><a class="dl-btn" href="jenkins-notes.pdf" download="jenkins-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-jenkins">What is Jenkins</a></li>
+<li><a href="#2--architecture-controller--agents">Architecture (Controller &amp; Agents)</a></li>
+<li><a href="#3--core-concepts">Core Concepts</a></li>
+<li><a href="#4--freestyle-vs-pipeline">Freestyle vs Pipeline</a></li>
+<li><a href="#5--the-jenkinsfile-declarative-vs-scripted">The Jenkinsfile (Declarative vs Scripted)</a></li>
+<li><a href="#6--pipeline-example">Pipeline Example</a></li>
+<li><a href="#7--agents--distributed-builds">Agents &amp; Distributed Builds</a></li>
+<li><a href="#8--triggers">Triggers</a></li>
+<li><a href="#9--plugins">Plugins</a></li>
+<li><a href="#10--credentials--security">Credentials &amp; Security</a></li>
+<li><a href="#11--jenkins-vs-github-actions-vs-gitlab">Jenkins vs GitHub Actions vs GitLab</a></li>
+<li><a href="#12--best-practices">Best Practices</a></li>
+<li><a href="#13--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#14--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-jenkins">1. 🤖 What is Jenkins</h2>
+<p>Jenkins is an <strong>open-source automation server</strong> for building, testing, and deploying software — the veteran, <strong>self-hosted</strong> CI/CD tool. You define pipelines as code, and Jenkins runs them on triggers (a commit, a schedule, a webhook), automating everything from compile to deploy. Its huge <strong>plugin</strong> ecosystem lets it integrate with almost any tool.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Jenkins is a <strong>programmable robot butler</strong> that watches your repos and runs your build/test/deploy steps on demand. You own the server (and its upkeep) — maximum flexibility, more operational responsibility than hosted CI.</p>
+</blockquote>
+<p><strong>Common uses:</strong> CI builds &amp; tests on every commit, packaging artifacts/images, deploying to environments, scheduled/cron jobs, orchestrating complex multi-stage release pipelines.</p>
+<hr>
+<h2 id="2--architecture-controller--agents">2. 🏛️ Architecture (Controller &amp; Agents)</h2>
+<p>Jenkins uses a <strong>controller + agents</strong> model:</p>
+<pre><code>        ┌────────────────────────┐
+        │   Jenkins Controller    │  schedules jobs, stores config,
+        │   (master / web UI)     │  serves UI, dispatches work
+        └───────────┬────────────┘
+            distributes builds
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+   ┌────────┐  ┌────────┐  ┌────────┐
+   │ Agent  │  │ Agent  │  │ Agent  │   run the actual build steps
+   │(node)  │  │(node)  │  │(node)  │   in their executors
+   └────────┘  └────────┘  └────────┘
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Controller</strong> (formerly &quot;master&quot;)</td>
+<td>Brains: schedules jobs, manages config/plugins, serves the web UI, dispatches builds. Shouldn&#39;t run heavy builds itself.</td>
+</tr>
+<tr>
+<td><strong>Agent</strong> (node)</td>
+<td>A machine that <strong>executes</strong> build jobs. Connects to the controller (via SSH, JNLP, or as a container).</td>
+</tr>
+<tr>
+<td><strong>Executor</strong></td>
+<td>A slot on an agent that runs <strong>one build at a time</strong> (an agent has N executors = N parallel builds).</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--core-concepts">3. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Job / Project</strong></td>
+<td>A configured task (build/test/deploy).</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td>One execution/run of a job (numbered #1, #2…).</td>
+</tr>
+<tr>
+<td><strong>Pipeline</strong></td>
+<td>A suite of jobs/stages defined as code (a <code>Jenkinsfile</code>).</td>
+</tr>
+<tr>
+<td><strong>Stage</strong></td>
+<td>A logical phase of a pipeline (Build, Test, Deploy).</td>
+</tr>
+<tr>
+<td><strong>Step</strong></td>
+<td>A single action within a stage (<code>sh &#39;make&#39;</code>).</td>
+</tr>
+<tr>
+<td><strong>Node / Agent</strong></td>
+<td>Where a build runs.</td>
+</tr>
+<tr>
+<td><strong>Workspace</strong></td>
+<td>The directory on an agent where a build&#39;s files live.</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>A build output you archive/publish.</td>
+</tr>
+<tr>
+<td><strong>Plugin</strong></td>
+<td>Add-on extending Jenkins functionality.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4--freestyle-vs-pipeline">4. 🆚 Freestyle vs Pipeline</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Freestyle job</strong></th>
+<th><strong>Pipeline</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Defined via</td>
+<td>Web UI checkboxes/forms</td>
+<td>Code (a <code>Jenkinsfile</code>)</td>
+</tr>
+<tr>
+<td>Versioned in SCM</td>
+<td>❌ Not easily</td>
+<td>✅ Yes (pipeline as code)</td>
+</tr>
+<tr>
+<td>Complex logic</td>
+<td>Limited</td>
+<td>Full (stages, parallel, conditions, loops)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Simple, one-off tasks</td>
+<td>Real CI/CD, modern usage</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>✅ Prefer <strong>Pipeline</strong> (a <code>Jenkinsfile</code> in the repo) — it&#39;s versioned, reviewable, and reproducible. Freestyle is legacy/simple-task only.</p>
+</blockquote>
+<hr>
+<h2 id="5--the-jenkinsfile-declarative-vs-scripted">5. 📝 The Jenkinsfile (Declarative vs Scripted)</h2>
+<p>A <strong><code>Jenkinsfile</code></strong> lives in your repo and defines the pipeline as code. Two syntaxes:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Declarative</strong></th>
+<th><strong>Scripted</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Style</td>
+<td>Structured, opinionated (<code>pipeline { }</code>)</td>
+<td>Full Groovy programming</td>
+</tr>
+<tr>
+<td>Readability</td>
+<td>Easier, recommended</td>
+<td>More powerful, more complex</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Most pipelines</td>
+<td>Advanced/dynamic logic</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Declarative</strong> is the modern default: a clear <code>pipeline { agent / stages / steps }</code> structure with built-in <code>post</code>, <code>environment</code>, <code>when</code>, <code>parallel</code>.</li>
+<li><strong>Scripted</strong> is full Groovy — flexible but verbose; reach for it only when declarative can&#39;t express your logic.</li>
+</ul>
+<hr>
+<h2 id="6--pipeline-example">6. ⚙️ Pipeline Example</h2>
+<p>A declarative <code>Jenkinsfile</code> — build → test → deploy:</p>
+<pre><code class="language-groovy">pipeline {
+  agent any
+  environment {
+    REGISTRY = &#39;ghcr.io/myorg/app&#39;
+  }
+  stages {
+    stage(&#39;Build&#39;) {
+      steps { sh &#39;npm ci &amp;&amp; npm run build&#39; }
+    }
+    stage(&#39;Test&#39;) {
+      steps { sh &#39;npm test&#39; }
+      post { always { junit &#39;reports/*.xml&#39; } }   // publish test results
+    }
+    stage(&#39;Deploy&#39;) {
+      when { branch &#39;main&#39; }                        // only on main
+      steps {
+        withCredentials([string(credentialsId: &#39;deploy-token&#39;, variable: &#39;TOKEN&#39;)]) {
+          sh &#39;./deploy.sh&#39;
+        }
+      }
+    }
+  }
+  post {
+    success { echo &#39;Pipeline succeeded&#39; }
+    failure { echo &#39;Pipeline failed&#39; }              // notify on failure
+  }
+}
+</code></pre>
+<blockquote>
+<p>Key blocks: <strong><code>agent</code></strong> (where it runs), <strong><code>stages</code>/<code>steps</code></strong> (the work), <strong><code>when</code></strong> (conditional stages), <strong><code>environment</code></strong> (vars), <strong><code>post</code></strong> (always/success/failure handlers), <strong><code>parallel</code></strong> (run stages concurrently).</p>
+</blockquote>
+<hr>
+<h2 id="7--agents--distributed-builds">7. 🖥️ Agents &amp; Distributed Builds</h2>
+<ul>
+<li>The controller <strong>distributes builds to agents</strong> so work runs in parallel and on the right platform (Linux/Windows/macOS, GPU, etc.).</li>
+<li><strong>Agent connection methods:</strong> SSH, inbound (JNLP), or dynamically provisioned (Docker/Kubernetes).</li>
+<li><strong>Label</strong> agents (e.g. <code>linux</code>, <code>docker</code>) and target them in the pipeline (<code>agent { label &#39;linux&#39; }</code>).</li>
+<li><strong>Dynamic agents</strong> — the <strong>Kubernetes plugin</strong> spins up a fresh pod per build (clean, scalable, ephemeral), then tears it down.</li>
+</ul>
+<hr>
+<h2 id="8--triggers">8. ⏰ Triggers</h2>
+<p>How a build starts:</p>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SCM polling</strong></td>
+<td>Jenkins periodically checks the repo for changes (<code>pollSCM</code>).</td>
+</tr>
+<tr>
+<td><strong>Webhook</strong></td>
+<td>The SCM (GitHub/GitLab) pushes an event to Jenkins → instant build (preferred over polling).</td>
+</tr>
+<tr>
+<td><strong>Scheduled (cron)</strong></td>
+<td>Time-based (<code>triggers { cron(&#39;H 2 * * *&#39;) }</code>).</td>
+</tr>
+<tr>
+<td><strong>Upstream/downstream</strong></td>
+<td>One job triggers another on completion.</td>
+</tr>
+<tr>
+<td><strong>Manual / parameterized</strong></td>
+<td>A user clicks &quot;Build&quot; (optionally with parameters).</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Use <strong>webhooks</strong> over polling — instant builds and no wasted SCM checks. <code>H</code> in cron spreads load (hashed), avoiding the &quot;everything at midnight&quot; stampede.</p>
+</blockquote>
+<hr>
+<h2 id="9--plugins">9. 🔌 Plugins</h2>
+<ul>
+<li>Jenkins&#39; power comes from <strong>1,800+ plugins</strong> — Git, Docker, Kubernetes, Pipeline, Blue Ocean (modern UI), Credentials, Slack, JUnit, SonarQube, cloud agents, and more.</li>
+<li>Plugins extend triggers, build steps, SCM, UI, notifications, and integrations.</li>
+<li>⚠️ Plugins are also the main <strong>maintenance and security burden</strong> — keep them (and the core) <strong>updated</strong>, and only install what you need (each adds attack surface and upgrade risk).</li>
+</ul>
+<hr>
+<h2 id="10--credentials--security">10. 🔐 Credentials &amp; Security</h2>
+<ul>
+<li><strong>Credentials store</strong> — keep secrets (tokens, SSH keys, passwords, cloud creds) in Jenkins&#39; credentials manager; reference by <strong>ID</strong> in pipelines via <code>withCredentials</code> / <code>credentials()</code>. Never hard-code secrets in a <code>Jenkinsfile</code>.</li>
+<li><strong>Folder/scoped credentials</strong> limit who/what can use a secret.</li>
+<li><strong>Security basics:</strong> enable authentication, use <strong>role-based access control</strong> (Matrix/RBAC plugin), keep Jenkins <strong>off the public internet</strong> (or behind a proxy/VPN), run builds on <strong>agents not the controller</strong>, and <strong>patch core + plugins</strong> regularly.</li>
+<li>Treat the <strong>controller as highly privileged</strong> — anyone who can run a pipeline can often run code on it.</li>
+</ul>
+<hr>
+<h2 id="11--jenkins-vs-github-actions-vs-gitlab">11. ⚖️ Jenkins vs GitHub Actions vs GitLab</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Jenkins</strong></th>
+<th><strong>GitHub Actions</strong></th>
+<th><strong>GitLab CI/CD</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hosting</td>
+<td>Self-hosted (you run it)</td>
+<td>Hosted by GitHub (or self-hosted runners)</td>
+<td>Hosted or self-managed</td>
+</tr>
+<tr>
+<td>Config</td>
+<td><code>Jenkinsfile</code> (Groovy)</td>
+<td><code>.github/workflows/*.yml</code></td>
+<td><code>.gitlab-ci.yml</code></td>
+</tr>
+<tr>
+<td>Setup/upkeep</td>
+<td>You maintain server + plugins</td>
+<td>Minimal (managed)</td>
+<td>Minimal (if SaaS)</td>
+</tr>
+<tr>
+<td>Flexibility</td>
+<td>Maximum (plugins, any tool)</td>
+<td>Large marketplace</td>
+<td>Strong, integrated</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Full control, complex/legacy, on-prem</td>
+<td>Repos already on GitHub</td>
+<td>Repos already on GitLab</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Jenkins = <strong>maximum control + responsibility</strong> (you own the server). Hosted CI (Actions/GitLab) = <strong>less setup</strong>, tightly integrated with the repo platform.</p>
+</blockquote>
+<hr>
+<h2 id="12--best-practices">12. ✅ Best Practices</h2>
+<ul>
+<li><strong>Pipeline as code</strong> — keep a <code>Jenkinsfile</code> in the repo (declarative); avoid clicky Freestyle jobs.</li>
+<li><strong>Don&#39;t build on the controller</strong> — run all builds on <strong>agents</strong>; keep the controller for orchestration.</li>
+<li><strong>Use webhooks</strong>, not SCM polling, for instant builds.</li>
+<li><strong>Store secrets in the credentials store</strong>; reference by ID, never hard-code.</li>
+<li><strong>Keep core + plugins updated</strong>; install only what you need.</li>
+<li><strong>Ephemeral agents</strong> (Docker/Kubernetes) for clean, scalable, reproducible builds.</li>
+<li><strong>Fail fast + publish results</strong> (<code>junit</code>, archive artifacts); notify on failure (<code>post</code>).</li>
+<li><strong>Back up</strong> <code>JENKINS_HOME</code> (config, jobs, credentials); treat Jenkins config as code where possible (JCasC).</li>
+<li><strong>Lock down access</strong> with authentication + RBAC; keep it off the public internet.</li>
+</ul>
+<hr>
+<h2 id="13--quick-mental-model">13. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Jenkins = self-hosted automation server for CI/CD</strong> — you run it, you own it.</li>
+<li><strong>Controller</strong> schedules + serves UI; <strong>agents</strong> run builds in <strong>executors</strong> (parallel slots).</li>
+<li>Modern usage = <strong>Pipeline as code</strong> in a <strong><code>Jenkinsfile</code></strong> (prefer <strong>declarative</strong>) — versioned &amp; reviewable.</li>
+<li>A pipeline = <strong>stages → steps</strong>, with <code>agent</code>, <code>when</code>, <code>environment</code>, <code>post</code>, <code>parallel</code>.</li>
+<li>Triggered by <strong>webhooks</strong> (best), polling, cron, or upstream jobs.</li>
+<li><strong>Plugins</strong> give it superpowers — and are its main upkeep/security burden; keep them patched.</li>
+<li>Secrets live in the <strong>credentials store</strong>; run builds on <strong>agents</strong>, not the controller; lock it down.</li>
+<li>vs hosted CI: <strong>more control, more maintenance.</strong></li>
+</ul>
+<hr>
+<h2 id="14--common-interview-questions">14. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Jenkins:</p>
+<ul>
+<li><strong>Q: What is Jenkins?</strong> — An open-source, self-hosted automation server for CI/CD; you define pipelines as code and it builds/tests/deploys on triggers.</li>
+<li><strong>Q: Controller vs agent?</strong> — The controller schedules jobs, stores config, and serves the UI; agents (nodes) actually execute the builds. Don&#39;t run heavy builds on the controller.</li>
+<li><strong>Q: What is an executor?</strong> — A slot on an agent that runs one build at a time; N executors = N concurrent builds on that agent.</li>
+<li><strong>Q: Freestyle vs Pipeline?</strong> — Freestyle is UI-configured and not versioned; Pipeline is code (<code>Jenkinsfile</code>), versioned in SCM, supports complex logic — the modern choice.</li>
+<li><strong>Q: Declarative vs Scripted pipeline?</strong> — Declarative is structured/opinionated and recommended; Scripted is full Groovy for advanced/dynamic needs.</li>
+<li><strong>Q: How do you trigger a build?</strong> — SCM webhook (preferred), SCM polling, cron schedule, upstream job, or manual/parameterized.</li>
+<li><strong>Q: How are secrets handled?</strong> — In the Jenkins credentials store, referenced by ID via <code>withCredentials</code>/<code>credentials()</code> — never hard-coded.</li>
+<li><strong>Q: How do you scale Jenkins?</strong> — Add agents; use dynamic ephemeral agents (Docker/Kubernetes) that spin up per build.</li>
+<li><strong>Q: Jenkins vs GitHub Actions?</strong> — Jenkins is self-hosted with maximum flexibility (and upkeep); Actions is managed and tightly integrated with GitHub repos.</li>
+<li><strong>Q: What is a Jenkinsfile?</strong> — A text file in the repo defining the pipeline as code (stages/steps), enabling versioning and review.</li>
+<li><strong>Q: Why not build on the controller?</strong> — Security and stability — builds run arbitrary code; isolate them on agents and keep the controller for orchestration.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Jenkins.</em></p>
+</div>
+</main></body></html>
