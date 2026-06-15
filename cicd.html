@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI/CD — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMTZBMzRBIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Q0kvQ0Q8L3RpdGxlPjxwYXRoIGQ9Ik0xMiAzLjVjMy4zMiAwIDYuMTggMS45OCA3LjQ2IDQuODNsMS43OS0uODZBMTAgMTAgMCAwIDAgMi41IDkuMlY2SC41djYuNWg2LjV2LTJIMy44NkE4IDggMCAwIDEgMTIgMy41ek0xNyAxMS41djJoMy4xNEE4IDggMCAwIDEgNC41NCAxNS42N2wtMS43OS44NkExMCAxMCAwIDAgMCAyMS41IDE0LjhWMThoMnYtNi41eiIvPjxwYXRoIGQ9Im0xMC42IDE0LjEtMi0yLTEuNCAxLjQgMy40IDMuNCA1LjItNS4yLTEuNC0xLjR6Ii8+PC9zdmc+Cg==">
+<style>
+  :root{--ac:#16A34A;--acd:#15803d;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMTZBMzRBIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Q0kvQ0Q8L3RpdGxlPjxwYXRoIGQ9Ik0xMiAzLjVjMy4zMiAwIDYuMTggMS45OCA3LjQ2IDQuODNsMS43OS0uODZBMTAgMTAgMCAwIDAgMi41IDkuMlY2SC41djYuNWg2LjV2LTJIMy44NkE4IDggMCAwIDEgMTIgMy41ek0xNyAxMS41djJoMy4xNEE4IDggMCAwIDEgNC41NCAxNS42N2wtMS43OS44NkExMCAxMCAwIDAgMCAyMS41IDE0LjhWMThoMnYtNi41eiIvPjxwYXRoIGQ9Im0xMC42IDE0LjEtMi0yLTEuNCAxLjQgMy40IDMuNCA1LjItNS4yLTEuNC0xLjR6Ii8+PC9zdmc+Cg==" width="110" alt="CI/CD logo" /><h1 id="cicd--complete-notes">CI/CD — Complete Notes</h1>
+<p><strong>Continuous Integration &amp; Delivery/Deployment</strong> · Ship code automatically &amp; safely</p>
+<p><img src="https://img.shields.io/badge/Practice-CI%2FCD-16A34A?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Goal-Automate%20delivery-16A34A?style=flat-square" alt="Goal">
+<img src="https://img.shields.io/badge/CI-Build%20%2B%20Test-blue?style=flat-square" alt="CI">
+<img src="https://img.shields.io/badge/CD-Release%20%2B%20Deploy-lightgrey?style=flat-square" alt="CD"></p>
+<p><em>A reader-friendly, all-in-one reference for CI/CD.</em></p>
+<p><a class="dl-btn" href="cicd-notes.pdf" download="cicd-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-cicd">What is CI/CD</a></li>
+<li><a href="#2--ci-vs-cd-vs-cd">CI vs CD vs CD</a></li>
+<li><a href="#3--the-pipeline--its-stages">The Pipeline &amp; Its Stages</a></li>
+<li><a href="#4--core-concepts">Core Concepts</a></li>
+<li><a href="#5--cicd-tools">CI/CD Tools</a></li>
+<li><a href="#6--github-actions-example">GitHub Actions Example</a></li>
+<li><a href="#7--testing-in-the-pipeline">Testing in the Pipeline</a></li>
+<li><a href="#8--deployment-strategies">Deployment Strategies</a></li>
+<li><a href="#9--secrets--pipeline-security">Secrets &amp; Pipeline Security</a></li>
+<li><a href="#10--iac--gitops">IaC &amp; GitOps</a></li>
+<li><a href="#11--best-practices">Best Practices</a></li>
+<li><a href="#12--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#13--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-cicd">1. 🔁 What is CI/CD</h2>
+<p>CI/CD is the practice of <strong>automating how code goes from a commit to production</strong> — building, testing, and releasing it through a repeatable <strong>pipeline</strong> instead of manual steps. It catches bugs early, removes human error from releases, and lets teams ship small changes <strong>frequently and safely</strong>.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> every push flows through an automated assembly line — <strong>build → test → release → deploy</strong>. If any stage fails, the change stops there, so broken code never reaches users.</p>
+</blockquote>
+<p><strong>Why it matters:</strong> faster feedback, fewer integration headaches, smaller/safer releases, easy rollbacks, and consistency (the pipeline does the same thing every time).</p>
+<hr>
+<h2 id="2--ci-vs-cd-vs-cd">2. ⚖️ CI vs CD vs CD</h2>
+<p>Three terms people blur together:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Means</th>
+<th>Stops at</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Continuous Integration (CI)</strong></td>
+<td>Devs merge to a shared branch often; each merge auto-<strong>builds + tests</strong></td>
+<td>A validated build/artifact</td>
+</tr>
+<tr>
+<td><strong>Continuous Delivery (CD)</strong></td>
+<td>Every passing change is automatically prepared for release; deploy to prod is a <strong>manual approval/button</strong></td>
+<td>Ready-to-deploy, human clicks &quot;go&quot;</td>
+</tr>
+<tr>
+<td><strong>Continuous Deployment (CD)</strong></td>
+<td>Every passing change is <strong>automatically deployed to production</strong> — no human gate</td>
+<td>Live in production</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>🔑 The distinction that trips people up: <strong>Continuous Delivery</strong> = <em>automated up to</em> production (manual approval to release). <strong>Continuous Deployment</strong> = <em>automated all the way to</em> production (no manual step). CI is the build+test foundation both rely on.</p>
+</blockquote>
+<hr>
+<h2 id="3--the-pipeline--its-stages">3. 🏗️ The Pipeline &amp; Its Stages</h2>
+<p>A <strong>pipeline</strong> is the automated sequence a change runs through. A typical flow:</p>
+<pre><code> Commit ─▶ Build ─▶ Test ─▶ Package ─▶ Deploy(staging) ─▶ Approve ─▶ Deploy(prod)
+            │        │         │                                         │
+          compile  unit +    artifact /                              release to
+          deps     lint      container image                         users
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Source</strong></td>
+<td>A push/PR/merge (or schedule) <strong>triggers</strong> the pipeline.</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td>Compile, install deps, produce an <strong>artifact</strong> (jar, binary, container image).</td>
+</tr>
+<tr>
+<td><strong>Test</strong></td>
+<td>Unit, integration, lint, security scans — fail fast.</td>
+</tr>
+<tr>
+<td><strong>Package/Publish</strong></td>
+<td>Push the artifact/image to a registry (ECR, GHCR, Artifactory).</td>
+</tr>
+<tr>
+<td><strong>Deploy</strong></td>
+<td>Release to staging, then (after gates) production.</td>
+</tr>
+<tr>
+<td><strong>Verify</strong></td>
+<td>Smoke tests, health checks, monitoring after deploy.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4--core-concepts">4. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Pipeline / Workflow</strong></td>
+<td>The whole automated process definition (often YAML in the repo).</td>
+</tr>
+<tr>
+<td><strong>Stage / Job</strong></td>
+<td>A phase of the pipeline (build, test, deploy); jobs can run in parallel.</td>
+</tr>
+<tr>
+<td><strong>Step</strong></td>
+<td>A single command or action within a job.</td>
+</tr>
+<tr>
+<td><strong>Runner / Agent</strong></td>
+<td>The machine that executes jobs (hosted or self-hosted).</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>The build output passed between stages / stored.</td>
+</tr>
+<tr>
+<td><strong>Trigger</strong></td>
+<td>What starts a pipeline (push, PR, tag, schedule, manual).</td>
+</tr>
+<tr>
+<td><strong>Environment</strong></td>
+<td>A deploy target (dev/staging/prod), often with protection rules.</td>
+</tr>
+<tr>
+<td><strong>Gate / Approval</strong></td>
+<td>A manual or automated check before promoting a change.</td>
+</tr>
+<tr>
+<td><strong>Cache</strong></td>
+<td>Reused dependencies to speed up builds.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5--cicd-tools">5. 🛠️ CI/CD Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GitHub Actions</strong></td>
+<td>CI/CD built into GitHub; YAML workflows, huge marketplace.</td>
+</tr>
+<tr>
+<td><strong>GitLab CI/CD</strong></td>
+<td>Built into GitLab; <code>.gitlab-ci.yml</code>.</td>
+</tr>
+<tr>
+<td><strong>Jenkins</strong></td>
+<td>Veteran, self-hosted, plugin ecosystem; <code>Jenkinsfile</code> pipelines.</td>
+</tr>
+<tr>
+<td><strong>CircleCI / Travis CI</strong></td>
+<td>Popular hosted CI services.</td>
+</tr>
+<tr>
+<td><strong>AWS CodePipeline / CodeBuild / CodeDeploy</strong></td>
+<td>AWS-native pipeline, build, and deploy services.</td>
+</tr>
+<tr>
+<td><strong>Argo CD / Flux</strong></td>
+<td><strong>GitOps</strong> CD for Kubernetes (sync cluster to Git).</td>
+</tr>
+<tr>
+<td><strong>Azure DevOps / Bitbucket Pipelines</strong></td>
+<td>Microsoft / Atlassian offerings.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>They all share the same shape: a <strong>YAML (or Jenkinsfile) pipeline</strong> triggered by events, running <strong>jobs on runners</strong>, producing <strong>artifacts</strong>, and <strong>deploying</strong> to environments.</p>
+</blockquote>
+<hr>
+<h2 id="6--github-actions-example">6. ⚙️ GitHub Actions Example</h2>
+<p>A minimal build → test → deploy workflow:</p>
+<pre><code class="language-yaml"># .github/workflows/cicd.yml
+name: CI/CD
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm run lint &amp;&amp; npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with: { name: dist, path: dist/ }
+
+  deploy:
+    needs: build-test                 # only after build-test passes
+    if: github.ref == &#39;refs/heads/main&#39;
+    runs-on: ubuntu-latest
+    environment: production           # can require manual approval
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./deploy.sh
+        env:
+          AWS_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
+</code></pre>
+<blockquote>
+<p><code>needs:</code> chains jobs; <code>environment:</code> adds protection/approval; <code>${{ secrets.* }}</code> injects credentials securely.</p>
+</blockquote>
+<hr>
+<h2 id="7--testing-in-the-pipeline">7. 🧪 Testing in the Pipeline</h2>
+<p>The &quot;test pyramid&quot; — fast, broad checks first; slow, narrow ones later:</p>
+<ul>
+<li><strong>Unit tests</strong> — fast, run on every commit (the bulk).</li>
+<li><strong>Integration tests</strong> — components together (DB, APIs).</li>
+<li><strong>End-to-end (E2E)</strong> — full user flows (fewer, slower).</li>
+<li><strong>Static analysis</strong> — lint, type-check, <strong>SAST</strong> (security), dependency/vuln scans, container image scans.</li>
+<li><strong>Fail fast</strong> — order cheap checks first so failures surface in seconds, not minutes.</li>
+</ul>
+<hr>
+<h2 id="8--deployment-strategies">8. 🚀 Deployment Strategies</h2>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>How</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Rolling</strong></td>
+<td>Replace instances gradually</td>
+<td>Simple; mixed versions briefly</td>
+</tr>
+<tr>
+<td><strong>Blue/Green</strong></td>
+<td>Stand up a full new env, switch traffic over</td>
+<td>Instant rollback; doubles resources during switch</td>
+</tr>
+<tr>
+<td><strong>Canary</strong></td>
+<td>Send a small % of traffic to the new version, then ramp</td>
+<td>Limits blast radius; needs good monitoring</td>
+</tr>
+<tr>
+<td><strong>Recreate</strong></td>
+<td>Stop old, start new</td>
+<td>Simplest; causes downtime</td>
+</tr>
+<tr>
+<td><strong>Feature flags</strong></td>
+<td>Ship code dark, toggle on later</td>
+<td>Decouples deploy from release; flag management overhead</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Pair any strategy with <strong>health checks + automated rollback</strong> so a bad release is reverted fast.</p>
+</blockquote>
+<hr>
+<h2 id="9--secrets--pipeline-security">9. 🔐 Secrets &amp; Pipeline Security</h2>
+<ul>
+<li><strong>Never hard-code secrets</strong> — use the platform&#39;s <strong>secrets store</strong> (GitHub Actions secrets, GitLab CI variables) or a manager (AWS Secrets Manager, Vault).</li>
+<li>Prefer <strong>short-lived credentials</strong> — e.g. <strong>OIDC</strong> federation so the pipeline assumes an <strong>IAM role</strong> instead of storing long-lived AWS keys.</li>
+<li><strong>Least privilege</strong> for the pipeline&#39;s deploy identity; scope per environment.</li>
+<li><strong>Pin action/tool versions</strong> (supply-chain safety), scan dependencies and images, and protect <code>main</code> with required checks.</li>
+<li>Restrict who can edit pipeline files and approve production deploys.</li>
+</ul>
+<hr>
+<h2 id="10--iac--gitops">10. 📜 IaC &amp; GitOps</h2>
+<ul>
+<li><strong>Infrastructure as Code (IaC)</strong> — provision infra (Terraform/CloudFormation) <strong>through the pipeline</strong>, so environments are reproducible and reviewed like app code.</li>
+<li><strong>GitOps</strong> — Git is the <strong>single source of truth</strong> for both app and infra. A controller (<strong>Argo CD / Flux</strong>) continuously <strong>syncs</strong> the running environment to match the repo; you change infra by merging a PR, not by clicking in a console.</li>
+</ul>
+<hr>
+<h2 id="11--best-practices">11. ✅ Best Practices</h2>
+<ul>
+<li><strong>Commit small and often</strong>; keep <code>main</code> always releasable.</li>
+<li><strong>Automate build + test on every PR</strong>; gate merges on green checks.</li>
+<li><strong>Fail fast</strong> — cheap checks (lint/unit) before slow ones (E2E).</li>
+<li><strong>One artifact, promote it</strong> — build once, deploy the same artifact through envs.</li>
+<li><strong>Keep pipelines as code</strong> in the repo and version them.</li>
+<li><strong>Cache dependencies</strong> for speed; run independent jobs in parallel.</li>
+<li><strong>Use short-lived OIDC credentials</strong>, least-privilege deploy roles, and a secrets store.</li>
+<li><strong>Safe deploys</strong> — blue/green or canary + health checks + <strong>automated rollback</strong>.</li>
+<li><strong>Make pipelines fast</strong> (target &lt; 10 min) so feedback stays tight.</li>
+</ul>
+<hr>
+<h2 id="12--quick-mental-model">12. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>CI/CD = automate commit → build → test → release → deploy.</strong></li>
+<li><strong>CI</strong> = merge often, auto build + test. <strong>Continuous Delivery</strong> = automated up to prod (manual approve). <strong>Continuous Deployment</strong> = automated all the way to prod.</li>
+<li>A <strong>pipeline</strong> runs <strong>jobs</strong> on <strong>runners</strong>, producing <strong>artifacts</strong>, deploying to <strong>environments</strong> through <strong>gates</strong>.</li>
+<li><strong>Test pyramid + fail fast</strong>; <strong>build once, promote the same artifact</strong>.</li>
+<li>Deploy safely with <strong>blue/green / canary + health checks + rollback</strong>.</li>
+<li>Secure it: <strong>secrets store + short-lived OIDC creds + least privilege + pinned versions</strong>.</li>
+<li><strong>IaC</strong> provisions infra in the pipeline; <strong>GitOps</strong> syncs the environment to Git.</li>
+</ul>
+<hr>
+<h2 id="13--common-interview-questions">13. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about CI/CD:</p>
+<ul>
+<li><strong>Q: What&#39;s the difference between CI and CD?</strong> — CI = continuously integrate, build, and test merged code. CD = continuously deliver (auto up to prod, manual approval) or deploy (auto all the way to prod).</li>
+<li><strong>Q: Continuous Delivery vs Continuous Deployment?</strong> — Delivery has a manual approval before production; Deployment is fully automated to production with no human gate.</li>
+<li><strong>Q: What are typical pipeline stages?</strong> — Source/trigger → build → test → package/publish → deploy (staging→prod) → verify.</li>
+<li><strong>Q: What is an artifact?</strong> — The build output (binary, jar, container image) produced once and promoted through environments.</li>
+<li><strong>Q: Blue/green vs canary?</strong> — Blue/green switches all traffic to a parallel new environment (instant rollback). Canary shifts a small % first, then ramps (limits blast radius).</li>
+<li><strong>Q: How do you handle secrets in a pipeline?</strong> — Use the platform&#39;s secrets store or a secrets manager; prefer short-lived OIDC credentials over stored long-lived keys; least privilege.</li>
+<li><strong>Q: How do you keep a pipeline fast?</strong> — Fail fast (cheap checks first), cache dependencies, run jobs in parallel, build the artifact once.</li>
+<li><strong>Q: What is GitOps?</strong> — Git is the source of truth; a controller (Argo CD/Flux) continuously syncs the environment to match the repo.</li>
+<li><strong>Q: How do you roll back a bad deploy?</strong> — Automated rollback on failed health checks; with blue/green, switch traffic back to the old environment instantly.</li>
+<li><strong>Q: Why build the artifact only once?</strong> — To guarantee the exact thing you tested is what reaches production (no per-environment rebuild drift).</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for CI/CD.</em></p>
+</div>
+</main></body></html>
