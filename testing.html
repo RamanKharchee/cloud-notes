@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Software Testing — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMEQ5NDg4IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+VGVzdGluZzwvdGl0bGU+PHBhdGggZD0iTTkgMmExIDEgMCAwIDAtMSAxSDZhMiAyIDAgMCAwLTIgMnYxNWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWNWEyIDIgMCAwIDAtMi0yaC0yYTEgMSAwIDAgMC0xLTFIOXptMCAyaDZ2Mkg5VjR6bTEuNTUgMTMuNi0zLjA1LTMuMDVMOC45IDEzLjFsMS42NSAxLjY1TDE1IDEwLjNsMS40IDEuNC01Ljg1IDUuOXoiLz48L3N2Zz4K">
+<style>
+  :root{--ac:#0D9488;--acd:#0f766e;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMEQ5NDg4IiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+VGVzdGluZzwvdGl0bGU+PHBhdGggZD0iTTkgMmExIDEgMCAwIDAtMSAxSDZhMiAyIDAgMCAwLTIgMnYxNWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWNWEyIDIgMCAwIDAtMi0yaC0yYTEgMSAwIDAgMC0xLTFIOXptMCAyaDZ2Mkg5VjR6bTEuNTUgMTMuNi0zLjA1LTMuMDVMOC45IDEzLjFsMS42NSAxLjY1TDE1IDEwLjNsMS40IDEuNC01Ljg1IDUuOXoiLz48L3N2Zz4K" width="110" alt="Software Testing logo" /><h1 id="software-testing--complete-notes">Software Testing — Complete Notes</h1>
+<p><strong>Quality concepts</strong> · Unit, integration, E2E, TDD, BDD &amp; more</p>
+<p><img src="https://img.shields.io/badge/Topic-Testing-0D9488?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Goal-Catch%20bugs%20early-0D9488?style=flat-square" alt="Goal">
+<img src="https://img.shields.io/badge/Levels-Unit%E2%86%92Integration%E2%86%92E2E-blue?style=flat-square" alt="Levels">
+<img src="https://img.shields.io/badge/Approaches-TDD%20%2F%20BDD-lightgrey?style=flat-square" alt="Approaches"></p>
+<p><em>A reader-friendly, all-in-one reference for software testing concepts.</em></p>
+<p><a class="dl-btn" href="testing-notes.pdf" download="testing-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--why-testing">Why Testing</a></li>
+<li><a href="#2--the-testing-pyramid">The Testing Pyramid</a></li>
+<li><a href="#3--unit-testing">Unit Testing</a></li>
+<li><a href="#4--integration-testing">Integration Testing</a></li>
+<li><a href="#5--end-to-end-e2e-testing">End-to-End (E2E) Testing</a></li>
+<li><a href="#6--other-test-types">Other Test Types</a></li>
+<li><a href="#7--functional-vs-non-functional">Functional vs Non-Functional</a></li>
+<li><a href="#8--tdd-test-driven-development">TDD (Test-Driven Development)</a></li>
+<li><a href="#9--bdd-behavior-driven-development">BDD (Behavior-Driven Development)</a></li>
+<li><a href="#10--other-approaches-atdd-etc">Other Approaches (ATDD, etc.)</a></li>
+<li><a href="#11--test-doubles-mocks-stubs">Test Doubles (Mocks, Stubs…)</a></li>
+<li><a href="#12--coverage--quality-metrics">Coverage &amp; Quality Metrics</a></li>
+<li><a href="#13--testing-in-cicd">Testing in CI/CD</a></li>
+<li><a href="#14--tools-by-language">Tools by Language</a></li>
+<li><a href="#15--best-practices">Best Practices</a></li>
+<li><a href="#16--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#17--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--why-testing">1. 🎯 Why Testing</h2>
+<p>Software testing is the practice of <strong>checking that code behaves as intended</strong> — automatically and repeatably. Good tests catch bugs early (when they&#39;re cheap to fix), document expected behavior, enable confident refactoring, and are the safety net that makes <strong>CI/CD</strong> possible.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> tests are an <strong>executable specification</strong>. They say &quot;given this input, expect this output&quot; and fail loudly when reality drifts. The earlier a bug is caught, the cheaper it is — a unit test catches it in seconds; production catches it in an incident.</p>
+</blockquote>
+<p><strong>Goals:</strong> correctness, prevent regressions, enable safe change, document behavior, and give fast feedback.</p>
+<hr>
+<h2 id="2--the-testing-pyramid">2. 🔺 The Testing Pyramid</h2>
+<p>A guideline for <strong>how many</strong> of each test type to write: many fast low-level tests, few slow high-level ones.</p>
+<pre><code>            ▲  fewer, slower, more confidence (whole system)
+           ╱ ╲        E2E / UI tests
+          ╱───╲
+         ╱     ╲   Integration tests
+        ╱───────╲
+       ╱         ╲   Unit tests
+      ╱───────────╲  many, fast, isolated
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Speed</th>
+<th>Scope</th>
+<th>How many</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Unit</strong></td>
+<td>ms</td>
+<td>One function/class in isolation</td>
+<td>Most (broad base)</td>
+</tr>
+<tr>
+<td><strong>Integration</strong></td>
+<td>seconds</td>
+<td>Modules together (DB, API)</td>
+<td>Some (middle)</td>
+</tr>
+<tr>
+<td><strong>E2E</strong></td>
+<td>minutes</td>
+<td>Whole app, user flows</td>
+<td>Few (thin top)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ Anti-patterns: the <strong>ice-cream cone</strong> (too many slow E2E, few units) and the <strong>hourglass</strong> (lots of unit + E2E, no integration). Aim for a wide, fast base.</p>
+</blockquote>
+<hr>
+<h2 id="3--unit-testing">3. 🧪 Unit Testing</h2>
+<ul>
+<li>Tests <strong>one small unit</strong> (a function/method/class) <strong>in isolation</strong> from its dependencies.</li>
+<li><strong>Fast, deterministic, numerous</strong> — run on every save/commit.</li>
+<li>External dependencies (DB, network, time) are replaced with <strong>test doubles</strong> (mocks/stubs).</li>
+<li>Structure: <strong>Arrange → Act → Assert</strong> (AAA), or Given-When-Then.</li>
+</ul>
+<pre><code class="language-python"># Arrange-Act-Assert
+def test_add():
+    calc = Calculator()          # arrange
+    result = calc.add(2, 3)      # act
+    assert result == 5           # assert
+</code></pre>
+<blockquote>
+<p>Good unit tests are <strong>FIRST</strong>: Fast, Isolated, Repeatable, Self-validating, Timely.</p>
+</blockquote>
+<hr>
+<h2 id="4--integration-testing">4. 🔗 Integration Testing</h2>
+<ul>
+<li>Verifies that <strong>multiple components work together</strong> — e.g. service ↔ database, API ↔ external service, module ↔ module.</li>
+<li>Catches bugs unit tests can&#39;t: wrong SQL, serialization mismatches, wiring/config errors, contract mismatches.</li>
+<li>Slower than unit tests (real DB/queue, often via <strong>containers</strong> like Testcontainers); fewer of them.</li>
+<li>May use a <strong>real test database</strong> or in-memory substitute.</li>
+</ul>
+<blockquote>
+<p>The line: a <strong>unit test</strong> mocks the database; an <strong>integration test</strong> uses a real (test) database to verify the queries actually work.</p>
+</blockquote>
+<hr>
+<h2 id="5--end-to-end-e2e-testing">5. 🌐 End-to-End (E2E) Testing</h2>
+<ul>
+<li>Tests the <strong>entire application from the user&#39;s perspective</strong>, through the real UI/API, with real (or production-like) dependencies.</li>
+<li>Validates complete <strong>user journeys</strong> (sign up → add to cart → checkout).</li>
+<li><strong>Slowest, most brittle, most realistic</strong> — keep few, cover critical paths only.</li>
+<li>Tools drive a real browser (Cypress, Playwright, Selenium).</li>
+</ul>
+<blockquote>
+<p>E2E gives the highest confidence but the worst feedback loop and maintenance cost — reserve it for the handful of flows that absolutely must work.</p>
+</blockquote>
+<hr>
+<h2 id="6--other-test-types">6. 🧰 Other Test Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Checks</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Smoke</strong></td>
+<td>Does the build basically work? (quick sanity before deeper tests)</td>
+</tr>
+<tr>
+<td><strong>Regression</strong></td>
+<td>Did a change break previously working features?</td>
+</tr>
+<tr>
+<td><strong>Acceptance (UAT)</strong></td>
+<td>Does it meet business/user requirements?</td>
+</tr>
+<tr>
+<td><strong>Performance / Load / Stress</strong></td>
+<td>Speed, throughput, behavior under heavy/extreme load</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Vulnerabilities (SAST/DAST, pen testing)</td>
+</tr>
+<tr>
+<td><strong>Smoke vs Sanity</strong></td>
+<td>Smoke = broad shallow build check; Sanity = narrow deep check of a specific fix</td>
+</tr>
+<tr>
+<td><strong>Exploratory</strong></td>
+<td>Unscripted human investigation</td>
+</tr>
+<tr>
+<td><strong>Accessibility (a11y)</strong></td>
+<td>Usable by people with disabilities</td>
+</tr>
+<tr>
+<td><strong>Snapshot</strong></td>
+<td>Output matches a saved reference (UI components)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="7--functional-vs-non-functional">7. ⚖️ Functional vs Non-Functional</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Functional</strong></th>
+<th><strong>Non-Functional</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Asks</td>
+<td>Does it do <strong>what</strong> it should?</td>
+<td><strong>How well</strong> does it do it?</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>Login works, cart totals correctly</td>
+<td>Speed, scalability, security, usability, reliability</td>
+</tr>
+<tr>
+<td>Types</td>
+<td>Unit, integration, E2E, acceptance</td>
+<td>Performance, load, stress, security, accessibility</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="8--tdd-test-driven-development">8. 🔴🟢 TDD (Test-Driven Development)</h2>
+<p>Write the <strong>test first</strong>, then the code to pass it. The cycle is <strong>Red → Green → Refactor</strong>:</p>
+<pre><code>   ┌──────────────────────────────────────┐
+   ▼                                       │
+ RED: write a failing test for new behavior│
+   │                                       │
+ GREEN: write the minimum code to pass     │
+   │                                       │
+ REFACTOR: clean up, tests still green ────┘
+</code></pre>
+<ol>
+<li><strong>Red</strong> — write a small failing test for the next bit of behavior.</li>
+<li><strong>Green</strong> — write the simplest code that makes it pass.</li>
+<li><strong>Refactor</strong> — improve the design while keeping tests green.</li>
+</ol>
+<blockquote>
+<p><strong>Benefits:</strong> forces testable design, gives instant feedback, builds a safety net, prevents over-engineering (you only write code a test demands). <strong>Cost:</strong> discipline + slower upfront. TDD is a <em>design</em> technique as much as a testing one.</p>
+</blockquote>
+<hr>
+<h2 id="9--bdd-behavior-driven-development">9. 🥒 BDD (Behavior-Driven Development)</h2>
+<p>An evolution of TDD that describes behavior in <strong>plain, business-readable language</strong> so devs, QA, and product share one spec.</p>
+<ul>
+<li>Scenarios use <strong>Given–When–Then</strong> (Gherkin syntax):</li>
+</ul>
+<pre><code class="language-gherkin">Feature: Checkout
+  Scenario: Successful purchase
+    Given a customer with an item in the cart
+    When they complete the checkout
+    Then the order is confirmed
+    And a receipt email is sent
+</code></pre>
+<ul>
+<li>Tools (<strong>Cucumber</strong>, <strong>SpecFlow</strong>, <strong>Behave</strong>) map each Gherkin step to code.</li>
+<li><strong>TDD vs BDD:</strong> TDD tests <em>units</em> in code terms (&quot;function returns 5&quot;). BDD tests <em>behavior</em> in business terms (&quot;order is confirmed&quot;) — improves collaboration and living documentation.</li>
+</ul>
+<hr>
+<h2 id="10--other-approaches-atdd-etc">10. 🧭 Other Approaches (ATDD, etc.)</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Idea</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ATDD</strong> (Acceptance Test-Driven)</td>
+<td>Define acceptance criteria as tests <em>before</em> building; whole team agrees on &quot;done&quot;.</td>
+</tr>
+<tr>
+<td><strong>Contract testing</strong></td>
+<td>Verify the agreement between a service and its consumers (e.g. Pact) — catches breaking API changes.</td>
+</tr>
+<tr>
+<td><strong>Property-based testing</strong></td>
+<td>Assert properties over <strong>many auto-generated inputs</strong> (Hypothesis, QuickCheck) instead of fixed examples.</td>
+</tr>
+<tr>
+<td><strong>Mutation testing</strong></td>
+<td>Introduce bugs (&quot;mutants&quot;) to check your tests actually catch them — measures test <em>quality</em>.</td>
+</tr>
+<tr>
+<td><strong>Fuzz testing</strong></td>
+<td>Feed random/malformed input to find crashes/security holes.</td>
+</tr>
+<tr>
+<td><strong>Snapshot testing</strong></td>
+<td>Compare output against a stored baseline.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="11--test-doubles-mocks-stubs">11. 🎭 Test Doubles (Mocks, Stubs…)</h2>
+<p>&quot;Test double&quot; = any stand-in for a real dependency. Types (by Gerard Meszaros):</p>
+<table>
+<thead>
+<tr>
+<th>Double</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Dummy</strong></td>
+<td>Passed but never used (fills a parameter).</td>
+</tr>
+<tr>
+<td><strong>Stub</strong></td>
+<td>Returns canned answers to calls.</td>
+</tr>
+<tr>
+<td><strong>Spy</strong></td>
+<td>A stub that also <strong>records</strong> how it was called.</td>
+</tr>
+<tr>
+<td><strong>Mock</strong></td>
+<td>Pre-programmed with <strong>expectations</strong>; the test <em>verifies</em> it was called correctly.</td>
+</tr>
+<tr>
+<td><strong>Fake</strong></td>
+<td>A working lightweight implementation (e.g. in-memory DB).</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Rule of thumb: <strong>stub</strong> to control inputs (&quot;when called, return X&quot;); <strong>mock</strong> to assert interactions (&quot;expect this was called once with Y&quot;). Don&#39;t over-mock — it couples tests to implementation.</p>
+</blockquote>
+<hr>
+<h2 id="12--coverage--quality-metrics">12. 📊 Coverage &amp; Quality Metrics</h2>
+<ul>
+<li><strong>Code coverage</strong> = % of code exercised by tests (line, branch, statement, function).</li>
+<li>High coverage ≠ good tests — it shows what ran, <strong>not</strong> that assertions are meaningful. 100% coverage with weak asserts is false confidence.</li>
+<li><strong>Mutation score</strong> is a better quality signal (do tests catch injected bugs?).</li>
+<li>Aim for <strong>meaningful coverage of critical paths</strong>, not a vanity number; watch <strong>flaky tests</strong> (pass/fail nondeterministically) — they erode trust and must be fixed or quarantined.</li>
+</ul>
+<hr>
+<h2 id="13--testing-in-cicd">13. 🔄 Testing in CI/CD</h2>
+<ul>
+<li>Tests are the <strong>gate</strong> in a pipeline — a merge/deploy only proceeds if they pass. See the <a href="cicd.html">CI/CD notes</a>.</li>
+<li><strong>Fail fast:</strong> run cheap, broad tests first (lint → unit), slow/narrow ones later (integration → E2E).</li>
+<li>Run unit tests on <strong>every push/PR</strong>; integration in CI with <strong>ephemeral containers</strong>; E2E on a deployed staging environment.</li>
+<li><strong>Shift left</strong> — test as early as possible; publish results + coverage as build artifacts; block merges on red.</li>
+</ul>
+<hr>
+<h2 id="14--tools-by-language">14. 🛠️ Tools by Language</h2>
+<table>
+<thead>
+<tr>
+<th>Language / area</th>
+<th>Common tools</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>JavaScript/TS</strong></td>
+<td>Jest, Vitest, Mocha, Playwright, Cypress, Testing Library</td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>pytest, unittest, Hypothesis, tox</td>
+</tr>
+<tr>
+<td><strong>Java</strong></td>
+<td>JUnit, TestNG, Mockito, REST Assured</td>
+</tr>
+<tr>
+<td><strong>Go</strong></td>
+<td>built-in <code>testing</code>, testify</td>
+</tr>
+<tr>
+<td><strong>C#/.NET</strong></td>
+<td>xUnit, NUnit, MSTest, Moq</td>
+</tr>
+<tr>
+<td><strong>BDD</strong></td>
+<td>Cucumber, SpecFlow, Behave</td>
+</tr>
+<tr>
+<td><strong>E2E/Browser</strong></td>
+<td>Cypress, Playwright, Selenium</td>
+</tr>
+<tr>
+<td><strong>Load</strong></td>
+<td>k6, JMeter, Gatling, Locust</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="15--best-practices">15. ✅ Best Practices</h2>
+<ul>
+<li>Follow the <strong>pyramid</strong> — many fast unit tests, fewer integration, few E2E.</li>
+<li>One <strong>clear assertion focus</strong> per test; name tests by behavior (&quot;returns_error_when_empty&quot;).</li>
+<li>Keep tests <strong>FIRST</strong> (Fast, Isolated, Repeatable, Self-validating, Timely) and <strong>deterministic</strong> (no real time/network/random).</li>
+<li><strong>Arrange-Act-Assert</strong> structure; avoid logic in tests.</li>
+<li>Test <strong>behavior, not implementation</strong> — don&#39;t over-mock; tests shouldn&#39;t break on every refactor.</li>
+<li>Fix or quarantine <strong>flaky tests</strong> immediately.</li>
+<li>Run tests in <strong>CI on every PR</strong>; fail fast; track meaningful coverage of critical paths.</li>
+<li>Treat <strong>test code as production code</strong> — review it, refactor it, keep it clean.</li>
+</ul>
+<hr>
+<h2 id="16--quick-mental-model">16. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Tests = executable spec; catch bugs early, enable safe change.</strong></li>
+<li><strong>Pyramid:</strong> lots of <strong>unit</strong> (fast, isolated) → some <strong>integration</strong> (components together) → few <strong>E2E</strong> (whole app, user flows).</li>
+<li><strong>Unit mocks the DB; integration uses a real test DB; E2E drives the real UI.</strong></li>
+<li><strong>TDD</strong> = Red→Green→Refactor (test first, design tool). <strong>BDD</strong> = Given-When-Then in business language (collaboration + living docs).</li>
+<li><strong>Test doubles:</strong> stub (canned returns) vs mock (verify interactions); fake = lightweight real impl.</li>
+<li><strong>Coverage shows what ran, not test quality</strong> — aim for meaningful asserts; kill flaky tests.</li>
+<li>Tests are the <strong>gate in CI/CD</strong> — fail fast, shift left, block merges on red.</li>
+</ul>
+<hr>
+<h2 id="17--common-interview-questions">17. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about testing:</p>
+<ul>
+<li><strong>Q: Unit vs integration vs E2E?</strong> — Unit tests one isolated unit (mocked deps). Integration tests components together (real DB/API). E2E tests the whole app through the UI as a user.</li>
+<li><strong>Q: What is the testing pyramid?</strong> — A guideline: many fast unit tests, fewer integration, few slow E2E — for fast feedback and stability.</li>
+<li><strong>Q: TDD cycle?</strong> — Red (write a failing test) → Green (minimal code to pass) → Refactor (clean up, stay green).</li>
+<li><strong>Q: TDD vs BDD?</strong> — TDD tests units in code terms; BDD describes behavior in business language (Given-When-Then) for shared understanding.</li>
+<li><strong>Q: Mock vs stub?</strong> — A stub returns canned data (controls inputs); a mock has expectations you verify (asserts interactions).</li>
+<li><strong>Q: Does 100% code coverage mean good tests?</strong> — No — coverage shows what code ran, not that assertions are meaningful. Mutation testing better measures quality.</li>
+<li><strong>Q: What&#39;s a flaky test?</strong> — One that passes/fails nondeterministically; it erodes trust and must be fixed or quarantined.</li>
+<li><strong>Q: Functional vs non-functional testing?</strong> — Functional = does it do the right thing; non-functional = how well (performance, security, usability).</li>
+<li><strong>Q: What is regression testing?</strong> — Re-checking existing functionality still works after a change.</li>
+<li><strong>Q: Smoke vs sanity testing?</strong> — Smoke = quick broad check the build works; sanity = narrow deep check of a specific fix/area.</li>
+<li><strong>Q: Where do tests fit in CI/CD?</strong> — They&#39;re the gate: run on every PR, fail fast (unit→integration→E2E), block merges/deploys on failure.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for software testing concepts.</em></p>
+</div>
+</main></body></html>
