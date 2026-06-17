@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webhooks — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjQzczQTYzIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+V2ViaG9va3M8L3RpdGxlPjxjaXJjbGUgY3g9IjQuNSIgY3k9IjEyIiByPSIyLjYiLz48cGF0aCBkPSJNOCAxMS4wNWg2LjdsLTIuMS0yLjFMMTQgNy41IDE4LjUgMTIgMTQgMTYuNWwtMS40LTEuNDUgMi4xLTIuMUg4eiIvPjxwYXRoIGQ9Ik0xOS4yIDYuMmgyLjh2MTEuNmgtMi44YTEuMSAxLjEgMCAwIDEtMS4xLTEuMVY3LjNhMS4xIDEuMSAwIDAgMSAxLjEtMS4xeiIvPjwvc3ZnPgo=">
+<style>
+  :root{--ac:#C73A63;--acd:#8e2848;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjQzczQTYzIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+V2ViaG9va3M8L3RpdGxlPjxjaXJjbGUgY3g9IjQuNSIgY3k9IjEyIiByPSIyLjYiLz48cGF0aCBkPSJNOCAxMS4wNWg2LjdsLTIuMS0yLjFMMTQgNy41IDE4LjUgMTIgMTQgMTYuNWwtMS40LTEuNDUgMi4xLTIuMUg4eiIvPjxwYXRoIGQ9Ik0xOS4yIDYuMmgyLjh2MTEuNmgtMi44YTEuMSAxLjEgMCAwIDEtMS4xLTEuMVY3LjNhMS4xIDEuMSAwIDAgMSAxLjEtMS4xeiIvPjwvc3ZnPgo=" width="110" alt="Webhooks logo" /><h1 id="webhooks--complete-notes">Webhooks — Complete Notes</h1>
+<p><strong>Event-driven HTTP callbacks</strong> · &quot;Don&#39;t call us, we&#39;ll call you&quot;</p>
+<p><img src="https://img.shields.io/badge/Topic-Webhooks-C73A63?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Model-Push%20(reverse%20API)-C73A63?style=flat-square" alt="Model">
+<img src="https://img.shields.io/badge/Transport-HTTP%20POST-blue?style=flat-square" alt="Transport">
+<img src="https://img.shields.io/badge/Use-Integrations-lightgrey?style=flat-square" alt="Use"></p>
+<p><em>A reader-friendly, all-in-one reference for webhooks.</em></p>
+<p><a class="dl-btn" href="webhooks-notes.pdf" download="webhooks-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-a-webhook">What is a Webhook</a></li>
+<li><a href="#2--webhooks-vs-polling">Webhooks vs Polling</a></li>
+<li><a href="#3--how-webhooks-work">How Webhooks Work</a></li>
+<li><a href="#4--anatomy-of-a-webhook-request">Anatomy of a Webhook Request</a></li>
+<li><a href="#5--security">Security</a></li>
+<li><a href="#6--reliability-retries--idempotency">Reliability (Retries &amp; Idempotency)</a></li>
+<li><a href="#7--receiving-a-webhook">Receiving a Webhook</a></li>
+<li><a href="#8--use-cases--providers">Use Cases &amp; Providers</a></li>
+<li><a href="#9--webhooks-vs-websockets-vs-sse-vs-polling">Webhooks vs WebSockets vs SSE vs Polling</a></li>
+<li><a href="#10--testing--debugging">Testing &amp; Debugging</a></li>
+<li><a href="#11--best-practices">Best Practices</a></li>
+<li><a href="#12--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#13--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-a-webhook">1. 🪝 What is a Webhook</h2>
+<p>A <strong>webhook</strong> is a way for one system to <strong>notify another in real time when an event happens</strong>, by sending an <strong>HTTP POST</strong> to a URL you registered. Instead of you repeatedly asking &quot;anything new?&quot;, the provider <strong>pushes</strong> the event to your endpoint the moment it occurs.</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> a webhook is a <strong>&quot;reverse API&quot;</strong> — with a normal API <em>you</em> call the provider; with a webhook the <em>provider</em> calls <em>you</em>. It&#39;s the <strong>&quot;don&#39;t call us, we&#39;ll call you&quot;</strong> pattern: register a URL, get POSTed when something happens.</p>
+</blockquote>
+<p><strong>Common uses:</strong> &quot;payment succeeded&quot; (Stripe), &quot;push to repo&quot; (GitHub → CI), &quot;message posted&quot; (Slack), &quot;form submitted&quot;, &quot;build finished&quot; — anything event-driven across services.</p>
+<hr>
+<h2 id="2--webhooks-vs-polling">2. ⚖️ Webhooks vs Polling</h2>
+<p>The problem webhooks solve — avoiding <strong>polling</strong>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Polling</strong></th>
+<th><strong>Webhook</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Who initiates</td>
+<td>You repeatedly <strong>ask</strong> the API</td>
+<td>Provider <strong>pushes</strong> to you</td>
+</tr>
+<tr>
+<td>Latency</td>
+<td>Delayed (until next poll)</td>
+<td>Near real-time</td>
+</tr>
+<tr>
+<td>Efficiency</td>
+<td>Wasteful (mostly empty responses)</td>
+<td>Efficient (only on real events)</td>
+</tr>
+<tr>
+<td>Direction</td>
+<td>Client → server (pull)</td>
+<td>Server → client (push)</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Many wasted requests</td>
+<td>Minimal</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Polling = checking your mailbox every 5 minutes. Webhook = the postman rings your bell when mail arrives. Webhooks win for real-time, efficiency, and scale — at the cost of needing a <strong>public endpoint</strong> to receive them.</p>
+</blockquote>
+<hr>
+<h2 id="3--how-webhooks-work">3. 🔄 How Webhooks Work</h2>
+<pre><code> 1. REGISTER         You give the provider a URL + the events you want
+       │             (e.g. https://api.you.com/hooks/stripe)
+       ▼
+ 2. EVENT HAPPENS    Something occurs at the provider (payment succeeds)
+       │
+       ▼
+ 3. PROVIDER POSTS   Provider sends HTTP POST {event payload} → your URL
+       │
+       ▼
+ 4. YOU RESPOND      Your endpoint validates, returns 2xx fast, then
+                     processes (often async). Non-2xx → provider retries.
+</code></pre>
+<ol>
+<li><strong>Register</strong> the endpoint URL + which events to subscribe to (via the provider&#39;s dashboard/API).</li>
+<li>When the <strong>event occurs</strong>, the provider builds a payload.</li>
+<li>It sends an <strong>HTTP POST</strong> to your URL with the event data.</li>
+<li>Your server <strong>verifies + acknowledges with a 2xx</strong> quickly; failures trigger <strong>retries</strong>.</li>
+</ol>
+<hr>
+<h2 id="4--anatomy-of-a-webhook-request">4. 📦 Anatomy of a Webhook Request</h2>
+<p>A webhook is just an HTTP POST:</p>
+<pre><code class="language-http">POST /hooks/github HTTP/1.1
+Host: api.you.com
+Content-Type: application/json
+X-GitHub-Event: push
+X-Hub-Signature-256: sha256=4f3a...        ← signature for verification
+X-GitHub-Delivery: 12345-abcde             ← unique delivery id (idempotency)
+
+{
+  &quot;ref&quot;: &quot;refs/heads/main&quot;,
+  &quot;repository&quot;: { &quot;name&quot;: &quot;cloud-notes&quot; },
+  &quot;pusher&quot;: { &quot;name&quot;: &quot;alice&quot; }
+}
+</code></pre>
+<ul>
+<li><strong>Method:</strong> almost always <code>POST</code>. <strong>Body:</strong> JSON (sometimes form-encoded).</li>
+<li><strong>Headers</strong> carry the <strong>event type</strong>, a <strong>signature</strong>, and a <strong>unique delivery/event ID</strong>.</li>
+<li>Your endpoint must be <strong>publicly reachable over HTTPS</strong>.</li>
+</ul>
+<hr>
+<h2 id="5--security">5. 🔐 Security</h2>
+<p>Because anyone could POST to your public URL, you must <strong>verify</strong> webhooks are genuine:</p>
+<ul>
+<li><strong>Signature verification (HMAC)</strong> — the provider signs the payload with a <strong>shared secret</strong>; you recompute the HMAC over the <strong>raw body</strong> and compare. Mismatch → reject. <em>(Most important control.)</em></li>
+<li><strong>HTTPS only</strong> — so payloads (and signatures) aren&#39;t intercepted/tampered.</li>
+<li><strong>Verify the timestamp</strong> to reject <strong>replayed</strong> old requests (replay protection).</li>
+<li><strong>Use a hard-to-guess URL</strong> + optional shared token, but never rely on secrecy of the URL alone.</li>
+<li><strong>IP allow-listing</strong> if the provider publishes fixed source IPs.</li>
+<li><strong>Validate the payload</strong> (don&#39;t trust its contents blindly); use <strong>constant-time</strong> comparison for signatures.</li>
+</ul>
+<pre><code class="language-python">import hmac, hashlib
+def verify(secret, raw_body, signature):
+    digest = hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(f&quot;sha256={digest}&quot;, signature)   # constant-time
+</code></pre>
+<hr>
+<h2 id="6--reliability-retries--idempotency">6. 🔁 Reliability (Retries &amp; Idempotency)</h2>
+<p>Networks fail, so webhook delivery is <strong>&quot;at least once&quot;</strong> — design for it:</p>
+<ul>
+<li><strong>Respond fast with 2xx</strong> — acknowledge <strong>before</strong> heavy processing (do the work async via a queue). Slow endpoints cause timeouts → retries.</li>
+<li><strong>Retries</strong> — providers retry on non-2xx/timeout with <strong>exponential backoff</strong>; persistent failures may be disabled or sent to a dead-letter view.</li>
+<li><strong>Idempotency</strong> — the <strong>same event can arrive more than once</strong> (or out of order). Store the <strong>delivery/event ID</strong> and skip duplicates so reprocessing is safe.</li>
+<li><strong>Ordering is not guaranteed</strong> — don&#39;t assume event B arrives after event A; use timestamps/sequence in the payload if order matters.</li>
+<li>Persist incoming events first (e.g. to a queue/DB), then process — so a crash mid-processing doesn&#39;t lose the event.</li>
+</ul>
+<hr>
+<h2 id="7--receiving-a-webhook">7. 🛠️ Receiving a Webhook</h2>
+<p>A minimal receiver (Express / Node):</p>
+<pre><code class="language-js">app.post(&#39;/hooks/stripe&#39;,
+  express.raw({ type: &#39;application/json&#39; }),   // need the RAW body for HMAC
+  (req, res) =&gt; {
+    const sig = req.headers[&#39;x-signature&#39;];
+    if (!verify(SECRET, req.body, sig)) return res.sendStatus(401);  // reject fakes
+
+    const event = JSON.parse(req.body);
+    enqueue(event);              // hand off to async processing
+    res.sendStatus(200);         // ack FAST (don&#39;t block on processing)
+  });
+</code></pre>
+<ul>
+<li>Capture the <strong>raw body</strong> for signature checks (parsing first can break the HMAC).</li>
+<li><strong>Return 2xx immediately</strong>, then process asynchronously (queue/worker).</li>
+<li>Be defensive: handle unknown event types, malformed payloads, and duplicates.</li>
+</ul>
+<hr>
+<h2 id="8--use-cases--providers">8. 🌐 Use Cases &amp; Providers</h2>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Example event</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GitHub / GitLab</strong></td>
+<td>push, pull request, issue → trigger <strong>CI/CD</strong></td>
+</tr>
+<tr>
+<td><strong>Stripe / PayPal</strong></td>
+<td><code>payment_succeeded</code>, <code>invoice.paid</code></td>
+</tr>
+<tr>
+<td><strong>Slack / Discord</strong></td>
+<td>incoming messages, slash commands</td>
+</tr>
+<tr>
+<td><strong>Shopify</strong></td>
+<td>order created, inventory changed</td>
+</tr>
+<tr>
+<td><strong>Twilio / SendGrid</strong></td>
+<td>SMS received, email delivered/bounced</td>
+</tr>
+<tr>
+<td><strong>CI tools</strong></td>
+<td>build finished → notify Slack</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Webhooks are the glue of <strong>integrations</strong> and <strong>event-driven architecture</strong> — they connect SaaS tools without polling. (On AWS, <strong>SNS</strong> can deliver to HTTP/S endpoints, and <strong>API Gateway → Lambda</strong> is a common way to <em>receive</em> webhooks.)</p>
+</blockquote>
+<hr>
+<h2 id="9--webhooks-vs-websockets-vs-sse-vs-polling">9. 🔀 Webhooks vs WebSockets vs SSE vs Polling</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Direction</th>
+<th>Connection</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Polling</strong></td>
+<td>Client pulls</td>
+<td>Repeated requests</td>
+<td>Simple, infrequent checks</td>
+</tr>
+<tr>
+<td><strong>Webhook</strong></td>
+<td>Server → server push</td>
+<td>One-off HTTP POST per event</td>
+<td>Server-to-server event notifications</td>
+</tr>
+<tr>
+<td><strong>WebSocket</strong></td>
+<td>Bi-directional</td>
+<td>Persistent, full-duplex</td>
+<td>Live chat, games, collaborative apps</td>
+</tr>
+<tr>
+<td><strong>SSE</strong> (Server-Sent Events)</td>
+<td>Server → client stream</td>
+<td>Persistent one-way</td>
+<td>Live feeds/notifications to a browser</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Webhook = server-to-server, fire-and-forget POST per event.</strong> WebSocket/SSE keep a <strong>live connection to a client</strong> (usually a browser); webhooks don&#39;t hold a connection.</p>
+</blockquote>
+<hr>
+<h2 id="10--testing--debugging">10. 🧪 Testing &amp; Debugging</h2>
+<ul>
+<li><strong>Inspect deliveries:</strong> tools like <strong>webhook.site</strong>, <strong>RequestBin</strong>, or the provider&#39;s &quot;recent deliveries&quot; log show the exact payload/headers and let you <strong>redeliver</strong>.</li>
+<li><strong>Local development:</strong> expose your localhost with a tunnel (<strong>ngrok</strong>, <strong>cloudflared</strong>) so the provider can reach <code>http://localhost</code>.</li>
+<li><strong>Replay</strong> failed deliveries from the provider dashboard while fixing your handler.</li>
+<li>Log the <strong>delivery ID + status</strong> for every received hook to trace issues.</li>
+</ul>
+<hr>
+<h2 id="11--best-practices">11. ✅ Best Practices</h2>
+<ul>
+<li><strong>Verify every webhook</strong> (HMAC signature over the raw body, constant-time compare); <strong>HTTPS only</strong>.</li>
+<li><strong>Acknowledge with 2xx fast</strong>, then process <strong>asynchronously</strong> (queue + worker).</li>
+<li><strong>Be idempotent</strong> — dedupe on the delivery/event ID; assume at-least-once delivery.</li>
+<li><strong>Don&#39;t assume ordering</strong>; use timestamps/sequence if it matters.</li>
+<li><strong>Persist first, process later</strong> so a crash doesn&#39;t lose events.</li>
+<li><strong>Handle retries</strong> gracefully; return clear 4xx for permanent failures, 5xx for transient.</li>
+<li><strong>Protect against replay</strong> (timestamp check) and validate/limit payload size.</li>
+<li><strong>Monitor &amp; log</strong> deliveries; provide a way to <strong>replay</strong> missed events.</li>
+</ul>
+<hr>
+<h2 id="12--quick-mental-model">12. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Webhook = reverse API:</strong> register a URL, and the provider <strong>POSTs you an event</strong> when something happens — push, not poll.</li>
+<li>Beats <strong>polling</strong> for real-time + efficiency, but needs a <strong>public HTTPS endpoint</strong>.</li>
+<li>Flow: <strong>register → event → provider POSTs → you verify + 2xx fast → process async</strong>.</li>
+<li><strong>Verify with HMAC signature</strong> over the raw body (the key security control); HTTPS + replay protection.</li>
+<li>Delivery is <strong>at-least-once</strong> → be <strong>idempotent</strong> (dedupe on event ID); don&#39;t assume <strong>ordering</strong>.</li>
+<li><strong>Ack quickly, process asynchronously</strong> (queue) so slow work doesn&#39;t trigger retries.</li>
+<li>vs <strong>WebSocket/SSE</strong> (persistent client connections) — webhooks are one-off <strong>server-to-server</strong> POSTs.</li>
+</ul>
+<hr>
+<h2 id="13--common-interview-questions">13. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about webhooks:</p>
+<ul>
+<li><strong>Q: What is a webhook?</strong> — A user-defined HTTP callback: a provider POSTs event data to your registered URL when an event occurs (a &quot;reverse API&quot;).</li>
+<li><strong>Q: Webhook vs API polling?</strong> — Polling repeatedly asks the API for changes (wasteful, delayed); a webhook is pushed by the provider in near real-time only when an event happens.</li>
+<li><strong>Q: How do you secure a webhook endpoint?</strong> — Verify the HMAC signature over the raw body with a shared secret (constant-time compare), require HTTPS, check the timestamp for replay protection, and validate the payload.</li>
+<li><strong>Q: Why verify the signature on the raw body?</strong> — Parsing/re-serializing changes bytes and breaks the HMAC; you must hash the exact raw payload the provider signed.</li>
+<li><strong>Q: How do you handle duplicate webhook deliveries?</strong> — Make processing idempotent: store the delivery/event ID and skip already-seen events (delivery is at-least-once).</li>
+<li><strong>Q: Why respond 2xx quickly?</strong> — Providers time out slow endpoints and retry; acknowledge fast, then process asynchronously via a queue.</li>
+<li><strong>Q: Is webhook ordering guaranteed?</strong> — No — don&#39;t assume events arrive in order; use timestamps/sequence numbers if order matters.</li>
+<li><strong>Q: Webhook vs WebSocket?</strong> — Webhook is a one-off server-to-server HTTP POST per event; WebSocket is a persistent bidirectional connection (usually to a browser) for live two-way data.</li>
+<li><strong>Q: How do you test webhooks locally?</strong> — Use a tunnel like ngrok to expose localhost, and inspect/replay payloads with webhook.site or the provider&#39;s delivery log.</li>
+<li><strong>Q: What happens if your endpoint is down?</strong> — The provider retries (usually with backoff) and may eventually disable the webhook or surface failed deliveries to redeliver.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for webhooks.</em></p>
+</div>
+</main></body></html>

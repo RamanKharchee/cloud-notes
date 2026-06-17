@@ -47,7 +47,7 @@
   .s3{--ac:#569A31;} .ec2{--ac:#ED7100;} .vpc{--ac:#8C4FFF;}
   .lambda{--ac:#FF9900;} .iam{--ac:#DD344C;} .rds{--ac:#527FFF;} .docker{--ac:#2496ED;} .github{--ac:#24292e;} .route53{--ac:#6E40C9;}
   .dynamodb{--ac:#4053D6;} .cloudwatch{--ac:#E7157B;} .messaging{--ac:#9D4EDD;} .elb{--ac:#00A3A3;} .cloudfront{--ac:#9333EA;}
-  .cheatsheet{--ac:#475569;} .wellarch{--ac:#B45309;} .cicd{--ac:#16A34A;} .jenkins{--ac:#D24939;} .testing{--ac:#0D9488;} .bash{--ac:#4EAA25;} .python{--ac:#3776AB;} .linux{--ac:#4D4D4D;}
+  .cheatsheet{--ac:#475569;} .wellarch{--ac:#B45309;} .cicd{--ac:#16A34A;} .jenkins{--ac:#D24939;} .testing{--ac:#0D9488;} .bash{--ac:#4EAA25;} .python{--ac:#3776AB;} .linux{--ac:#4D4D4D;} .webhooks{--ac:#C73A63;}
   .empty{color:#cfd8dc;text-align:center;margin:30px 0;display:none;}
   footer{margin-top:50px;color:#cfd8dc;font-size:13px;text-align:center;}
   footer a{color:#fff;}
@@ -75,6 +75,7 @@
     <span class="chip" data-filter="security">Security</span>
     <span class="chip" data-filter="monitoring">Monitoring</span>
     <span class="chip" data-filter="messaging">Messaging</span>
+    <span class="chip" data-filter="integration">Integration</span>
     <span class="chip" data-filter="reference">Reference</span>
   </div>
 
@@ -167,7 +168,7 @@
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
 
-    <a class="card messaging" href="messaging.html" data-tags="aws messaging">
+    <a class="card messaging" href="messaging.html" data-tags="aws messaging integration">
       <img src="messaging-logo.svg" alt="AWS SQS & SNS">
       <p class="tag">Messaging</p>
       <h2>SQS &amp; SNS</h2>
@@ -252,6 +253,14 @@
       <p class="tag">Linux</p>
       <h2>Linux &amp; Commands</h2>
       <p class="sub">CLI — filesystem, permissions, processes, packages, networking, systemd.</p>
+      <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
+    </a>
+
+    <a class="card webhooks" href="webhooks.html" data-tags="integration">
+      <img src="webhooks-logo.svg" alt="Webhooks">
+      <p class="tag">Integration</p>
+      <h2>Webhooks</h2>
+      <p class="sub">Event callbacks — vs polling, HMAC verification, retries, idempotency, testing.</p>
       <div class="links"><span class="pill">Read notes →</span><span class="pill ghost">PDF</span></div>
     </a>
   </div>
