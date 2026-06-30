@@ -45,6 +45,7 @@
 16. [Beyond Docker (Orchestration)](#16--beyond-docker-orchestration)
 17. [Quick Mental Model](#17--quick-mental-model)
 18. [Common Interview Questions](#18--common-interview-questions)
+19. [Detailed Interview Q&A and When to Use](#19--detailed-interview-qa-and-when-to-use)
 
 ---
 
@@ -407,6 +408,193 @@ Rapid-fire questions interviewers ask about Docker:
 - **Q: How do containers communicate?** — On a user-defined bridge network they resolve each other by **name** (built-in DNS); publish ports to the host with `-p`.
 - **Q: What provides isolation and limits?** — Linux **namespaces** (isolation) and **cgroups** (CPU/memory limits).
 - **Q: Docker vs Kubernetes?** — Docker builds/runs containers on one host; Kubernetes orchestrates many containers across many hosts (scheduling, scaling, self-healing).
+
+---
+
+## 19. 🎯 Detailed Interview Q&A and When to Use
+
+> Scenario-style interview questions with model answers and **when to use** guidance. Aimed at ~2 years of hands-on experience. The signal-handling thread (Q8 → Q15 → Q43 → Q44) is a deliberate trap chain interviewers love.
+
+### Fundamentals
+
+**1. What is Docker / the real problem it solves?**
+Packages an app with all its dependencies into a portable image that runs identically anywhere with a container runtime. The real answer: it makes the runtime environment a versioned artifact — consistent dependencies, isolation, fast startup, density — not just "works on my machine."
+**When to use:** Containerize → microservices, consistent envs, CI/CD, scalable stateless apps. Don't → heavy stateful monoliths better on managed services, GUI/desktop apps, kernel-module/hardware-bound workloads, single-server scripts where it adds no value.
+
+**2. Image vs container; what's shared vs isolated?**
+Image = immutable, read-only template (layers). Container = a running instance with a thin writable layer on top. Many containers share one image's read-only layers (copy-on-write); each gets its own isolated writable layer, process namespace, and network.
+
+**3. Container vs VM; be precise about the kernel.**
+A VM virtualizes hardware and runs its own guest OS kernel via a hypervisor. A container shares the host kernel and is isolated via namespaces/cgroups — just a process. Lighter and faster, but less isolated.
+**When to use:** Container → density, fast startup, microservices, same-OS workloads. VM → strong isolation, different OS/kernel, untrusted multi-tenant.
+
+**4. Containers share the host kernel — security implication?**
+A kernel exploit or container escape can reach the host and other containers — the boundary is the kernel, not a hypervisor. Run as non-root, drop capabilities, use seccomp/AppArmor.
+**When to use:** Plain containers → trusted internal workloads. gVisor / Kata / Firecracker → untrusted/multi-tenant code (running other people's code).
+
+**5. What is a Dockerfile; what does `docker build` do?**
+A declarative recipe of instructions to assemble an image. `docker build` executes each instruction, creating a cached layer per instruction, and produces a final tagged image.
+
+**6. run vs start vs exec vs attach?**
+`run` = create + start a new container. `start` = restart an existing stopped container. `exec` = run an additional command in a running container. `attach` = connect your terminal to PID 1's stdio.
+**When to use:** run → new container. start → relaunch a stopped one. exec → debug/shell into a running container. attach → watch/interact with PID 1.
+
+**7. COPY vs ADD; why prefer COPY?**
+Both copy files. ADD also auto-extracts local tarballs and can fetch URLs. Prefer COPY because it's explicit; ADD's magic causes surprises and security risk.
+**When to use:** COPY → always. ADD → only to auto-extract a local tarball (rarely; never for URLs).
+
+**8. CMD vs ENTRYPOINT; both? exec vs shell form?**
+ENTRYPOINT = the fixed executable; CMD = default args (or default command). With both, CMD's values are passed as args to ENTRYPOINT. Exec form (`["nginx","-g"]`) runs the binary directly as PID 1 — receives signals. Shell form (`nginx -g`) runs via `/bin/sh -c`, so the shell is PID 1 and your process doesn't get a clean SIGTERM.
+**When to use:** ENTRYPOINT → fixed binary the image always runs. CMD → default/overridable args. Exec form → always for the main process (signals). Shell form → only when you need shell features (pipes, env expansion) and don't care about signals.
+
+**9. What does EXPOSE actually do? (trap)**
+Documentation/metadata only — it declares intent. It does not publish or open the port. You publish with `-p` at runtime (or `ports:` in Compose).
+
+### Images, Build & Optimization
+
+**10. Image layer; why does caching matter?**
+Each instruction creates a content-addressed layer. On rebuild, Docker reuses cached layers until the first changed instruction, then rebuilds everything after. Good ordering = fast incremental builds.
+
+**11. Scenario — one code change re-runs `npm install` every build.**
+You copied source before installing deps, so any file change busts the install layer's cache. Fix: copy only `package*.json`, run `npm install`, then `COPY . .`. Dependencies re-install only when the manifest changes.
+
+**12. RUN vs CMD vs ENTRYPOINT — when do they execute?**
+RUN executes at build time (bakes results into a layer). CMD and ENTRYPOINT execute at runtime (define what the container runs).
+
+**13. Multi-stage build — conceptually, and why for security?**
+One stage with the full toolchain builds, then `COPY --from=builder` only the final artifact into a minimal runtime base. The final image excludes compilers, build tools, source, and build-time secrets — shrinking the attack surface, not just size.
+**When to use:** Compiled languages (Go/Rust/Java) or any build with a heavy toolchain — ship only the artifact in a minimal image.
+
+**14. `.dockerignore` — why it both speeds builds and prevents leaks?**
+It excludes files from the build context. Without it, `node_modules`, `.git`, `.env`, and secrets get copied in — bloating context (slow) and baking secrets/git history into the image (leak). Always ignore `.git`, `node_modules`, `.env`, build artifacts.
+
+**15. stop vs kill; signals; why care about SIGTERM?**
+`stop` sends SIGTERM, waits a grace period (default 10s), then SIGKILL. `kill` sends SIGKILL immediately. Your app should trap SIGTERM to flush, close connections, and finish in-flight requests (graceful shutdown).
+**When to use:** stop → graceful shutdown (default). kill → force-terminate a hung/unresponsive container.
+
+**16. Scenario — `COPY . .` then `RUN rm secrets.txt`; is the secret gone?**
+No. The secret is in the earlier COPY layer; `rm` only adds a deletion in a later layer, recoverable via `docker history`/layer extraction. Correct: never copy it in — use BuildKit secrets (`--mount=type=secret`) or fetch at runtime, and multi-stage so it never reaches the final image.
+
+**17. Image tag vs digest; why is `:latest` dangerous?**
+A tag (`:latest`) is a mutable pointer — two pulls can give different images, breaking reproducibility and rollbacks. A digest (`@sha256:...`) is immutable and content-addressed.
+**When to use:** Specific version tag → readable deploys. Digest pin → reproducible/immutable prod deploys and rollbacks. `:latest` → local dev only, never prod.
+
+**18. ENV vs ARG; which persists into the container?**
+ARG = build-time only, not present in the running container. ENV = runtime variable baked into the image and present in the container. Neither should hold secrets.
+**When to use:** ARG → build-time params (versions, build flags). ENV → runtime config the app reads.
+
+### Runtime, Networking & Storage
+
+**19. Network drivers bridge / host / none / overlay?**
+bridge = default isolated virtual network on one host with NAT. host = container shares the host's network stack (no isolation, no port mapping). none = no networking. overlay = multi-host network for Swarm/cluster.
+**When to use:** bridge (user-defined) → default multi-container on one host. host → max network perf / many dynamic ports, isolation not needed. none → no networking (batch/security). overlay → multi-host cluster.
+
+**20. Default bridge can't resolve by name, user-defined can — why?**
+The default `bridge` has no built-in DNS service discovery (legacy `--link` only). A user-defined bridge runs Docker's embedded DNS, so containers resolve each other by name.
+**When to use:** User-defined bridge → always for multi-container. Default bridge → avoid.
+
+**21. `-p 8080:80` vs `--network host`?**
+`-p HOST:CONTAINER` → host port 8080 forwards to container port 80 (left = host). `--network host` removes that NAT layer — the container binds host ports directly. Host networking is faster (no NAT) but loses isolation and risks port conflicts.
+**When to use:** `-p` → normal, isolated, explicit mapping. host → high-throughput/low-latency or many/dynamic host ports.
+
+**22. Scenario — container can't resolve DNS, but the host can.**
+Check the container's `/etc/resolv.conf`, the Docker daemon DNS settings, and whether you're on the default bridge (no service DNS). Common causes: Alpine/musl resolver quirks, corporate DNS not propagated to the daemon, custom network without DNS. Test with `docker run --dns 8.8.8.8`, `nslookup` inside, compare `resolv.conf`.
+
+**23. Why is container data ephemeral; where does the writable layer live?**
+The writable layer is a thin copy-on-write layer destroyed when the container is removed; it lives in the storage driver (overlay2) on the host. Heavy writes there are slow (CoW) and lost on removal.
+**When to use:** Writable layer → ephemeral throwaway. Volume → any data that must persist or is write-heavy (DB, uploads).
+
+**24. cgroups vs namespaces — which does what?**
+Namespaces = isolation (what a process can see: PID, network, mount, user, UTS, IPC). cgroups = resource limits (how much it can use: CPU, memory, I/O).
+
+**25. Limit memory/CPU; what happens on memory exceed?**
+`--memory`/`-m` and `--cpus` (cgroups). Exceeding the memory limit triggers the kernel OOM killer → the container exits 137 (128+9). CPU limits throttle rather than kill.
+
+### Compose & Multi-Container
+
+**26. What does Docker Compose solve over `docker run`?**
+Declaratively defines a multi-container app (services, networks, volumes, env) in one YAML, brought up with one command. Replaces long, error-prone `docker run` chains.
+**When to use:** Compose → local/dev multi-container stacks, integration tests, simple single-host deploys. Move to Kubernetes → multi-host, scaling, self-healing prod.
+
+**27. `depends_on` vs actually ready; why it doesn't solve the race?**
+`depends_on` controls start order, not readiness — it starts the DB container, not "DB accepting connections," so the app can start too early and crash. Fix: a DB healthcheck + `depends_on: { db: { condition: service_healthy } }` plus app-side retry.
+
+**28. How do Compose services discover each other?**
+They share a user-defined network and resolve each other by service name via Docker's embedded DNS (e.g. the app connects to host `db`). No IPs or links needed.
+
+**29. `up` vs `up -d` vs `up --build`?**
+`up` = foreground (logs attached). `up -d` = detached/background. `up --build` = rebuild images before starting.
+**When to use:** up → foreground, watch logs (dev). up -d → background/normal run. up --build → after Dockerfile/source changes.
+
+**30. Pass config/secrets into Compose without hardcoding?**
+`env_file:` / `environment:` from a `.env` (kept out of git), Docker secrets for sensitive data, or inject from the host/secret manager at runtime. Never commit secrets in the YAML.
+
+### Production, Security & Troubleshooting
+
+**31. Scenario — container crash-loops; full triage order.**
+`docker ps -a` (exit code) → `docker logs` (app error) → `docker inspect` (OOMKilled, exit code, config) → check the entrypoint/CMD, env vars, missing mounts/config, dependencies. The exit code narrows it fast.
+
+**32. Scenario — `docker run` exits 0 immediately, container gone.**
+The main process finished and exited — a container lives only as long as PID 1 runs. Likely the CMD is one-shot or the daemon backgrounds itself (forking, so PID 1 returns). Fix: run the process in the foreground (exec form, no `&`, `daemon off`).
+
+**33. Exit codes 137 / 125 / 126 / 127?**
+137 = 128+9, SIGKILL (often OOMKilled or `docker kill`). 125 = the Docker daemon/CLI itself failed (bad flag). 126 = command found but not executable (permissions). 127 = command not found (bad path/binary).
+
+**34. Why is running as root a problem; how to run non-root; what breaks?**
+Container root maps toward host root — a breakout = host root. Use a non-root `USER`. What breaks: file ownership on mounted volumes, and binding ports < 1024 (needs root or `CAP_NET_BIND_SERVICE`) — so expose 8080 not 80, and `chown` files for the non-root UID.
+
+**35. PID 1 / zombie reaping; why `--init` or tini?**
+PID 1 has special duties: reaping zombie children and forwarding signals. Most apps aren't written to do this, so zombies accumulate and signals drop. `--init` (or tini) inserts a tiny proper init as PID 1.
+
+**36. Why does shell-form CMD often not get SIGTERM on `docker stop`?**
+Shell form runs `/bin/sh -c "your app"`, so the shell is PID 1 and your app is a child. `docker stop` sends SIGTERM to PID 1 (the shell), which doesn't forward it, so your app is SIGKILLed after the grace period. Use exec form so your app is PID 1.
+
+**37. Scenario — host out of disk, `/var/lib/docker` huge; safe cleanup; prune danger?**
+Filling it: dangling/unused images, stopped containers, unused volumes, build cache. `docker system df` to see usage, then `docker container prune`, `docker image prune`, `docker builder prune`. Danger: `docker system prune -a --volumes` deletes all unused images and volumes — including data volumes you still need. Never run `--volumes` blindly on prod.
+
+**38. Docker healthcheck vs "process is up"; how the orchestrator uses it?**
+A `HEALTHCHECK` tests application readiness (e.g. HTTP 200) → `healthy`/`unhealthy`, vs the process merely existing. Orchestrators use it to gate traffic, restart, or hold dependents until truly ready.
+**When to use:** Any service others depend on or that the orchestrator should gate traffic / restart on readiness.
+
+**39. Scan an image for vulnerabilities; CVE in a base image you don't control?**
+Scan with Trivy/Grype/Docker Scout/ECR scanning in CI. For a base-image CVE: rebuild on a patched base tag, switch to a slimmer base (distroless/alpine) lacking the vulnerable package, pin a fixed digest once patched, and gate deploys on severity.
+
+**40. Scenario — same image works in staging, crashes in prod; both `:latest`.**
+`:latest` is mutable — staging and prod may have pulled different images. Other culprits: env/config differences, secrets, resource limits (OOM in prod), network/dependency access, or platform/arch (`amd64` vs `arm64`). Fix: pin digests so both run the exact same image, then diff config/resources.
+
+**41. Container lifecycle created → running → exited; where do paused/restarting fit?**
+`created` → `running` (PID 1 alive) → `exited`/`stopped` → `removed`. `paused` = processes frozen via the cgroup freezer (still in memory). `restarting` = the restart policy is relaunching it.
+
+**42. Why not store secrets in environment variables?**
+Env vars leak via `docker inspect`, child processes, logs, crash dumps, and image layers if baked at build. Better: mount secrets as files (Docker/Swarm secrets, tmpfs), use a secrets manager (Vault, AWS Secrets Manager) at runtime, or BuildKit secrets for build-time.
+**When to use:** Mounted secret files / secrets manager → always for sensitive values. Env vars → non-sensitive config only. BuildKit secrets → secrets needed only at build time.
+
+**43. Scenario — CI build is slow, 12 min every time, no cache benefit.**
+Order layers so rarely-changing steps (dependency install) come before source copy, use BuildKit cache mounts (`--mount=type=cache`) for package caches, and pull a registry cache with `--cache-from` / push `--cache-to`. Parallelize independent stages.
+
+**44. alpine vs distroless vs slim; when does Alpine bite?**
+slim = stripped Debian, glibc, broad compatibility. alpine = tiny, musl libc instead of glibc. distroless = no shell/package manager, just runtime — most secure. Alpine bites with musl vs glibc incompatibilities (Python wheels recompiling, DNS quirks, locale/timing bugs).
+**When to use:** slim → broad compatibility, fewest surprises. alpine → smallest with a shell, watch musl issues. distroless → max security/minimal, no shell (harder to debug).
+
+**45. What is BuildKit; what does it add over the legacy builder?**
+Parallel stage execution, better caching, cache mounts, build secrets (no leaking into layers), SSH forwarding, and SBOM/provenance. Default in modern Docker.
+
+### Conceptual / "Why" Closers
+
+**46. Where does Docker stop and orchestration (Kubernetes) begin?**
+Docker builds/runs containers on one host and solves dependency packaging — but not scheduling, scaling, self-healing, or multi-host networking and state. Kubernetes orchestrates many containers across many hosts.
+
+**47. "Containers are lightweight VMs" — correct that.**
+Wrong: a VM virtualizes hardware and runs a full guest OS kernel on a hypervisor. A container is just an isolated host process (namespaces + cgroups) sharing the host kernel — no guest OS. Lighter and faster, weaker isolation.
+
+**48. When would you NOT containerize something?**
+Heavy stateful monoliths better served by managed services, GUI/desktop apps, workloads needing direct hardware/kernel-module access, or one-off single-server scripts where Docker adds operational overhead with no portability benefit.
+
+**49. Docker vs containerd vs runc vs the OCI spec?**
+Docker = the daemon + CLI + build tooling (developer UX). containerd = the high-level runtime that manages container lifecycle/images. runc = the low-level OCI runtime that actually spawns the container process. OCI = the open spec they all implement. Kubernetes dropping "Docker as a runtime" just means it talks to containerd directly via CRI — your OCI images still run fine.
+
+**50. Two more sharp edges worth knowing.**
+(a) Build context: `docker build .` ships the whole directory to the daemon — a missing `.dockerignore` can send gigabytes and secrets. (b) Time/UID/permission drift on bind mounts between host and container (especially non-root `USER`) causes "permission denied" that looks like an app bug but is really UID mismatch.
 
 ---
 
