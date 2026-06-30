@@ -60,6 +60,7 @@
 <li><a href="#13--best-practices">Best Practices</a></li>
 <li><a href="#14--quick-mental-model">Quick Mental Model</a></li>
 <li><a href="#15--common-interview-questions">Common Interview Questions</a></li>
+<li><a href="#16--detailed-interview-qa-and-when-to-use">Detailed Interview Q&amp;A and When to Use</a></li>
 </ol>
 <hr>
 <h2 id="1--what-is-iam">1. 🔐 What is IAM</h2>
@@ -360,6 +361,62 @@ aws sts assume-role --role-arn arn:... --role-session-name s1
 <li><strong>Q: Is IAM regional?</strong> — No — IAM is a <strong>global</strong> service.</li>
 <li><strong>Q: How do you enforce MFA for sensitive actions?</strong> — A policy condition on <code>aws:MultiFactorAuthPresent</code>.</li>
 </ul>
+<hr>
+<h2 id="16--detailed-interview-qa-and-when-to-use">16. 🎯 Detailed Interview Q&amp;A and When to Use</h2>
+<blockquote><p>Scenario-style interview questions with model answers and <strong>when to use</strong> guidance. Aimed at ~2 years of hands-on experience.</p></blockquote>
+<h3 id="basics">Basics</h3>
+<p><strong>1. IAM users vs roles vs groups?</strong><br>
+User = a long-lived identity (often with static keys). Group = a collection of users for attaching shared policies. Role = an identity with <strong>temporary</strong> STS credentials that principals/services assume.<br>
+<strong>When to use:</strong> Roles → workloads, cross-account, and humans via SSO (default). Groups → organize human permissions. Users → only when something truly can't federate (legacy/external).</p>
+<p><strong>2. Identity-based vs resource-based policy?</strong><br>
+Identity-based attaches to a user/role (what *it* can do). Resource-based attaches to a resource (S3 bucket, SQS queue, KMS key) and names a <strong>Principal</strong> (who can touch *it*) — and enables cross-account access without assuming a role.<br>
+<strong>When to use:</strong> Identity-based → most permissions. Resource-based → cross-account grants, or to let a service principal (S3/SNS) invoke/access a resource.</p>
+<p><strong>3. Managed vs inline policies?</strong><br>
+Managed = standalone, reusable, versioned (AWS- or customer-managed). Inline = embedded in one principal, 1:1 lifecycle.<br>
+<strong>When to use:</strong> Customer-managed → almost always (reusable, auditable). Inline → a tight, one-off policy that must live and die with a single role. AWS-managed → quick start, but often too broad for least privilege.</p>
+<p><strong>4. How is an IAM request evaluated?</strong><br>
+Default deny → an <strong>explicit Deny always wins</strong> → otherwise the request must be allowed by the intersection of SCP ∩ permission boundary ∩ session policy ∩ identity/resource policy.<br>
+<strong>When this matters:</strong> debugging "Access Denied" — the allow can be cancelled by any one layer's deny or missing allow.</p>
+<p><strong>5. Roles, STS, and why prefer them over access keys?</strong><br>
+A role hands out short-lived, auto-rotating STS credentials via <code>sts:AssumeRole</code>. Nothing long-lived to leak or rotate manually.<br>
+<strong>When to use roles:</strong> every workload (EC2/Lambda/ECS), every cross-account access, every human-via-SSO — reserve static keys for the rare case nothing else works.</p>
+<p><strong>6. How does an EC2 instance get permissions, securely?</strong><br>
+Attach an <strong>instance profile (role)</strong>; the app reads temporary creds from the metadata service. Enforce <strong>IMDSv2</strong> (<code>HttpTokens=required</code>) to blunt SSRF credential theft.<br>
+<strong>When to use:</strong> always for AWS access from EC2 — never bake keys into the AMI/disk.</p>
+<h3 id="intermediate">Intermediate</h3>
+<p><strong>7. Permission boundaries — what and when?</strong><br>
+A boundary is a policy that <strong>caps</strong> the maximum permissions a user/role can have (it never grants). Effective perms = identity policy ∩ boundary.<br>
+<strong>When to use:</strong> let teams create their own roles safely — the boundary guarantees they can't exceed a ceiling even if they attach a broad policy.</p>
+<p><strong>8. SCPs vs IAM policies?</strong><br>
+SCPs (Organizations) are account/OU-wide <strong>guardrails</strong> that cap permissions for every principal — they don't grant. IAM policies grant to specific principals.<br>
+<strong>When to use SCPs:</strong> org-wide guardrails no account admin can override (deny disabling Block Public Access, restrict regions, deny leaving the org).</p>
+<p><strong>9. Cross-account access and the external ID?</strong><br>
+Account A's role trusts Account B (trust policy names B's principal); B assumes it for temporary creds. For third parties, require an <strong>external ID</strong> in the trust condition.<br>
+<strong>When to use external ID:</strong> any third-party/vendor assuming your role — it defeats the "confused deputy" problem.</p>
+<p><strong>10. IAM Identity Center (SSO) vs IAM users?</strong><br>
+Identity Center provides centralized, short-lived, federated human access (permission sets) across many accounts. IAM users are per-account long-lived identities.<br>
+<strong>When to use:</strong> Identity Center → all human access at any multi-account scale. IAM users → avoid for people; only for rare programmatic edge cases.</p>
+<p><strong>11. ABAC vs RBAC?</strong><br>
+RBAC = permissions per role/group. ABAC = permissions driven by <strong>tags</strong> (<code>aws:PrincipalTag</code> vs resource tags), so one policy scales across teams/resources.<br>
+<strong>When to use ABAC:</strong> many teams/projects where a single tag-keyed policy beats writing N per-resource policies; pairs well with Identity Center session tags.</p>
+<p><strong>12. Useful condition keys?</strong><br>
+<code>aws:MultiFactorAuthPresent</code> (require MFA), <code>aws:SourceIp</code> (network restriction), <code>aws:PrincipalTag</code>/<code>aws:ResourceTag</code> (ABAC), <code>aws:SecureTransport</code> (force HTTPS), <code>aws:SourceArn</code>/<code>aws:SourceAccount</code> (confused-deputy guard).<br>
+<strong>When to use:</strong> tighten any policy to a context — MFA for sensitive actions, IP allow-lists, tag-based scoping.</p>
+<h3 id="advanced--scenario">Advanced &amp; Scenario</h3>
+<p><strong>13. Scenario — least privilege so a compromised EC2 can't pivot.</strong><br>
+Scope the instance role to <strong>specific resource ARNs</strong> (one bucket/prefix, one queue, IAM DB-auth) with <strong>no wildcards</strong>, enforce <strong>IMDSv2</strong>, use one role per workload, and add condition keys (VPC/source). Layer CloudTrail + GuardDuty to detect anomalous use.</p>
+<p><strong>14. Scenario — debug a stubborn "Access Denied."</strong><br>
+Walk the evaluation chain: is there an <strong>explicit Deny</strong> anywhere? Is it allowed in the <strong>identity policy</strong>? Is a <strong>resource policy</strong> needed (cross-account)? Does an <strong>SCP</strong> or <strong>permission boundary</strong> or <strong>session policy</strong> cap it? Use the IAM Policy Simulator + CloudTrail <code>errorCode</code>/<code>errorMessage</code>.</p>
+<p><strong>15. Scenario — devs: read prod, write dev, break-glass on-call.</strong><br>
+Identity Center permission sets: <code>Dev-ReadProd</code> (read-only prod), <code>Dev-Dev</code> (full dev). A separate <strong>break-glass role</strong> with elevated prod access, <strong>MFA-required</strong>, time-boxed via session policies, <strong>alerting on assumption</strong> (EventBridge→SNS), all audited in CloudTrail.</p>
+<p><strong>16. Wildcard policies — the risk and the fix.</strong><br>
+<code>Action: "*"</code> on <code>Resource: "*"</code> (or <code>s3:*</code> on <code>*</code>) means full-account access — a single compromise becomes total. Scope actions to what's needed and resources to specific ARNs; use Access Analyzer to right-size from CloudTrail usage.</p>
+<p><strong>17. Eliminating long-lived keys (incl. CI/CD)?</strong><br>
+Use roles everywhere; for CI, use <strong>OIDC federation</strong> (GitHub Actions → <code>sts:AssumeRoleWithWebIdentity</code>) so pipelines get short-lived creds with no stored keys.<br>
+<strong>When to use OIDC:</strong> any external CI/CD or workload that supports it — it removes the #1 leaked-credential source.</p>
+<p><strong>18. Enforcing MFA and least-privilege defaults?</strong><br>
+Require MFA via <code>aws:MultiFactorAuthPresent</code> conditions (and at the SSO/identity layer), start every principal from <strong>deny-by-default</strong> and grant narrowly, and review access with Access Analyzer + credential reports.<br>
+<strong>When to use:</strong> always for human and privileged access; MFA on console + sensitive API actions is table stakes.</p>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for AWS IAM.</em></p>
 </div>
