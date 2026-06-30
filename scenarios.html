@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloud & DevOps — Scenario-Based Interview Questions</title>
+<link rel="icon" href="scenarios-logo.svg">
+<style>
+  :root{--ac:#E11D48;--acd:#9f1239;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#9f1239;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff1f4;border-radius:0 8px 8px 0;color:#831843;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fff5f7;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;scroll-margin-top:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="scenarios-logo.svg" width="110" alt="Scenario interview logo" /><h1 id="cloud--devops--scenario-based-interview-questions">Cloud &amp; DevOps — Scenario-Based Interview Questions</h1>
+<p><strong>Cross-service scenarios</strong> · EC2 · S3 · RDS · Lambda · SQS/SNS · Docker · VPC · Security · RBAC</p>
+<p><img src="https://img.shields.io/badge/Interview-Scenario%20Based-E11D48?style=flat-square" alt="Type">
+<img src="https://img.shields.io/badge/Scope-Cross%20Service-527FFF?style=flat-square" alt="Scope">
+<img src="https://img.shields.io/badge/Level-Intermediate%20to%20Senior-9f1239?style=flat-square" alt="Level"></p>
+<p><em>Real-world, multi-service interview scenarios with model answers — designed to be solved by combining services, not reciting one.</em></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#-how-to-use-these-scenarios">How to Use These Scenarios</a></li>
+<li><a href="#1--compute-storage--delivery">Compute, Storage &amp; Delivery</a></li>
+<li><a href="#2--databases--data-layer">Databases &amp; Data Layer</a></li>
+<li><a href="#3--serverless--event-driven">Serverless &amp; Event-Driven</a></li>
+<li><a href="#4--containers--cicd">Containers &amp; CI/CD</a></li>
+<li><a href="#5--networking--connectivity-vpc">Networking &amp; Connectivity (VPC)</a></li>
+<li><a href="#6--security-iam--rbac">Security, IAM &amp; RBAC</a></li>
+<li><a href="#7--cross-service-incident-war-rooms">Cross-Service Incident War-Rooms</a></li>
+<li><a href="#8--rapid-fire-combo-prompts">Rapid-Fire Combo Prompts</a></li>
+</ol>
+<hr>
+<h2 id="-how-to-use-these-scenarios">🧭 How to Use These Scenarios</h2>
+<blockquote><p>These are deliberately <strong>multi-service</strong>. A good answer names the services, draws the data/permission flow, states the trade-off, and calls out failure modes — it does not just define one service. Each card has a <strong>Setup</strong>, a <strong>Question</strong>, a <strong>Strong answer</strong> outline, the <strong>Services in play</strong>, and the <strong>follow-ups</strong> an interviewer pushes. Reason out loud; an interviewer scores the path, not just the destination.</p></blockquote>
+<hr>
+<h2 id="1--compute-storage--delivery">1. 🖥️ Compute, Storage &amp; Delivery</h2>
+<h3 id="scenario-1--user-uploads-processed-and-served-globally">Scenario 1 — User uploads, processed and served globally</h3>
+<p><strong>Setup.</strong> A web app on EC2 (behind an ALB, in an Auto Scaling Group) lets users upload profile images. You must store them durably, generate thumbnails, serve them worldwide with low latency, keep cost low, and never expose the bucket publicly.</p>
+<p><strong>Question.</strong> Design the upload → process → serve path end to end.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Upload <strong>directly to S3 via a pre-signed PUT URL</strong> minted by the backend — bytes never transit EC2, so the fleet stays small.</li>
+<li>S3 <code>ObjectCreated</code> event → <strong>SNS or EventBridge → Lambda</strong> to generate thumbnails; write derivatives back to a <code>processed/</code> prefix. Use a DLQ for failures.</li>
+<li>Serve through <strong>CloudFront with Origin Access Control (OAC)</strong>; bucket keeps <strong>Block Public Access on</strong>, policy allows only the distribution.</li>
+<li><strong>Lifecycle</strong>: transition originals to Standard-IA after 30 days; expire incomplete multipart uploads and old versions.</li>
+<li>Encrypt with <strong>SSE-S3</strong> (or SSE-KMS if audit is required), enforce HTTPS via an <code>aws:SecureTransport</code> deny.</li>
+</ul>
+<p><strong>Services in play:</strong> EC2/ALB/ASG, S3, Lambda, SNS/EventBridge, CloudFront, IAM, KMS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why pre-signed URLs over uploading through EC2? (bandwidth, scaling, cost)</li>
+<li>How do you stop users overwriting each other's keys? (key namespacing per user + IAM/condition)</li>
+<li>What if thumbnailing must not lose an event during a spike? (SNS→SQS→Lambda with DLQ)</li>
+</ul>
+<h3 id="scenario-2--ec2-fleet-reads-a-large-dataset-from-s3-privately">Scenario 2 — EC2 fleet reads a large dataset from S3, privately</h3>
+<p><strong>Setup.</strong> An analytics fleet in private subnets reads tens of TB from S3 all day. Finance flags a large NAT data-processing bill.</p>
+<p><strong>Question.</strong> How do you cut cost and keep the path private and fast?</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Add an <strong>S3 Gateway VPC Endpoint</strong> — S3 traffic leaves via the endpoint, <strong>not the NAT Gateway</strong>, eliminating NAT data charges and keeping traffic on the AWS backbone.</li>
+<li>Attach an <strong>endpoint policy</strong> + instance <strong>IAM role</strong> scoped to the specific bucket/prefix ARNs (no wildcards).</li>
+<li>For hot objects, add a read-through cache layer or request-coalesce; consider <strong>S3 byte-range</strong> fetches for partial reads.</li>
+</ul>
+<p><strong>Services in play:</strong> EC2, S3, VPC (Gateway Endpoint), NAT Gateway, IAM.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Gateway vs Interface endpoint — which for S3 and why? (S3/DynamoDB use Gateway; it's free)</li>
+<li>How does the route table change? (prefix-list route to the endpoint)</li>
+</ul>
+<h3 id="scenario-3--cut-compute-cost-50-without-losing-ha">Scenario 3 — Cut compute cost 50% without losing HA</h3>
+<p><strong>Setup.</strong> A stateless web tier runs 20 On-Demand instances 24/7 behind an ALB. You're asked to cut cost ~50% while keeping high availability and tolerating an AZ loss.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Externalize all state (sessions in ElastiCache/DynamoDB, assets in S3) so instances are disposable.</li>
+<li>Run a <strong>mixed-instances ASG</strong>: a small <strong>On-Demand/Savings-Plan baseline</strong> for guaranteed capacity + <strong>Spot</strong> for the rest, across ≥3 AZs.</li>
+<li>Serve static assets from <strong>S3 + CloudFront</strong> so the EC2 tier shrinks.</li>
+<li>Set Spot allocation to <code>price-capacity-optimized</code> and capacity-rebalance on.</li>
+</ul>
+<p><strong>Services in play:</strong> EC2 (Spot + ASG), ALB, S3, CloudFront, Savings Plans.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>What breaks if a Spot reclaim hits 40% of the fleet at once? (capacity rebalance, On-Demand floor, connection draining)</li>
+<li>Why not 100% Spot? (no guaranteed floor during a capacity crunch)</li>
+</ul>
+<hr>
+<h2 id="2--databases--data-layer">2. 🗄️ Databases &amp; Data Layer</h2>
+<h3 id="scenario-4--secure-highly-available-3-tier-data-layer">Scenario 4 — Secure, highly-available 3-tier data layer</h3>
+<p><strong>Setup.</strong> A classic 3-tier app: ALB → app on EC2 (private) → RDS PostgreSQL. Security wants no public DB, rotated credentials, and a tested recovery story.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>RDS in <strong>private subnets only</strong>, <code>PubliclyAccessible=false</code>; the DB <strong>security group allows 5432 only from the app SG</strong> (SG-to-SG reference, not CIDR).</li>
+<li><strong>Multi-AZ</strong> for automatic failover; app connects to the <strong>endpoint DNS</strong>, never an IP.</li>
+<li>Credentials in <strong>Secrets Manager with rotation</strong>; app fetches at runtime via its instance role — no passwords on disk.</li>
+<li><strong>Encryption at rest (KMS)</strong> set at creation; automated backups (PITR) + periodic manual snapshots <strong>copied cross-region</strong> for DR.</li>
+</ul>
+<p><strong>Services in play:</strong> EC2, RDS (Multi-AZ), VPC/Subnets/SG, Secrets Manager, KMS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why SG-to-SG instead of the app's CIDR? (survives IP churn, least privilege)</li>
+<li>The DB is unencrypted today — how do you encrypt it? (snapshot → copy with encryption → restore)</li>
+</ul>
+<h3 id="scenario-5--reporting-load-is-crushing-the-primary">Scenario 5 — Reporting load is crushing the primary</h3>
+<p><strong>Setup.</strong> Heavy analytical queries during business hours spike primary CPU and slow the transactional app. Connections also occasionally hit <code>too many connections</code>.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Add <strong>read replicas</strong> and route reporting/read-only traffic to them; keep read-after-write-critical reads on the primary.</li>
+<li>Put <strong>RDS Proxy</strong> in front to pool/multiplex connections (fixes connection exhaustion that a bigger instance wouldn't).</li>
+<li>Profile with <strong>Performance Insights</strong> + <code>pg_stat_statements</code>; add indexes before scaling vertically.</li>
+</ul>
+<p><strong>Services in play:</strong> RDS (read replicas), RDS Proxy, CloudWatch/Performance Insights.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>What's the risk of reading from a replica? (replication lag → stale reads)</li>
+<li>CPU is fine but connections are maxed — bigger instance or Proxy? (Proxy/pooling)</li>
+</ul>
+<h3 id="scenario-6--migrate-mysql-on-ec2-to-rds-minimal-downtime">Scenario 6 — Migrate MySQL-on-EC2 to RDS, minimal downtime</h3>
+<p><strong>Setup.</strong> A self-managed MySQL on EC2 must move to RDS with near-zero downtime, then be hardened.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Use <strong>AWS DMS</strong> with full-load + CDC so the source keeps serving while data replicates; cut over during a short window once lag is ~0.</li>
+<li>Harden after: private subnets, KMS encryption, Secrets Manager, IAM auth optional, automated backups, Multi-AZ.</li>
+<li>Validate row counts/checksums before flipping the connection string (ideally via a DNS/config switch for fast rollback).</li>
+</ul>
+<p><strong>Services in play:</strong> EC2, RDS, DMS, VPC, Secrets Manager, KMS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>How do you roll back mid-cutover? (keep source writable until validated; DNS/config flip)</li>
+<li>Encryption can't be added in place on RDS — when do you set it? (at create/restore time)</li>
+</ul>
+<hr>
+<h2 id="3--serverless--event-driven">3. ⚡ Serverless &amp; Event-Driven</h2>
+<h3 id="scenario-7--reliable-s3-triggered-processing-at-spiky-scale">Scenario 7 — Reliable S3-triggered processing at spiky scale</h3>
+<p><strong>Setup.</strong> Every uploaded file must be processed exactly once-ish, must survive a downstream outage, must fan out to two independent consumers (thumbnailer + virus scanner), and must absorb 50× traffic spikes.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li><strong>S3 → SNS topic → two SQS queues (fan-out)</strong>, each with its own <strong>Lambda</strong> consumer. SQS buffers spikes and decouples the consumers.</li>
+<li>Add a <strong>DLQ</strong> per queue + redrive; make consumers <strong>idempotent</strong> (dedupe on object key + version/ETag) so retries are safe.</li>
+<li>Use <strong>reserved/maximum concurrency</strong> on Lambda to protect downstream systems from the spike.</li>
+</ul>
+<p><strong>Services in play:</strong> S3, SNS, SQS, Lambda, DLQ, CloudWatch.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why SNS→SQS instead of S3→Lambda directly? (fan-out, buffering, retries, replay)</li>
+<li>"Exactly once" — honest answer? (at-least-once + idempotency; FIFO if true ordering/dedup needed)</li>
+</ul>
+<h3 id="scenario-8--lambda-is-exhausting-rds-connections">Scenario 8 — Lambda is exhausting RDS connections</h3>
+<p><strong>Setup.</strong> A Lambda that writes to RDS works fine normally, but under a traffic spike the DB hits max connections and the app 500s.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Front RDS with <strong>RDS Proxy</strong> so thousands of Lambda invocations share a small pool and Proxy holds connections across failover.</li>
+<li>Smooth the spike with <strong>SQS in front of the Lambda</strong> + a sensible batch size / reserved concurrency, turning a burst into a drained queue.</li>
+<li>Right-size pool + connection reuse; avoid opening a new connection per invocation.</li>
+</ul>
+<p><strong>Services in play:</strong> Lambda, RDS, RDS Proxy, SQS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why does Lambda specifically cause this? (each concurrent execution = its own connection)</li>
+<li>Bigger DB instance vs Proxy? (Proxy — the bottleneck is connections, not compute)</li>
+</ul>
+<h3 id="scenario-9--order-pipeline-needs-ordering-and-no-duplicates">Scenario 9 — Order pipeline needs ordering and no duplicates</h3>
+<p><strong>Setup.</strong> An order pipeline must process events <strong>in order per customer</strong> and must not double-charge on retries.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Use <strong>SQS FIFO</strong> with <code>MessageGroupId = customerId</code> for per-customer ordering and built-in <strong>content-based dedup</strong>; <strong>SNS FIFO → SQS FIFO</strong> if you also fan out.</li>
+<li>Still enforce <strong>idempotency keys</strong> at the handler (a dedup window isn't infinite); persist processed IDs.</li>
+<li>DLQ + replay for poison messages; alarm on DLQ depth.</li>
+</ul>
+<p><strong>Services in play:</strong> SQS FIFO, SNS FIFO, Lambda, DynamoDB (idempotency store).</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>FIFO throughput limits vs Standard — when is FIFO worth it? (ordering/dedup needs vs throughput)</li>
+<li>Why still need app-level idempotency with FIFO dedup? (5-minute dedup window, cross-system retries)</li>
+</ul>
+<hr>
+<h2 id="4--containers--cicd">4. 🐳 Containers &amp; CI/CD</h2>
+<h3 id="scenario-10--containerize-and-ship-a-monolith-safely">Scenario 10 — Containerize and ship a monolith safely</h3>
+<p><strong>Setup.</strong> Take a monolith to containers with a build pipeline, a registry, deploys, secrets, image scanning, and fast rollback.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li><strong>Multi-stage Dockerfile</strong> (build stage with toolchain → minimal runtime image), non-root <code>USER</code>, pinned base digest.</li>
+<li>CI builds, <strong>scans the image</strong> (Trivy/ECR scan), pushes to <strong>ECR</strong> tagged by immutable digest/commit SHA — never deploy <code>:latest</code>.</li>
+<li>Deploy on <strong>ECS/EKS (or EC2)</strong> with the app reading secrets from <strong>Secrets Manager/SSM</strong> via a <strong>task role</strong> (no baked creds).</li>
+<li><strong>Blue/green or rolling</strong> deploy with health checks; rollback = repoint to the previous digest.</li>
+</ul>
+<p><strong>Services in play:</strong> Docker, ECR, ECS/EKS/EC2, Secrets Manager/SSM, IAM (task role), CodePipeline/GitHub Actions.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why digests over <code>:latest</code>? (reproducibility, safe rollback)</li>
+<li>A secret was needed at build time — how, without leaking it into a layer? (BuildKit secrets, multi-stage)</li>
+</ul>
+<h3 id="scenario-11--works-in-staging-breaks-in-prod">Scenario 11 — "Works in staging, breaks in prod"</h3>
+<p><strong>Setup.</strong> The same image (<code>:latest</code>) runs in staging but crash-loops in prod.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li><code>:latest</code> is mutable — staging and prod likely pulled <strong>different images</strong>. Pin <strong>digests</strong> so both run byte-identical.</li>
+<li>Diff the <strong>config/secrets</strong> (env, SSM/Secrets values), <strong>resource limits</strong> (prod OOMKilled → exit 137), and <strong>arch</strong> (<code>amd64</code> vs <code>arm64</code>).</li>
+<li>Check egress/dependency reachability differences (SG, NAT, endpoints).</li>
+</ul>
+<p><strong>Services in play:</strong> Docker, ECR, ECS/EC2, Secrets Manager/SSM, CloudWatch.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>First command you run? (<code>docker logs</code> / task events + exit code)</li>
+<li>Exit 137 — what does it tell you? (SIGKILL, usually OOM)</li>
+</ul>
+<h3 id="scenario-12--secure-cicd-with-no-long-lived-aws-keys">Scenario 12 — Secure CI/CD with no long-lived AWS keys</h3>
+<p><strong>Setup.</strong> Your GitHub Actions pipeline deploys to AWS. Security bans long-lived access keys in CI.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Use <strong>GitHub OIDC → an IAM role</strong> via <code>sts:AssumeRoleWithWebIdentity</code>; the workflow gets short-lived credentials, scoped by a trust policy on the repo/branch.</li>
+<li>The deploy role is <strong>least-privilege</strong> (only ECR push + ECS update + the specific resources), with a <strong>permission boundary</strong>.</li>
+<li>Sign/scan images; record provenance; require approvals for prod.</li>
+</ul>
+<p><strong>Services in play:</strong> GitHub Actions (OIDC), IAM (role/trust/boundary), STS, ECR, ECS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>How does the trust policy stop another repo assuming the role? (<code>sub</code> condition on repo/branch)</li>
+<li>Why a permission boundary on top of the policy? (caps blast radius even if the policy drifts)</li>
+</ul>
+<hr>
+<h2 id="5--networking--connectivity-vpc">5. 🌐 Networking &amp; Connectivity (VPC)</h2>
+<h3 id="scenario-13--design-the-vpc-for-a-3-tier-app">Scenario 13 — Design the VPC for a 3-tier app</h3>
+<p><strong>Setup.</strong> Lay out a VPC for ALB (public) → app (private) → RDS (private), internet egress for patches, and no public DB.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li><strong>Public subnets</strong>: ALB + NAT Gateway (one per AZ for HA). <strong>Private app subnets</strong>: EC2/containers. <strong>Private DB subnets</strong>: RDS, in a DB subnet group.</li>
+<li>Route tables: public → IGW; private → NAT for egress. <strong>S3/DynamoDB via Gateway Endpoints</strong>; other AWS APIs via <strong>Interface Endpoints</strong> to avoid NAT.</li>
+<li>SGs chained (ALB SG → app SG → DB SG); NACLs as a coarse subnet backstop.</li>
+</ul>
+<p><strong>Services in play:</strong> VPC, Subnets, IGW, NAT GW, Route Tables, SG/NACL, VPC Endpoints, ALB, EC2, RDS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why NAT per AZ? (AZ-failure isolation; cross-AZ data charges)</li>
+<li>How does the app reach S3 without NAT? (Gateway Endpoint)</li>
+</ul>
+<h3 id="scenario-14--lambda-must-reach-rds-s3-and-a-third-party-api">Scenario 14 — Lambda must reach RDS, S3, and a third-party API</h3>
+<p><strong>Setup.</strong> A VPC-attached Lambda needs the private RDS, plus S3, plus an external HTTPS API.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Put the Lambda in <strong>private subnets</strong> with an ENI; reach RDS over the private network (via <strong>RDS Proxy</strong> to manage connections).</li>
+<li><strong>S3 via a Gateway Endpoint</strong> (no NAT). The <strong>external API needs egress → route to a NAT Gateway</strong> in a public subnet.</li>
+<li>Right-size subnet IP space for Lambda ENIs; least-privilege execution role.</li>
+</ul>
+<p><strong>Services in play:</strong> Lambda (VPC), RDS/RDS Proxy, S3 Gateway Endpoint, NAT GW, IGW, IAM.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why did the external API call hang before? (VPC Lambda has no route to internet without NAT)</li>
+<li>Why not also reach S3 via NAT? (cost + Gateway Endpoint is free and private)</li>
+</ul>
+<h3 id="scenario-15--ec2-in-a-private-subnet-cant-reach-s3--secrets-manager">Scenario 15 — EC2 in a private subnet can't reach S3 / Secrets Manager</h3>
+<p><strong>Setup.</strong> A freshly launched private EC2 times out calling S3 and Secrets Manager.</p>
+<p><strong>Strong answer (triage):</strong></p>
+<ul>
+<li>Is there a route to egress at all? (NAT for Secrets Manager unless using an <strong>Interface Endpoint</strong>; S3 needs <strong>Gateway Endpoint</strong> or NAT.)</li>
+<li>Check <strong>endpoint policy / bucket policy / IAM role</strong> — a 403 vs timeout distinguishes auth from network.</li>
+<li>Verify <strong>DNS resolution</strong> (private DNS enabled on the interface endpoint), SG egress, and NACLs.</li>
+</ul>
+<p><strong>Services in play:</strong> EC2, VPC Endpoints (Gateway + Interface), NAT, IAM, Route 53 private DNS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Timeout vs 403 — what does each point to? (network vs permissions)</li>
+<li>Which endpoint type for Secrets Manager? (Interface; S3 is Gateway)</li>
+</ul>
+<hr>
+<h2 id="6--security-iam--rbac">6. 🔐 Security, IAM &amp; RBAC</h2>
+<h3 id="scenario-16--least-privilege-across-many-teams-and-accounts">Scenario 16 — Least privilege across many teams and accounts</h3>
+<p><strong>Setup.</strong> A fast-growing org has many teams in one (then several) AWS accounts. You must enforce least privilege, separate prod from dev, and make public S3 impossible.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li><strong>Multi-account via AWS Organizations</strong> (prod/dev/security accounts); <strong>SCPs</strong> as guardrails — e.g. deny disabling Block Public Access, deny leaving the org, restrict regions.</li>
+<li>Humans get access via <strong>IAM Identity Center (SSO) permission sets</strong>, not IAM users; apps use <strong>roles</strong>.</li>
+<li><strong>Permission boundaries</strong> cap what team-created roles can do; <strong>tag-based (ABAC)</strong> access scopes resources by <code>team</code>/<code>env</code> tags.</li>
+</ul>
+<p><strong>Services in play:</strong> Organizations, SCPs, IAM Identity Center, IAM roles, permission boundaries, ABAC tags, S3 BPA.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>SCP vs IAM policy — which actually stops a public bucket org-wide? (SCP — a guardrail no account admin can override)</li>
+<li>How does ABAC reduce policy sprawl? (one policy keyed on tags instead of N per-resource policies)</li>
+</ul>
+<h3 id="scenario-17--rbac-so-a-compromised-ec2-cant-pivot">Scenario 17 — RBAC so a compromised EC2 can't pivot</h3>
+<p><strong>Setup.</strong> An EC2 app needs S3, RDS, and SQS access. Assume the instance gets popped — limit the blast radius.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>The <strong>instance role is least-privilege</strong>: scoped to specific bucket/prefix, queue, and DB-auth ARNs — <strong>no wildcards</strong>.</li>
+<li>Enforce <strong>IMDSv2</strong> (<code>HttpTokens=required</code>) to blunt SSRF credential theft.</li>
+<li>Prefer <strong>temporary creds via the role</strong> (never static keys); separate roles per workload; condition policies on VPC/source where possible.</li>
+<li>Detective layer: CloudTrail + GuardDuty to catch anomalous use of the role.</li>
+</ul>
+<p><strong>Services in play:</strong> EC2 (instance role, IMDSv2), S3, RDS (IAM auth), SQS, CloudTrail, GuardDuty.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why IMDSv2 specifically? (defeats common SSRF → metadata cred theft)</li>
+<li>A wildcard <code>s3:*</code> on <code>*</code> — what's the real-world damage? (full-account data exfil/destruction)</li>
+</ul>
+<h3 id="scenario-18--developer-rbac-read-prod-write-dev-break-glass-on-call">Scenario 18 — Developer RBAC: read prod, write dev, break-glass on-call</h3>
+<p><strong>Setup.</strong> Design access so devs have read-only prod, full dev, and on-call can elevate during incidents — auditable.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li><strong>Identity Center permission sets</strong>: <code>Dev-ReadProd</code> (read-only prod), <code>Dev-Dev</code> (full dev), assigned per group.</li>
+<li>A <strong>break-glass role</strong> with elevated prod access, <strong>MFA-required</strong>, time-boxed via session policies, and <strong>alerting on assumption</strong> (EventBridge → SNS/Slack).</li>
+<li>Everything logged in <strong>CloudTrail</strong>; periodic access reviews; least-privilege by default.</li>
+</ul>
+<p><strong>Services in play:</strong> IAM Identity Center, IAM roles/session policies, MFA, CloudTrail, EventBridge, SNS.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>How do you make break-glass safe, not a backdoor? (MFA, time-box, alert, audit, review)</li>
+<li>Read-only that still leaks data? (e.g. <code>s3:GetObject</code> everywhere — scope it)</li>
+</ul>
+<h3 id="scenario-19--kill-secret-sprawl-across-ec2-lambda-and-containers">Scenario 19 — Kill secret sprawl across EC2, Lambda, and containers</h3>
+<p><strong>Setup.</strong> DB creds and API keys are scattered in env vars, AMIs, and task defs. Centralize, rotate, and tightly scope reads.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>Move everything to <strong>Secrets Manager</strong> (or SSM Parameter Store for non-rotating config); enable <strong>rotation</strong> for DB creds.</li>
+<li>Workloads read at runtime via <strong>role + resource policy + KMS grant</strong> — never bake secrets into images/env.</li>
+<li>Scope each secret's resource policy to the specific consuming role; audit access via CloudTrail.</li>
+</ul>
+<p><strong>Services in play:</strong> Secrets Manager, SSM Parameter Store, KMS, IAM roles, Lambda/EC2/ECS, CloudTrail.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why are env-var secrets risky? (leak via <code>inspect</code>, logs, crash dumps, image layers)</li>
+<li>Secrets Manager vs Parameter Store — when each? (rotation/secret vs cheap config at scale)</li>
+</ul>
+<hr>
+<h2 id="7--cross-service-incident-war-rooms">7. 🚨 Cross-Service Incident War-Rooms</h2>
+<h3 id="scenario-20--checkout-is-down">Scenario 20 — "Checkout is down"</h3>
+<p><strong>Setup.</strong> Customers can't check out. Path: CloudFront → ALB → ECS service → RDS, with an async SQS → Lambda side-effect.</p>
+<p><strong>Strong answer (triage):</strong></p>
+<ul>
+<li>Localize the layer: ALB target health + 5xx, ECS task health/restarts, RDS connections/CPU, SQS depth + DLQ, Lambda errors/throttles.</li>
+<li>Read the <strong>error shape</strong>: 503 from ALB = no healthy targets; DB connection errors = RDS/Proxy; growing SQS + DLQ = consumer failing.</li>
+<li>Mitigate fast (scale out, roll back the last deploy, drain), then root-cause from CloudWatch/X-Ray traces.</li>
+</ul>
+<p><strong>Services in play:</strong> CloudFront, ALB, ECS, RDS, SQS, Lambda, CloudWatch, X-Ray.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>First three dashboards you open? (ALB 5xx/targets, RDS connections, SQS/DLQ)</li>
+<li>How do you tell app bug from infra? (deploy correlation, error class, blast radius)</li>
+</ul>
+<h3 id="scenario-21--s3-bill-tripled-and-the-app-got-slow">Scenario 21 — S3 bill tripled and the app got slow</h3>
+<p><strong>Setup.</strong> Storage volume barely changed, but the S3 bill tripled and latency rose.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>It's usually <strong>requests/transfer, not storage</strong>: a hot <strong>Lambda/EC2 loop hammering GET</strong> with no cache, <strong>KMS calls</strong> per object, cross-region/egress transfer, or noncurrent-version pileup.</li>
+<li>Use <strong>S3 Storage Lens + Cost Explorer + CloudWatch request metrics</strong> to find the offending prefix/principal.</li>
+<li>Fix: add caching (CloudFront/in-app), <strong>S3 bucket keys</strong> to cut KMS calls, lifecycle to expire versions, keep compute in-region.</li>
+</ul>
+<p><strong>Services in play:</strong> S3, Lambda/EC2, KMS, CloudFront, CloudWatch, Cost Explorer, Storage Lens.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why would latency and cost rise together? (same hot read path; throttling/<code>503 Slow Down</code>)</li>
+<li>503 Slow Down — fix? (spread keys across prefixes + backoff)</li>
+</ul>
+<h3 id="scenario-22--connection-storm-after-an-rds-failover">Scenario 22 — Connection storm after an RDS failover</h3>
+<p><strong>Setup.</strong> Right after a Multi-AZ failover, the app throws a wave of errors and the recovered DB gets hammered.</p>
+<p><strong>Strong answer:</strong></p>
+<ul>
+<li>The app cached the <strong>old endpoint IP</strong> and/or every instance reconnected at once (connection storm). Connect by <strong>endpoint DNS</strong> with short TTL; add <strong>jittered retry/backoff</strong>.</li>
+<li>Put <strong>RDS Proxy</strong> in front so it holds client connections through failover and throttles reconnects.</li>
+<li>Bound the connection pool; don't let every worker open simultaneously.</li>
+</ul>
+<p><strong>Services in play:</strong> RDS (Multi-AZ), RDS Proxy, app connection pool, Route 53 DNS TTL.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Why did pinning the IP break it? (failover moves the primary; DNS is the contract)</li>
+<li>How does Proxy specifically smooth failover? (holds connections, multiplexes, throttles reconnect)</li>
+</ul>
+<h3 id="scenario-23--security-alert-public-object--leaked-key-in-an-image">Scenario 23 — Security alert: public object + leaked key in an image</h3>
+<p><strong>Setup.</strong> A scanner finds a public S3 object and an AWS access key baked into a container image in ECR.</p>
+<p><strong>Strong answer (contain → eradicate → prevent):</strong></p>
+<ul>
+<li><strong>Contain:</strong> revoke/rotate the leaked key immediately; flip the object/bucket private (re-enable Block Public Access); check CloudTrail for misuse.</li>
+<li><strong>Eradicate:</strong> rebuild the image without the secret (BuildKit secrets/runtime fetch), purge the bad image, scan history.</li>
+<li><strong>Prevent:</strong> <strong>SCP</strong> to forbid public buckets org-wide, <strong>ECR scan-on-push + secret scanning in CI</strong>, move secrets to Secrets Manager, least-privilege keys (or none — use roles).</li>
+</ul>
+<p><strong>Services in play:</strong> S3 (BPA), IAM/STS, ECR (scan), Secrets Manager, CloudTrail, Organizations/SCP, GuardDuty.</p>
+<p><strong>Interviewer pushes:</strong></p>
+<ul>
+<li>Order of operations under active compromise? (rotate first, then audit blast radius)</li>
+<li>How do you make this class of leak structurally impossible? (no static keys + CI secret scanning + SCP guardrails)</li>
+</ul>
+<hr>
+<h2 id="8--rapid-fire-combo-prompts">8. 🎛️ Rapid-Fire Combo Prompts</h2>
+<blockquote><p>Short, open-ended prompts that each force two or more services together. Use them for quick drills — say the architecture out loud in 60–90 seconds.</p></blockquote>
+<ul>
+<li>Design a <strong>file-drop integration</strong>: a partner drops CSVs in S3; you validate, load into RDS, and notify on failure. (S3 + Lambda + SQS + SNS + RDS)</li>
+<li>A <strong>scheduled job</strong> must run nightly, read from RDS, write a report to S3, and email it. (EventBridge + Lambda/ECS + RDS + S3 + SNS/SES)</li>
+<li>Make an <strong>EC2 app reach RDS and S3 with zero static credentials</strong>. (Instance role + IMDSv2 + Gateway Endpoint + Secrets Manager)</li>
+<li><strong>Decouple</strong> a synchronous EC2→EC2 call that keeps failing under load. (SQS buffer + autoscaling on queue depth)</li>
+<li><strong>Fan out</strong> one event to email, a queue, and an HTTP endpoint. (SNS → SES + SQS + HTTPS subscription)</li>
+<li>Serve a <strong>private internal dashboard</strong> with no internet exposure. (VPC + Interface Endpoints + private ALB + IAM)</li>
+<li><strong>Zero-downtime deploy</strong> of a containerized service with instant rollback. (ECR digests + ECS blue/green + ALB)</li>
+<li>Stop a <strong>runaway Lambda</strong> from melting the database. (RDS Proxy + reserved concurrency + SQS)</li>
+<li>Enforce <strong>"prod data never leaves the prod account."</strong> (SCP + VPC endpoints + bucket policy + KMS key policy)</li>
+<li>Give a vendor <strong>temporary, scoped, audited access</strong> to one bucket. (cross-account role + external ID + CloudTrail)</li>
+<li>A <strong>container needs a DB password</strong> at runtime but it can't be in the image. (task role + Secrets Manager + KMS)</li>
+<li><strong>Cost-optimize</strong> a 24/7 batch fleet that's idle 70% of the time. (Spot + ASG schedules + S3 for state + queue-driven scaling)</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Scenario-based interview prep — combine services, reason out loud.</em></p>
+</div>
+</main></body></html>

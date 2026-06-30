@@ -47,7 +47,7 @@
   .s3{--ac:#569A31;} .ec2{--ac:#ED7100;} .vpc{--ac:#8C4FFF;}
   .lambda{--ac:#FF9900;} .iam{--ac:#DD344C;} .rds{--ac:#527FFF;} .docker{--ac:#2496ED;} .github{--ac:#24292e;} .route53{--ac:#6E40C9;}
   .dynamodb{--ac:#4053D6;} .cloudwatch{--ac:#E7157B;} .messaging{--ac:#9D4EDD;} .elb{--ac:#00A3A3;} .cloudfront{--ac:#9333EA;}
-  .cheatsheet{--ac:#475569;} .wellarch{--ac:#B45309;} .cicd{--ac:#16A34A;} .jenkins{--ac:#D24939;} .testing{--ac:#0D9488;} .bash{--ac:#4EAA25;} .python{--ac:#3776AB;} .linux{--ac:#4D4D4D;} .webhooks{--ac:#C73A63;} .terraform{--ac:#7B42BC;}
+  .cheatsheet{--ac:#475569;} .wellarch{--ac:#B45309;} .cicd{--ac:#16A34A;} .jenkins{--ac:#D24939;} .testing{--ac:#0D9488;} .bash{--ac:#4EAA25;} .python{--ac:#3776AB;} .linux{--ac:#4D4D4D;} .webhooks{--ac:#C73A63;} .terraform{--ac:#7B42BC;} .scenarios{--ac:#E11D48;}
   .empty{color:#cfd8dc;text-align:center;margin:30px 0;display:none;}
   footer{margin-top:50px;color:#cfd8dc;font-size:13px;text-align:center;}
   footer a{color:#fff;}
@@ -61,6 +61,7 @@
 
   <div class="filters" id="filters">
     <span class="chip active" data-filter="all">All</span>
+    <span class="chip" data-filter="interview">Interview</span>
     <span class="chip" data-filter="aws">AWS</span>
     <span class="chip" data-filter="devops">DevOps</span>
     <span class="chip" data-filter="cicd">CI/CD</span>
@@ -81,6 +82,14 @@
   </div>
 
   <div class="grid" id="grid">
+    <a class="card scenarios" href="scenarios.html" data-tags="aws devops interview security database compute networking messaging containers">
+      <img src="scenarios-logo.svg" alt="Scenario-Based Interview Questions">
+      <p class="tag">Interview</p>
+      <h2>Scenario Questions</h2>
+      <p class="sub">Cross-service scenarios — EC2, S3, RDS, Lambda, SQS/SNS, Docker, VPC, security &amp; RBAC, with model answers.</p>
+      <div class="links"><span class="pill">Read scenarios →</span></div>
+    </a>
+
     <a class="card s3" href="s3.html" data-tags="aws storage">
       <img src="s3-logo.svg" alt="Amazon S3">
       <p class="tag">Storage</p>
