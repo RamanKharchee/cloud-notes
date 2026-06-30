@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terraform — Complete Notes</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjN0I0MkJDIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+VGVycmFmb3JtPC90aXRsZT48cGF0aCBkPSJNMS40NCAwdjcuNTc1bDYuNTYxIDMuNzlWMy43ODd6bTIxLjEyIDQuMjI3bC02LjU2MSAzLjc5MXY3LjU3NGw2LjU2LTMuNzg3ek04LjcyIDQuMjN2Ny41NzVsNi41NjEgMy43ODdWOC4wMTh6bTAgOC40MDV2Ny41NzVMMTUuMjggMjR2LTcuNTc4eiIvPjwvc3ZnPg==">
+<style>
+  :root{--ac:#7B42BC;--acd:#5a2e8f;--ink:#1b1f23;--muted:#57606a;--line:#e4e8ee;--code:#f6f8fa;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.65;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  h1{color:var(--ac);margin:.15em 0 .1em;letter-spacing:-1px;}
+  h2{margin:1.9em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--ac);color:var(--ink);page-break-after:avoid;}
+  h3{margin:1.2em 0 .4em;color:var(--acd);page-break-after:avoid;}
+  p{margin:.55em 0;} a{color:var(--ac);text-decoration:none;} a:hover{text-decoration:underline;}
+  hr{border:0;border-top:1px solid var(--line);margin:1.7em 0;}
+  ul,ol{margin:.45em 0 .7em;padding-left:1.5em;} li{margin:.25em 0;}
+  code{background:var(--code);padding:.13em .42em;border-radius:5px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em;color:#7a3b00;}
+  pre{background:#0d1117;color:#e6edf3;padding:15px 17px;border-radius:9px;overflow:auto;line-height:1.55;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  blockquote{margin:.9em 0;padding:.55em 1em;border-left:4px solid var(--ac);background:#fff6ec;border-radius:0 8px 8px 0;color:#5a3d1a;}
+  blockquote p{margin:.25em 0;}
+  table{border-collapse:collapse;width:100%;margin:1em 0;overflow:hidden;border-radius:9px;box-shadow:0 0 0 1px var(--line);}
+  th{background:var(--ac);color:#fff;text-align:left;} th,td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fffaf4;}
+  img{vertical-align:middle;max-width:100%;}
+  div[align="center"]{text-align:center;} div[align="center"] img[width="110"]{width:100px;height:auto;}
+  div[align="center"] em{color:var(--muted);} div[align="center"] img{margin:3px 4px;}
+  .dl-btn{display:inline-block;margin:14px 0 4px;padding:13px 30px;font-size:16px;font-weight:700;color:#fff !important;background:linear-gradient(180deg,var(--ac),var(--acd));border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);text-decoration:none;}
+  .homenav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 18px;margin:0 0 0;}
+  .homenav a{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;color:var(--ac);}
+  .homenav a:hover{text-decoration:none;opacity:.75;}
+  html{scroll-behavior:smooth;} body{font-size:16px;background:#f5f5f4;}
+     .page{max-width:880px;margin:28px auto;padding:46px 52px 70px;background:#fff;border-radius:14px;box-shadow:0 4px 26px rgba(0,0,0,.07);}
+     h1{font-size:40px;} h2{font-size:25px;scroll-margin-top:18px;} h3{font-size:18px;}
+     pre{font-size:13.5px;} table{font-size:14px;}
+     @media(max-width:640px){.page{padding:28px 20px 50px;margin:10px;}h1{font-size:30px;}}
+</style></head>
+<body><nav class="homenav"><a href="index.html">☁️ Cloud Notes — All Notes</a></nav><main class="page"><div align="center"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjN0I0MkJDIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+VGVycmFmb3JtPC90aXRsZT48cGF0aCBkPSJNMS40NCAwdjcuNTc1bDYuNTYxIDMuNzlWMy43ODd6bTIxLjEyIDQuMjI3bC02LjU2MSAzLjc5MXY3LjU3NGw2LjU2LTMuNzg3ek04LjcyIDQuMjN2Ny41NzVsNi41NjEgMy43ODdWOC4wMTh6bTAgOC40MDV2Ny41NzVMMTUuMjggMjR2LTcuNTc4eiIvPjwvc3ZnPg==" width="110" alt="Terraform logo" /><h1 id="terraform--complete-notes">Terraform — Complete Notes</h1>
+<p><strong>Infrastructure as Code</strong> · Provision any cloud declaratively</p>
+<p><img src="https://img.shields.io/badge/Tool-Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white" alt="Type">
+<img src="https://img.shields.io/badge/Model-Declarative%20IaC-7B42BC?style=flat-square" alt="Model">
+<img src="https://img.shields.io/badge/Language-HCL-blue?style=flat-square" alt="Lang">
+<img src="https://img.shields.io/badge/Clouds-Multi--cloud-lightgrey?style=flat-square" alt="Scope"></p>
+<p><em>A reader-friendly, all-in-one reference for Terraform.</em></p>
+<p><a class="dl-btn" href="terraform-notes.pdf" download="terraform-notes.pdf">⬇ Download as PDF</a></p></div><hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1--what-is-terraform-iac">What is Terraform (IaC)</a></li>
+<li><a href="#2--core-concepts">Core Concepts</a></li>
+<li><a href="#3--hcl-syntax-basics">HCL Syntax Basics</a></li>
+<li><a href="#4--the-core-workflow">The Core Workflow</a></li>
+<li><a href="#5--state">State</a></li>
+<li><a href="#6--variables--outputs">Variables &amp; Outputs</a></li>
+<li><a href="#7--providers">Providers</a></li>
+<li><a href="#8--modules">Modules</a></li>
+<li><a href="#9--dependencies--data-sources">Dependencies &amp; Data Sources</a></li>
+<li><a href="#10--workspaces--environments">Workspaces &amp; Environments</a></li>
+<li><a href="#11--provisioners-use-sparingly">Provisioners (Use Sparingly)</a></li>
+<li><a href="#12--terraform-vs-cloudformation-vs-ansible">Terraform vs CloudFormation vs Ansible</a></li>
+<li><a href="#13--best-practices">Best Practices</a></li>
+<li><a href="#14--quick-mental-model">Quick Mental Model</a></li>
+<li><a href="#15--common-interview-questions">Common Interview Questions</a></li>
+</ol>
+<hr>
+<h2 id="1--what-is-terraform-iac">1. 🛠️ What is Terraform (IaC)</h2>
+<p>Terraform (by HashiCorp) is the leading <strong>Infrastructure as Code (IaC)</strong> tool. You <strong>declare</strong> your desired infrastructure — servers, networks, databases, DNS — in human-readable config files, and Terraform figures out the API calls to make reality match. It&#39;s <strong>declarative</strong> (you describe the <em>what</em>, not the <em>how</em>) and <strong>cloud-agnostic</strong> (AWS, Azure, GCP, and 1000s of providers).</p>
+<blockquote>
+<p>💡 <strong>Mental model:</strong> Terraform is a <strong>diff engine for infrastructure</strong>. You write the desired end state; it compares that to the <strong>current state</strong> and computes the minimal set of creates/updates/deletes to reconcile them. Same config + same state = same infra (reproducible).</p>
+</blockquote>
+<p><strong>Why it matters:</strong> version-controlled, reviewable, repeatable infrastructure; no click-ops drift; easy to spin up/tear down identical environments.</p>
+<hr>
+<h2 id="2--core-concepts">2. 🧩 Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Provider</strong></td>
+<td>Plugin for a platform (aws, azurerm, google, kubernetes…).</td>
+</tr>
+<tr>
+<td><strong>Resource</strong></td>
+<td>A piece of infra to manage (<code>aws_instance</code>, <code>aws_s3_bucket</code>).</td>
+</tr>
+<tr>
+<td><strong>Data source</strong></td>
+<td>Read-only lookup of existing infra (<code>data &quot;aws_ami&quot; ...</code>).</td>
+</tr>
+<tr>
+<td><strong>State</strong></td>
+<td>Terraform&#39;s record of what it manages (<code>terraform.tfstate</code>).</td>
+</tr>
+<tr>
+<td><strong>Module</strong></td>
+<td>A reusable package of <code>.tf</code> files (inputs → resources → outputs).</td>
+</tr>
+<tr>
+<td><strong>Variable</strong></td>
+<td>Parameterized input (<code>var.region</code>).</td>
+</tr>
+<tr>
+<td><strong>Output</strong></td>
+<td>A value exported from a config/module.</td>
+</tr>
+<tr>
+<td><strong>Plan</strong></td>
+<td>The preview of changes Terraform will make.</td>
+</tr>
+<tr>
+<td><strong>Backend</strong></td>
+<td>Where state is stored (local, S3, Terraform Cloud…).</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3--hcl-syntax-basics">3. 📝 HCL Syntax Basics</h2>
+<p>Terraform configs use <strong>HCL (HashiCorp Configuration Language)</strong> in <code>.tf</code> files:</p>
+<pre><code class="language-hcl">terraform {
+  required_providers {
+    aws = { source = &quot;hashicorp/aws&quot;, version = &quot;~&gt; 5.0&quot; }
+  }
+}
+
+provider &quot;aws&quot; {
+  region = var.region
+}
+
+resource &quot;aws_instance&quot; &quot;web&quot; {
+  ami           = data.aws_ami.al2.id
+  instance_type = &quot;t3.micro&quot;
+  tags = {
+    Name = &quot;web-${var.env}&quot;
+  }
+}
+</code></pre>
+<ul>
+<li><strong>Block</strong> = <code>type &quot;label&quot; &quot;name&quot; { ... }</code>. Reference an attribute as <code>aws_instance.web.id</code>.</li>
+<li>Strings interpolate with <code>${ }</code>; supports expressions, functions (<code>join</code>, <code>lookup</code>, <code>cidrsubnet</code>), <code>for</code> loops, and conditionals.</li>
+<li><strong><code>count</code></strong> and <strong><code>for_each</code></strong> create multiple instances of a resource.</li>
+</ul>
+<hr>
+<h2 id="4--the-core-workflow">4. 🔄 The Core Workflow</h2>
+<p>The day-to-day Terraform cycle:</p>
+<pre><code>  terraform init      →  terraform plan      →  terraform apply     →  terraform destroy
+  download providers     preview the diff        make it real           tear it all down
+  + set up backend       (create/update/delete)  (asks to confirm)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>init</code></strong></td>
+<td>Download providers/modules, configure the backend. Run first (and after adding providers/modules).</td>
+</tr>
+<tr>
+<td><strong><code>plan</code></strong></td>
+<td>Show what will change — <strong>dry run</strong>, no changes made. Review before applying.</td>
+</tr>
+<tr>
+<td><strong><code>apply</code></strong></td>
+<td>Execute the plan to create/update/destroy resources (prompts to confirm).</td>
+</tr>
+<tr>
+<td><strong><code>destroy</code></strong></td>
+<td>Remove all managed infrastructure.</td>
+</tr>
+<tr>
+<td><strong><code>fmt</code> / <code>validate</code></strong></td>
+<td>Format code / check syntax.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Always <strong><code>plan</code> before <code>apply</code></strong> — it&#39;s the review step that shows exactly what Terraform will create, change, or destroy.</p>
+</blockquote>
+<hr>
+<h2 id="5--state">5. 💾 State</h2>
+<ul>
+<li>Terraform records what it manages in a <strong>state file</strong> (<code>terraform.tfstate</code>) — the mapping between your config and real-world resources. It&#39;s how Terraform knows what already exists.</li>
+<li><strong>Never edit state by hand</strong>; use <code>terraform state</code> commands. <strong>State can contain secrets</strong> — protect it.</li>
+<li><strong>Remote state</strong> (S3 + DynamoDB lock, or Terraform Cloud) is essential for teams: shared, versioned, and <strong>locked</strong> so two people can&#39;t apply at once.</li>
+<li><strong>Drift</strong> = real infra changed outside Terraform; <code>plan</code> detects it. <strong><code>terraform import</code></strong> brings existing resources under management.</li>
+</ul>
+<pre><code class="language-hcl">terraform {
+  backend &quot;s3&quot; {
+    bucket         = &quot;my-tf-state&quot;
+    key            = &quot;prod/terraform.tfstate&quot;
+    region         = &quot;us-east-1&quot;
+    dynamodb_table = &quot;tf-locks&quot;      # state locking
+    encrypt        = true
+  }
+}
+</code></pre>
+<blockquote>
+<p>⚠️ <strong>State locking</strong> prevents concurrent applies from corrupting state — always use a locking backend for team work.</p>
+</blockquote>
+<hr>
+<h2 id="6--variables--outputs">6. 🔧 Variables &amp; Outputs</h2>
+<pre><code class="language-hcl">variable &quot;region&quot; {
+  type    = string
+  default = &quot;us-east-1&quot;
+}
+
+variable &quot;instance_count&quot; {
+  type    = number
+  default = 2
+}
+
+output &quot;instance_ids&quot; {
+  value = aws_instance.web[*].id
+}
+</code></pre>
+<ul>
+<li>Set variables via <code>terraform.tfvars</code>, <code>-var</code>, <code>-var-file</code>, or <code>TF_VAR_*</code> env vars.</li>
+<li><strong>Mark secrets</strong> <code>sensitive = true</code> so they&#39;re hidden in output (still in state, though).</li>
+<li><strong>Outputs</strong> expose values (IPs, ARNs) for users or other modules/configs.</li>
+</ul>
+<hr>
+<h2 id="7--providers">7. 🔌 Providers</h2>
+<ul>
+<li>A <strong>provider</strong> is a plugin that talks to a platform&#39;s API. The <strong>AWS provider</strong> maps <code>aws_*</code> resources to AWS API calls; there are providers for Azure, GCP, Kubernetes, GitHub, Datadog, Cloudflare, and 3,000+ more (the <strong>Terraform Registry</strong>).</li>
+<li>Pin provider <strong>versions</strong> (<code>~&gt; 5.0</code>) for reproducible builds.</li>
+<li>Configure auth per provider (e.g. AWS via env vars, shared credentials, or an IAM role).</li>
+<li>One config can use <strong>multiple providers</strong> (multi-cloud), and provider <strong>aliases</strong> for multiple regions/accounts.</li>
+</ul>
+<hr>
+<h2 id="8--modules">8. 📦 Modules</h2>
+<ul>
+<li>A <strong>module</strong> is a reusable container of resources — write once, call many times. The top-level config is the <strong>root module</strong>; it calls <strong>child modules</strong>.</li>
+</ul>
+<pre><code class="language-hcl">module &quot;vpc&quot; {
+  source  = &quot;terraform-aws-modules/vpc/aws&quot;   # registry, git, or local path
+  version = &quot;5.0.0&quot;
+  name    = &quot;prod-vpc&quot;
+  cidr    = &quot;10.0.0.0/16&quot;
+}
+
+# use its outputs
+resource &quot;aws_instance&quot; &quot;web&quot; {
+  subnet_id = module.vpc.public_subnets[0]
+}
+</code></pre>
+<ul>
+<li>Modules take <strong>inputs</strong> (variables), create resources, and expose <strong>outputs</strong>.</li>
+<li>Sources: <strong>Terraform Registry</strong>, Git repos, or local paths. Modules are the key to <strong>DRY</strong>, consistent infrastructure.</li>
+</ul>
+<hr>
+<h2 id="9--dependencies--data-sources">9. 🔗 Dependencies &amp; Data Sources</h2>
+<ul>
+<li>Terraform builds a <strong>dependency graph</strong> automatically from references — <code>subnet_id = aws_subnet.x.id</code> makes the instance depend on the subnet, so it&#39;s created after.</li>
+<li>Use <strong><code>depends_on</code></strong> only for hidden dependencies Terraform can&#39;t infer.</li>
+<li><strong>Data sources</strong> read existing infra you don&#39;t manage:</li>
+</ul>
+<pre><code class="language-hcl">data &quot;aws_ami&quot; &quot;al2&quot; {
+  most_recent = true
+  owners      = [&quot;amazon&quot;]
+  filter { name = &quot;name&quot;  values = [&quot;al2023-ami-*-x86_64&quot;] }
+}
+# reference: data.aws_ami.al2.id
+</code></pre>
+<blockquote>
+<p>Terraform parallelizes independent resources and orders dependent ones via the graph — you rarely set order manually.</p>
+</blockquote>
+<hr>
+<h2 id="10--workspaces--environments">10. 🗂️ Workspaces &amp; Environments</h2>
+<ul>
+<li><strong>Workspaces</strong> let one config have multiple <strong>separate states</strong> (e.g. <code>dev</code>, <code>staging</code>, <code>prod</code>) — <code>terraform workspace new prod</code>.</li>
+<li>They&#39;re handy for lightweight separation, but many teams prefer <strong>separate directories/state per environment</strong> + a shared module for stronger isolation.</li>
+<li>Reference the current workspace via <code>terraform.workspace</code> to vary names/sizes per env.</li>
+</ul>
+<hr>
+<h2 id="11--provisioners-use-sparingly">11. ⚙️ Provisioners (Use Sparingly)</h2>
+<ul>
+<li><strong>Provisioners</strong> (<code>remote-exec</code>, <code>local-exec</code>, <code>file</code>) run scripts on a resource after creation.</li>
+<li>They&#39;re a <strong>last resort</strong> — they break the declarative model, aren&#39;t tracked in state well, and make plans less predictable.</li>
+<li>Prefer <strong>cloud-init/user-data</strong>, baked <strong>AMIs (Packer)</strong>, or <strong>config management (Ansible)</strong> over provisioners.</li>
+</ul>
+<hr>
+<h2 id="12--terraform-vs-cloudformation-vs-ansible">12. ⚖️ Terraform vs CloudFormation vs Ansible</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Terraform</strong></th>
+<th><strong>CloudFormation</strong></th>
+<th><strong>Ansible</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Type</td>
+<td>IaC (provisioning)</td>
+<td>IaC (provisioning)</td>
+<td>Config management</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td><strong>Multi-cloud</strong></td>
+<td>AWS only</td>
+<td>Any (agentless, SSH)</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>HCL (declarative)</td>
+<td>YAML/JSON (declarative)</td>
+<td>YAML (procedural-ish)</td>
+</tr>
+<tr>
+<td>State</td>
+<td>Explicit state file</td>
+<td>Managed by AWS</td>
+<td>Stateless</td>
+</tr>
+<tr>
+<td>Best at</td>
+<td>Provisioning infra across clouds</td>
+<td>Deep AWS-native integration</td>
+<td>Installing/configuring software on servers</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Terraform vs CloudFormation:</strong> both provision infra declaratively; Terraform is multi-cloud with its own state, CloudFormation is AWS-native and AWS-managed. <strong>Terraform vs Ansible:</strong> Terraform <em>provisions</em> infrastructure; Ansible <em>configures</em> what runs on it (often used together).</p>
+</blockquote>
+<hr>
+<h2 id="13--best-practices">13. ✅ Best Practices</h2>
+<ul>
+<li><strong>Always <code>plan</code> before <code>apply</code></strong>; review the diff (especially <strong>destroys</strong>).</li>
+<li><strong>Remote state with locking</strong> (S3 + DynamoDB / Terraform Cloud) for teams; never commit <code>terraform.tfstate</code> to Git.</li>
+<li><strong>Pin provider + module versions</strong>; commit <code>.terraform.lock.hcl</code>.</li>
+<li><strong>Use modules</strong> for reuse and consistency; keep configs <strong>DRY</strong>.</li>
+<li><strong>Separate state per environment</strong> (dirs or workspaces); parameterize with variables.</li>
+<li><strong>Don&#39;t hard-code secrets</strong> — use variables marked <code>sensitive</code>, env vars, or a secrets manager (remember secrets land in state — protect it).</li>
+<li><strong><code>fmt</code> + <code>validate</code></strong> in CI; run <code>plan</code> on PRs and <code>apply</code> only after review.</li>
+<li>Avoid <strong>provisioners</strong>; prefer user-data/Packer/Ansible. Never make changes by hand (causes drift).</li>
+</ul>
+<hr>
+<h2 id="14--quick-mental-model">14. 🧠 Quick Mental Model</h2>
+<ul>
+<li><strong>Terraform = declarative, multi-cloud Infrastructure as Code</strong> — describe the desired state, it reconciles reality.</li>
+<li>It&#39;s a <strong>diff engine</strong>: desired config vs <strong>state</strong> vs real infra → minimal create/update/delete.</li>
+<li>Workflow: <strong><code>init</code> → <code>plan</code> (dry run) → <code>apply</code> → <code>destroy</code>.</strong> Always plan first.</li>
+<li><strong>State</strong> maps config ↔ real resources; use <strong>remote state + locking</strong> for teams; protect it (has secrets).</li>
+<li><strong>Providers</strong> talk to platforms (<code>aws_*</code>); <strong>resources</strong> are managed infra; <strong>data sources</strong> read existing infra.</li>
+<li><strong>Modules</strong> = reusable infra packages (inputs → resources → outputs); keep it DRY.</li>
+<li>Dependencies are inferred from <strong>references</strong> (graph); <code>depends_on</code> only for hidden ones.</li>
+<li>vs <strong>CloudFormation</strong> (AWS-only) and <strong>Ansible</strong> (config management, not provisioning).</li>
+</ul>
+<hr>
+<h2 id="15--common-interview-questions">15. ❓ Common Interview Questions</h2>
+<p>Rapid-fire questions interviewers ask about Terraform:</p>
+<ul>
+<li><strong>Q: What is Terraform / IaC?</strong> — A declarative, multi-cloud tool to define infrastructure as version-controlled code; Terraform reconciles real infra to match your config.</li>
+<li><strong>Q: <code>plan</code> vs <code>apply</code>?</strong> — <code>plan</code> is a dry run showing what will change; <code>apply</code> actually makes the changes (after confirmation).</li>
+<li><strong>Q: What is the state file and why does it matter?</strong> — It maps your config to real resources so Terraform knows what exists; it can hold secrets and must be protected and, for teams, stored remotely with locking.</li>
+<li><strong>Q: Why remote state + locking?</strong> — Shared, versioned state for teams, and locking prevents two concurrent applies from corrupting it.</li>
+<li><strong>Q: Declarative vs imperative?</strong> — You declare the desired end state; Terraform decides the steps (vs imperative tools where you script each step).</li>
+<li><strong>Q: What is a provider?</strong> — A plugin that maps Terraform resources to a platform&#39;s API (AWS, Azure, GCP, Kubernetes…).</li>
+<li><strong>Q: What is a module?</strong> — A reusable package of Terraform configs with inputs and outputs — the unit of reuse/DRY.</li>
+<li><strong>Q: How does Terraform know resource order?</strong> — It builds a dependency graph from references; <code>depends_on</code> handles implicit dependencies.</li>
+<li><strong>Q: count vs for_each?</strong> — <code>count</code> creates N copies by index; <code>for_each</code> creates one per item in a map/set (stable keys, easier to add/remove).</li>
+<li><strong>Q: Terraform vs CloudFormation?</strong> — Both provision declaratively; Terraform is multi-cloud with its own state, CloudFormation is AWS-only and AWS-managed.</li>
+<li><strong>Q: Terraform vs Ansible?</strong> — Terraform provisions infrastructure; Ansible configures software on it — complementary, often used together.</li>
+<li><strong>Q: How do you handle secrets?</strong> — Variables marked <code>sensitive</code>, env vars, or a secrets manager; never commit them — and protect state since secrets land there.</li>
+</ul>
+<hr>
+<div align="center"><p><em>📝 Notes compiled as a quick reference for Terraform.</em></p>
+</div>
+</main></body></html>
