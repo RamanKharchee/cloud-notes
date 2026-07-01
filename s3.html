@@ -585,66 +585,138 @@ https://s3.region.amazonaws.com/my-bucket/key      (path-style, legacy)
 </ul>
 <hr>
 <h2 id="21--detailed-interview-qa-and-when-to-use">21. 🎯 Detailed Interview Q&amp;A and When to Use</h2>
-<blockquote><p>Scenario-style interview questions with model answers and <strong>when to use</strong> guidance. Aimed at ~2 years of hands-on experience.</p></blockquote>
-<h3 id="basics">Basics</h3>
-<p><strong>1. What is S3 / what is object storage?</strong><br>
-Massively durable object store accessed over an HTTP API. Object storage = a flat keyspace of immutable blobs with metadata, no in-place edits, scales infinitely — versus block (raw volume, EBS) or file (POSIX hierarchy, EFS) storage.<br>
+<blockquote><p>Try each question first, then open its answer below. Every answer opens with a plain-English <em>In plain terms</em> line, then the technical detail and <strong>when to use</strong> guidance — aimed at readers newer to AWS/DevOps.</p></blockquote>
+<h3 id="questions">Questions</h3>
+<p><strong>Basics</strong></p>
+<ul>
+<li><a href="#q1-what-is-s3--what-is-object-storage">Q1. What is S3 / what is object storage?</a></li>
+<li><a href="#q2-object-structure-is-s3-a-filesystem">Q2. Object structure; is S3 a filesystem?</a></li>
+<li><a href="#q3-storage-classes--tradeoff">Q3. Storage classes + tradeoff?</a></li>
+<li><a href="#q4-durability-vs-availability-what-is-11-nines">Q4. Durability vs availability; what is "11 nines"?</a></li>
+<li><a href="#q5-make-an-objectbucket-public--why-is-that-the-wrong-instinct">Q5. Make an object/bucket public — why is that the wrong instinct?</a></li>
+</ul>
+<p><strong>Intermediate</strong></p>
+<ul>
+<li><a href="#q6-the-4-access-control-layers--who-wins-on-conflict">Q6. The 4 access-control layers — who wins on conflict?</a></li>
+<li><a href="#q7-versioning--solves-what-costs-what">Q7. Versioning — solves what, costs what?</a></li>
+<li><a href="#q8-lifecycle-policy--design-for-logs-hot-30d-cheap-1yr-then-delete">Q8. Lifecycle policy — design for logs (hot 30d, cheap 1yr, then delete).</a></li>
+<li><a href="#q9-sse-s3-vs-sse-kms-vs-sse-c-when-does-kms-bite">Q9. SSE-S3 vs SSE-KMS vs SSE-C; when does KMS bite?</a></li>
+<li><a href="#q10-versioning--mfa-delete--object-lock-vs-ransomware">Q10. Versioning + MFA Delete / Object Lock vs ransomware?</a></li>
+<li><a href="#q11-pre-signed-url-direct-browsers3-upload">Q11. Pre-signed URL; direct browser→S3 upload?</a></li>
+<li><a href="#q12-strong-read-after-write-consistency--what-was-the-old-behavior">Q12. Strong read-after-write consistency — what was the old behavior?</a></li>
+</ul>
+<p><strong>Advanced &amp; Scenario</strong></p>
+<ul>
+<li><a href="#q13-scenario--503-slow-down-under-heavy-load">Q13. Scenario — <code>503 Slow Down</code> under heavy load?</a></li>
+<li><a href="#q14-scenario--get-returns-403-not-404-what-does-that-tell-you">Q14. Scenario — GET returns 403 not 404; what does that tell you?</a></li>
+<li><a href="#q15-scenario--s3-bill-tripled-data-volume-flat">Q15. Scenario — S3 bill tripled, data volume flat?</a></li>
+<li><a href="#q16-crr-vs-multi-region-access-points">Q16. CRR vs Multi-Region Access Points?</a></li>
+<li><a href="#q17-serve-global-static-assets-with-a-locked-origin--design--oac-vs-oai">Q17. Serve global static assets with a locked origin — design + OAC vs OAI.</a></li>
+<li><a href="#q18-enforce-no-public-buckets-across-hundreds-of-accounts">Q18. Enforce "no public buckets" across hundreds of accounts?</a></li>
+<li><a href="#q19-why-is-aws-s3-sync-of-millions-of-small-files-slow-how-to-speed-a-migration">Q19. Why is <code>aws s3 sync</code> of millions of small files slow; how to speed a migration?</a></li>
+<li><a href="#q20-object-lock--governance-vs-compliance-the-catch">Q20. Object Lock — governance vs compliance; the catch?</a></li>
+<li><a href="#q21-cross-cutting--s3-cost-leaks-and-security-fails-to-hunt-first">Q21. Cross-cutting — S3 cost leaks and security fails to hunt first.</a></li>
+</ul>
+<hr>
+<h3 id="answers">Answers</h3>
+<h4 id="q1-what-is-s3--what-is-object-storage">Q1. What is S3 / what is object storage?</h4>
+<p><em>In plain terms:</em> Unlimited internet storage for files ('objects') you get and put over the web — not a disk or a folder tree, just a giant key-value store.</p>
+<p>Massively durable object store accessed over an HTTP API. Object storage = a flat keyspace of immutable blobs with metadata, no in-place edits, scales infinitely — versus block (raw volume, EBS) or file (POSIX hierarchy, EFS) storage.<br>
 <strong>When to use:</strong> S3 → objects, backups, static assets, data lake, logs, anything via API. EBS → single-instance block volume. EFS → shared POSIX filesystem across many instances.</p>
-<p><strong>2. Object structure; is S3 a filesystem?</strong><br>
-Object = key (full path string) + value (bytes) + metadata + version ID. No real folders — the "folders" in the console are just a UI grouping on the <code>/</code> delimiter. The bucket is a flat namespace.</p>
-<p><strong>3. Storage classes + tradeoff?</strong><br>
-Standard (hot). Standard-IA / One Zone-IA (cheaper storage, per-GB retrieval fee, min duration). Intelligent-Tiering (auto-moves by access pattern). Glacier Instant / Flexible / Deep Archive (cheapest storage, retrieval latency ms→hours). Lower storage cost buys higher retrieval cost/latency.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q2-object-structure-is-s3-a-filesystem">Q2. Object structure; is S3 a filesystem?</h4>
+<p><em>In plain terms:</em> There are no real folders — the slashes in a file's name just look like folders in the console; underneath it's one flat list of keys.</p>
+<p>Object = key (full path string) + value (bytes) + metadata + version ID. No real folders — the "folders" in the console are just a UI grouping on the <code>/</code> delimiter. The bucket is a flat namespace.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q3-storage-classes--tradeoff">Q3. Storage classes + tradeoff?</h4>
+<p><em>In plain terms:</em> Tiers that trade storage price for retrieval speed/cost — Standard (hot), Infrequent-Access (cheaper, small fetch fee), Glacier (cheapest, slow to get back).</p>
+<p>Standard (hot). Standard-IA / One Zone-IA (cheaper storage, per-GB retrieval fee, min duration). Intelligent-Tiering (auto-moves by access pattern). Glacier Instant / Flexible / Deep Archive (cheapest storage, retrieval latency ms→hours). Lower storage cost buys higher retrieval cost/latency.<br>
 <strong>When to use:</strong> Standard → frequently accessed/hot. Standard-IA → infrequent but needs instant access. One Zone-IA → infrequent + reproducible (OK to lose). Intelligent-Tiering → unknown/changing access pattern. Glacier Instant → archive with rare instant access. Glacier Flexible/Deep Archive → cold/compliance, minutes-to-hours retrieval is fine.</p>
-<p><strong>4. Durability vs availability; what is "11 nines"?</strong><br>
-Durability = will the object survive (won't be lost/corrupted) — S3 Standard is 99.999999999% (11 nines). Availability = can you access it right now — Standard is 99.99%. Eleven nines refers to durability, not uptime.</p>
-<p><strong>5. Make an object/bucket public — why is that the wrong instinct?</strong><br>
-You can via ACL/bucket policy, but public buckets are the #1 cause of data leaks. Modern pattern: keep Block Public Access on and serve via CloudFront + OAC or pre-signed URLs.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q4-durability-vs-availability-what-is-11-nines">Q4. Durability vs availability; what is "11 nines"?</h4>
+<p><em>In plain terms:</em> Durability = will your file ever be lost (almost never — '11 nines'); availability = can you reach it right now — two different promises.</p>
+<p>Durability = will the object survive (won't be lost/corrupted) — S3 Standard is 99.999999999% (11 nines). Availability = can you access it right now — Standard is 99.99%. Eleven nines refers to durability, not uptime.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q5-make-an-objectbucket-public--why-is-that-the-wrong-instinct">Q5. Make an object/bucket public — why is that the wrong instinct?</h4>
+<p><em>In plain terms:</em> You can make a bucket public, but that's how data leaks happen — keep it private and serve through CloudFront or signed links instead.</p>
+<p>You can via ACL/bucket policy, but public buckets are the #1 cause of data leaks. Modern pattern: keep Block Public Access on and serve via CloudFront + OAC or pre-signed URLs.<br>
 <strong>When to use:</strong> Public → effectively never; for public static sites use CloudFront + a private bucket. Direct public-read only for a deliberately open dataset.</p>
-<h3 id="intermediate">Intermediate</h3>
-<p><strong>6. The 4 access-control layers — who wins on conflict?</strong><br>
-IAM policies (identity), bucket policies (resource), ACLs (legacy per-object), and Block Public Access (account/bucket override). Effective permission = union of Allows minus any explicit Deny; an explicit Deny anywhere wins, and BPA overrides anything that would grant public access.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q6-the-4-access-control-layers--who-wins-on-conflict">Q6. The 4 access-control layers — who wins on conflict?</h4>
+<p><em>In plain terms:</em> Several permission systems stack up (IAM, bucket policy, ACLs, block-public-access); if any of them says 'deny', the answer is deny.</p>
+<p>IAM policies (identity), bucket policies (resource), ACLs (legacy per-object), and Block Public Access (account/bucket override). Effective permission = union of Allows minus any explicit Deny; an explicit Deny anywhere wins, and BPA overrides anything that would grant public access.<br>
 <strong>When to use:</strong> IAM policy → control by who (users/roles in your account). Bucket policy → control by resource (cross-account, broad bucket rules). ACL → avoid (legacy). Block Public Access → always on.</p>
-<p><strong>7. Versioning — solves what, costs what?</strong><br>
-Keeps every version, so overwrites/deletes are recoverable (a delete just adds a delete marker). New problem: you pay for every version forever — without lifecycle rules to expire old versions, cost balloons silently.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q7-versioning--solves-what-costs-what">Q7. Versioning — solves what, costs what?</h4>
+<p><em>In plain terms:</em> Keeps old copies so an accidental delete/overwrite is recoverable — but you pay for every version, so set rules to clean them up.</p>
+<p>Keeps every version, so overwrites/deletes are recoverable (a delete just adds a delete marker). New problem: you pay for every version forever — without lifecycle rules to expire old versions, cost balloons silently.<br>
 <strong>When to use:</strong> Enable → important/irreplaceable data, ransomware/accident protection, compliance. Skip (or aggressively expire) → high-churn temp/log buckets where cost matters.</p>
-<p><strong>8. Lifecycle policy — design for logs (hot 30d, cheap 1yr, then delete).</strong><br>
-Day 0–30 Standard → transition to Standard-IA or Glacier at day 30 → expire at day 395. Add rules to expire noncurrent versions and abort incomplete multipart uploads.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q8-lifecycle-policy--design-for-logs-hot-30d-cheap-1yr-then-delete">Q8. Lifecycle policy — design for logs (hot 30d, cheap 1yr, then delete).</h4>
+<p><em>In plain terms:</em> Auto-move files to cheaper tiers as they age and delete them at the end — e.g. hot for 30 days, cheap for a year, then gone.</p>
+<p>Day 0–30 Standard → transition to Standard-IA or Glacier at day 30 → expire at day 395. Add rules to expire noncurrent versions and abort incomplete multipart uploads.<br>
 <strong>When to use:</strong> Any bucket with predictable aging data (logs, backups) — transition to cheaper tiers + expire; also to clean noncurrent versions and incomplete multipart uploads.</p>
-<p><strong>9. SSE-S3 vs SSE-KMS vs SSE-C; when does KMS bite?</strong><br>
-SSE-S3 = AWS-managed keys, zero config. SSE-KMS = KMS-managed keys, audit trail + key access control. SSE-C = you supply the key per request. KMS bites on cost and request throttling — every GET/PUT calls KMS (use bucket keys to cut calls).<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q9-sse-s3-vs-sse-kms-vs-sse-c-when-does-kms-bite">Q9. SSE-S3 vs SSE-KMS vs SSE-C; when does KMS bite?</h4>
+<p><em>In plain terms:</em> Encryption options — S3 manages the key (easy), KMS manages it with an audit trail (but costs and can throttle), or you bring your own key.</p>
+<p>SSE-S3 = AWS-managed keys, zero config. SSE-KMS = KMS-managed keys, audit trail + key access control. SSE-C = you supply the key per request. KMS bites on cost and request throttling — every GET/PUT calls KMS (use bucket keys to cut calls).<br>
 <strong>When to use:</strong> SSE-S3 → default, no key-management needs. SSE-KMS → need audit trail / key access control / compliance. SSE-C → you must hold/manage keys yourself off-AWS.</p>
-<p><strong>10. Versioning + MFA Delete / Object Lock vs ransomware?</strong><br>
-Versioning means a malicious overwrite/delete doesn't destroy data. MFA Delete requires an MFA token to permanently delete versions, so compromised credentials can't wipe history.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q10-versioning--mfa-delete--object-lock-vs-ransomware">Q10. Versioning + MFA Delete / Object Lock vs ransomware?</h4>
+<p><em>In plain terms:</em> Extra locks so even stolen credentials can't wipe your data — versioning plus MFA-to-delete, or a 'cannot be deleted' lock for compliance.</p>
+<p>Versioning means a malicious overwrite/delete doesn't destroy data. MFA Delete requires an MFA token to permanently delete versions, so compromised credentials can't wipe history.<br>
 <strong>When to use:</strong> MFA Delete → protect against credential compromise wiping versions. Object Lock (compliance) → legal/regulatory WORM (SEC 17a-4, audit retention).</p>
-<p><strong>11. Pre-signed URL; direct browser→S3 upload?</strong><br>
-A time-limited signed URL granting temporary access to a specific operation/object using your credentials. Client asks your backend → backend returns a pre-signed PUT URL → client uploads directly to S3; bytes never touch your server.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q11-pre-signed-url-direct-browsers3-upload">Q11. Pre-signed URL; direct browser→S3 upload?</h4>
+<p><em>In plain terms:</em> A temporary secret link that lets a user upload/download straight to S3 without your server touching the file or the bucket being public.</p>
+<p>A time-limited signed URL granting temporary access to a specific operation/object using your credentials. Client asks your backend → backend returns a pre-signed PUT URL → client uploads directly to S3; bytes never touch your server.<br>
 <strong>When to use:</strong> Let a client upload/download directly without your server proxying bytes, time-limited, no public bucket.</p>
-<p><strong>12. Strong read-after-write consistency — what was the old behavior?</strong><br>
-S3 is now strongly consistent for all operations. Previously, overwrite PUTs and LISTs were eventually consistent — a read right after an overwrite could return stale data, which broke write-then-read data pipelines.</p>
-<h3 id="advanced--scenario">Advanced &amp; Scenario</h3>
-<p><strong>13. Scenario — <code>503 Slow Down</code> under heavy load?</strong><br>
-You're exceeding S3's per-prefix request rate (~3,500 writes / 5,500 reads per prefix per second). Spread keys across more prefixes so requests parallelize across partitions, and add retries with exponential backoff/jitter on the app side. High-cardinality prefix designs avoid hotspotting.</p>
-<p><strong>14. Scenario — GET returns 403 not 404; what does that tell you?</strong><br>
-404 = object genuinely missing (and you have ListBucket). 403 = you exist but aren't authorized — and if you lack <code>s3:ListBucket</code>, S3 returns 403 even for missing keys to avoid leaking existence. So 403-instead-of-404 points at a permissions gap (missing ListBucket or a Deny), not a missing file.</p>
-<p><strong>15. Scenario — S3 bill tripled, data volume flat?</strong><br>
-Usually not storage. Investigate request costs (a hot GET/PUT loop or KMS calls), data transfer/egress (esp. cross-region or to internet), versioning piling up noncurrent versions, incomplete multipart uploads, or a broken lifecycle. Use S3 Storage Lens + Cost Explorer + CloudWatch request metrics.</p>
-<p><strong>16. CRR vs Multi-Region Access Points?</strong><br>
-CRR = async replication of objects to a bucket in another region. MRAP = a single global endpoint that routes requests to the nearest/healthy bucket.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q12-strong-read-after-write-consistency--what-was-the-old-behavior">Q12. Strong read-after-write consistency — what was the old behavior?</h4>
+<p><em>In plain terms:</em> Today S3 always returns the latest version right after a write; it used to occasionally return stale data, which broke pipelines.</p>
+<p>S3 is now strongly consistent for all operations. Previously, overwrite PUTs and LISTs were eventually consistent — a read right after an overwrite could return stale data, which broke write-then-read data pipelines.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q13-scenario--503-slow-down-under-heavy-load">Q13. Scenario — <code>503 Slow Down</code> under heavy load?</h4>
+<p><em>In plain terms:</em> You're hitting one 'folder' (prefix) too hard — spread the file names across more prefixes and retry with backoff to parallelise.</p>
+<p>You're exceeding S3's per-prefix request rate (~3,500 writes / 5,500 reads per prefix per second). Spread keys across more prefixes so requests parallelize across partitions, and add retries with exponential backoff/jitter on the app side. High-cardinality prefix designs avoid hotspotting.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q14-scenario--get-returns-403-not-404-what-does-that-tell-you">Q14. Scenario — GET returns 403 not 404; what does that tell you?</h4>
+<p><em>In plain terms:</em> A 403 instead of 404 means you lack permission (and can't even list), not that the file is missing — it's a permissions problem.</p>
+<p>404 = object genuinely missing (and you have ListBucket). 403 = you exist but aren't authorized — and if you lack <code>s3:ListBucket</code>, S3 returns 403 even for missing keys to avoid leaking existence. So 403-instead-of-404 points at a permissions gap (missing ListBucket or a Deny), not a missing file.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q15-scenario--s3-bill-tripled-data-volume-flat">Q15. Scenario — S3 bill tripled, data volume flat?</h4>
+<p><em>In plain terms:</em> Usually it's requests or data transfer, not storage — find the app hammering S3, add caching, and clean up old versions.</p>
+<p>Usually not storage. Investigate request costs (a hot GET/PUT loop or KMS calls), data transfer/egress (esp. cross-region or to internet), versioning piling up noncurrent versions, incomplete multipart uploads, or a broken lifecycle. Use S3 Storage Lens + Cost Explorer + CloudWatch request metrics.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q16-crr-vs-multi-region-access-points">Q16. CRR vs Multi-Region Access Points?</h4>
+<p><em>In plain terms:</em> Cross-Region Replication makes copies in another region; Multi-Region Access Points give one address that auto-routes users to the nearest copy.</p>
+<p>CRR = async replication of objects to a bucket in another region. MRAP = a single global endpoint that routes requests to the nearest/healthy bucket.<br>
 <strong>When to use:</strong> CRR → you need copies in another region (DR, compliance, data residency, locality). MRAP → you need clients transparently routed to the nearest/healthy copy.</p>
-<p><strong>17. Serve global static assets with a locked origin — design + OAC vs OAI.</strong><br>
-CloudFront in front of a private bucket, access via Origin Access Control (OAC); bucket policy allows only the distribution, Block Public Access stays on. OAC replaces the older OAI — it supports SSE-KMS, all regions (SigV4), and PUT/POST.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q17-serve-global-static-assets-with-a-locked-origin--design--oac-vs-oai">Q17. Serve global static assets with a locked origin — design + OAC vs OAI.</h4>
+<p><em>In plain terms:</em> Put CloudFront in front and lock the bucket so only CloudFront can read it — fast worldwide, and nobody hits S3 directly.</p>
+<p>CloudFront in front of a private bucket, access via Origin Access Control (OAC); bucket policy allows only the distribution, Block Public Access stays on. OAC replaces the older OAI — it supports SSE-KMS, all regions (SigV4), and PUT/POST.<br>
 <strong>When to use:</strong> OAC → always for new CloudFront→S3. OAI → legacy only.</p>
-<p><strong>18. Enforce "no public buckets" across hundreds of accounts?</strong><br>
-Account-level Block Public Access plus an AWS Organizations SCP that denies the API calls which would make buckets public.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q18-enforce-no-public-buckets-across-hundreds-of-accounts">Q18. Enforce "no public buckets" across hundreds of accounts?</h4>
+<p><em>In plain terms:</em> Use org-wide guardrails (SCPs) plus account-level block-public-access so no team can ever make a bucket public, even by accident.</p>
+<p>Account-level Block Public Access plus an AWS Organizations SCP that denies the API calls which would make buckets public.<br>
 <strong>When to use:</strong> SCP → org-wide guardrail across many accounts that no account admin can override.</p>
-<p><strong>19. Why is <code>aws s3 sync</code> of millions of small files slow; how to speed a migration?</strong><br>
-Each tiny object is a separate API round-trip; latency, not bandwidth, dominates. Increase concurrency (<code>max_concurrent_requests</code>), parallelize by prefix, use Transfer Acceleration or DataSync, and aggregate tiny files where possible.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q19-why-is-aws-s3-sync-of-millions-of-small-files-slow-how-to-speed-a-migration">Q19. Why is <code>aws s3 sync</code> of millions of small files slow; how to speed a migration?</h4>
+<p><em>In plain terms:</em> Millions of tiny files are slow because each is a separate request — crank up parallelism or use DataSync for big migrations.</p>
+<p>Each tiny object is a separate API round-trip; latency, not bandwidth, dominates. Increase concurrency (<code>max_concurrent_requests</code>), parallelize by prefix, use Transfer Acceleration or DataSync, and aggregate tiny files where possible.<br>
 <strong>When to use:</strong> <code>s3 sync</code> → small/occasional. Transfer Acceleration → long-distance uploads over public internet. DataSync → large one-time/scheduled migrations (millions of files, on-prem→S3).</p>
-<p><strong>20. Object Lock — governance vs compliance; the catch?</strong><br>
-WORM — prevents delete/overwrite until a retention date. Governance = privileged users can override. Compliance = no one, not even root, can delete before retention expires; it's irreversible, so a mistake locks storage (and cost) for the full retention period.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q20-object-lock--governance-vs-compliance-the-catch">Q20. Object Lock — governance vs compliance; the catch?</h4>
+<p><em>In plain terms:</em> A 'write once, cannot delete' lock — governance mode lets admins override, compliance mode lets nobody (even root) delete before the date; it's permanent, so be careful.</p>
+<p>WORM — prevents delete/overwrite until a retention date. Governance = privileged users can override. Compliance = no one, not even root, can delete before retention expires; it's irreversible, so a mistake locks storage (and cost) for the full retention period.<br>
 <strong>When to use:</strong> Governance → protect data but allow privileged override (most internal cases). Compliance → regulatory; use only when legally required.</p>
-<p><strong>21. Cross-cutting — S3 cost leaks and security fails to hunt first.</strong><br>
-Cost leaks: noncurrent versions with no expiry, cross-region transfer/egress, KMS request charges, incomplete multipart uploads, wrong storage class for the access pattern. Security fails: public bucket / public ACL, no default encryption, no Block Public Access, HTTP allowed (missing <code>aws:SecureTransport</code> deny), no access logging.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q21-cross-cutting--s3-cost-leaks-and-security-fails-to-hunt-first">Q21. Cross-cutting — S3 cost leaks and security fails to hunt first.</h4>
+<p><em>In plain terms:</em> Where the money leaks (old versions, cross-region transfer, KMS calls) and where security fails (public buckets, no encryption, HTTP allowed).</p>
+<p>Cost leaks: noncurrent versions with no expiry, cross-region transfer/egress, KMS request charges, incomplete multipart uploads, wrong storage class for the access pattern. Security fails: public bucket / public ACL, no default encryption, no Block Public Access, HTTP allowed (missing <code>aws:SecureTransport</code> deny), no access logging.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon S3.</em></p>
 </div>

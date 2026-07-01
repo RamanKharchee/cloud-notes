@@ -268,82 +268,199 @@ Rapid-fire questions interviewers ask about Lambda:
 
 ## 18. 🎯 Detailed Interview Q&A and When to Use
 
-> Scenario-style interview questions with model answers and **when to use** guidance. Aimed at ~2 years of hands-on experience.
+> Try each question first, then open its answer below. Every answer opens with a plain-English *In plain terms* line, then the technical detail and **when to use** guidance — aimed at readers newer to AWS/DevOps.
 
-### Basics
+### Questions
 
-**1. What is Lambda, and when serverless over servers?**
+**Basics**
+
+- [Q1. What is Lambda, and when serverless over servers?](#q1-what-is-lambda-and-when-serverless-over-servers)
+- [Q2. How is a Lambda invoked — sync, async, or poll-based?](#q2-how-is-a-lambda-invoked--sync-async-or-poll-based)
+- [Q3. Cold starts — cause, and how do you reduce them?](#q3-cold-starts--cause-and-how-do-you-reduce-them)
+- [Q4. Memory and CPU coupling?](#q4-memory-and-cpu-coupling)
+- [Q5. Reserved vs provisioned concurrency?](#q5-reserved-vs-provisioned-concurrency)
+- [Q6. The 15-minute timeout — what if you need longer?](#q6-the-15-minute-timeout--what-if-you-need-longer)
+
+**Intermediate**
+
+- [Q7. Putting a Lambda in a VPC — why, and the cost?](#q7-putting-a-lambda-in-a-vpc--why-and-the-cost)
+- [Q8. Error handling and retries by invocation type?](#q8-error-handling-and-retries-by-invocation-type)
+- [Q9. Zip vs container-image packaging?](#q9-zip-vs-container-image-packaging)
+- [Q10. Secrets and environment variables?](#q10-secrets-and-environment-variables)
+- [Q11. Lambda layers?](#q11-lambda-layers)
+- [Q12. Versions and aliases?](#q12-versions-and-aliases)
+
+**Advanced & Scenario**
+
+- [Q13. Scenario — Lambda is exhausting RDS connections under load.](#q13-scenario--lambda-is-exhausting-rds-connections-under-load)
+- [Q14. Scenario — function times out or is slow intermittently.](#q14-scenario--function-times-out-or-is-slow-intermittently)
+- [Q15. Scenario — async events are silently disappearing.](#q15-scenario--async-events-are-silently-disappearing)
+- [Q16. Concurrency limits and throttling?](#q16-concurrency-limits-and-throttling)
+- [Q17. Lambda vs Fargate vs EC2 — decide.](#q17-lambda-vs-fargate-vs-ec2--decide)
+- [Q18. EventBridge vs SQS vs SNS as a trigger?](#q18-eventbridge-vs-sqs-vs-sns-as-a-trigger)
+
+---
+
+### Answers
+
+#### Q1. What is Lambda, and when serverless over servers?
+
+*In plain terms:* Run a function on demand with no servers to manage — billed per request and it scales to zero when idle; great for glue and spiky work.
+
 Run code in response to events with no servers to manage; you pay per request + GB-second and it scales to zero. AWS handles provisioning, patching, and scaling.
 **When to use:** Lambda → event-driven, spiky, short tasks (glue, APIs, stream/file processing). Fargate → long-running containers, steady load. EC2 → full OS control, stateful, or cheaper at constant high throughput.
 
-**2. How is a Lambda invoked — sync, async, or poll-based?**
+[↩ Back to questions](#questions)
+
+#### Q2. How is a Lambda invoked — sync, async, or poll-based?
+
+*In plain terms:* Three ways it's triggered — someone waits for the reply (sync), it's queued fire-and-forget (async), or it polls a queue/stream in batches.
+
 Sync (API Gateway, ALB) = caller waits, no automatic retry. Async (S3, SNS, EventBridge) = AWS queues it, retries twice, then DLQ/destination. Poll-based event-source mapping (SQS, Kinesis, DynamoDB Streams) = Lambda polls and invokes in batches.
 **When to use:** Sync → request/response APIs. Async → fire-and-forget side effects. Poll-based → stream/queue processing with batching.
 
-**3. Cold starts — cause, and how do you reduce them?**
+[↩ Back to questions](#questions)
+
+#### Q3. Cold starts — cause, and how do you reduce them?
+
+*In plain terms:* The first call after idle is slow because AWS spins up a fresh environment — shrink the package, lazy-load, or keep some pre-warmed (provisioned concurrency).
+
 A cold start is the extra latency to create a new execution environment (download code, init runtime, run init code). Worse with large packages, heavy init, VPC ENI attach, and some runtimes.
 **When to use provisioned concurrency:** latency-sensitive paths (user-facing APIs) that can't tolerate cold-start spikes; otherwise trim the package, lazy-load, and reuse connections in the init phase.
 
-**4. Memory and CPU coupling?**
+[↩ Back to questions](#questions)
+
+#### Q4. Memory and CPU coupling?
+
+*In plain terms:* There's no CPU dial — you get more CPU by giving the function more memory, so bumping memory can make it finish faster (and sometimes cheaper).
+
 CPU (and network/disk) scales **with the memory** you allocate — there's no separate CPU knob. Bumping memory often makes a CPU-bound function finish faster and sometimes cheaper.
 **When to use more memory:** CPU-bound work, or to cut duration on latency-sensitive functions (tune with Lambda Power Tuning).
 
-**5. Reserved vs provisioned concurrency?**
+[↩ Back to questions](#questions)
+
+#### Q5. Reserved vs provisioned concurrency?
+
+*In plain terms:* Reserved concurrency guarantees/caps how many run at once; provisioned keeps some warm to kill cold-start lag (and costs even when idle).
+
 Reserved = caps/guarantees a slice of the account concurrency pool for a function. Provisioned = keeps N environments **pre-warmed** (no cold start), and costs even when idle.
 **When to use:** Reserved → guarantee capacity and/or protect a downstream (DB) from a function's burst. Provisioned → eliminate cold-start latency on hot, user-facing functions.
 
-**6. The 15-minute timeout — what if you need longer?**
+[↩ Back to questions](#questions)
+
+#### Q6. The 15-minute timeout — what if you need longer?
+
+*In plain terms:* Lambda tops out at 15 minutes — for longer or multi-step jobs, chain them with Step Functions or move to Fargate/Batch.
+
 Lambda caps at 15 min. For longer or multi-step work, orchestrate with **Step Functions**, or move the job to **Fargate/ECS/Batch**.
 **When to use Step Functions:** long-running, multi-step, or workflows needing retries/branching/human-approval across many Lambdas.
 
-### Intermediate
+[↩ Back to questions](#questions)
 
-**7. Putting a Lambda in a VPC — why, and the cost?**
+#### Q7. Putting a Lambda in a VPC — why, and the cost?
+
+*In plain terms:* Put it in your private network only when it must reach private things like a database — then it loses default internet, so add a NAT/endpoints.
+
 Attach it to private subnets + an SG when it must reach private resources (RDS, internal services). It uses Hyperplane ENIs (shared, fast attach). In a VPC it **loses default internet access** — outbound needs a NAT Gateway; AWS APIs are better reached via VPC endpoints.
 **When to use VPC attachment:** only when you need private network access (e.g. RDS); keep functions out of the VPC otherwise to avoid the extra networking.
 
-**8. Error handling and retries by invocation type?**
+[↩ Back to questions](#questions)
+
+#### Q8. Error handling and retries by invocation type?
+
+*In plain terms:* Sync = the caller retries; async = AWS retries twice then sends failures to a dead-letter queue; queue/stream = retried until it succeeds or expires.
+
 Sync = the caller must retry. Async = AWS retries twice then sends to a **DLQ** or an **on-failure destination**. Poll-based = retried until success or record expiry; SQS failures go back to the queue/DLQ; streams can bisect-on-error.
 **When to use DLQ vs destinations:** Destinations (richer — success *and* failure routing to SQS/SNS/EventBridge/Lambda) for new work; DLQ for a simple failed-event capture.
 
-**9. Zip vs container-image packaging?**
+[↩ Back to questions](#questions)
+
+#### Q9. Zip vs container-image packaging?
+
+*In plain terms:* Ship as a small zip (fastest) or as a container image (up to 10 GB, your own base) — image for big dependencies or existing Docker workflows.
+
 Zip = simplest, fastest cold start, 250 MB unzipped limit. Container image = up to 10 GB, use your own base/tooling, fits existing Docker workflows.
 **When to use a container image:** large dependencies/models, custom runtimes, or to unify with an existing container build pipeline.
 
-**10. Secrets and environment variables?**
+[↩ Back to questions](#questions)
+
+#### Q10. Secrets and environment variables?
+
+*In plain terms:* Non-secret config in env vars is fine, but real secrets should be pulled from a vault at runtime, not left in plain environment variables.
+
 Env vars are fine for non-sensitive config (and are encrypted at rest with KMS), but plaintext secrets leak via the console/`get-function`. Pull secrets from **Secrets Manager/SSM** at runtime (the Lambda extension caches them).
 **When to use Secrets Manager vs Parameter Store:** Secrets Manager for rotating credentials; Parameter Store for cheap config at scale.
 
-**11. Lambda layers?**
+[↩ Back to questions](#questions)
+
+#### Q11. Lambda layers?
+
+*In plain terms:* A layer is shared libraries mounted into many functions, so common dependencies aren't bundled into every one — not for fast-changing app code.
+
 A layer is a shared zip of libraries/runtime content mounted into functions, so common dependencies aren't bundled into every function.
 **When to use layers:** shared dependencies across many functions, a custom runtime, or to shrink the deployment package — not for fast-changing app code.
 
-**12. Versions and aliases?**
+[↩ Back to questions](#questions)
+
+#### Q12. Versions and aliases?
+
+*In plain terms:* Publish immutable versions and point a movable alias (like 'prod') at them — lets you shift a little traffic to a new version and roll back instantly.
+
 A published **version** is immutable; an **alias** is a movable pointer (e.g. `prod`) that can split traffic between two versions for canary/weighted deploys and instant rollback.
 **When to use:** safe production deploys — shift 10% to a new version behind an alias, watch metrics, then complete or roll back.
 
-### Advanced & Scenario
+[↩ Back to questions](#questions)
 
-**13. Scenario — Lambda is exhausting RDS connections under load.**
+#### Q13. Scenario — Lambda is exhausting RDS connections under load.
+
+*In plain terms:* Each running copy opens its own DB connection, so a spike drowns the database — put RDS Proxy in front and buffer the burst with a queue.
+
 Each concurrent execution opens its own DB connection, so a burst blows past `max_connections`. Front RDS with **RDS Proxy** to pool/reuse connections; buffer the spike with **SQS + reserved concurrency** so a burst becomes a drained queue, not a connection storm.
 
-**14. Scenario — function times out or is slow intermittently.**
+[↩ Back to questions](#questions)
+
+#### Q14. Scenario — function times out or is slow intermittently.
+
+*In plain terms:* Intermittent slowness is usually cold starts (especially in a VPC), a slow downstream call, or too little memory — trace it and raise memory.
+
 Check for **cold starts** (especially VPC ENI attach), **downstream latency** (DB/API), and **under-provisioned memory** (CPU-starved). Read Performance Insights/X-Ray, raise memory, reuse connections in init, and consider provisioned concurrency for the hot path.
 
-**15. Scenario — async events are silently disappearing.**
+[↩ Back to questions](#questions)
+
+#### Q15. Scenario — async events are silently disappearing.
+
+*In plain terms:* Async events vanish when you're throttled or have no dead-letter queue — add a DLQ and alarm on throttles so failures aren't silent.
+
 Likely **throttling** (429 → retries exhausted) or **no DLQ/destination** configured, so failures vanish. Add a DLQ/on-failure destination, check the concurrency limit and reserved concurrency, and alarm on `Throttles`/`DeadLetterErrors`.
 
-**16. Concurrency limits and throttling?**
+[↩ Back to questions](#questions)
+
+#### Q16. Concurrency limits and throttling?
+
+*In plain terms:* There's an account-wide cap (~1000 at once); go over and you get throttled — use reserved concurrency to guarantee capacity or to cap a function so it can't swamp a database.
+
 The account has a default ~1,000 concurrent-execution limit; reserved concurrency **carves a function's share out of that pool**. Exceeding it returns `429 TooManyRequestsException`.
 **When to set reserved concurrency:** to guarantee a critical function always has capacity, or to **cap** a function so it can't overwhelm a downstream (or starve other functions).
 
-**17. Lambda vs Fargate vs EC2 — decide.**
+[↩ Back to questions](#questions)
+
+#### Q17. Lambda vs Fargate vs EC2 — decide.
+
+*In plain terms:* Lambda for short bursty tasks, Fargate for steady containers without managing servers, EC2 when you need full control or it's cheaper always-on.
+
 Lambda = event-driven, scale-to-zero, ≤15 min, no infra. Fargate = containers without managing nodes, long-running, predictable. EC2 = full control, special hardware, or cheapest at steady high load.
 **When to use:** Lambda → bursty/short/glue. Fargate → steady containerized services. EC2 → control/stateful/GPU/cost-at-scale.
 
-**18. EventBridge vs SQS vs SNS as a trigger?**
+[↩ Back to questions](#questions)
+
+#### Q18. EventBridge vs SQS vs SNS as a trigger?
+
+*In plain terms:* EventBridge routes/filters events (and cron); SQS buffers and decouples; SNS fans one event out to many — often combined SNS to SQS to Lambda.
+
 EventBridge = routing/filtering events by content + schedules + SaaS sources. SQS = durable buffer + decoupling + backpressure. SNS = pub/sub fan-out to many subscribers.
 **When to use:** EventBridge → event routing/filtering/cron. SQS → throttle/buffer/decouple. SNS → fan one event out to many consumers (often SNS→SQS→Lambda).
+
+[↩ Back to questions](#questions)
 
 ---
 

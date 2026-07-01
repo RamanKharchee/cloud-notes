@@ -733,77 +733,161 @@ aws ssm start-session --target i-123
 </ul>
 <hr>
 <h2 id="22--detailed-interview-qa-and-when-to-use">22. 🎯 Detailed Interview Q&amp;A and When to Use</h2>
-<blockquote><p>Scenario-style interview questions with model answers and <strong>when to use</strong> guidance. Aimed at ~2 years of hands-on experience. Each answer leads with the core point, then the trade-off an interviewer probes.</p></blockquote>
-<h3 id="basics">Basics</h3>
-<p><strong>1. What is EC2, and why not run your own servers?</strong><br>
-Resizable virtual compute on demand. You trade capex for opex, get elasticity (scale in minutes), and offload data-center / hardware / networking heavy lifting to AWS. You still own the OS upward.<br>
+<blockquote><p>Try each question first, then open its answer below. Every answer opens with a plain-English <em>In plain terms</em> line, then the technical detail and <strong>when to use</strong> guidance — aimed at readers newer to AWS/DevOps.</p></blockquote>
+<h3 id="questions">Questions</h3>
+<p><strong>Basics</strong></p>
+<ul>
+<li><a href="#q1-what-is-ec2-and-why-not-run-your-own-servers">Q1. What is EC2, and why not run your own servers?</a></li>
+<li><a href="#q2-instance-families-t--m--c--r">Q2. Instance families (t / m / c / r)?</a></li>
+<li><a href="#q3-stop-vs-terminate-vs-hibernate">Q3. Stop vs Terminate vs Hibernate?</a></li>
+<li><a href="#q4-ami-vs-snapshot">Q4. AMI vs snapshot?</a></li>
+<li><a href="#q5-security-group-vs-nacl">Q5. Security Group vs NACL?</a></li>
+<li><a href="#q6-sg-stateful-meaning">Q6. SG "stateful" meaning?</a></li>
+<li><a href="#q7-purchasing-options--use-case">Q7. Purchasing options + use case?</a></li>
+</ul>
+<p><strong>Intermediate</strong></p>
+<ul>
+<li><a href="#q8-instance-store-vs-ebs--and-when-instance-store">Q8. Instance store vs EBS — and when instance store?</a></li>
+<li><a href="#q9-ebs-types-gp3--gp2--io2--st1">Q9. EBS types gp3 / gp2 / io2 / st1?</a></li>
+<li><a href="#q10-gp3-decoupled-iops--why-it-matters-for-cost">Q10. gp3 decoupled IOPS — why it matters for cost?</a></li>
+<li><a href="#q11-public-ip-vs-elastic-ip-vs-private-ip">Q11. Public IP vs Elastic IP vs private IP?</a></li>
+<li><a href="#q12-private-subnet--internet-for-os-updates">Q12. Private subnet → internet for OS updates?</a></li>
+<li><a href="#q13-nat-gateway-vs-nat-instance--why-ever-a-nat-instance">Q13. NAT Gateway vs NAT Instance — why ever a NAT instance?</a></li>
+<li><a href="#q14-user-data--reboot-vs-first-boot-gotcha">Q14. User data — reboot vs first-boot gotcha?</a></li>
+<li><a href="#q15-iam-roles-for-ec2-vs-baked-access-keys">Q15. IAM roles for EC2 vs baked access keys?</a></li>
+<li><a href="#q16-launch-template-vs-launch-configuration">Q16. Launch Template vs Launch Configuration?</a></li>
+</ul>
+<p><strong>Advanced &amp; Scenario</strong></p>
+<ul>
+<li><a href="#q17-scenario--db-unreachable-after-stopstart-no-code-change">Q17. Scenario — DB unreachable after stop/start, no code change.</a></li>
+<li><a href="#q18-scenario--ssh-hangs--refused-full-triage">Q18. Scenario — SSH hangs / refused, full triage.</a></li>
+<li><a href="#q19-scenario--asg-launches-instances-that-fail-health-checks-and-loop">Q19. Scenario — ASG launches instances that fail health checks and loop.</a></li>
+<li><a href="#q20-placement-groups-cluster--spread--partition">Q20. Placement groups (cluster / spread / partition)?</a></li>
+<li><a href="#q21-alb-health-check-elb-vs-asg-health-check-disagreement">Q21. ALB health check; ELB vs ASG health-check disagreement?</a></li>
+<li><a href="#q22-scenario--t3-at-100-cpu-but-barely-working">Q22. Scenario — t3 at 100% CPU but barely working?</a></li>
+<li><a href="#q23-cpu-credits-t3-standard-vs-unlimited-cost-trap">Q23. CPU credits; t3 standard vs unlimited; cost trap?</a></li>
+<li><a href="#q24-scenario--stateful-no-interruption-app-but-finance-wants-60-savings">Q24. Scenario — stateful, no-interruption app, but Finance wants 60% savings.</a></li>
+<li><a href="#q25-why-asg--alb-over-3-fixed-instances-behind-a-static-ip">Q25. Why ASG + ALB over 3 fixed instances behind a static IP?</a></li>
+</ul>
+<hr>
+<h3 id="answers">Answers</h3>
+<h4 id="q1-what-is-ec2-and-why-not-run-your-own-servers">Q1. What is EC2, and why not run your own servers?</h4>
+<p><em>In plain terms:</em> Rent virtual servers by the hour instead of buying and racking your own — AWS runs the hardware, you run the OS and app.</p>
+<p>Resizable virtual compute on demand. You trade capex for opex, get elasticity (scale in minutes), and offload data-center / hardware / networking heavy lifting to AWS. You still own the OS upward.<br>
 <strong>When to use:</strong> EC2 → need OS-level control, long-running/stateful, custom agents or kernels, lift-and-shift. Fargate/ECS/EKS → containerized and you don't want to manage instances. Lambda → short, event-driven, spiky, &lt; 15 min.</p>
-<p><strong>2. Instance families (t / m / c / r)?</strong><br>
-<code>t</code> = burstable, cheap. <code>m</code> = balanced. <code>c</code> = compute-optimized (high CPU:RAM). <code>r</code> = memory-optimized. Pick <code>c</code> over <code>m</code> when CPU-bound, not RAM-bound.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q2-instance-families-t--m--c--r">Q2. Instance families (t / m / c / r)?</h4>
+<p><em>In plain terms:</em> Server 'sizes' tuned for different needs — cheap burstable (t), balanced (m), lots of CPU (c), lots of memory (r); pick by what your app is hungry for.</p>
+<p><code>t</code> = burstable, cheap. <code>m</code> = balanced. <code>c</code> = compute-optimized (high CPU:RAM). <code>r</code> = memory-optimized. Pick <code>c</code> over <code>m</code> when CPU-bound, not RAM-bound.<br>
 <strong>When to use:</strong> <code>t</code> → dev, low/spiky traffic, cost-sensitive. <code>m</code> → general web/app tier. <code>c</code> → batch, encoding, gaming, ML inference. <code>r</code> → Redis/Memcached, in-memory DBs, big JVMs.</p>
-<p><strong>3. Stop vs Terminate vs Hibernate?</strong><br>
-Stop: halts, root EBS persists, public IP released, compute billing stops. Terminate: gone, root EBS deleted by default. Hibernate: RAM dumped to root EBS, resumes exact state. Instance-store data survives only reboot — lost on stop and terminate.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q3-stop-vs-terminate-vs-hibernate">Q3. Stop vs Terminate vs Hibernate?</h4>
+<p><em>In plain terms:</em> Stop = pause and keep the disk; Terminate = delete for good; Hibernate = freeze memory to disk so it wakes up exactly where it was.</p>
+<p>Stop: halts, root EBS persists, public IP released, compute billing stops. Terminate: gone, root EBS deleted by default. Hibernate: RAM dumped to root EBS, resumes exact state. Instance-store data survives only reboot — lost on stop and terminate.<br>
 <strong>When to use:</strong> Stop → pause to save cost, restarting soon, OK to lose RAM and get a new public IP. Hibernate → restart must resume exact RAM state (long warm-up, in-memory caches, slow-booting licensed apps). Terminate → done permanently; let the root volume delete.</p>
-<p><strong>4. AMI vs snapshot?</strong><br>
-AMI = bootable template (root volume + block-device mapping + launch metadata) used to launch instances. Snapshot = point-in-time backup of a single EBS volume. An AMI references one or more snapshots; a snapshot alone can't boot.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q4-ami-vs-snapshot">Q4. AMI vs snapshot?</h4>
+<p><em>In plain terms:</em> An AMI is a full 'server template' you launch copies from; a snapshot is just a backup of one disk.</p>
+<p>AMI = bootable template (root volume + block-device mapping + launch metadata) used to launch instances. Snapshot = point-in-time backup of a single EBS volume. An AMI references one or more snapshots; a snapshot alone can't boot.<br>
 <strong>When to use:</strong> AMI → standardize/launch identical instances (golden image, ASG, faster boot). Snapshot → back up/restore or migrate a single volume; copy across region/account.</p>
-<p><strong>5. Security Group vs NACL?</strong><br>
-SG = instance-level (ENI), stateful, allow-only. NACL = subnet-level, stateless, allow + explicit deny, evaluated by rule number. SGs are the primary control; NACLs are a coarse subnet backstop.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q5-security-group-vs-nacl">Q5. Security Group vs NACL?</h4>
+<p><em>In plain terms:</em> Security Group = a firewall on the server that remembers connections; NACL = a coarser firewall on the whole subnet that checks each direction separately.</p>
+<p>SG = instance-level (ENI), stateful, allow-only. NACL = subnet-level, stateless, allow + explicit deny, evaluated by rule number. SGs are the primary control; NACLs are a coarse subnet backstop.<br>
 <strong>When to use:</strong> SG → your everyday instance firewall (always). NACL → subnet-wide coarse rules, explicit deny (block an IP range), compliance segmentation.</p>
-<p><strong>6. SG "stateful" meaning?</strong><br>
-Return traffic for an allowed inbound connection is automatically permitted outbound (and vice versa) — no reverse rule needed. NACLs are stateless, so you must open both directions (and ephemeral ports for replies).</p>
-<p><strong>7. Purchasing options + use case?</strong><br>
-On-Demand = no commitment. Reserved = 1/3-yr commit to instance type. Savings Plans = commit to $/hr spend, flexible across families. Spot = spare capacity up to ~90% off, interruptible.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q6-sg-stateful-meaning">Q6. SG "stateful" meaning?</h4>
+<p><em>In plain terms:</em> If you allow traffic in, the reply is automatically allowed back out — you don't write a second rule for the return trip.</p>
+<p>Return traffic for an allowed inbound connection is automatically permitted outbound (and vice versa) — no reverse rule needed. NACLs are stateless, so you must open both directions (and ephemeral ports for replies).</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q7-purchasing-options--use-case">Q7. Purchasing options + use case?</h4>
+<p><em>In plain terms:</em> Ways to pay: on-demand (flexible, pricey), reserved/savings plans (commit for a discount), spot (cheap leftovers that can be taken back).</p>
+<p>On-Demand = no commitment. Reserved = 1/3-yr commit to instance type. Savings Plans = commit to $/hr spend, flexible across families. Spot = spare capacity up to ~90% off, interruptible.<br>
 <strong>When to use:</strong> On-Demand → unpredictable/short-term, dev. Reserved → steady 24/7 baseline, known type. Savings Plans → steady spend but want family flexibility. Spot → fault-tolerant, interruptible (batch, CI, stateless web behind ASG).</p>
-<h3 id="intermediate">Intermediate</h3>
-<p><strong>8. Instance store vs EBS — and when instance store?</strong><br>
-Instance store = physically attached, ephemeral, very high IOPS, dies on stop/terminate. EBS = network-attached, durable, persists independently.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q8-instance-store-vs-ebs--and-when-instance-store">Q8. Instance store vs EBS — and when instance store?</h4>
+<p><em>In plain terms:</em> EBS = a network disk that survives; instance store = fast scratch space on the host that vanishes when you stop the server.</p>
+<p>Instance store = physically attached, ephemeral, very high IOPS, dies on stop/terminate. EBS = network-attached, durable, persists independently.<br>
 <strong>When to use:</strong> Instance store → scratch/cache/temp, ultra-high IOPS, data you can lose (local shuffle, buffers). EBS → anything that must persist past stop/terminate (root, DB data).</p>
-<p><strong>9. EBS types gp3 / gp2 / io2 / st1?</strong><br>
-gp3 = default SSD, IOPS/throughput decoupled from size. gp2 = older SSD, IOPS scales with size. io2 = provisioned-IOPS SSD for critical low-latency DBs. st1 = throughput HDD for big sequential. gp3 won because it's cheaper and you provision IOPS independently.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q9-ebs-types-gp3--gp2--io2--st1">Q9. EBS types gp3 / gp2 / io2 / st1?</h4>
+<p><em>In plain terms:</em> Different disk types — gp3 (good default SSD), io2 (fastest, for critical DBs), st1 (cheap spinning disk for big sequential reads).</p>
+<p>gp3 = default SSD, IOPS/throughput decoupled from size. gp2 = older SSD, IOPS scales with size. io2 = provisioned-IOPS SSD for critical low-latency DBs. st1 = throughput HDD for big sequential. gp3 won because it's cheaper and you provision IOPS independently.<br>
 <strong>When to use:</strong> gp3 → default for almost everything. gp2 → legacy only. io2 (Block Express) → mission-critical low-latency DBs needing guaranteed high IOPS. st1 → big sequential throughput (logs, data lake, streaming).</p>
-<p><strong>10. gp3 decoupled IOPS — why it matters for cost?</strong><br>
-On gp2 you over-sized the disk just to buy IOPS. On gp3 you size storage for capacity and dial IOPS/throughput separately — no paying for terabytes you don't need to hit a performance target.</p>
-<p><strong>11. Public IP vs Elastic IP vs private IP?</strong><br>
-Private IP = stable, internal to VPC. Public IP = auto-assigned, changes on stop/start, lost on stop. EIP = static public IP you own, survives stop/start.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q10-gp3-decoupled-iops--why-it-matters-for-cost">Q10. gp3 decoupled IOPS — why it matters for cost?</h4>
+<p><em>In plain terms:</em> With gp3 you buy speed separately from size, so you don't over-buy storage just to get more IOPS — that saves money.</p>
+<p>On gp2 you over-sized the disk just to buy IOPS. On gp3 you size storage for capacity and dial IOPS/throughput separately — no paying for terabytes you don't need to hit a performance target.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q11-public-ip-vs-elastic-ip-vs-private-ip">Q11. Public IP vs Elastic IP vs private IP?</h4>
+<p><em>In plain terms:</em> Private IP = internal address; public IP = internet address that changes on stop; Elastic IP = a public address you get to keep.</p>
+<p>Private IP = stable, internal to VPC. Public IP = auto-assigned, changes on stop/start, lost on stop. EIP = static public IP you own, survives stop/start.<br>
 <strong>When to use:</strong> EIP → an external system needs a fixed public IP across stop/start (whitelisted firewall, DNS A-record to instance). Otherwise prefer a load balancer / DNS.</p>
-<p><strong>12. Private subnet → internet for OS updates?</strong><br>
-Instance → route table default route → NAT Gateway in a public subnet → Internet Gateway → internet. Return traffic comes back through the NAT. Outbound-initiated only; no inbound exposure.</p>
-<p><strong>13. NAT Gateway vs NAT Instance — why ever a NAT instance?</strong><br>
-NAT GW is managed, HA-per-AZ, auto-scaling. NAT instance is a self-managed EC2.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q12-private-subnet--internet-for-os-updates">Q12. Private subnet → internet for OS updates?</h4>
+<p><em>In plain terms:</em> A server with no public address reaches the internet by routing out through a NAT gateway, like going through a company proxy.</p>
+<p>Instance → route table default route → NAT Gateway in a public subnet → Internet Gateway → internet. Return traffic comes back through the NAT. Outbound-initiated only; no inbound exposure.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q13-nat-gateway-vs-nat-instance--why-ever-a-nat-instance">Q13. NAT Gateway vs NAT Instance — why ever a NAT instance?</h4>
+<p><em>In plain terms:</em> NAT Gateway is the managed, hands-off option; a NAT instance is a DIY box you'd only use to save pennies or do custom tricks.</p>
+<p>NAT GW is managed, HA-per-AZ, auto-scaling. NAT instance is a self-managed EC2.<br>
 <strong>When to use:</strong> NAT Gateway → default. NAT instance → tiny/cost-sensitive, or you need port-forwarding / custom firewall / bastion combo.</p>
-<p><strong>14. User data — reboot vs first-boot gotcha?</strong><br>
-User data runs once at first boot by default. On reboot/stop-start it does not re-run unless cloud-init is configured (<code>cloud-init-per always</code>) to do so.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q14-user-data--reboot-vs-first-boot-gotcha">Q14. User data — reboot vs first-boot gotcha?</h4>
+<p><em>In plain terms:</em> The startup script runs only on first boot by default — people get caught out expecting it to run on every reboot.</p>
+<p>User data runs once at first boot by default. On reboot/stop-start it does not re-run unless cloud-init is configured (<code>cloud-init-per always</code>) to do so.<br>
 <strong>When to use:</strong> Run-once (default) → one-time bootstrap. cloud-init <code>always</code> → re-pull config/secrets or re-register on every boot.</p>
-<p><strong>15. IAM roles for EC2 vs baked access keys?</strong><br>
-The instance assumes a role and gets temporary, auto-rotated credentials via the metadata service. No long-lived keys on disk to leak; centrally managed and revocable.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q15-iam-roles-for-ec2-vs-baked-access-keys">Q15. IAM roles for EC2 vs baked access keys?</h4>
+<p><em>In plain terms:</em> Give the server an identity (role) that hands out temporary keys automatically, instead of hard-coding long-lived passwords that can leak.</p>
+<p>The instance assumes a role and gets temporary, auto-rotated credentials via the metadata service. No long-lived keys on disk to leak; centrally managed and revocable.<br>
 <strong>When to use:</strong> Instance role → always, for AWS API access. Static access keys → only when something outside AWS genuinely can't assume a role.</p>
-<p><strong>16. Launch Template vs Launch Configuration?</strong><br>
-Launch Template = versioned, supports newer features (multiple instance types, mixed Spot/On-Demand, T-unlimited). Launch Configuration = older, immutable, no versioning — deprecated.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q16-launch-template-vs-launch-configuration">Q16. Launch Template vs Launch Configuration?</h4>
+<p><em>In plain terms:</em> Launch Templates are the modern, versioned blueprint for launching servers; launch configs are the old, feature-poor version — always use templates.</p>
+<p>Launch Template = versioned, supports newer features (multiple instance types, mixed Spot/On-Demand, T-unlimited). Launch Configuration = older, immutable, no versioning — deprecated.<br>
 <strong>When to use:</strong> Launch Template → always. Launch Configuration → never for new work.</p>
-<h3 id="advanced--scenario">Advanced &amp; Scenario</h3>
-<p><strong>17. Scenario — DB unreachable after stop/start, no code change.</strong><br>
-Top hypotheses: (a) public IP changed and something referenced it; (b) the DB's security group references the instance's old IP/EIP; (c) lost instance-store data or a mount. Confirm: compare new public/private IP, check SG rules referencing IPs, route table, <code>nc -vz db 5432</code>, DNS resolution.</p>
-<p><strong>18. Scenario — SSH hangs / refused, full triage.</strong><br>
-Instance running and status checks passing (instance vs system check)? Network path: SG inbound 22 from your IP, NACL, route to IGW, correct public IP/subnet. <code>nc -vz host 22</code> — refused = sshd down/wrong port; timeout = network/SG/NACL. Then OS: disk-full/high-CPU can hang sshd — use SSM Session Manager or EC2 Serial Console to get in without SSH.</p>
-<p><strong>19. Scenario — ASG launches instances that fail health checks and loop.</strong><br>
-Instances die before you can SSH, so capture state at boot: ship cloud-init/user-data logs to CloudWatch, check ASG activity history and health-check type. Temporarily raise the health-check grace period or suspend <code>ReplaceUnhealthy</code>/<code>Terminate</code> so one stays up. Usual causes: app not listening on the health-check port/path, missing IAM/role, bad AMI, grace period too short.</p>
-<p><strong>20. Placement groups (cluster / spread / partition)?</strong><br>
-Cluster = same rack, low-latency/high-throughput. Spread = each instance on distinct hardware, max fault isolation. Partition = grouped racks isolated from each other.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q17-scenario--db-unreachable-after-stopstart-no-code-change">Q17. Scenario — DB unreachable after stop/start, no code change.</h4>
+<p><em>In plain terms:</em> After a restart the public IP changed or a firewall points at the old address — check IPs, security groups and DNS before blaming the app.</p>
+<p>Top hypotheses: (a) public IP changed and something referenced it; (b) the DB's security group references the instance's old IP/EIP; (c) lost instance-store data or a mount. Confirm: compare new public/private IP, check SG rules referencing IPs, route table, <code>nc -vz db 5432</code>, DNS resolution.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q18-scenario--ssh-hangs--refused-full-triage">Q18. Scenario — SSH hangs / refused, full triage.</h4>
+<p><em>In plain terms:</em> Work outside-in: is the server healthy, is port 22 open in the firewall, is there a network route — then get in via SSM/serial console if SSH is dead.</p>
+<p>Instance running and status checks passing (instance vs system check)? Network path: SG inbound 22 from your IP, NACL, route to IGW, correct public IP/subnet. <code>nc -vz host 22</code> — refused = sshd down/wrong port; timeout = network/SG/NACL. Then OS: disk-full/high-CPU can hang sshd — use SSM Session Manager or EC2 Serial Console to get in without SSH.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q19-scenario--asg-launches-instances-that-fail-health-checks-and-loop">Q19. Scenario — ASG launches instances that fail health checks and loop.</h4>
+<p><em>In plain terms:</em> The autoscaler keeps replacing servers that fail their health check — capture the boot logs and pause replacement so one stays alive to inspect.</p>
+<p>Instances die before you can SSH, so capture state at boot: ship cloud-init/user-data logs to CloudWatch, check ASG activity history and health-check type. Temporarily raise the health-check grace period or suspend <code>ReplaceUnhealthy</code>/<code>Terminate</code> so one stays up. Usual causes: app not listening on the health-check port/path, missing IAM/role, bad AMI, grace period too short.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q20-placement-groups-cluster--spread--partition">Q20. Placement groups (cluster / spread / partition)?</h4>
+<p><em>In plain terms:</em> Hints on where AWS physically places servers — packed together for speed, spread apart for resilience, or partitioned for big data clusters.</p>
+<p>Cluster = same rack, low-latency/high-throughput. Spread = each instance on distinct hardware, max fault isolation. Partition = grouped racks isolated from each other.<br>
 <strong>When to use:</strong> Cluster → HPC, tightly-coupled. Spread → small set of critical instances. Partition → large distributed data systems (HDFS, Cassandra, Kafka).</p>
-<p><strong>21. ALB health check; ELB vs ASG health-check disagreement?</strong><br>
-ALB marks a target unhealthy after N failed checks (path/port/codes). The ASG's default EC2 check only tests hypervisor reachability, so a hung-but-running app passes it and never gets replaced.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q21-alb-health-check-elb-vs-asg-health-check-disagreement">Q21. ALB health check; ELB vs ASG health-check disagreement?</h4>
+<p><em>In plain terms:</em> The load balancer checks if the app answers; the autoscaler by default only checks if the box is on — switch it to the load-balancer check so hung apps get replaced.</p>
+<p>ALB marks a target unhealthy after N failed checks (path/port/codes). The ASG's default EC2 check only tests hypervisor reachability, so a hung-but-running app passes it and never gets replaced.<br>
 <strong>When to use:</strong> ASG health-check type EC2 → you only care the box is reachable. ELB type → you care the app responds (almost always — replaces hung instances).</p>
-<p><strong>22. Scenario — t3 at 100% CPU but barely working?</strong><br>
-It exhausted its CPU credits and is throttled to baseline. Burstable instances accrue credits when idle and spend them to burst; at zero credits you're capped, so it looks pegged while doing little. Move to non-burstable or t3 unlimited.</p>
-<p><strong>23. CPU credits; t3 standard vs unlimited; cost trap?</strong><br>
-Standard bursts only while credits last, then throttles. Unlimited bursts beyond credits and bills surplus as overage.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q22-scenario--t3-at-100-cpu-but-barely-working">Q22. Scenario — t3 at 100% CPU but barely working?</h4>
+<p><em>In plain terms:</em> A burstable server ran out of its 'CPU credits' and got throttled — it looks maxed out while doing little; move to a normal instance.</p>
+<p>It exhausted its CPU credits and is throttled to baseline. Burstable instances accrue credits when idle and spend them to burst; at zero credits you're capped, so it looks pegged while doing little. Move to non-burstable or t3 unlimited.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q23-cpu-credits-t3-standard-vs-unlimited-cost-trap">Q23. CPU credits; t3 standard vs unlimited; cost trap?</h4>
+<p><em>In plain terms:</em> Burstable servers save credits when idle and spend them to go fast; 'unlimited' lets them overspend for a fee — if it's always busy, a regular server is cheaper.</p>
+<p>Standard bursts only while credits last, then throttles. Unlimited bursts beyond credits and bills surplus as overage.<br>
 <strong>When to use:</strong> Standard → predictable low baseline, OK to throttle. Unlimited → occasional bursts where throttling is unacceptable — but if persistently above baseline, a larger non-burstable instance is cheaper than overage.</p>
-<p><strong>24. Scenario — stateful, no-interruption app, but Finance wants 60% savings.</strong><br>
-Spot alone breaks a no-interruption stateful app. Externalize state (RDS/EBS/S3) so compute is replaceable, run a mixed ASG — On-Demand/Reserved baseline for guaranteed capacity + Spot for burst — and apply Savings Plans to the baseline. Most of the savings without betting the stateful core on Spot reclaim.</p>
-<p><strong>25. Why ASG + ALB over 3 fixed instances behind a static IP?</strong><br>
-For: self-healing, elasticity, rolling deploys, AZ spread, health-based routing. Against: more moving parts, ALB cost, requires statelessness.<br>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q24-scenario--stateful-no-interruption-app-but-finance-wants-60-savings">Q24. Scenario — stateful, no-interruption app, but Finance wants 60% savings.</h4>
+<p><em>In plain terms:</em> Move the data off the servers so they're disposable, then run a cheap Spot + small always-on mix — most of the savings without risking the stateful core.</p>
+<p>Spot alone breaks a no-interruption stateful app. Externalize state (RDS/EBS/S3) so compute is replaceable, run a mixed ASG — On-Demand/Reserved baseline for guaranteed capacity + Spot for burst — and apply Savings Plans to the baseline. Most of the savings without betting the stateful core on Spot reclaim.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
+<h4 id="q25-why-asg--alb-over-3-fixed-instances-behind-a-static-ip">Q25. Why ASG + ALB over 3 fixed instances behind a static IP?</h4>
+<p><em>In plain terms:</em> Autoscaling + load balancer heals itself, scales with traffic and does rolling deploys; fixed servers are simpler but only fine for tiny, predictable workloads.</p>
+<p>For: self-healing, elasticity, rolling deploys, AZ spread, health-based routing. Against: more moving parts, ALB cost, requires statelessness.<br>
 <strong>When to use:</strong> ASG + ALB → production, variable load, need HA/self-healing/rolling deploys. Fixed instances → tiny, predictable, internal-only, hand-managed.</p>
+<p><a href="#questions">↩ Back to questions</a></p>
 <hr>
 <div align="center"><p><em>📝 Notes compiled as a quick reference for Amazon EC2.</em></p>
 </div>
