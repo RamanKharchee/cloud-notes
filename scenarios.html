@@ -162,6 +162,7 @@
 <blockquote><p>Model answers for the scenarios above — each links back to its scenario. Try the scenario first; then check yourself here.</p></blockquote>
 <hr>
 <h3 id="answer-1--user-uploads-processed-and-served-globally">Answer 1 — User uploads, processed and served globally</h3>
+<p><em>In plain terms:</em> Let the browser upload straight to S3 (skip your servers), have a small function auto-make the thumbnails, and serve everything through a CDN so it's fast worldwide while the bucket stays private.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Upload <strong>directly to S3 via a pre-signed PUT URL</strong> minted by the backend — bytes never transit EC2, so the fleet stays small.</li>
@@ -180,6 +181,7 @@
 <p><a href="#scenario-1--user-uploads-processed-and-served-globally">↩ Back to Scenario 1</a></p>
 <hr>
 <h3 id="answer-2--ec2-fleet-reads-a-large-dataset-from-s3-privately">Answer 2 — EC2 fleet reads a large dataset from S3, privately</h3>
+<p><em>In plain terms:</em> Add a free "S3 doorway" inside your network (a Gateway Endpoint) so S3 traffic stops routing through the paid NAT — cheaper, and it never leaves AWS's private network.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Add an <strong>S3 Gateway VPC Endpoint</strong> — S3 traffic leaves via the endpoint, <strong>not the NAT Gateway</strong>, eliminating NAT data charges and keeping traffic on the AWS backbone.</li>
@@ -195,6 +197,7 @@
 <p><a href="#scenario-2--ec2-fleet-reads-a-large-dataset-from-s3-privately">↩ Back to Scenario 2</a></p>
 <hr>
 <h3 id="answer-3--cut-compute-cost-50-without-losing-ha">Answer 3 — Cut compute cost 50% without losing HA</h3>
+<p><em>In plain terms:</em> Make the servers disposable (no data stored on them), run a cheap mix of Spot + a small always-on base across three zones, and move static files to S3/CDN so you need fewer servers.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Externalize all state (sessions in ElastiCache/DynamoDB, assets in S3) so instances are disposable.</li>
@@ -211,6 +214,7 @@
 <p><a href="#scenario-3--cut-compute-cost-50-without-losing-ha">↩ Back to Scenario 3</a></p>
 <hr>
 <h3 id="answer-4--secure-highly-available-3-tier-data-layer">Answer 4 — Secure, highly-available 3-tier data layer</h3>
+<p><em>In plain terms:</em> Keep the database in a private area reachable only from the app, keep a standby copy that auto-takes-over if it dies, store the password in a vault that rotates it, and keep encrypted backups in another region.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>RDS in <strong>private subnets only</strong>, <code>PubliclyAccessible=false</code>; the DB <strong>security group allows 5432 only from the app SG</strong> (SG-to-SG reference, not CIDR).</li>
@@ -227,6 +231,7 @@
 <p><a href="#scenario-4--secure-highly-available-3-tier-data-layer">↩ Back to Scenario 4</a></p>
 <hr>
 <h3 id="answer-5--reporting-load-is-crushing-the-primary">Answer 5 — Reporting load is crushing the primary</h3>
+<p><em>In plain terms:</em> Send the heavy reporting queries to read-only copies of the database, and put a connection pooler in front so you don't run out of connections — a bigger box won't fix that.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Add <strong>read replicas</strong> and route reporting/read-only traffic to them; keep read-after-write-critical reads on the primary.</li>
@@ -242,6 +247,7 @@
 <p><a href="#scenario-5--reporting-load-is-crushing-the-primary">↩ Back to Scenario 5</a></p>
 <hr>
 <h3 id="answer-6--migrate-mysql-on-ec2-to-rds-minimal-downtime">Answer 6 — Migrate MySQL-on-EC2 to RDS, minimal downtime</h3>
+<p><em>In plain terms:</em> Use AWS's migration service to copy the data live while the old database keeps serving, then flip over during a tiny window, and tighten security afterwards.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Use <strong>AWS DMS</strong> with full-load + CDC so the source keeps serving while data replicates; cut over during a short window once lag is ~0.</li>
@@ -257,6 +263,7 @@
 <p><a href="#scenario-6--migrate-mysql-on-ec2-to-rds-minimal-downtime">↩ Back to Scenario 6</a></p>
 <hr>
 <h3 id="answer-7--reliable-s3-triggered-processing-at-spiky-scale">Answer 7 — Reliable S3-triggered processing at spiky scale</h3>
+<p><em>In plain terms:</em> Fan the upload event out to two queues (one per consumer) so each works independently, let the queues absorb spikes, and make retries safe so nothing is processed twice or lost.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li><strong>S3 → SNS topic → two SQS queues (fan-out)</strong>, each with its own <strong>Lambda</strong> consumer. SQS buffers spikes and decouples the consumers.</li>
@@ -272,6 +279,7 @@
 <p><a href="#scenario-7--reliable-s3-triggered-processing-at-spiky-scale">↩ Back to Scenario 7</a></p>
 <hr>
 <h3 id="answer-8--lambda-is-exhausting-rds-connections">Answer 8 — Lambda is exhausting RDS connections</h3>
+<p><em>In plain terms:</em> Put a connection-sharing proxy (RDS Proxy) between the functions and the database, and buffer the spike with a queue — the problem is too many connections, not a slow database.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Front RDS with <strong>RDS Proxy</strong> so thousands of Lambda invocations share a small pool and Proxy holds connections across failover.</li>
@@ -287,6 +295,7 @@
 <p><a href="#scenario-8--lambda-is-exhausting-rds-connections">↩ Back to Scenario 8</a></p>
 <hr>
 <h3 id="answer-9--order-pipeline-needs-ordering-and-no-duplicates">Answer 9 — Order pipeline needs ordering and no duplicates</h3>
+<p><em>In plain terms:</em> Use FIFO queues keyed by customer so orders stay in order with no duplicates, and still add your own "already-done" check so a retry can never double-charge.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Use <strong>SQS FIFO</strong> with <code>MessageGroupId = customerId</code> for per-customer ordering and built-in <strong>content-based dedup</strong>; <strong>SNS FIFO → SQS FIFO</strong> if you also fan out.</li>
@@ -302,6 +311,7 @@
 <p><a href="#scenario-9--order-pipeline-needs-ordering-and-no-duplicates">↩ Back to Scenario 9</a></p>
 <hr>
 <h3 id="answer-10--containerize-and-ship-a-monolith-safely">Answer 10 — Containerize and ship a monolith safely</h3>
+<p><em>In plain terms:</em> Build a small, non-root image in stages, scan it for vulnerabilities, push it tagged by exact version, run it with a role that fetches secrets at runtime, and roll back by pointing at the previous image.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li><strong>Multi-stage Dockerfile</strong> (build stage with toolchain → minimal runtime image), non-root <code>USER</code>, pinned base digest.</li>
@@ -318,6 +328,7 @@
 <p><a href="#scenario-10--containerize-and-ship-a-monolith-safely">↩ Back to Scenario 10</a></p>
 <hr>
 <h3 id="answer-11--works-in-staging-breaks-in-prod">Answer 11 — "Works in staging, breaks in prod"</h3>
+<p><em>In plain terms:</em> ":latest" can quietly be two different images — pin the exact image fingerprint so both environments run the same thing, then compare config, secrets, memory limits and CPU type.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li><code>:latest</code> is mutable — staging and prod likely pulled <strong>different images</strong>. Pin <strong>digests</strong> so both run byte-identical.</li>
@@ -333,6 +344,7 @@
 <p><a href="#scenario-11--works-in-staging-breaks-in-prod">↩ Back to Scenario 11</a></p>
 <hr>
 <h3 id="answer-12--secure-cicd-with-no-long-lived-aws-keys">Answer 12 — Secure CI/CD with no long-lived AWS keys</h3>
+<p><em>In plain terms:</em> Let the pipeline log in to AWS with short-lived tokens instead of stored keys, and give that deploy identity only the handful of permissions it actually needs.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Use <strong>GitHub OIDC → an IAM role</strong> via <code>sts:AssumeRoleWithWebIdentity</code>; the workflow gets short-lived credentials, scoped by a trust policy on the repo/branch.</li>
@@ -348,6 +360,7 @@
 <p><a href="#scenario-12--secure-cicd-with-no-long-lived-aws-keys">↩ Back to Scenario 12</a></p>
 <hr>
 <h3 id="answer-13--design-the-vpc-for-a-3-tier-app">Answer 13 — Design the VPC for a 3-tier app</h3>
+<p><em>In plain terms:</em> Put the load balancer and NAT in a public area, the app and database in private areas, set routes so private servers only reach out (never in), and use a free endpoint for S3.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li><strong>Public subnets</strong>: ALB + NAT Gateway (one per AZ for HA). <strong>Private app subnets</strong>: EC2/containers. <strong>Private DB subnets</strong>: RDS, in a DB subnet group.</li>
@@ -363,6 +376,7 @@
 <p><a href="#scenario-13--design-the-vpc-for-a-3-tier-app">↩ Back to Scenario 13</a></p>
 <hr>
 <h3 id="answer-14--lambda-must-reach-rds-s3-and-a-third-party-api">Answer 14 — Lambda must reach RDS, S3, and a third-party API</h3>
+<p><em>In plain terms:</em> Place the function in the private network so it can reach the database, use a free endpoint for S3, and add a NAT so it can also call the outside API.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Put the Lambda in <strong>private subnets</strong> with an ENI; reach RDS over the private network (via <strong>RDS Proxy</strong> to manage connections).</li>
@@ -378,6 +392,7 @@
 <p><a href="#scenario-14--lambda-must-reach-rds-s3-and-a-third-party-api">↩ Back to Scenario 14</a></p>
 <hr>
 <h3 id="answer-15--ec2-in-a-private-subnet-cant-reach-s3--secrets-manager">Answer 15 — EC2 in a private subnet can't reach S3 / Secrets Manager</h3>
+<p><em>In plain terms:</em> First decide if it's a network problem (a timeout usually means a missing route/endpoint) or a permission problem (a 403 means IAM/policy) — then fix the right one.</p>
 <p><strong>Strong answer (triage):</strong></p>
 <ul>
 <li>Is there a route to egress at all? (NAT for Secrets Manager unless using an <strong>Interface Endpoint</strong>; S3 needs <strong>Gateway Endpoint</strong> or NAT.)</li>
@@ -393,6 +408,7 @@
 <p><a href="#scenario-15--ec2-in-a-private-subnet-cant-reach-s3--secrets-manager">↩ Back to Scenario 15</a></p>
 <hr>
 <h3 id="answer-16--least-privilege-across-many-teams-and-accounts">Answer 16 — Least privilege across many teams and accounts</h3>
+<p><em>In plain terms:</em> Split teams into separate AWS accounts with company-wide guardrails nobody can override, hand out access through single sign-on, and cap what each team's roles are allowed to do.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li><strong>Multi-account via AWS Organizations</strong> (prod/dev/security accounts); <strong>SCPs</strong> as guardrails — e.g. deny disabling Block Public Access, deny leaving the org, restrict regions.</li>
@@ -408,6 +424,7 @@
 <p><a href="#scenario-16--least-privilege-across-many-teams-and-accounts">↩ Back to Scenario 16</a></p>
 <hr>
 <h3 id="answer-17--rbac-so-a-compromised-ec2-cant-pivot">Answer 17 — RBAC so a compromised EC2 can't pivot</h3>
+<p><em>In plain terms:</em> Give the server an identity with access to only the exact things it needs (no "allow everything"), and lock down its metadata service, so a hacked box can't reach anything else.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>The <strong>instance role is least-privilege</strong>: scoped to specific bucket/prefix, queue, and DB-auth ARNs — <strong>no wildcards</strong>.</li>
@@ -419,11 +436,12 @@
 <p><strong>Interviewer pushes:</strong></p>
 <ul>
 <li>Why IMDSv2 specifically? (defeats common SSRF → metadata cred theft)</li>
-<li>A wildcard <code>s3:*</code> on <code>*</code> — what's the real-world damage? (full-account data exfil/destruction)</li>
+<li>A wildcard <code>s3:<em></code> on <code></em></code> — what's the real-world damage? (full-account data exfil/destruction)</li>
 </ul>
 <p><a href="#scenario-17--rbac-so-a-compromised-ec2-cant-pivot">↩ Back to Scenario 17</a></p>
 <hr>
 <h3 id="answer-18--developer-rbac-read-prod-write-dev-break-glass-on-call">Answer 18 — Developer RBAC: read prod, write dev, break-glass on-call</h3>
+<p><em>In plain terms:</em> Use single sign-on roles for read-only prod and full dev, plus a special "break-glass" emergency role that needs MFA, expires quickly, and pings everyone when someone uses it.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li><strong>Identity Center permission sets</strong>: <code>Dev-ReadProd</code> (read-only prod), <code>Dev-Dev</code> (full dev), assigned per group.</li>
@@ -439,6 +457,7 @@
 <p><a href="#scenario-18--developer-rbac-read-prod-write-dev-break-glass-on-call">↩ Back to Scenario 18</a></p>
 <hr>
 <h3 id="answer-19--kill-secret-sprawl-across-ec2-lambda-and-containers">Answer 19 — Kill secret sprawl across EC2, Lambda, and containers</h3>
+<p><em>In plain terms:</em> Move every password and key into one central vault that rotates them, and have apps fetch them at runtime with a scoped identity — never bake secrets into images or environment variables.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>Move everything to <strong>Secrets Manager</strong> (or SSM Parameter Store for non-rotating config); enable <strong>rotation</strong> for DB creds.</li>
@@ -454,6 +473,7 @@
 <p><a href="#scenario-19--kill-secret-sprawl-across-ec2-lambda-and-containers">↩ Back to Scenario 19</a></p>
 <hr>
 <h3 id="answer-20--checkout-is-down">Answer 20 — "Checkout is down"</h3>
+<p><em>In plain terms:</em> Walk the request path — load balancer, containers, database, queues, functions — read the error type to spot which layer broke, stop the bleeding fast (scale or roll back), then find the real cause.</p>
 <p><strong>Strong answer (triage):</strong></p>
 <ul>
 <li>Localize the layer: ALB target health + 5xx, ECS task health/restarts, RDS connections/CPU, SQS depth + DLQ, Lambda errors/throttles.</li>
@@ -469,6 +489,7 @@
 <p><a href="#scenario-20--checkout-is-down">↩ Back to Scenario 20</a></p>
 <hr>
 <h3 id="answer-21--s3-bill-tripled-and-the-app-got-slow">Answer 21 — S3 bill tripled and the app got slow</h3>
+<p><em>In plain terms:</em> It's almost always requests or data transfer, not storage — hunt for a hot loop hammering S3, add caching, and clean up old file versions piling up.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>It's usually <strong>requests/transfer, not storage</strong>: a hot <strong>Lambda/EC2 loop hammering GET</strong> with no cache, <strong>KMS calls</strong> per object, cross-region/egress transfer, or noncurrent-version pileup.</li>
@@ -484,6 +505,7 @@
 <p><a href="#scenario-21--s3-bill-tripled-and-the-app-got-slow">↩ Back to Scenario 21</a></p>
 <hr>
 <h3 id="answer-22--connection-storm-after-an-rds-failover">Answer 22 — Connection storm after an RDS failover</h3>
+<p><em>In plain terms:</em> The app remembered the old database address and everything reconnected at once — connect by DNS name, retry with a randomised backoff, and put a proxy in front to absorb the rush.</p>
 <p><strong>Strong answer:</strong></p>
 <ul>
 <li>The app cached the <strong>old endpoint IP</strong> and/or every instance reconnected at once (connection storm). Connect by <strong>endpoint DNS</strong> with short TTL; add <strong>jittered retry/backoff</strong>.</li>
@@ -499,6 +521,7 @@
 <p><a href="#scenario-22--connection-storm-after-an-rds-failover">↩ Back to Scenario 22</a></p>
 <hr>
 <h3 id="answer-23--security-alert-public-object--leaked-key-in-an-image">Answer 23 — Security alert: public object + leaked key in an image</h3>
+<p><em>In plain terms:</em> Rotate the leaked key immediately, make the object private again, rebuild the image without the secret baked in, then add guardrails so this class of leak can't happen again.</p>
 <p><strong>Strong answer (contain → eradicate → prevent):</strong></p>
 <ul>
 <li><strong>Contain:</strong> revoke/rotate the leaked key immediately; flip the object/bucket private (re-enable Block Public Access); check CloudTrail for misuse.</li>
